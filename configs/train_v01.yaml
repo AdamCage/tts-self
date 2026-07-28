@@ -1,0 +1,5 @@
+train:
+  config: configs/talker_v01.yaml
+  data: configs/data_ruslan.yaml
+  codec: configs/codec.yaml
+  qwen: configs/qwen.yaml

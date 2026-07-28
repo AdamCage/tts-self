@@ -1,0 +1,5 @@
+train:
+  config: configs/flow_v02.yaml
+  data: configs/data_ruslan.yaml
+  codec: configs/codec.yaml
+  qwen: configs/qwen.yaml

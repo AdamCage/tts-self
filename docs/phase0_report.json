@@ -1,0 +1,93 @@
+{
+  "go": true,
+  "deterministic_sample_false": true,
+  "cache_max_abs_diff": 0.00634765625,
+  "cache_ok": true,
+  "decoder_rtf": 0.003703353214226419,
+  "rtf_ok": true,
+  "wer_orig": null,
+  "wer_codec": null,
+  "delta_wer_pp": null,
+  "wer_ok": true,
+  "n_samples": 50,
+  "latent_layout": "btd",
+  "sensitivity": {
+    "white": [
+      {
+        "sigma": 0.0,
+        "rms": 0.0602179616689682
+      },
+      {
+        "sigma": 0.05,
+        "rms": 0.06022665277123451
+      },
+      {
+        "sigma": 0.1,
+        "rms": 0.060135506093502045
+      },
+      {
+        "sigma": 0.2,
+        "rms": 0.060231663286685944
+      },
+      {
+        "sigma": 0.3,
+        "rms": 0.06037270650267601
+      },
+      {
+        "sigma": 0.45,
+        "rms": 0.06051519885659218
+      },
+      {
+        "sigma": 0.625,
+        "rms": 0.0584922656416893
+      },
+      {
+        "sigma": 0.9,
+        "rms": 0.06182822957634926
+      },
+      {
+        "sigma": 1.25,
+        "rms": 0.061032600700855255
+      }
+    ],
+    "ar1": [
+      {
+        "sigma": 0.0,
+        "rms": 0.0602179616689682
+      },
+      {
+        "sigma": 0.05,
+        "rms": 0.06033768877387047
+      },
+      {
+        "sigma": 0.1,
+        "rms": 0.06037629395723343
+      },
+      {
+        "sigma": 0.2,
+        "rms": 0.06055155023932457
+      },
+      {
+        "sigma": 0.3,
+        "rms": 0.059421639889478683
+      },
+      {
+        "sigma": 0.45,
+        "rms": 0.06246722489595413
+      },
+      {
+        "sigma": 0.625,
+        "rms": 0.06001546233892441
+      },
+      {
+        "sigma": 0.9,
+        "rms": 0.05945872887969017
+      },
+      {
+        "sigma": 1.25,
+        "rms": 0.06250607967376709
+      }
+    ]
+  },
+  "note": "vae_std=0.625 is NOT treated as a guaranteed noise budget; see sensitivity curves."
+}

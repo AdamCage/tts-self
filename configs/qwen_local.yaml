@@ -1,0 +1,7 @@
+qwen:
+  model_id: /home/adam/datasets/tts/models/Qwen3.5-0.8B-Base
+  text_model_class: Qwen3_5TextModel
+  hidden_size: 1024
+  cached_layers: [11, 17, 23]
+  dtype: bfloat16
+  max_length: 256

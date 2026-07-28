@@ -1,0 +1,24 @@
+data:
+  root: /mnt/c/projects/tts-self/data/ruslan_synth
+  ruslan_dir: /mnt/c/projects/tts-self/data/ruslan_synth
+  manifest: /mnt/c/projects/tts-self/data/ruslan_synth/manifest.jsonl
+  latent_dir: /mnt/c/projects/tts-self/data/ruslan_synth/latents
+  text_hidden_dir: /mnt/c/projects/tts-self/data/ruslan_synth/text_hidden
+  stats_path: /mnt/c/projects/tts-self/data/ruslan_synth/stats.safetensors
+  align_dir: /mnt/c/projects/tts-self/data/ruslan_synth/align
+  speaker: ruslan
+  sample_rate_src: 24000
+  sample_rate_tgt: 24000
+  min_dur_s: 0.5
+  max_dur_s: 10.0
+  asr_cer_reject: 0.25
+  split:
+    train: 0.90
+    val: 0.05
+    test: 0.05
+    strategy: contiguous_ranges
+  shard_size: 2000
+  challenge_set_size: 8
+  stress_char: "\u0301"
+  stress_augment_p: 0.15
+  stress_agreement_threshold: 0.90

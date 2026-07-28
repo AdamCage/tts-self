@@ -1,0 +1,70 @@
+model:
+  talker:
+    d_model: 512
+    num_layers: 4
+    num_heads: 8
+    ffn_dim: 2048
+    cross_attention: true
+    latent_dim: 64
+    dropout: 0.1
+    rope: true
+    causal: true
+  head_regression:
+    hidden: 1024
+    layers: 3
+    residual: true
+  stop_head:
+    hidden: 256
+    loss: bce
+    positive_weight: 10.0
+  duration_head:
+    level: utterance
+    hidden: 256
+  layer_mix:
+    n_layers: 3
+  text_projector:
+    in_dim: 1024
+    out_dim: 512
+  latent_projector:
+    in_dim: 64
+    out_dim: 512
+
+loss:
+  l1: 1.0
+  cosine: 0.2
+  stop: 0.1
+  duration: 0.05
+  guided_attn_start: 1.0
+  guided_attn_end_frac: 0.35
+
+train:
+  seed: 42
+  stages:
+    - name: S1
+      max_utterances: 32
+      steps: 2000
+    - name: S2
+      max_hours: 1.0
+      steps: 5000
+    - name: S3
+      max_hours: 5.0
+      steps: 10000
+    - name: S4
+      max_hours: null
+      steps: 20000
+  batch:
+    mode: auto
+    candidates: [8, 16, 32, 64]
+    target_vram_gb: 14.5
+  lr: 2.0e-4
+  weight_decay: 0.01
+  grad_clip: 1.0
+  warmup_steps: 200
+  input_noise_sigma_max: 0.15
+  acoustic_dropout: 0.25
+  log_every: 50
+  eval_every: 250
+  save_every: 1000
+  ema_decay: 0.999
+  precision: bf16
+  run_dir: runs/v01_regression

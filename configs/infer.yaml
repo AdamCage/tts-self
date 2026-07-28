@@ -1,0 +1,21 @@
+infer:
+  ckpt: runs/v02_flow/best.pt
+  codec: microsoft/VibeVoice-AcousticTokenizer
+  qwen: Qwen/Qwen3.5-0.8B-Base
+  stats: ~/datasets/tts/ruslan/stats.safetensors
+  dtype: bfloat16
+  cfg_scale: 1.3
+  flow_steps: 4
+  sampler: heun
+  stream:
+    enabled: true
+    chunk_latents: 4
+    min_pcm_ms: 40
+  stop:
+    threshold: 0.5
+    consecutive: 2
+    min_frac: 0.5
+    max_frac: 1.5
+  stress:
+    use_accentuator: true
+  out_dir: out

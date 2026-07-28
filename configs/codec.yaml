@@ -1,0 +1,20 @@
+codec:
+  model_id: microsoft/VibeVoice-AcousticTokenizer
+  sample: false
+  pad_to_multiple_of: 3200
+  sampling_rate: 24000
+  latent_dim: 64
+  frame_rate: 7.5
+  dtype: bfloat16
+
+phase0:
+  n_utterances: 300
+  seed: 42
+  asr_model: openai/whisper-large-v3
+  delta_wer_pp_max: 4.0
+  cache_max_abs_diff: 1.0e-2
+  # bf16 decode can differ by ~1e-3..1e-2; fp32 smoke can use 1e-3
+  decoder_rtf_max: 0.3
+  sensitivity_sigmas: [0.0, 0.05, 0.1, 0.2, 0.3, 0.45, 0.625, 0.9, 1.25]
+  ar1_rho: 0.8
+  report_path: docs/phase0_report.md

@@ -1,0 +1,47 @@
+# Extends talker_v01; swaps regression head for rectified flow.
+model:
+  talker:
+    d_model: 512
+    num_layers: 4
+    num_heads: 8
+    ffn_dim: 2048
+    cross_attention: true
+    latent_dim: 64
+    dropout: 0.1
+    rope: true
+    causal: true
+  head_flow:
+    hidden: 512
+    layers: 4
+    time_embed_dim: 256
+    approx_params_m: 12
+  cfg:
+    dropout: 0.10
+    scale_default: 1.3
+  sampler:
+    method: heun
+    steps: 4
+  stop_head:
+    hidden: 256
+    loss: bce
+    positive_weight: 10.0
+  duration_head:
+    level: utterance
+    hidden: 256
+
+train:
+  seed: 42
+  batch:
+    mode: auto
+    candidates: [8, 16, 32, 64]
+    target_vram_gb: 14.5
+  lr: 1.0e-4
+  weight_decay: 0.01
+  grad_clip: 1.0
+  warmup_steps: 500
+  freeze_talker_steps: 2000
+  ema_decay: 0.999
+  time_sampling: logit_normal
+  precision: bf16
+  run_dir: runs/v02_flow
+  init_from: runs/v01_regression/best.pt
