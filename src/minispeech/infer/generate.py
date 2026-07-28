@@ -18,7 +18,12 @@ from minispeech.models.minispeech import MiniSpeech
 from minispeech.utils import expand
 
 
-def load_checkpoint(path: str | Path, device: torch.device) -> tuple[MiniSpeech, dict]:
+def load_checkpoint(
+    path: str | Path,
+    device: torch.device,
+    *,
+    require_talker: bool = True,
+) -> tuple[MiniSpeech, dict]:
     ckpt = torch.load(expand(path), map_location=device, weights_only=False)
     cfg = ckpt.get("cfg", {})
     mode = "flow" if "head_flow" in cfg.get("model", {}) or cfg.get("mode") == "flow" else "regression"
@@ -29,7 +34,22 @@ def load_checkpoint(path: str | Path, device: torch.device) -> tuple[MiniSpeech,
     from minispeech.train.trainer import build_model_from_cfg
 
     model = build_model_from_cfg(cfg if cfg else {"model": {}}, mode=mode)
-    model.load_state_dict(sd, strict=False)
+    missing, unexpected = model.load_state_dict(sd, strict=False)
+    print(
+        f"load_checkpoint: loaded={len(sd)} missing={len(missing)} unexpected={len(unexpected)}"
+    )
+    if missing:
+        print(f"  missing (first 10): {missing[:10]}")
+    if unexpected:
+        print(f"  unexpected (first 10): {unexpected[:10]}")
+    if require_talker:
+        talker_missing = [k for k in missing if k.startswith("talker.")]
+        if talker_missing:
+            raise RuntimeError(
+                f"Checkpoint missing Talker keys ({len(talker_missing)}); "
+                "refusing silent random init. Example: "
+                f"{talker_missing[:5]}"
+            )
     model.to(device).eval()
     return model, ckpt
 

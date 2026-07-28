@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Iterator
@@ -22,9 +23,12 @@ class Utterance:
     dur_s: float = 0.0
     split: str = "train"
     asr_cer: float | None = None
+    asr_wer: float | None = None
+    qc_tag: str | None = None
     stress_agreement: float | None = None
     input_ids: list[int] | None = None
     challenge: bool = False
+    sample_weight: float | None = None
     extra: dict[str, Any] = field(default_factory=dict)
 
     def to_json(self) -> dict[str, Any]:
@@ -45,11 +49,16 @@ class Utterance:
 
 
 def write_manifest(path: str | Path, rows: list[Utterance]) -> None:
+    """Atomic JSONL write (tmp + os.replace)."""
     path = expand(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    with open(tmp, "w", encoding="utf-8") as f:
         for r in rows:
             f.write(json.dumps(r.to_json(), ensure_ascii=False) + "\n")
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp, path)
 
 
 def read_manifest(path: str | Path) -> list[Utterance]:

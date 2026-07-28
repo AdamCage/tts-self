@@ -1,0 +1,13 @@
+asr:
+  backend: openai_whisper   # openai_whisper | faster_whisper
+  model: large-v3
+  language: ru
+  temperature: 0.0          # required: disables openai-whisper temperature fallback
+  beam_size: null           # greedy
+  condition_on_previous_text: false
+  compute_type: float16     # faster_whisper only
+  batch_size: 8             # faster_whisper BatchedInferencePipeline
+  vad_filter: false         # keep orig/roundtrip processing identical
+  cache_dir: ~/datasets/tts/asr_cache
+  # Optional: pip install 'minispeech[eval]' includes openai-whisper;
+  # for corpus QC prefer: pip install faster-whisper

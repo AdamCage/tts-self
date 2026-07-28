@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
+from functools import partial
 from typing import Any
 
 import torch
@@ -13,9 +13,9 @@ from tqdm import tqdm
 from minispeech.data.dataset import MiniSpeechDataset, collate_minispeech
 from minispeech.models.minispeech import MiniSpeech
 from minispeech.train.ema import EMA
-from minispeech.train.guided_attn import attention_diagonality, guided_attention_loss, guided_weight_schedule
+from minispeech.train.guided_attn import guided_attention_loss, guided_weight_schedule
 from minispeech.train.losses import flow_mse, total_regression_loss
-from minispeech.utils import auto_batch_size, expand, set_seed, write_run_manifest
+from minispeech.utils import expand, write_run_manifest
 
 
 def build_model_from_cfg(cfg: dict[str, Any], mode: str = "regression") -> MiniSpeech:
@@ -35,6 +35,16 @@ def build_model_from_cfg(cfg: dict[str, Any], mode: str = "regression") -> MiniS
         flow_hidden=m.get("head_flow", {}).get("hidden", 512),
         flow_layers=m.get("head_flow", {}).get("layers", 4),
     )
+
+
+def resolve_stop_pos_weight(cfg: dict[str, Any], mean_frames: float | None = None) -> float:
+    stop_cfg = cfg.get("model", {}).get("stop_head", {})
+    pw = stop_cfg.get("positive_weight", 10.0)
+    window = int(stop_cfg.get("stop_window", 1))
+    if isinstance(pw, str) and pw.lower() == "auto":
+        mf = float(mean_frames or 45.0)
+        return max(1.0, mf / max(window, 1))
+    return float(pw)
 
 
 class Trainer:
@@ -65,7 +75,44 @@ class Trainer:
         self.grad_clip = tcfg.get("grad_clip", 1.0)
         self.input_noise_max = tcfg.get("input_noise_sigma_max", 0.15)
         self.lcfg = cfg.get("loss", {})
-        write_run_manifest(self.run_dir, cfg)
+        self.stop_cfg = cfg.get("model", {}).get("stop_head", {})
+        mean_frames = None
+        try:
+            ds = getattr(train_loader, "dataset", None)
+            rows = getattr(ds, "rows", None)
+            if rows:
+                mean_frames = float(sum(r.n_frames or r.dur_s * 7.5 for r in rows) / max(len(rows), 1))
+        except Exception:
+            pass
+        self.stop_pos_weight = resolve_stop_pos_weight(cfg, mean_frames)
+        self.stop_loss = str(self.stop_cfg.get("loss", "bce"))
+        write_run_manifest(
+            self.run_dir,
+            {
+                **cfg,
+                "_resolved": {
+                    "stop_pos_weight": self.stop_pos_weight,
+                    "stop_loss": self.stop_loss,
+                    "mean_frames_est": mean_frames,
+                },
+            },
+        )
+        self._freeze_modules = [model.talker, model.text_proj, model.layer_mix]
+        self._frozen = False
+
+    def _set_talker_frozen(self, frozen: bool) -> None:
+        if frozen == self._frozen:
+            return
+        for mod in self._freeze_modules:
+            for p in mod.parameters():
+                p.requires_grad = not frozen
+        self._frozen = frozen
+
+    def _freeze_steps(self, total_steps: int) -> int:
+        tcfg = self.cfg.get("train", {})
+        if "freeze_talker_fraction" in tcfg:
+            return int(float(tcfg["freeze_talker_fraction"]) * total_steps)
+        return int(tcfg.get("freeze_talker_steps", 0))
 
     def _noise_sigma(self, step: int, total: int) -> float:
         return self.input_noise_max * min(1.0, step / max(total * 0.5, 1))
@@ -75,7 +122,9 @@ class Trainer:
         it = iter(self.train_loader)
         pbar = tqdm(range(steps), desc=f"train-{stage}")
         last: dict[str, float] = {}
+        freeze_steps = self._freeze_steps(steps)
         for step in pbar:
+            self._set_talker_frozen(step < freeze_steps)
             try:
                 batch = next(it)
             except StopIteration:
@@ -84,7 +133,6 @@ class Trainer:
             batch = {k: v.to(self.device) if torch.is_tensor(v) else v for k, v in batch.items()}
             z_target = batch["z_target"]
             z_input = batch["z_input"]
-            # replace BOS zeros with learned; apply input noise to acoustic frames
             sig = self._noise_sigma(step, steps)
             if sig > 0:
                 noise = torch.randn_like(z_input) * sig
@@ -125,9 +173,8 @@ class Trainer:
                     w_cos=self.lcfg.get("cosine", 0.2),
                     w_stop=self.lcfg.get("stop", 0.1),
                     w_dur=self.lcfg.get("duration", 0.05),
-                    stop_pos_weight=self.cfg.get("model", {})
-                    .get("stop_head", {})
-                    .get("positive_weight", 10.0),
+                    stop_pos_weight=self.stop_pos_weight,
+                    stop_loss=self.stop_loss,
                     guided=guided,
                     w_guided=gw,
                 )
@@ -146,6 +193,8 @@ class Trainer:
                         w_cos=0,
                         w_stop=self.lcfg.get("stop", 0.1),
                         w_dur=self.lcfg.get("duration", 0.05),
+                        stop_pos_weight=self.stop_pos_weight,
+                        stop_loss=self.stop_loss,
                     )["stop"],
                 }
                 losses["total"] = losses["flow"] + 0.1 * losses["stop"]
@@ -162,6 +211,7 @@ class Trainer:
                 with open(self.run_dir / "train_log.jsonl", "a", encoding="utf-8") as f:
                     f.write(json.dumps({"step": step, "stage": stage, **last}) + "\n")
 
+        self._set_talker_frozen(False)
         ckpt = {
             "model": self.model.state_dict(),
             "ema": self.ema.state_dict(),
@@ -173,13 +223,27 @@ class Trainer:
         return last
 
 
-def make_loaders(data_cfg: dict, stage_cfg: dict, batch_size: int):
+def make_loaders(
+    data_cfg: dict,
+    stage_cfg: dict,
+    batch_size: int,
+    *,
+    model_cfg: dict | None = None,
+    train_section: dict | None = None,
+):
+    train_section = train_section or {}
+    model_cfg = model_cfg or {}
+    preload = bool(train_section.get("data", {}).get("preload", True))
+    stop_window = int(model_cfg.get("stop_head", {}).get("stop_window", 1))
+
     common = dict(
         manifest_path=data_cfg["manifest"],
         latent_dir=data_cfg["latent_dir"],
         text_hidden_dir=data_cfg["text_hidden_dir"],
         align_dir=data_cfg.get("align_dir"),
-        preload=True,
+        preload=preload,
+        exclude_tags=tuple(data_cfg.get("exclude_tags", ("exclude",))),
+        review_weight=data_cfg.get("review_weight", 0.5),
     )
     train_ds = MiniSpeechDataset(
         split="train",
@@ -188,10 +252,11 @@ def make_loaders(data_cfg: dict, stage_cfg: dict, batch_size: int):
         **common,
     )
     val_ds = MiniSpeechDataset(split="val", max_utterances=32, **common)
+    collate = partial(collate_minispeech, stop_window=stop_window)
     train_loader = DataLoader(
-        train_ds, batch_size=batch_size, shuffle=True, collate_fn=collate_minispeech, num_workers=0
+        train_ds, batch_size=batch_size, shuffle=True, collate_fn=collate, num_workers=0
     )
     val_loader = DataLoader(
-        val_ds, batch_size=batch_size, shuffle=False, collate_fn=collate_minispeech, num_workers=0
+        val_ds, batch_size=batch_size, shuffle=False, collate_fn=collate, num_workers=0
     )
     return train_loader, val_loader

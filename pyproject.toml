@@ -33,6 +33,7 @@ dev = [
 ]
 eval = [
   "openai-whisper>=20231117",
+  "faster-whisper>=1.0.0",
 ]
 stress = [
   "ruaccent>=1.5.0",

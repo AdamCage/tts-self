@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Sequence
 
 import torch
-from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import Dataset
 
 from minispeech.constants import LATENT_DIM
@@ -24,8 +23,13 @@ class MiniSpeechDataset(Dataset):
         max_utterances: int | None = None,
         max_hours: float | None = None,
         preload: bool = True,
+        exclude_tags: Sequence[str] = ("exclude",),
+        review_weight: float | None = 0.5,
     ):
         rows = filter_split(read_manifest(manifest_path), split)
+        if exclude_tags:
+            excl = set(exclude_tags)
+            rows = [r for r in rows if (r.qc_tag or "clean") not in excl]
         if max_utterances is not None:
             rows = rows[:max_utterances]
         if max_hours is not None:
@@ -38,6 +42,7 @@ class MiniSpeechDataset(Dataset):
                 acc += r.dur_s
             rows = kept
         self.rows = rows
+        self.review_weight = review_weight
         self.latents = ShardReader(latent_dir, "latents")
         self.text_h = ShardReader(text_hidden_dir, "text_hidden")
         self.align = ShardReader(align_dir, "align") if align_dir else None
@@ -60,24 +65,43 @@ class MiniSpeechDataset(Dataset):
     def __getitem__(self, idx: int) -> dict[str, Any]:
         u: Utterance = self.rows[idx]
         z = self._get_lat(u.utt_id).float()  # [T, 64]
-        # text_hidden stored as [n_layers, L, H] or [L, H]
         th = self._get_txt(u.utt_id).float()
+        weight = 1.0
+        if u.sample_weight is not None:
+            weight = float(u.sample_weight)
+        elif self.review_weight is not None and u.qc_tag == "review":
+            weight = float(self.review_weight)
         item = {
             "utt_id": u.utt_id,
             "z_target": z,
             "text_hidden": th,
             "n_frames": z.shape[0],
             "text_len": th.shape[-2] if th.ndim == 3 else th.shape[0],
+            "sample_weight": weight,
         }
         if self.align is not None and u.utt_id in self.align.index:
             item["align_prior"] = self.align.get(u.utt_id).float()
         return item
 
 
-def collate_minispeech(batch: list[dict[str, Any]]) -> dict[str, Any]:
+def make_stop_target(n_frames: int, T: int, stop_window: int = 1) -> torch.Tensor:
+    """Positive stop labels on the last `stop_window` valid frames."""
+    target = torch.zeros(T)
+    if n_frames <= 0:
+        return target
+    w = max(1, int(stop_window))
+    start = max(0, n_frames - w)
+    target[start:n_frames] = 1.0
+    return target
+
+
+def collate_minispeech(
+    batch: list[dict[str, Any]],
+    *,
+    stop_window: int = 1,
+) -> dict[str, Any]:
     B = len(batch)
     T = max(b["n_frames"] for b in batch)
-    # text_hidden: [n_layers, L, H] or [L, H]
     sample_th = batch[0]["text_hidden"]
     multi_layer = sample_th.ndim == 3
     if multi_layer:
@@ -95,25 +119,26 @@ def collate_minispeech(batch: list[dict[str, Any]]) -> dict[str, Any]:
     text_mask = torch.zeros(B, L, dtype=torch.bool)
     stop_target = torch.zeros(B, T)
     durations = torch.zeros(B)
+    sample_weight = torch.ones(B)
     align = None
     if "align_prior" in batch[0]:
         align = torch.zeros(B, T, L)
 
-    bos = torch.zeros(LATENT_DIM)  # real BOS is model param; zeros as placeholder in data
+    bos = torch.zeros(LATENT_DIM)
 
     for i, b in enumerate(batch):
         t = b["n_frames"]
         l = b["text_len"]
         z = b["z_target"]
         z_target[i, :t] = z
-        # shifted: [BOS, z_0, ..., z_(T-2)]
         z_input[i, 0] = bos
         if t > 1:
             z_input[i, 1:t] = z[: t - 1]
         frame_mask[i, :t] = True
         text_mask[i, :l] = True
-        stop_target[i, t - 1] = 1.0
+        stop_target[i] = make_stop_target(t, T, stop_window=stop_window)
         durations[i] = float(t)
+        sample_weight[i] = float(b.get("sample_weight", 1.0))
         th = b["text_hidden"]
         if multi_layer:
             text_hidden[i, :, :l] = th[:, :l]
@@ -133,6 +158,7 @@ def collate_minispeech(batch: list[dict[str, Any]]) -> dict[str, Any]:
         "text_mask": text_mask,
         "stop_target": stop_target,
         "durations": durations,
+        "sample_weight": sample_weight,
     }
     if align is not None:
         out["align_prior"] = align

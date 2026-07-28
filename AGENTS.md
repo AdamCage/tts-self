@@ -12,14 +12,34 @@ stressed RU text → offline Qwen3.5-0.8B text hidden
   → VibeVoice latents [64] @ 7.5 Hz → frozen cached decoder
 ```
 
-Primary docs: [README.md](README.md), [docs/conversation.md](docs/conversation.md), [docs/vibevoice.pdf](docs/vibevoice.pdf), [docs/phase0_report.md](docs/phase0_report.md).
+Primary docs: [README.md](README.md), [docs/conversation.md](docs/conversation.md), [docs/vibevoice.pdf](docs/vibevoice.pdf), [docs/phase0_report.md](docs/phase0_report.md), [docs/experiment_protocol.md](docs/experiment_protocol.md).
 
 ## Environment
 
-- Prefer **WSL2 Ubuntu**, project at `/mnt/c/projects/tts-self`, venv `.venv`.
+- **Authoring copy (Windows / Cursor):** `C:\projects\tts-self` — edit code and configs here.
+- **GPU runtime (WSL2 Ubuntu):** `~/projects/tts-self` — `git clone` / `git pull` of the same repo; venv `.venv` on the Linux filesystem.
 - Data/models: `~/datasets/tts/` (not committed). Set `HF_HOME=~/hf_cache` (host cache may be root-owned).
-- After editing `src/`, reinstall if needed: `uv pip install -e . --no-deps` (editable may copy into site-packages).
-- Run GPU work from WSL, not native Windows Python.
+- After editing `src/` on Windows, sync via git then in WSL reinstall if needed: `uv pip install -e . --no-deps`.
+- Run GPU work from WSL, not native Windows Python. Do **not** run training from `/mnt/c/...`.
+
+### WSL sync protocol
+
+1. Edit on Windows → `git commit` / `git push` from the author copy.
+2. Before every GPU run in WSL: `cd ~/projects/tts-self && git pull && git rev-parse --short HEAD` (record SHA in logs; `run_manifest.json` already stores `git_sha`).
+3. Never hand-edit source in the WSL clone; pull only.
+4. Artifacts (`runs/`, latents, ASR cache) stay in Linux FS. Numbers that must travel back to Windows go into `docs/*.md` (commit from WSL, `git pull` on Windows).
+5. Long jobs: `tmux` with `2>&1 | tee runs/<name>/console.log`.
+
+```bash
+# One-time WSL setup
+mkdir -p ~/projects && cd ~/projects
+git clone <remote-url> tts-self   # or: git pull if already cloned
+cd ~/projects/tts-self
+uv venv .venv && source .venv/bin/activate
+uv pip install -e ".[dev,eval,stress]"
+export HF_HOME=$HOME/hf_cache
+python scripts/00_env_check.py && pytest -q
+```
 
 ## Non-negotiables
 
@@ -37,10 +57,10 @@ Do not skip gates:
 
 | Phase | Gate |
 |-------|------|
-| 0 | Codec GO/NO-GO (`scripts/11_phase0_feasibility.py`) |
+| 0 | Codec GO/NO-GO (`scripts/11_phase0_feasibility.py`) — ASR ΔWER with bootstrap CI |
 | 1 | Latent + text-hidden shards + stats |
 | 1b | Align prior A/B/C (C is enough to start; not a hard blocker) |
-| 2 | Ladder S1→S4; **text-usage gate on S1** |
+| 2 | Ladder S1→S4; **text-usage gate on S1** (three counterfactuals by S2) |
 | 3 | Flow head + A/B vs regression |
 | 4 | Cached streaming decode + measured TTFB |
 | 5 | LoRA only if measurable win |
@@ -51,12 +71,14 @@ Training ladder: **32 utts → 1 h → 5 h → full corpus**. Overfit S1 before 
 ## Commands (WSL)
 
 ```bash
-cd /mnt/c/projects/tts-self && source .venv/bin/activate
+cd ~/projects/tts-self && source .venv/bin/activate
 export HF_HOME=$HOME/hf_cache
 
 python scripts/00_env_check.py
-python scripts/11_phase0_feasibility.py --n 100   # include ASR when ready
+python scripts/11_phase0_feasibility.py --n 120 --sweep-n 10 --asr-config configs/asr.yaml
 python scripts/02_build_manifest.py --config configs/data_ruslan_local.yaml
+python scripts/03_verify_text_asr.py --config configs/data_ruslan_local.yaml
+python scripts/03b_apply_qc.py --config configs/data_ruslan_local.yaml
 python scripts/04_encode_latents.py --config configs/data_ruslan_local.yaml
 python scripts/05_cache_text_hidden.py --config configs/data_ruslan_local.yaml --qwen-config configs/qwen_local.yaml
 python scripts/06_align.py --config configs/data_ruslan_local.yaml --level C
@@ -68,10 +90,11 @@ pytest -q
 ## Architecture pitfalls (learned)
 
 - Residual acoustic head can **ignore text**; prefer direct head + `acoustic_dropout` until text-usage passes.
-- Teacher-forced val loss hides AR drift — use free-running metrics.
-- Stop labels are sparse — use `pos_weight` / focal + triple stop rule at infer.
+- Teacher-forced val loss hides AR drift — use free-running metrics (DTW L1, duration ratio, ASR).
+- Stop labels are sparse — use `pos_weight` / focal + positive window + triple stop rule at infer.
 - Contiguous book-range splits, not random utterance splits.
 - Batch: `mode: auto`, candidates `[8,16,32,64]`, budget ~14.5 GB VRAM.
+- Root-anchored `.gitignore` (`/data/`) so `src/minispeech/data/` stays trackable.
 
 ## Agent scaffolding
 
@@ -89,7 +112,7 @@ pytest -q
 | `phase0-feasibility` | Codec GO/NO-GO |
 | `offline-caches` | Manifest / latents / text hiddens / align |
 | `train-ladder` | S1→S4 regression & flow |
-| `text-usage-gate` | Shuffle/mask failures |
+| `text-usage-gate` | Shuffle/mask/prefix failures |
 | `streaming-infer` | Synth + TTFB streaming |
 | `wsl-env` | Venv / CUDA / HF_HOME |
 | `eval-gates` | pytest, smoke, WER, promote checks |

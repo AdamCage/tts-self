@@ -69,13 +69,22 @@ def total_regression_loss(
     w_stop=0.1,
     w_dur=0.05,
     stop_pos_weight=10.0,
+    stop_loss: str = "bce",
+    stop_focal_gamma: float = 2.0,
+    stop_focal_alpha: float = 0.75,
     guided=None,
     w_guided=0.0,
 ) -> dict[str, torch.Tensor]:
+    if stop_loss == "focal":
+        stop = focal_stop_loss(
+            stop_logits, stop_target, frame_mask, gamma=stop_focal_gamma, alpha=stop_focal_alpha
+        )
+    else:
+        stop = stop_bce(stop_logits, stop_target, frame_mask, stop_pos_weight)
     losses = {
         "l1": masked_l1(z_pred, z_target, frame_mask),
         "cosine": masked_cosine(z_pred, z_target, frame_mask),
-        "stop": stop_bce(stop_logits, stop_target, frame_mask, stop_pos_weight),
+        "stop": stop,
         "duration": duration_l1(dur_pred, durations),
     }
     total = (

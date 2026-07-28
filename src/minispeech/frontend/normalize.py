@@ -40,3 +40,18 @@ def strip_stress(text: str, stress_char: str = "\u0301") -> str:
 
 def has_stress_marks(text: str, stress_char: str = "\u0301") -> bool:
     return stress_char in text or bool(re.search(r"\+[аеёиоуыэюяАЕЁИОУЫЭЮЯ]", text))
+
+
+_PUNCT = re.compile(r"[^\w\s]", flags=re.UNICODE)
+
+
+def normalize_for_asr(text: str) -> str:
+    """Shared ASR ref/hyp normalization (NFC, lower, no stress/punct, ё→е)."""
+    if not text:
+        return ""
+    t = unicodedata.normalize("NFC", text.strip())
+    t = strip_stress(t)
+    t = t.lower().replace("ё", "е")
+    t = _PUNCT.sub(" ", t)
+    t = _WS.sub(" ", t)
+    return t.strip()

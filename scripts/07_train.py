@@ -46,7 +46,13 @@ def main() -> int:
     elif bcfg.get("mode") == "auto":
 
         def probe(b):
-            tl, _ = make_loaders(data_cfg, stages[0], b)
+            tl, _ = make_loaders(
+                data_cfg,
+                stages[0],
+                b,
+                model_cfg=cfg.get("model", {}),
+                train_section=cfg.get("train", {}),
+            )
             batch = next(iter(tl))
             batch = {k: v.to(device) if torch.is_tensor(v) else v for k, v in batch.items()}
             if normalizer:
@@ -73,12 +79,19 @@ def main() -> int:
         bs = 8
 
     for stage in stages:
-        train_loader, val_loader = make_loaders(data_cfg, stage, bs)
+        train_loader, val_loader = make_loaders(
+            data_cfg,
+            stage,
+            bs,
+            model_cfg=cfg.get("model", {}),
+            train_section=cfg.get("train", {}),
+        )
         # Wrap loader to normalize
         class NormLoader:
             def __init__(self, loader, norm):
                 self.loader = loader
                 self.norm = norm
+                self.dataset = getattr(loader, "dataset", None)
 
             def __iter__(self):
                 for batch in self.loader:

@@ -160,13 +160,24 @@ class MiniSpeech(nn.Module):
         flow_steps: int = 4,
         sampler: str = "heun",
         stop_threshold: float = 0.5,
-        stop_consecutive: int = 2,
+        stop_consecutive: int = 3,
         min_frac: float = 0.5,
         max_frac: float = 1.5,
+        use_kv_cache: bool = True,
     ) -> tuple[torch.Tensor, dict[str, Any]]:
-        """Autoregressive generation. Returns z [1,T,64] normalized."""
+        """Autoregressive generation. Returns z [1,T,64] normalized.
+
+        Uses incremental Talker KV-cache by default (O(T) vs full-prefix O(T²)).
+        """
         self.eval()
+        import time
+
+        t_text0 = time.perf_counter()
         text_memory = self.encode_text(text_hidden)
+        if text_memory.device.type == "cuda":
+            torch.cuda.synchronize()
+        text_encode_ms = (time.perf_counter() - t_text0) * 1000.0
+
         dur = self.dur_head(text_memory, text_mask)
         dur_frames = int(dur.item()) if dur.ndim == 0 or dur.numel() == 1 else int(dur[0].item())
         dur_frames = max(1, dur_frames)
@@ -176,38 +187,67 @@ class MiniSpeech(nn.Module):
         device = text_memory.device
         dtype = text_memory.dtype
         z_frames: list[torch.Tensor] = []
-        z_prev = self.talker.bos.to(device=device, dtype=dtype).view(1, 1, -1)
         stop_probs: list[float] = []
+        past_kvs = None
+        first_latent_ms = 0.0
+        t_loop0 = time.perf_counter()
+        hit_max = True
 
         for t in range(max_f):
-            z_in = z_prev if t == 0 else torch.cat([self.talker.bos.view(1, 1, -1).to(z_prev), torch.cat(z_frames, dim=1)[:, -t:]], dim=1)
-            # rebuild full shifted input
             if t == 0:
-                z_input = self.talker.bos.view(1, 1, -1).to(device=device, dtype=dtype)
+                z_step = self.talker.bos.view(1, 1, -1).to(device=device, dtype=dtype)
             else:
-                prev = torch.cat(z_frames, dim=1)
-                z_input = torch.cat(
-                    [self.talker.bos.view(1, 1, -1).to(device=device, dtype=dtype), prev],
-                    dim=1,
+                z_step = z_frames[-1]
+
+            if use_kv_cache:
+                tout, past_kvs = self.talker.forward_step(
+                    z_step, text_memory, past_kvs, text_mask=text_mask, position=t
                 )
-            tout = self.talker(z_input, text_memory, text_mask=text_mask)
-            h_t = tout.hidden[:, -1:, :]
+                h_t = tout.hidden
+                z_prev_for_head = z_step
+            else:
+                # Full-prefix fallback (tests / debug)
+                if t == 0:
+                    z_input = z_step
+                else:
+                    prev = torch.cat(z_frames, dim=1)
+                    z_input = torch.cat(
+                        [self.talker.bos.view(1, 1, -1).to(device=device, dtype=dtype), prev],
+                        dim=1,
+                    )
+                tout = self.talker(z_input, text_memory, text_mask=text_mask)
+                h_t = tout.hidden[:, -1:, :]
+                z_prev_for_head = z_input[:, -1:, :]
+
             if self.mode == "regression":
                 assert isinstance(self.head, RegressionHead)
-                z_t = self.head(h_t, z_prev=z_input[:, -1:, :])
+                z_t = self.head(h_t, z_prev=z_prev_for_head)
             else:
                 assert isinstance(self.head, FlowHead)
                 z_t = sample_rectified_flow(
                     self.head, h_t, steps=flow_steps, method=sampler, cfg_scale=cfg_scale
                 )
             z_frames.append(z_t)
+            if t == 0:
+                if device.type == "cuda":
+                    torch.cuda.synchronize()
+                first_latent_ms = (time.perf_counter() - t_loop0) * 1000.0
             sp = torch.sigmoid(self.stop_head(h_t))[0, 0].item()
             stop_probs.append(sp)
             if t + 1 >= min_f:
                 if len(stop_probs) >= stop_consecutive and all(
                     p > stop_threshold for p in stop_probs[-stop_consecutive:]
                 ):
+                    hit_max = False
                     break
 
         z = torch.cat(z_frames, dim=1)
-        return z, {"dur_pred": dur_frames, "stop_probs": stop_probs, "n_frames": z.shape[1]}
+        return z, {
+            "dur_pred": dur_frames,
+            "stop_probs": stop_probs,
+            "n_frames": z.shape[1],
+            "stop_triggered": not hit_max,
+            "hit_max_frames": hit_max,
+            "text_encode_ms": text_encode_ms,
+            "first_latent_ms": first_latent_ms,
+        }

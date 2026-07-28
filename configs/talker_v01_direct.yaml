@@ -15,8 +15,9 @@ model:
     residual: false
   stop_head:
     hidden: 256
-    loss: bce
-    positive_weight: 10.0
+    loss: bce          # bce | focal
+    positive_weight: auto
+    stop_window: 3
   duration_head:
     level: utterance
     hidden: 256
@@ -43,6 +44,17 @@ train:
     - name: S1
       max_utterances: 32
       steps: 3000
+    - name: S2
+      max_hours: 1.0
+      steps: 12000
+    - name: S3
+      max_hours: 5.0
+      steps: 20000
+    - name: S4
+      # full corpus — only after head decision (Workstream D)
+      steps: 40000
+  data:
+    preload: true   # set false for S4 full corpus (~6GB text_hidden)
   batch:
     mode: auto
     candidates: [8, 16, 32, 64]

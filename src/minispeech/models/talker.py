@@ -85,7 +85,9 @@ class TalkerBlock(nn.Module):
         text_mask: torch.Tensor | None,
         rope_cos_sin: tuple[torch.Tensor, torch.Tensor] | None,
         attn_bias: torch.Tensor | None = None,
-    ) -> tuple[torch.Tensor, torch.Tensor]:
+        past_kv: tuple[torch.Tensor, torch.Tensor] | None = None,
+        use_cache: bool = False,
+    ) -> tuple[torch.Tensor, torch.Tensor, tuple[torch.Tensor, torch.Tensor] | None]:
         B, T, D = x.shape
         L = text_memory.shape[1]
 
@@ -96,15 +98,20 @@ class TalkerBlock(nn.Module):
         q, k, v = self._shape(q, B, T), self._shape(k, B, T), self._shape(v, B, T)
         if rope_cos_sin is not None:
             q, k = apply_rope(q, k, rope_cos_sin[0], rope_cos_sin[1])
+        if past_kv is not None:
+            pk, pv = past_kv
+            k = torch.cat([pk, k], dim=2)
+            v = torch.cat([pv, v], dim=2)
+        present = (k, v) if use_cache else None
         attn_mask = None
-        if self.causal:
+        if self.causal and past_kv is None:
             causal = torch.triu(torch.ones(T, T, device=x.device, dtype=torch.bool), diagonal=1)
             attn_mask = causal
         # key padding from frame mask: True = keep
         scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(self.head_dim)
         if attn_mask is not None:
             scores = scores.masked_fill(attn_mask[None, None], float("-inf"))
-        if self_mask is not None:
+        if self_mask is not None and past_kv is None:
             # self_mask [B,T] True=valid
             km = ~self_mask[:, None, None, :]
             scores = scores.masked_fill(km, float("-inf"))
@@ -131,7 +138,7 @@ class TalkerBlock(nn.Module):
         x = x + self.out_cross(cross_out)
 
         x = x + self.ff(self.norm3(x))
-        return x, ca.detach()
+        return x, ca.detach(), present
 
 
 class Talker(nn.Module):
@@ -195,9 +202,49 @@ class Talker(nn.Module):
 
         last_ca = None
         for layer in self.layers:
-            x, ca = layer(x, text_memory, frame_mask, text_mask, rope, attn_bias)
+            x, ca, _ = layer(x, text_memory, frame_mask, text_mask, rope, attn_bias)
             last_ca = ca
         return TalkerOutput(hidden=self.norm(x), cross_attn=last_ca)
+
+    def forward_step(
+        self,
+        z_t: torch.Tensor,
+        text_memory: torch.Tensor,
+        past_kvs: list[tuple[torch.Tensor, torch.Tensor]] | None,
+        text_mask: torch.Tensor | None = None,
+        position: int = 0,
+    ) -> tuple[TalkerOutput, list[tuple[torch.Tensor, torch.Tensor]]]:
+        """
+        Incremental step with self-attn KV cache.
+        z_t: [B, 1, 64] — BOS at position 0, else previous latent.
+        """
+        x = self.latent_in(z_t)
+        B, T, _ = x.shape
+        assert T == 1
+        rope = None
+        if self.rope is not None:
+            # RoPE for absolute positions [0..pos]; take last row for current token
+            cos, sin = self.rope(position + 1, x.device, x.dtype)
+            rope = (cos[position : position + 1], sin[position : position + 1])
+
+        new_past: list[tuple[torch.Tensor, torch.Tensor]] = []
+        last_ca = None
+        for i, layer in enumerate(self.layers):
+            pk = past_kvs[i] if past_kvs is not None else None
+            x, ca, present = layer(
+                x,
+                text_memory,
+                None,
+                text_mask,
+                rope,
+                None,
+                past_kv=pk,
+                use_cache=True,
+            )
+            assert present is not None
+            new_past.append(present)
+            last_ca = ca
+        return TalkerOutput(hidden=self.norm(x), cross_attn=last_ca), new_past
 
 
 class NonARTalker(nn.Module):
@@ -251,6 +298,6 @@ class NonARTalker(nn.Module):
             rope = self.talker.rope(T, x.device, x.dtype)
         last_ca = None
         for layer in self.talker.layers:
-            x, ca = layer(x, text_memory, frame_mask, text_mask, rope, None)
+            x, ca, _ = layer(x, text_memory, frame_mask, text_mask, rope, None)
             last_ca = ca
         return TalkerOutput(hidden=self.talker.norm(x), cross_attn=last_ca)

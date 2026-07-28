@@ -24,7 +24,8 @@ model:
   stop_head:
     hidden: 256
     loss: bce
-    positive_weight: 10.0
+    positive_weight: auto
+    stop_window: 3
   duration_head:
     level: utterance
     hidden: 256
@@ -35,13 +36,15 @@ train:
     mode: auto
     candidates: [8, 16, 32, 64]
     target_vram_gb: 14.5
+  data:
+    preload: true
   lr: 1.0e-4
   weight_decay: 0.01
   grad_clip: 1.0
   warmup_steps: 500
-  freeze_talker_steps: 2000
+  freeze_talker_fraction: 0.05
   ema_decay: 0.999
   time_sampling: logit_normal
   precision: bf16
   run_dir: runs/v02_flow
-  init_from: runs/v01_regression/best.pt
+  init_from: runs/v01_regression_direct/best.pt

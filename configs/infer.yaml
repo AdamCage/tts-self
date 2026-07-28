@@ -13,7 +13,7 @@ infer:
     min_pcm_ms: 40
   stop:
     threshold: 0.5
-    consecutive: 2
+    consecutive: 3
     min_frac: 0.5
     max_frac: 1.5
   stress:

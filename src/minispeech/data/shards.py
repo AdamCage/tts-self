@@ -13,7 +13,16 @@ from minispeech.utils import expand
 
 
 class ShardWriter:
-    def __init__(self, out_dir: str | Path, prefix: str, shard_size: int = 2000):
+    """Append-friendly shard writer with resume from existing index."""
+
+    def __init__(
+        self,
+        out_dir: str | Path,
+        prefix: str,
+        shard_size: int = 2000,
+        *,
+        resume: bool = True,
+    ):
         self.out_dir = expand(out_dir)
         self.out_dir.mkdir(parents=True, exist_ok=True)
         self.prefix = prefix
@@ -21,8 +30,27 @@ class ShardWriter:
         self.index: dict[str, dict[str, Any]] = {}
         self._buf: dict[str, torch.Tensor] = {}
         self._shard_id = 0
+        self._idx_path = self.out_dir / f"{self.prefix}_index.json"
+        if resume and self._idx_path.exists():
+            self.index = json.loads(self._idx_path.read_text(encoding="utf-8"))
+            max_id = -1
+            for info in self.index.values():
+                name = info.get("shard", "")
+                # latents_00012.safetensors
+                try:
+                    stem = Path(name).stem
+                    sid = int(stem.rsplit("_", 1)[-1])
+                    max_id = max(max_id, sid)
+                except Exception:
+                    continue
+            self._shard_id = max_id + 1 if max_id >= 0 else 0
+
+    def has(self, utt_id: str) -> bool:
+        return utt_id in self.index
 
     def add(self, utt_id: str, tensor: torch.Tensor, meta: dict[str, Any] | None = None) -> None:
+        if utt_id in self.index:
+            return  # skip existing
         key = f"{utt_id}"
         self._buf[key] = tensor.contiguous().cpu()
         self.index[utt_id] = {
@@ -37,6 +65,9 @@ class ShardWriter:
     def _shard_name(self) -> str:
         return f"{self.prefix}_{self._shard_id:05d}.safetensors"
 
+    def _write_index(self) -> None:
+        self._idx_path.write_text(json.dumps(self.index, indent=2), encoding="utf-8")
+
     def flush(self) -> None:
         if not self._buf:
             return
@@ -44,27 +75,36 @@ class ShardWriter:
         save_file(self._buf, str(path))
         self._buf.clear()
         self._shard_id += 1
+        self._write_index()
 
     def close(self) -> Path:
         self.flush()
-        idx_path = self.out_dir / f"{self.prefix}_index.json"
-        idx_path.write_text(json.dumps(self.index, indent=2), encoding="utf-8")
-        return idx_path
+        self._write_index()
+        return self._idx_path
 
 
 class ShardReader:
-    def __init__(self, out_dir: str | Path, prefix: str):
+    def __init__(self, out_dir: str | Path, prefix: str, lru_shards: int = 3):
         self.out_dir = expand(out_dir)
         self.prefix = prefix
         idx_path = self.out_dir / f"{prefix}_index.json"
         self.index = json.loads(idx_path.read_text(encoding="utf-8"))
         self._cache: dict[str, dict[str, torch.Tensor]] = {}
+        self._lru: list[str] = []
+        self.lru_shards = lru_shards
 
     def get(self, utt_id: str) -> torch.Tensor:
         info = self.index[utt_id]
         shard = info["shard"]
         if shard not in self._cache:
+            if len(self._lru) >= self.lru_shards:
+                old = self._lru.pop(0)
+                self._cache.pop(old, None)
             self._cache[shard] = load_file(str(self.out_dir / shard))
+            self._lru.append(shard)
+        elif shard in self._lru:
+            self._lru.remove(shard)
+            self._lru.append(shard)
         return self._cache[shard][info["key"]]
 
     def preload_all(self) -> dict[str, torch.Tensor]:

@@ -10,7 +10,11 @@ import torch
 from torch.utils.data import DataLoader
 
 from minispeech.data.dataset import MiniSpeechDataset, collate_minispeech
-from minispeech.eval.text_usage import text_mask_test, text_shuffle_test
+from minispeech.eval.text_usage import (
+    text_mask_test,
+    text_prefix_counterfactual_test,
+    text_shuffle_test,
+)
 from minispeech.infer.generate import load_checkpoint
 from minispeech.train.guided_attn import attention_diagonality
 from minispeech.utils import expand, load_yaml
@@ -21,6 +25,8 @@ def main() -> int:
     ap.add_argument("--ckpt", required=True)
     ap.add_argument("--data", default="configs/data_ruslan.yaml")
     ap.add_argument("--batch-size", type=int, default=8)
+    ap.add_argument("--mask-min-rise", type=float, default=0.20, help="0.35 after S2")
+    ap.add_argument("--prefix-min-ratio", type=float, default=3.0)
     args = ap.parse_args()
     dcfg = load_yaml(args.data)["data"]
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -55,7 +61,10 @@ def main() -> int:
         pass
 
     shuffle = text_shuffle_test(model, batch, device)
-    mask = text_mask_test(model, batch, device)
+    mask = text_mask_test(model, batch, device, min_rise=args.mask_min_rise)
+    prefix = text_prefix_counterfactual_test(
+        model, batch, device, min_ratio=args.prefix_min_ratio
+    )
     batch_d = {k: v.to(device) if torch.is_tensor(v) else v for k, v in batch.items()}
     out = model(
         batch_d["z_input"],
@@ -68,8 +77,12 @@ def main() -> int:
     report = {
         "text_shuffle": shuffle,
         "text_mask": mask,
+        "text_prefix_counterfactual": prefix,
         "attention_diagonality": diag,
         "s1_text_usage_pass": bool(shuffle.get("pass") and mask.get("pass")),
+        "s2_text_usage_pass": bool(
+            shuffle.get("pass") and mask.get("pass") and prefix.get("pass")
+        ),
     }
     print(json.dumps(report, indent=2))
     out_path = expand(args.ckpt).parent / "eval_text_usage.json"
