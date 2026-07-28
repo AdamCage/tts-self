@@ -107,7 +107,7 @@ def synthesize(
         flow_steps=flow_steps,
         stop_threshold=float(stop_cfg.get("threshold", 0.45)),
         stop_consecutive=int(stop_cfg.get("consecutive", 3)),
-        min_frac=float(stop_cfg.get("min_frac", 0.65)),
+        min_frac=float(stop_cfg.get("min_frac", 0.80)),
         max_frac=float(stop_cfg.get("max_frac", 1.6)),
     )
     z = normalizer.denormalize(z_norm)

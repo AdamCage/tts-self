@@ -161,7 +161,7 @@ class MiniSpeech(nn.Module):
         sampler: str = "heun",
         stop_threshold: float = 0.45,
         stop_consecutive: int = 3,
-        min_frac: float = 0.65,
+        min_frac: float = 0.80,
         max_frac: float = 1.6,
         use_kv_cache: bool = True,
         duration_stop_boost: bool = True,

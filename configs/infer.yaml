@@ -14,7 +14,7 @@ infer:
   stop:
     threshold: 0.45
     consecutive: 3
-    min_frac: 0.65
+    min_frac: 0.80
     max_frac: 1.6
   stress:
     use_accentuator: true
