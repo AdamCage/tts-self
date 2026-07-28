@@ -43,7 +43,9 @@ def resolve_stop_pos_weight(cfg: dict[str, Any], mean_frames: float | None = Non
     window = int(stop_cfg.get("stop_window", 1))
     if isinstance(pw, str) and pw.lower() == "auto":
         mf = float(mean_frames or 45.0)
-        return max(1.0, mf / max(window, 1))
+        # Soft / multi-frame positives dilute the end-event; keep a floor so
+        # free-running stop does not collapse under a tiny BCE contribution.
+        return max(15.0, mf / max(window, 1))
     return float(pw)
 
 
@@ -86,6 +88,9 @@ class Trainer:
             pass
         self.stop_pos_weight = resolve_stop_pos_weight(cfg, mean_frames)
         self.stop_loss = str(self.stop_cfg.get("loss", "bce"))
+        self.stop_focal_gamma = float(self.stop_cfg.get("focal_gamma", 2.0))
+        self.stop_focal_alpha = float(self.stop_cfg.get("focal_alpha", 0.75))
+        self.soft_stop = bool(self.stop_cfg.get("soft_labels", False))
         write_run_manifest(
             self.run_dir,
             {
@@ -93,6 +98,9 @@ class Trainer:
                 "_resolved": {
                     "stop_pos_weight": self.stop_pos_weight,
                     "stop_loss": self.stop_loss,
+                    "stop_focal_gamma": self.stop_focal_gamma,
+                    "stop_focal_alpha": self.stop_focal_alpha,
+                    "soft_stop": self.soft_stop,
                     "mean_frames_est": mean_frames,
                 },
             },
@@ -175,6 +183,8 @@ class Trainer:
                     w_dur=self.lcfg.get("duration", 0.05),
                     stop_pos_weight=self.stop_pos_weight,
                     stop_loss=self.stop_loss,
+                    stop_focal_gamma=self.stop_focal_gamma,
+                    stop_focal_alpha=self.stop_focal_alpha,
                     guided=guided,
                     w_guided=gw,
                 )
@@ -195,6 +205,8 @@ class Trainer:
                         w_dur=self.lcfg.get("duration", 0.05),
                         stop_pos_weight=self.stop_pos_weight,
                         stop_loss=self.stop_loss,
+                        stop_focal_gamma=self.stop_focal_gamma,
+                        stop_focal_alpha=self.stop_focal_alpha,
                     )["stop"],
                 }
                 losses["total"] = losses["flow"] + 0.1 * losses["stop"]
@@ -234,7 +246,9 @@ def make_loaders(
     train_section = train_section or {}
     model_cfg = model_cfg or {}
     preload = bool(train_section.get("data", {}).get("preload", True))
-    stop_window = int(model_cfg.get("stop_head", {}).get("stop_window", 1))
+    stop_cfg = model_cfg.get("stop_head", {})
+    stop_window = int(stop_cfg.get("stop_window", 1))
+    soft_stop = bool(stop_cfg.get("soft_labels", False))
 
     common = dict(
         manifest_path=data_cfg["manifest"],
@@ -252,7 +266,7 @@ def make_loaders(
         **common,
     )
     val_ds = MiniSpeechDataset(split="val", max_utterances=32, **common)
-    collate = partial(collate_minispeech, stop_window=stop_window)
+    collate = partial(collate_minispeech, stop_window=stop_window, soft_stop=soft_stop)
     train_loader = DataLoader(
         train_ds, batch_size=batch_size, shuffle=True, collate_fn=collate, num_workers=0
     )

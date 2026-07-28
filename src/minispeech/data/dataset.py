@@ -84,14 +84,28 @@ class MiniSpeechDataset(Dataset):
         return item
 
 
-def make_stop_target(n_frames: int, T: int, stop_window: int = 1) -> torch.Tensor:
-    """Positive stop labels on the last `stop_window` valid frames."""
+def make_stop_target(
+    n_frames: int,
+    T: int,
+    stop_window: int = 1,
+    *,
+    soft: bool = False,
+) -> torch.Tensor:
+    """Positive stop labels on the last `stop_window` valid frames.
+
+    Hard mode: 1.0 on the window. Soft mode: linear ramp ``1/w … 1.0`` so the
+    final frame is strongest (matches triple-stop inference better).
+    """
     target = torch.zeros(T)
     if n_frames <= 0:
         return target
     w = max(1, int(stop_window))
     start = max(0, n_frames - w)
-    target[start:n_frames] = 1.0
+    if soft and w > 1:
+        ramp = torch.arange(1, n_frames - start + 1, dtype=torch.float32) / float(w)
+        target[start:n_frames] = ramp
+    else:
+        target[start:n_frames] = 1.0
     return target
 
 
@@ -99,6 +113,7 @@ def collate_minispeech(
     batch: list[dict[str, Any]],
     *,
     stop_window: int = 1,
+    soft_stop: bool = False,
 ) -> dict[str, Any]:
     B = len(batch)
     T = max(b["n_frames"] for b in batch)
@@ -136,7 +151,7 @@ def collate_minispeech(
             z_input[i, 1:t] = z[: t - 1]
         frame_mask[i, :t] = True
         text_mask[i, :l] = True
-        stop_target[i] = make_stop_target(t, T, stop_window=stop_window)
+        stop_target[i] = make_stop_target(t, T, stop_window=stop_window, soft=soft_stop)
         durations[i] = float(t)
         sample_weight[i] = float(b.get("sample_weight", 1.0))
         th = b["text_hidden"]

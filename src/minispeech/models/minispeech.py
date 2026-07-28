@@ -159,15 +159,20 @@ class MiniSpeech(nn.Module):
         cfg_scale: float = 1.3,
         flow_steps: int = 4,
         sampler: str = "heun",
-        stop_threshold: float = 0.5,
+        stop_threshold: float = 0.45,
         stop_consecutive: int = 3,
-        min_frac: float = 0.5,
-        max_frac: float = 1.5,
+        min_frac: float = 0.65,
+        max_frac: float = 1.6,
         use_kv_cache: bool = True,
+        duration_stop_boost: bool = True,
     ) -> tuple[torch.Tensor, dict[str, Any]]:
         """Autoregressive generation. Returns z [1,T,64] normalized.
 
         Uses incremental Talker KV-cache by default (O(T) vs full-prefix O(T²)).
+        Stop rule: ``stop_consecutive`` frames above ``stop_threshold`` after
+        ``min_frac * dur_pred`` (AGENTS.md triple-stop), capped at
+        ``max_frac * dur_pred``. Optional duration boost after ``dur_pred``
+        raises stop probability so late endings do not always hit max.
         """
         self.eval()
         import time
@@ -183,6 +188,7 @@ class MiniSpeech(nn.Module):
         dur_frames = max(1, dur_frames)
         min_f = max(1, int(dur_frames * min_frac))
         max_f = int(dur_frames * max_frac) if max_frames is None else min(int(dur_frames * max_frac), max_frames)
+        max_f = max(max_f, min_f)
 
         device = text_memory.device
         dtype = text_memory.dtype
@@ -233,6 +239,11 @@ class MiniSpeech(nn.Module):
                     torch.cuda.synchronize()
                 first_latent_ms = (time.perf_counter() - t_loop0) * 1000.0
             sp = torch.sigmoid(self.stop_head(h_t))[0, 0].item()
+            # After predicted duration, blend toward stop so weak stop heads
+            # still terminate before max_frac (reduces runaway without early cuts).
+            if duration_stop_boost and (t + 1) >= dur_frames and max_f > dur_frames:
+                overshoot = ((t + 1) - dur_frames) / float(max_f - dur_frames)
+                sp = max(sp, stop_threshold + (1.0 - stop_threshold) * min(overshoot, 1.0))
             stop_probs.append(sp)
             if t + 1 >= min_f:
                 if len(stop_probs) >= stop_consecutive and all(

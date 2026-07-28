@@ -50,6 +50,7 @@ def main() -> int:
         cfg_scale=cfg.get("cfg_scale", 1.3),
         flow_steps=cfg.get("flow_steps", 4),
         use_stress=cfg.get("stress", {}).get("use_accentuator", True),
+        stop=cfg.get("stop"),
     )
     save_wav(args.out, audio)
     print(info)

@@ -57,13 +57,13 @@ class TokenDurationHead(nn.Module):
 def stop_decision(
     stop_probs: torch.Tensor,
     *,
-    threshold: float = 0.5,
-    consecutive: int = 2,
+    threshold: float = 0.45,
+    consecutive: int = 3,
     min_frames: int = 1,
     max_frames: int = 10_000,
     t: int,
 ) -> bool:
-    """Combine stop probability with min/max duration caps."""
+    """Triple-stop rule with min/max duration caps (AGENTS.md)."""
     if t + 1 >= max_frames:
         return True
     if t + 1 < min_frames:

@@ -15,9 +15,12 @@ model:
     residual: false
   stop_head:
     hidden: 256
-    loss: bce          # bce | focal
-    positive_weight: auto
-    stop_window: 3
+    loss: focal        # bce | focal — focal keeps positives alive after TF collapse
+    positive_weight: auto   # floor 15 when auto; used by BCE path
+    stop_window: 5
+    soft_labels: true       # linear ramp on last stop_window frames
+    focal_gamma: 2.0
+    focal_alpha: 0.85
   duration_head:
     level: utterance
     hidden: 256
@@ -33,8 +36,8 @@ model:
 loss:
   l1: 1.0
   cosine: 0.2
-  stop: 0.1
-  duration: 0.05
+  stop: 0.5
+  duration: 0.25
   guided_attn_start: 1.0
   guided_attn_end_frac: 0.35
 
@@ -47,6 +50,9 @@ train:
     - name: S2
       max_hours: 1.0
       steps: 12000
+    - name: S2b
+      max_hours: 1.0
+      steps: 4000
     - name: S3
       max_hours: 5.0
       steps: 20000
@@ -64,7 +70,7 @@ train:
   grad_clip: 1.0
   warmup_steps: 200
   input_noise_sigma_max: 0.15
-  acoustic_dropout: 0.35
+  acoustic_dropout: 0.40
   log_every: 50
   eval_every: 250
   save_every: 1000

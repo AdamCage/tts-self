@@ -12,10 +12,10 @@ infer:
     chunk_latents: 4
     min_pcm_ms: 40
   stop:
-    threshold: 0.5
+    threshold: 0.45
     consecutive: 3
-    min_frac: 0.5
-    max_frac: 1.5
+    min_frac: 0.65
+    max_frac: 1.6
   stress:
     use_accentuator: true
   out_dir: out

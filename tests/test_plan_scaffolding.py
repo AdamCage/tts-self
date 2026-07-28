@@ -55,6 +55,13 @@ def test_stop_window_target_count():
     assert torch.all(t[:7] == 0.0)
 
 
+def test_stop_window_soft_ramp():
+    t = make_stop_target(n_frames=10, T=12, stop_window=3, soft=True)
+    assert torch.allclose(t[7:10], torch.tensor([1 / 3, 2 / 3, 1.0]))
+    assert torch.all(t[:7] == 0.0)
+    assert torch.all(t[10:] == 0.0)
+
+
 def test_collate_stop_window():
     batch = [
         {
@@ -67,6 +74,8 @@ def test_collate_stop_window():
     ]
     out = collate_minispeech(batch, stop_window=3)
     assert int(out["stop_target"][0, :6].sum().item()) == 3
+    out_soft = collate_minispeech(batch, stop_window=3, soft_stop=True)
+    assert torch.allclose(out_soft["stop_target"][0, 3:6], torch.tensor([1 / 3, 2 / 3, 1.0]))
 
 
 def test_gitignore_not_ignoring_minispeech_data():

@@ -94,11 +94,22 @@ def synthesize(
     cfg_scale: float = 1.3,
     flow_steps: int = 4,
     use_stress: bool = True,
+    stop: dict[str, Any] | None = None,
 ) -> tuple[np.ndarray, dict[str, Any]]:
     text_n = normalize_text(text)
     text_s = accentuate(text_n) if use_stress else text_n
     th, mask = cache_text_hidden_online([text_s], tokenizer, text_model, device=next(model.parameters()).device)
-    z_norm, info = model.generate(th, mask, cfg_scale=cfg_scale, flow_steps=flow_steps)
+    stop_cfg = stop or {}
+    z_norm, info = model.generate(
+        th,
+        mask,
+        cfg_scale=cfg_scale,
+        flow_steps=flow_steps,
+        stop_threshold=float(stop_cfg.get("threshold", 0.45)),
+        stop_consecutive=int(stop_cfg.get("consecutive", 3)),
+        min_frac=float(stop_cfg.get("min_frac", 0.65)),
+        max_frac=float(stop_cfg.get("max_frac", 1.6)),
+    )
     z = normalizer.denormalize(z_norm)
     audio = codec.decode(z).audio.squeeze().float().cpu().numpy()
     info["text_stressed"] = text_s

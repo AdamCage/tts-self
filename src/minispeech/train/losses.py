@@ -26,7 +26,9 @@ def stop_bce(
     mask: torch.Tensor,
     positive_weight: float = 10.0,
 ) -> torch.Tensor:
-    w = torch.where(target > 0.5, positive_weight, 1.0)
+    # Soft-label aware: scale pos weight by target strength in [0, 1].
+    strength = target.clamp(0.0, 1.0)
+    w = 1.0 + (float(positive_weight) - 1.0) * strength
     loss = F.binary_cross_entropy_with_logits(logits, target, weight=w, reduction="none")
     return (loss * mask.float()).sum() / mask.float().sum().clamp_min(1.0)
 
