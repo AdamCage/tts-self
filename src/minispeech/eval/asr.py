@@ -18,6 +18,27 @@ from minispeech.utils import expand, load_yaml
 ASR_SR = 16000
 
 
+def _ensure_ctranslate2_cuda_libs() -> None:
+    """Prepend pip nvidia-cublas-cu12 (and torch cu13) dirs so ctranslate2 finds libcublas.so.12."""
+    import os
+    import site
+    from pathlib import Path
+
+    dirs: list[str] = []
+    for sp in site.getsitepackages():
+        root = Path(sp) / "nvidia"
+        for rel in ("cublas/lib", "cuda_nvrtc/lib", "cu12/lib", "cu13/lib"):
+            p = root / rel
+            if p.is_dir():
+                dirs.append(str(p))
+    if not dirs:
+        return
+    cur = os.environ.get("LD_LIBRARY_PATH", "")
+    parts = [d for d in dirs if d not in cur.split(":")]
+    if parts:
+        os.environ["LD_LIBRARY_PATH"] = ":".join(parts + ([cur] if cur else []))
+
+
 @dataclass
 class AsrConfig:
     backend: str = "openai_whisper"
@@ -88,6 +109,7 @@ class AsrEngine:
 
             self._model = whisper.load_model(self.cfg.model, device=self.device)
         elif self._backend == "faster_whisper":
+            _ensure_ctranslate2_cuda_libs()
             from faster_whisper import WhisperModel
 
             device = "cuda" if "cuda" in self.device else "cpu"
