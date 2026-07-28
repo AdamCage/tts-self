@@ -1,0 +1,12 @@
+---
+description: Git and secrets hygiene for this repo
+globs: "{.gitignore,.env*,**/*.md}"
+alwaysApply: false
+---
+
+# Git hygiene
+
+- Never commit HF tokens, `.env`, datasets, checkpoints, or audio.
+- Shared agent files that **are** committed: `AGENTS.md`, `.cursor/rules/**`, `.cursor/skills/**`.
+- Commit only when the user asks; follow existing short commit style.
+- Remote: `https://github.com/AdamCage/tts-self` (`origin/master`).

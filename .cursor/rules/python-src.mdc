@@ -1,0 +1,17 @@
+---
+description: Python package conventions for MiniSpeech-RU source
+globs: src/minispeech/**/*.py
+alwaysApply: false
+---
+
+# `src/minispeech` conventions
+
+- Keep modules small; put new model pieces under `models/`, data I/O under `data/`, losses under `train/`.
+- Tensor contracts (training):
+  - `text_hidden` `[B, n_layers, L, 1024]` or `[B, L, 1024]`
+  - `z_target` / `z_input` `[B, T, 64]` with shift `[BOS, z_0..z_(T-2)]`
+  - `frame_mask` / `text_mask` bool; stop target = 1 on last valid frame only
+- Latents in model space are **normalized**; denormalize with `LatentNormalizer` before `codec.decode`.
+- Prefer `torch.nn` + explicit masks; no silent shape broadcasting across T/L.
+- After substantive edits, run `pytest -q` and `python scripts/10_smoke_e2e.py --skip-codec` when GPU available.
+- If editable install is stale, `uv pip install -e . --no-deps`.

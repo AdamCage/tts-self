@@ -1,14 +1,19 @@
 # MiniSpeech-RU — Russian TTS research prototype
-#
-# Architecture (v0.2 target):
-#   stressed RU text → offline Qwen3.5-0.8B text hidden cache
-#   → Talker (causal + cross-attn) → rectified-flow head
-#   → VibeVoice acoustic latents [64] @ 7.5 Hz → cached decoder
-#
-# Hardware target: RTX 4080 / 4080 Super 16 GB (WSL2 Ubuntu).
-#
-# This is a research prototype. Do not use for impersonation or fraud.
-# See docs/ for conversation notes and the VibeVoice technical report.
+
+Architecture (v0.2 target):
+
+```text
+stressed RU text → offline Qwen3.5-0.8B text hidden cache
+  → Talker (causal + cross-attn) → regression | rectified-flow head
+  → VibeVoice acoustic latents [64] @ 7.5 Hz → cached decoder
+```
+
+Hardware target: RTX 4080 / 4080 Super 16 GB (WSL2 Ubuntu).
+
+This is a research prototype. Do not use for impersonation or fraud.
+See `docs/` for conversation notes and the VibeVoice technical report.
+
+**Agents:** start at [AGENTS.md](AGENTS.md).
 
 ## Quick start (WSL2)
 
@@ -18,6 +23,15 @@ source ~/.local/bin/env
 uv sync
 uv run python scripts/00_env_check.py
 ```
+
+## Agent scaffolding
+
+| Path | Purpose |
+|------|---------|
+| [AGENTS.md](AGENTS.md) | Entry point for coding agents |
+| `.cursor/rules/` | Persistent Cursor rules |
+| `.cursor/skills/` | Phase/workflow skills |
+| `.cursor/hooks.json` | sessionStart + shell safety hooks |
 
 ## Phase scripts
 
@@ -34,6 +48,7 @@ uv run python scripts/00_env_check.py
 | `08_infer.py` | Inference |
 | `09_eval.py` | WER / latency / text-usage gates |
 | `10_smoke_e2e.py` | End-to-end smoke |
+| `11_phase0_feasibility.py` | Codec GO/NO-GO |
 
 ## License / data
 

@@ -1,0 +1,12 @@
+---
+description: Prefer WSL2 for GPU training and data scripts
+globs: "{scripts/**,configs/**/*.yaml}"
+alwaysApply: false
+---
+
+# WSL for GPU work
+
+- Run training/encode/Phase0 from WSL Ubuntu, not native Windows Python.
+- Working dir: `/mnt/c/projects/tts-self`, activate `.venv`, set `HF_HOME=$HOME/hf_cache`.
+- If shell quoting breaks under PowerShell, use `wsl -d Ubuntu --cd /mnt/c/projects/tts-self -e bash -lc '...'`.
+- See skill `wsl-env` for bootstrap and cache permission fixes.

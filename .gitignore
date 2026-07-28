@@ -49,5 +49,12 @@ hf_cache/
 .DS_Store
 Thumbs.db
 
-# Cursor local
-.cursor/
+# Cursor local (keep shared agent scaffolding)
+.cursor/*
+!.cursor/rules/
+!.cursor/skills/
+!.cursor/hooks/
+!.cursor/hooks.json
+!.cursor/rules/**
+!.cursor/skills/**
+!.cursor/hooks/**

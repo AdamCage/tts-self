@@ -1,0 +1,16 @@
+---
+description: Training and data-pipeline safety for scripts and configs
+globs: "{scripts/**/*.py,scripts/**/*.sh,configs/**/*.yaml}"
+alwaysApply: false
+---
+
+# Scripts & configs
+
+- Phase scripts are numbered; do not reorder gates (0 → caches → S1 text-usage → flow → stream).
+- Default train config for early S1 text-usage: `configs/talker_v01_direct.yaml` (`residual: false`, `acoustic_dropout` ≥ 0.25).
+- Offline encode must call `encode(..., sample=False)`.
+- Manifest splits: contiguous ranges only; freeze test-set hash after first real split.
+- Alignment prior levels: A word / B token / C gaussian — C is enough to start; alignment is not a Phase 1 blocker.
+- Every train run writes `run_manifest.json` (git sha, config hash, batch, align level).
+- Auto batch: candidates `[8,16,32,64]`, `target_vram_gb: 14.5`.
+- PowerShell mangling: prefer `wsl -d Ubuntu --cd /mnt/c/projects/tts-self -e bash -lc '...'` with simple quoting, or run scripts by path.
