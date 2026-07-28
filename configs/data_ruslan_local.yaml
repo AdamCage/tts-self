@@ -10,7 +10,7 @@ data:
   sample_rate_src: 22050
   sample_rate_tgt: 24000
   min_dur_s: 0.5
-  max_dur_s: 10.0
+  max_dur_s: 15.0  # raised from 10: keeps 10–15s phrases for length-degradation metrics (~113 frames @ 15s)
   asr_cer_reject: 0.25
   split:
     train: 0.90
