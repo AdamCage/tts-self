@@ -20,6 +20,11 @@ def main() -> int:
     ap.add_argument("--stage", default=None, help="S1/S2/S3/S4 or all")
     ap.add_argument("--batch-size", type=int, default=None)
     ap.add_argument("--steps", type=int, default=None)
+    ap.add_argument(
+        "--init-from",
+        default=None,
+        help="Load weights from prior stage ckpt (e.g. runs/.../best.pt) before training",
+    )
     args = ap.parse_args()
 
     cfg = load_yaml(args.config)
@@ -28,6 +33,12 @@ def main() -> int:
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     model = build_model_from_cfg(cfg, mode=args.mode)
+    if args.init_from:
+        from minispeech.infer.generate import load_checkpoint
+        from minispeech.utils import expand
+
+        model, _ = load_checkpoint(expand(args.init_from), device)
+        print(f"init_from={args.init_from}")
     # Normalize latents are assumed pre-normalized in shards OR we normalize in collate.
     # For simplicity expect encode script stored RAW and Dataset returns raw;
     # Trainer expects normalized — apply via wrapping if stats exist.

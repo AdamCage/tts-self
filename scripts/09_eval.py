@@ -25,6 +25,12 @@ def main() -> int:
     ap.add_argument("--ckpt", required=True)
     ap.add_argument("--data", default="configs/data_ruslan.yaml")
     ap.add_argument("--batch-size", type=int, default=8)
+    ap.add_argument(
+        "--split",
+        default="train",
+        choices=("train", "val", "test"),
+        help="S1 overfit gate must use train (32 utts); use val after S2+",
+    )
     ap.add_argument("--mask-min-rise", type=float, default=0.20, help="0.35 after S2")
     ap.add_argument("--prefix-min-ratio", type=float, default=3.0)
     args = ap.parse_args()
@@ -35,16 +41,18 @@ def main() -> int:
         manifest_path=dcfg["manifest"],
         latent_dir=dcfg["latent_dir"],
         text_hidden_dir=dcfg["text_hidden_dir"],
-        split="val",
+        split=args.split,
         max_utterances=32,
+        exclude_tags=tuple(dcfg.get("exclude_tags", ("exclude",))),
     )
-    if len(ds) == 0:
+    if len(ds) == 0 and args.split != "train":
         ds = MiniSpeechDataset(
             manifest_path=dcfg["manifest"],
             latent_dir=dcfg["latent_dir"],
             text_hidden_dir=dcfg["text_hidden_dir"],
             split="train",
             max_utterances=32,
+            exclude_tags=tuple(dcfg.get("exclude_tags", ("exclude",))),
         )
     loader = DataLoader(ds, batch_size=args.batch_size, collate_fn=collate_minispeech)
     batch = next(iter(loader))
@@ -75,13 +83,20 @@ def main() -> int:
     )
     diag = attention_diagonality(out.cross_attn, batch_d["frame_mask"]) if out.cross_attn is not None else None
     report = {
+        "split": args.split if len(ds) else "train",
         "text_shuffle": shuffle,
         "text_mask": mask,
         "text_prefix_counterfactual": prefix,
         "attention_diagonality": diag,
-        "s1_text_usage_pass": bool(shuffle.get("pass") and mask.get("pass")),
-        "s2_text_usage_pass": bool(
+        # Plan C.4: all three counterfactuals required.
+        "s1_text_usage_pass": bool(
             shuffle.get("pass") and mask.get("pass") and prefix.get("pass")
+        ),
+        "s2_text_usage_pass": bool(
+            shuffle.get("pass")
+            and mask.get("pass")
+            and prefix.get("pass")
+            and float(mask.get("relative_rise", 0.0)) >= 0.35
         ),
     }
     print(json.dumps(report, indent=2))
