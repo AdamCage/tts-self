@@ -19,9 +19,9 @@ venv/
 !.env.example
 *.pem
 
-# Caches & data (large)
-data/
-!data/.gitkeep
+# Caches & data (large) — root-anchored so src/minispeech/data/ is trackable
+/data/
+!/data/.gitkeep
 *.safetensors
 *.pt
 *.pth
@@ -33,12 +33,12 @@ data/
 !tests/fixtures/**
 
 # Runs / outputs
-runs/
-out/
+/runs/
+/out/
 wandb/
 lightning_logs/
-.cache/
-hf_cache/
+/.cache/
+/hf_cache/
 
 # IDE
 .idea/
