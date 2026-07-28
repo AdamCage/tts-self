@@ -12,7 +12,7 @@ Stub for gate definitions and frozen evaluation contracts. Fill dates/results as
 
 ## Phase 0 — Codec (ASR)
 
-Structural (all required): `sample=False` determinism; cache abs diff < 1e-2 (bf16); decoder RTF < 0.3.
+Structural (all required): `sample=False` determinism; cached-vs-full decode gate in **float32** (`cache_max_abs_diff` ≤ 1e-3) with boundary-spike check; decoder RTF < 0.3. bf16 max-abs is reported separately (soft ≤ 2e-2) — global bf16 noise without a seam spike is not a structural fail.
 
 Intelligibility exit codes from `scripts/11_phase0_feasibility.py`:
 

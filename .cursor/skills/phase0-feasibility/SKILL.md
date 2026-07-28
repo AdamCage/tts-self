@@ -43,7 +43,10 @@ python scripts/11_phase0_feasibility.py \
 ## Acceptance
 
 - `sample=False` deterministic
-- Cached vs full decode abs diff < `1e-2` (bf16)
+- Cached vs full decode: structural gate in **float32** (`cache_max_abs_diff` default `1e-3`)
+  plus boundary-spike check (`boundary_max > ratio × interior_p95` → fail).
+  bf16 max-abs alone is diagnostic (`cache_max_abs_diff_bf16`, ~`2e-2`); global bf16
+  noise without a seam spike is not a NO-GO.
 - Decoder RTF < 0.3
 - If ASR enabled: `ΔWER ≤ 4` pp
 - Exit `0` = GO, `2` = NO-GO

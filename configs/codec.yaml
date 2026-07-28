@@ -12,8 +12,13 @@ phase0:
   seed: 42
   asr_model: openai/whisper-large-v3
   delta_wer_pp_max: 4.0
-  cache_max_abs_diff: 1.0e-2
-  # bf16 decode can differ by ~1e-3..1e-2; fp32 smoke can use 1e-3
+  # Structural cache gate runs in float32 (bf16 max-abs is global numerical
+  # noise ~1e-3..2e-2 with no chunk-boundary spike; see docs/phase0_report.md).
+  cache_check_dtype: float32
+  cache_max_abs_diff: 1.0e-3
+  cache_max_abs_diff_bf16: 2.0e-2   # diagnostic / soft check only
+  cache_boundary_ratio_max: 10.0    # fail if boundary_max > ratio * interior_p95
+  cache_chunk_frames: 4
   decoder_rtf_max: 0.3
   sensitivity_sigmas: [0.0, 0.05, 0.1, 0.2, 0.3, 0.45, 0.625, 0.9, 1.25]
   ar1_rho: 0.8

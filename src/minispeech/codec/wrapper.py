@@ -165,6 +165,14 @@ class VibeVoiceCodec:
         return DecodeResult(audio=out.audio, padding_cache=getattr(out, "padding_cache", None), raw=out)
 
     @torch.inference_mode()
+    def decode_chunked(self, latents: torch.Tensor, *, chunk_frames: int = 4) -> DecodeResult:
+        """Streaming decode via padding_cache; audio layout matches full ``decode``."""
+        from minispeech.codec.cache_check import decode_chunked as _decode_chunked
+
+        audio = _decode_chunked(self, latents, chunk_frames=chunk_frames)
+        return DecodeResult(audio=audio, padding_cache=None, raw=None)
+
+    @torch.inference_mode()
     def encode_tensor(self, input_values: torch.Tensor, *, sample: bool = False) -> torch.Tensor:
         out = self.model.encode(input_values.to(self.device, self.dtype), sample=sample)
         return _to_bt64(out.latents)

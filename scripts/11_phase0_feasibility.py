@@ -19,6 +19,11 @@ import soundfile as sf
 import torch
 from tqdm import tqdm
 
+from minispeech.codec.cache_check import (
+    cached_vs_full_stats,
+    decode_chunked,
+    evaluate_cache_gate,
+)
 from minispeech.codec.wrapper import VibeVoiceCodec
 from minispeech.constants import SR
 from minispeech.eval.asr import AsrConfig, AsrEngine
@@ -141,38 +146,77 @@ def main() -> int:
     a0, _ = sf.read(str(samples[0][0]), dtype="float32")
     if a0.ndim > 1:
         a0 = a0.mean(-1)
-    z1 = codec.encode(a0, sf.info(str(samples[0][0])).samplerate, sample=False).latents
-    z2 = codec.encode(a0, sf.info(str(samples[0][0])).samplerate, sample=False).latents
+    sr0 = sf.info(str(samples[0][0])).samplerate
+    z1 = codec.encode(a0, sr0, sample=False).latents
+    z2 = codec.encode(a0, sr0, sample=False).latents
     det_ok = bool(torch.equal(z1, z2))
 
-    enc = codec.encode(a0, sf.info(str(samples[0][0])).samplerate, sample=False)
-    full = codec.decode(enc.latents).audio
-    cache = None
-    chunks = []
-    z = enc.latents
-    for i in range(0, z.shape[1], 4):
-        out = codec.decode(z[:, i : i + 4], use_cache=True, padding_cache=cache)
-        cache = out.padding_cache
-        chunks.append(out.audio)
-    cached = torch.cat(chunks, dim=-1)
-    nmin = min(full.shape[-1], cached.shape[-1])
-    max_abs = float((full[..., :nmin] - cached[..., :nmin]).abs().max().cpu())
-    cache_ok = max_abs < float(p0.get("cache_max_abs_diff", 1e-3))
+    chunk_frames = int(p0.get("cache_chunk_frames", 4))
+    boundary_ratio_max = float(p0.get("cache_boundary_ratio_max", 10.0))
+    cache_check_dtype = str(p0.get("cache_check_dtype", "float32")).lower()
+    gate_dtype = torch.float32 if cache_check_dtype in {"float32", "fp32"} else torch.bfloat16
+    gate_limit = float(p0.get("cache_max_abs_diff", 1e-3))
+    bf16_soft_limit = float(p0.get("cache_max_abs_diff_bf16", 2e-2))
+
+    # Operating-dtype diagnostic (bf16): report only; soft-fail if absurdly large.
+    enc_bf16 = codec.encode(a0, sr0, sample=False)
+    full_bf16 = codec.decode(enc_bf16.latents).audio
+    cached_bf16 = decode_chunked(codec, enc_bf16.latents, chunk_frames=chunk_frames)
+    cache_stats_bf16 = cached_vs_full_stats(full_bf16, cached_bf16, chunk_frames=chunk_frames)
+    bf16_ok, bf16_reason = evaluate_cache_gate(
+        cache_stats_bf16,
+        max_abs_limit=bf16_soft_limit,
+        boundary_ratio_max=boundary_ratio_max,
+    )
+
+    # Structural gate: fp32 decode isolates real cache/seam bugs from bf16 noise.
+    if gate_dtype == torch.bfloat16:
+        codec_gate = codec
+        enc_gate = enc_bf16
+        full_gate = full_bf16
+        cached_gate = cached_bf16
+        cache_stats = cache_stats_bf16
+    else:
+        codec_gate = VibeVoiceCodec(dtype=torch.float32, device=device)
+        enc_gate = codec_gate.encode(a0, sr0, sample=False)
+        full_gate = codec_gate.decode(enc_gate.latents).audio
+        cached_gate = decode_chunked(codec_gate, enc_gate.latents, chunk_frames=chunk_frames)
+        cache_stats = cached_vs_full_stats(full_gate, cached_gate, chunk_frames=chunk_frames)
+        del codec_gate
+        if device.type == "cuda":
+            torch.cuda.empty_cache()
+
+    cache_ok, cache_reason = evaluate_cache_gate(
+        cache_stats,
+        max_abs_limit=gate_limit,
+        boundary_ratio_max=boundary_ratio_max,
+    )
+    # Still fail hard on a localized seam even if only seen under bf16.
+    if not bf16_ok and "boundary_spike" in bf16_reason:
+        cache_ok = False
+        cache_reason = f"bf16 {bf16_reason}"
+    max_abs = float(cache_stats["max_abs"])
+    max_abs_bf16 = float(cache_stats_bf16["max_abs"])
 
     t0 = time.perf_counter()
-    _ = codec.decode(enc.latents)
+    _ = codec.decode(enc_bf16.latents)
     if device.type == "cuda":
         torch.cuda.synchronize()
     dec_s = time.perf_counter() - t0
-    audio_s = full.shape[-1] / SR
+    audio_s = full_bf16.shape[-1] / SR
     rtf = dec_s / max(audio_s, 1e-6)
     rtf_ok = rtf < float(p0.get("decoder_rtf_max", 0.3))
     structural_ok = det_ok and cache_ok and rtf_ok
+    print(
+        f"cache_gate dtype={cache_check_dtype} max_abs={max_abs:.6g} "
+        f"boundary_ratio={float(cache_stats['boundary_ratio']):.3g} ok={cache_ok} ({cache_reason}); "
+        f"bf16_max_abs={max_abs_bf16:.6g} bf16_soft_ok={bf16_ok}"
+    )
 
     sigmas = list(p0.get("sensitivity_sigmas", [0.0, 0.1, 0.3, 0.625, 1.0]))
     rho = float(p0.get("ar1_rho", 0.8))
     sweep: dict = {"white": [], "ar1": []}
-    mu = enc.latents
+    mu = enc_bf16.latents
 
     asr: AsrEngine | None = None
     asr_available = False
@@ -308,8 +352,13 @@ def main() -> int:
         "decision": status,
         "go": status == "GO",
         "deterministic_sample_false": det_ok,
+        "cache_check_dtype": cache_check_dtype,
         "cache_max_abs_diff": max_abs,
+        "cache_max_abs_diff_bf16": max_abs_bf16,
+        "cache_stats": cache_stats,
+        "cache_stats_bf16": cache_stats_bf16,
         "cache_ok": cache_ok,
+        "cache_reason": cache_reason,
         "decoder_rtf": rtf,
         "rtf_ok": rtf_ok,
         "wer_status": (
