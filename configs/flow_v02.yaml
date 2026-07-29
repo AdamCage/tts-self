@@ -23,15 +23,32 @@ model:
     steps: 4
   stop_head:
     hidden: 256
-    loss: bce
+    loss: focal
     positive_weight: auto
-    stop_window: 3
+    stop_window: 5
+    soft_labels: true
+    focal_gamma: 2.0
+    focal_alpha: 0.85
   duration_head:
     level: utterance
     hidden: 256
 
+loss:
+  stop: 0.5
+  duration: 0.25
+
 train:
   seed: 42
+  stages:
+    - name: S1
+      max_utterances: 32
+      steps: 3000
+    - name: S2
+      max_hours: 1.0
+      steps: 8000
+    - name: S3
+      max_hours: 5.0
+      steps: 12000
   batch:
     mode: auto
     candidates: [8, 16, 32, 64]
@@ -43,8 +60,21 @@ train:
   grad_clip: 1.0
   warmup_steps: 500
   freeze_talker_fraction: 0.05
+  save_every: 1000
+  fr_checkpoint:
+    enabled: true
+    every: 1000
+    n: 32
   ema_decay: 0.999
   time_sampling: logit_normal
   precision: bf16
   run_dir: runs/v02_flow
   init_from: runs/v01_regression_direct/best.pt
+
+infer:
+  stop:
+    threshold: 0.45
+    consecutive: 3
+    min_frac: 0.94
+    max_frac: 1.6
+    duration_scale: 1.04

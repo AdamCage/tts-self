@@ -76,6 +76,20 @@ train:
   log_every: 50
   eval_every: 250
   save_every: 1000
+  # Free-running checkpoint selection: keep best.pt by duration_in_band/stop,
+  # not by last TF step (avoids overwriting mid-run duration peaks).
+  fr_checkpoint:
+    enabled: true
+    every: 1000
+    n: 32
   ema_decay: 0.999
   precision: bf16
   run_dir: runs/v01_regression_direct
+  # Infer stop defaults used during FR checkpoint eval
+infer:
+  stop:
+    threshold: 0.45
+    consecutive: 3
+    min_frac: 0.94
+    max_frac: 1.6
+    duration_scale: 1.04

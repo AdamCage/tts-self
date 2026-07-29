@@ -14,8 +14,10 @@ infer:
   stop:
     threshold: 0.45
     consecutive: 3
-    min_frac: 0.80
+    # Calibrated on val32 FR (S3 dur-ft ckpt): in_band 0.906, stop 1.0
+    min_frac: 0.94
     max_frac: 1.6
+    duration_scale: 1.04
   stress:
     use_accentuator: true
   out_dir: out

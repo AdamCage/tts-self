@@ -161,8 +161,9 @@ class MiniSpeech(nn.Module):
         sampler: str = "heun",
         stop_threshold: float = 0.45,
         stop_consecutive: int = 3,
-        min_frac: float = 0.80,
+        min_frac: float = 0.94,
         max_frac: float = 1.6,
+        duration_scale: float = 1.04,
         use_kv_cache: bool = True,
         duration_stop_boost: bool = True,
     ) -> tuple[torch.Tensor, dict[str, Any]]:
@@ -173,6 +174,7 @@ class MiniSpeech(nn.Module):
         ``min_frac * dur_pred`` (AGENTS.md triple-stop), capped at
         ``max_frac * dur_pred``. Optional duration boost after ``dur_pred``
         raises stop probability so late endings do not always hit max.
+        ``duration_scale`` multiplies the head's frame prediction (infer calibration).
         """
         self.eval()
         import time
@@ -184,8 +186,8 @@ class MiniSpeech(nn.Module):
         text_encode_ms = (time.perf_counter() - t_text0) * 1000.0
 
         dur = self.dur_head(text_memory, text_mask)
-        dur_frames = int(dur.item()) if dur.ndim == 0 or dur.numel() == 1 else int(dur[0].item())
-        dur_frames = max(1, dur_frames)
+        dur_raw = float(dur.item()) if dur.ndim == 0 or dur.numel() == 1 else float(dur[0].item())
+        dur_frames = max(1, int(round(dur_raw * float(duration_scale))))
         min_f = max(1, int(dur_frames * min_frac))
         max_f = int(dur_frames * max_frac) if max_frames is None else min(int(dur_frames * max_frac), max_frames)
         max_f = max(max_f, min_f)
@@ -255,6 +257,8 @@ class MiniSpeech(nn.Module):
         z = torch.cat(z_frames, dim=1)
         return z, {
             "dur_pred": dur_frames,
+            "dur_pred_raw": dur_raw,
+            "duration_scale": float(duration_scale),
             "stop_probs": stop_probs,
             "n_frames": z.shape[1],
             "stop_triggered": not hit_max,

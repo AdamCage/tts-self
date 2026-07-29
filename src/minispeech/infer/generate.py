@@ -108,8 +108,9 @@ def synthesize(
         flow_steps=flow_steps,
         stop_threshold=float(stop_cfg.get("threshold", 0.45)),
         stop_consecutive=int(stop_cfg.get("consecutive", 3)),
-        min_frac=float(stop_cfg.get("min_frac", 0.80)),
+        min_frac=float(stop_cfg.get("min_frac", 0.94)),
         max_frac=float(stop_cfg.get("max_frac", 1.6)),
+        duration_scale=float(stop_cfg.get("duration_scale", 1.04)),
     )
     z = normalizer.denormalize(z_norm)
     audio = codec.decode(z).audio.squeeze().float().cpu().numpy()

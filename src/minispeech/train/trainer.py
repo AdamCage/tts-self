@@ -11,6 +11,7 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 from minispeech.data.dataset import MiniSpeechDataset, collate_minispeech
+from minispeech.eval.free_running import evaluate_free_running_loader, fr_selection_key
 from minispeech.models.minispeech import MiniSpeech
 from minispeech.train.ema import EMA
 from minispeech.train.guided_attn import guided_attention_loss, guided_weight_schedule
@@ -91,6 +92,19 @@ class Trainer:
         self.stop_focal_gamma = float(self.stop_cfg.get("focal_gamma", 2.0))
         self.stop_focal_alpha = float(self.stop_cfg.get("focal_alpha", 0.75))
         self.soft_stop = bool(self.stop_cfg.get("soft_labels", False))
+        fr_cfg = tcfg.get("fr_checkpoint", {})
+        self.fr_eval_every = int(fr_cfg.get("every", tcfg.get("fr_eval_every", 0)) or 0)
+        self.fr_eval_n = int(fr_cfg.get("n", tcfg.get("fr_eval_n", 32)) or 32)
+        self.fr_select_best = bool(fr_cfg.get("enabled", self.fr_eval_every > 0))
+        stop_infer = cfg.get("infer", {}).get("stop", {}) if isinstance(cfg.get("infer"), dict) else {}
+        self.fr_stop = {
+            "threshold": float(stop_infer.get("threshold", 0.45)),
+            "consecutive": int(stop_infer.get("consecutive", 3)),
+            "min_frac": float(stop_infer.get("min_frac", 0.94)),
+            "max_frac": float(stop_infer.get("max_frac", 1.6)),
+            "duration_scale": float(stop_infer.get("duration_scale", 1.04)),
+        }
+        self._best_fr_key: tuple | None = None
         write_run_manifest(
             self.run_dir,
             {
@@ -102,6 +116,9 @@ class Trainer:
                     "stop_focal_alpha": self.stop_focal_alpha,
                     "soft_stop": self.soft_stop,
                     "mean_frames_est": mean_frames,
+                    "fr_eval_every": self.fr_eval_every,
+                    "fr_select_best": self.fr_select_best,
+                    "fr_stop": self.fr_stop,
                 },
             },
         )
@@ -125,17 +142,82 @@ class Trainer:
     def _noise_sigma(self, step: int, total: int) -> float:
         return self.input_noise_max * min(1.0, step / max(total * 0.5, 1))
 
-    def _save_ckpt(self, stage: str, step: int | None = None) -> None:
-        ckpt = {
+    def _ckpt_payload(self, stage: str, step: int | None = None, *, fr_metrics: dict | None = None) -> dict:
+        payload = {
             "model": self.model.state_dict(),
             "ema": self.ema.state_dict(),
             "cfg": self.cfg,
             "stage": stage,
             "step": step,
         }
-        # Overwrite rolling last/best only (avoid N×165MB step dumps).
+        if fr_metrics is not None:
+            payload["fr_metrics"] = fr_metrics
+        return payload
+
+    def _save_ckpt(self, stage: str, step: int | None = None, *, promote_best: bool = False, fr_metrics: dict | None = None) -> None:
+        ckpt = self._ckpt_payload(stage, step, fr_metrics=fr_metrics)
+        # Rolling last always; avoid N×165MB step dumps.
         torch.save(ckpt, self.run_dir / f"{stage}_last.pt")
-        torch.save(ckpt, self.run_dir / "best.pt")
+        if promote_best or not self.fr_select_best:
+            torch.save(ckpt, self.run_dir / "best.pt")
+
+    def _eval_free_running(self) -> dict[str, Any]:
+        """EMA free-running eval on val_loader (or a short subset)."""
+        if self.val_loader is None:
+            return {}
+        # Eval EMA shadow (matches load_checkpoint preference).
+        report = evaluate_free_running_loader(
+            self.ema.shadow,
+            self.val_loader,
+            device=self.device,
+            stop_threshold=self.fr_stop["threshold"],
+            stop_consecutive=self.fr_stop["consecutive"],
+            min_frac=self.fr_stop["min_frac"],
+            max_frac=self.fr_stop["max_frac"],
+            duration_scale=self.fr_stop["duration_scale"],
+            max_items=self.fr_eval_n,
+        )
+        return report
+
+    def _maybe_promote_fr_best(self, stage: str, step: int) -> dict[str, Any] | None:
+        if not self.fr_select_best:
+            return None
+        report = self._eval_free_running()
+        if not report:
+            return None
+        stab = report.get("stability", {})
+        key = fr_selection_key(stab)
+        improved = self._best_fr_key is None or key > self._best_fr_key
+        meta = {
+            "stage": stage,
+            "step": step,
+            "improved": improved,
+            "selection_key": list(key),
+            "prev_selection_key": list(self._best_fr_key) if self._best_fr_key is not None else None,
+            "stability": stab,
+            "n": report.get("n"),
+            "duration_ratios": report.get("duration_ratios"),
+        }
+        with open(self.run_dir / "fr_eval.jsonl", "a", encoding="utf-8") as f:
+            f.write(json.dumps(meta) + "\n")
+        if improved:
+            self._best_fr_key = key
+            self._save_ckpt(stage, step=step, promote_best=True, fr_metrics=meta)
+            (self.run_dir / "best_fr_metrics.json").write_text(
+                json.dumps(meta, indent=2), encoding="utf-8"
+            )
+            print(
+                f"[fr-best] step={step} duration_in_band={stab.get('duration_in_band_rate'):.3f} "
+                f"stop={stab.get('stop_success_rate'):.3f} runaway={stab.get('runaway_rate'):.3f}"
+            )
+        else:
+            # Still refresh rolling last without clobbering FR best.
+            self._save_ckpt(stage, step=step, promote_best=False)
+            print(
+                f"[fr-eval] step={step} duration_in_band={stab.get('duration_in_band_rate'):.3f} "
+                f"(kept prior best)"
+            )
+        return meta
 
     def train_steps(self, steps: int, stage: str = "S1") -> dict[str, float]:
         self.model.train()
@@ -235,11 +317,18 @@ class Trainer:
                 pbar.set_postfix(loss=f"{last['total']:.4f}")
                 with open(self.run_dir / "train_log.jsonl", "a", encoding="utf-8") as f:
                     f.write(json.dumps({"step": step, "stage": stage, **last}) + "\n")
-            if save_every > 0 and step > 0 and (step + 1) % save_every == 0:
-                self._save_ckpt(stage, step=step + 1)
+            do_save = save_every > 0 and step > 0 and (step + 1) % save_every == 0
+            do_fr = self.fr_eval_every > 0 and step > 0 and (step + 1) % self.fr_eval_every == 0
+            if do_fr:
+                self._maybe_promote_fr_best(stage, step=step + 1)
+            elif do_save:
+                self._save_ckpt(stage, step=step + 1, promote_best=not self.fr_select_best)
 
         self._set_talker_frozen(False)
-        self._save_ckpt(stage, step=steps)
+        if self.fr_select_best:
+            self._maybe_promote_fr_best(stage, step=steps)
+        else:
+            self._save_ckpt(stage, step=steps, promote_best=True)
         return last
 
 

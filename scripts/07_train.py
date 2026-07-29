@@ -33,12 +33,24 @@ def main() -> int:
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     model = build_model_from_cfg(cfg, mode=args.mode)
-    if args.init_from:
-        from minispeech.infer.generate import load_checkpoint
+    init_from = args.init_from or cfg.get("train", {}).get("init_from")
+    if init_from:
         from minispeech.utils import expand
 
-        model, _ = load_checkpoint(expand(args.init_from), device)
-        print(f"init_from={args.init_from}")
+        ckpt = torch.load(expand(init_from), map_location=device, weights_only=False)
+        sd = ckpt.get("ema") or ckpt["model"]
+        # Partial load: transfer Talker/projectors/stop/dur; keep mode-specific head.
+        model_sd = model.state_dict()
+        filtered = {
+            k: v for k, v in sd.items() if k in model_sd and tuple(model_sd[k].shape) == tuple(v.shape)
+        }
+        missing, unexpected = model.load_state_dict(filtered, strict=False)
+        print(
+            f"init_from={init_from} loaded={len(filtered)} "
+            f"missing={len(missing)} skipped={len(sd) - len(filtered)}"
+        )
+        if unexpected:
+            print(f"  unexpected (first 5): {unexpected[:5]}")
     # Normalize latents are assumed pre-normalized in shards OR we normalize in collate.
     # For simplicity expect encode script stored RAW and Dataset returns raw;
     # Trainer expects normalized — apply via wrapping if stats exist.

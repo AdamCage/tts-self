@@ -107,3 +107,38 @@ def test_generate_kv_cache_matches_full():
     )
     assert z_kv.shape == z_full.shape
     assert torch.allclose(z_kv, z_full, atol=1e-4, rtol=1e-4)
+
+
+def test_fr_selection_key_prefers_duration_band():
+    from minispeech.eval.free_running import fr_selection_key
+
+    weak = fr_selection_key(
+        {"duration_in_band_rate": 0.75, "stop_success_rate": 1.0, "runaway_rate": 0.0, "nan_rate": 0.0, "mean_dtw_l1": 0.5}
+    )
+    strong = fr_selection_key(
+        {"duration_in_band_rate": 0.90, "stop_success_rate": 1.0, "runaway_rate": 0.0, "nan_rate": 0.0, "mean_dtw_l1": 0.8}
+    )
+    assert strong > weak
+
+
+def test_generate_duration_scale_extends_cap():
+    from minispeech.models.minispeech import MiniSpeech
+
+    torch.manual_seed(0)
+    m = MiniSpeech(mode="regression", residual_head=False)
+    m.eval()
+    th = torch.randn(1, 3, 4, 1024)
+    tm = torch.ones(1, 4, dtype=torch.bool)
+    with torch.no_grad():
+        # Force a known duration prediction via a temporary forward of dur_head
+        text_memory = m.encode_text(th)
+        base = float(m.dur_head(text_memory, tm)[0].item())
+    z1, info1 = m.generate(
+        th, tm, stop_consecutive=99, min_frac=1.0, max_frac=1.0, duration_scale=1.0, use_kv_cache=True
+    )
+    z2, info2 = m.generate(
+        th, tm, stop_consecutive=99, min_frac=1.0, max_frac=1.0, duration_scale=1.5, use_kv_cache=True
+    )
+    assert info1["dur_pred"] == max(1, int(round(base)))
+    assert info2["dur_pred"] == max(1, int(round(base * 1.5)))
+    assert z2.shape[1] >= z1.shape[1]

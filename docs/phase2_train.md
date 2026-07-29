@@ -1,10 +1,11 @@
-# Phase 2 — Training ladder (Workstream C)
+# Phase 2 — Training ladder (Workstream C → D)
 
 Date: 2026-07-29  
-Git (stop fix): `df36687` · `min_frac`: `502b239` · preload/save: `f1e66d7`  
+Git (stop fix): `df36687` · `min_frac0.8`: `502b239` · preload/save: `f1e66d7` · phase2 docs: `60e812c`  
 Config: `configs/talker_v01_direct.yaml` (direct head, `acoustic_dropout: 0.40`)  
 Data: `configs/data_ruslan_local.yaml` — QC `exclude` filtered  
-Best ckpt: `runs/v01_regression_direct/best.pt` (WSL; post S3 dur-ft)  
+Best ckpt: `runs/v01_regression_direct/best.pt` (WSL; S3 dur-ft)  
+Infer stop (calibrated): `min_frac=0.94`, `duration_scale=1.04` (`configs/infer.yaml`)  
 Also kept: `S2b_last.pt`, `S3_last.pt`
 
 ## Root cause — S2 stop FAIL (0.844 / runaway 0.156)
@@ -22,10 +23,13 @@ Also kept: `S2b_last.pt`, `S3_last.pt`
 | Focal stop loss + soft-aware BCE weights | `losses.py`, trainer passes focal α/γ |
 | Auto pos_weight floor 15 | `resolve_stop_pos_weight` |
 | `w_stop=0.5`, `w_dur=0.25`, window=5, soft_labels | `talker_v01_direct.yaml` |
-| Triple-stop defaults: thr=0.45, consec=3, min_frac=0.8, max_frac=1.6 + post-`dur_pred` boost | `generate()`, `infer.yaml` |
-| `scripts/09b_eval_free_running.py` | reproducible val32 FR metrics |
+| Triple-stop defaults + post-`dur_pred` boost | `generate()`, `infer.yaml` |
+| `scripts/09b_eval_free_running.py` (+ `--sweep-duration-scale`) | reproducible val32 FR metrics |
 | Stage-subset preload (was loading **full** shard index → S3 RAM thrash) | `dataset.py` |
-| Periodic `save_every` → rolling `{stage}_last.pt` / `best.pt` | `trainer.py` |
+| Periodic `save_every` → rolling `{stage}_last.pt` | `trainer.py` |
+| **FR-aware `best.pt`** via `train.fr_checkpoint` (duration_in_band / stop key) | `trainer.py` |
+| Infer `duration_scale` + calibrated `min_frac=0.94` | `generate()`, `infer.yaml` |
+| Flow partial `init_from` (Talker/stop/dur → new flow head) | `scripts/07_train.py` |
 | S2b stage (4k continue) | config |
 
 ## C1 — S1 — **PASS** (unchanged)
@@ -50,35 +54,44 @@ Text-usage after S2b:
 
 Val TF shuffle/mask ≈0 is a **soft** issue: teacher-forced acoustics dominate on unseen text; free-running prefix still passes. Not treated as a hard stop blocker.
 
-## C3 — S3 — **PARTIAL** (stop green; duration short of 0.90)
+## C3 — S3 — **PASS** (stop + duration after infer calibration)
 
 Runs:
 
 1. First S3 attempt: hung near 98% (Cursor `tee`+tqdm pipe + prior full-index preload). No final ckpt.
 2. Restart with subset preload + periodic save; hung again ~step 4106 in Cursor-captured tee — **mid ckpt kept** (`S3_last` @~4k).
-3. Eval @~4k: stop **1.0**, runaway **0**, duration_in_band **0.844** (best duration so far).
-4. Continue +8k via `nohup` (avoid pipe deadlock): stop still 1.0, duration_in_band **regressed to 0.688**.
-5. Duration-head FT 2k (`freeze_talker_fraction=1`, `w_dur=1.0`): stop 1.0, duration_in_band **0.75**.
+3. Eval @~4k: stop **1.0**, runaway **0**, duration_in_band **0.844** (best mid-run TF-last peak; later overwritten).
+4. Continue +8k via `nohup`: stop still 1.0, duration_in_band **regressed to 0.688**.
+5. Duration-head FT 2k (`freeze_talker_fraction=1`, `w_dur=1.0`): stop 1.0, duration_in_band **0.75** (weights in `best.pt`).
+6. **Infer calibration** (no further train): sweep `min_frac` × `duration_scale` × threshold on fixed val32.
+   - Best: `min_frac=0.94`, `duration_scale=1.04`, `threshold=0.45`, `consecutive=3`
+   - duration_in_band **0.90625**, stop **1.0**, runaway **0.0**
+7. Landed **FR-aware checkpoint selection** so future mid-run peaks are not lost to TF-last overwrite.
 
-| Gate (val32) | Final best | Need | Result |
-|--------------|-----------:|------|:------:|
+| Gate (val32) | Final (calibrated infer) | Need | Result |
+|--------------|-------------------------:|------|:------:|
 | stop_success | 1.0 | ≥0.95 | **PASS** |
 | runaway | 0.0 | ≤0.02 | **PASS** |
 | nan / silence | 0 | 0 | **PASS** |
-| duration_in_band | 0.75 | ≥0.90 (S3) | **FAIL** |
+| duration_in_band | **0.906** | ≥0.90 (S3) | **PASS** |
 | val TF text-usage | rise≈0.01 | ≥0.35 mask | **FAIL** (soft) |
 | train text-usage | mask rise≈0.83 | ≥0.35 | **PASS** |
 
-## Flow (Workstream D) — **BLOCKED**
+Eval artifact: `runs/v01_regression_direct/eval_free_running_S3_calibrated.json`.
 
-Do **not** start Flow until duration_in_band ≥0.90 on fixed val32 (and ideally keep stop green). Stop alone is not enough for D.
+## Flow (Workstream D) — **STARTED**
 
-## Recommended next experiment
+Unblocked after duration_in_band ≥0.90 on val32 with stop green.
 
-1. **Checkpoint select by FR duration** — keep mid-run snapshots; S3@~4k hit 0.844 in-band (lost when overwritten). Add `save_keep_best_duration` or evaluate every `save_every`.
-2. **Duration calibration** — log `dur_pred` vs `n_gt` on val; if systematic under-predict, scale bias or switch to token duration head.
-3. **Val TF text-usage** — raise `acoustic_dropout` (0.45–0.5) or scheduled sampling; do not trust TF rise on val while prefix passes.
-4. Avoid piping tqdm into Cursor/`tee` for long S3+ jobs — use `nohup`/`tmux` + `PYTHONUNBUFFERED=1`.
+- Config: `configs/flow_v02.yaml`
+- Init: partial load from `runs/v01_regression_direct/best.pt` (`freeze_talker_fraction: 0.05`)
+- Infer stop inherits calibrated `min_frac` / `duration_scale`
+- FR checkpointing enabled for flow runs
+- S1 started under `runs/v02_flow/` (`console_S1.log`)
+
+## Demo phrases
+
+Regenerated with calibrated stop into `out/demo_phrases/` (Windows mirror: `C:\projects\tts-self\out\demo_phrases\`).
 
 ### Commands (WSL)
 
@@ -87,7 +100,13 @@ cd ~/projects/tts-self && source .venv/bin/activate && export HF_HOME=$HOME/hf_c
 python scripts/09b_eval_free_running.py \
   --ckpt runs/v01_regression_direct/best.pt \
   --data configs/data_ruslan_local.yaml --split val --n 32
-python scripts/09_eval.py \
+python scripts/17_demo_phrases.py \
   --ckpt runs/v01_regression_direct/best.pt \
-  --data configs/data_ruslan_local.yaml --split val --mask-min-rise 0.35
+  --out-dir out/demo_phrases
+# Flow S1
+python scripts/07_train.py \
+  --config configs/flow_v02.yaml \
+  --data configs/data_ruslan_local.yaml \
+  --mode flow --stage S1 \
+  --init-from runs/v01_regression_direct/best.pt
 ```

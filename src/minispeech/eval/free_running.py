@@ -93,4 +93,83 @@ def aggregate_stability(rows: list[FreeRunningMetrics]) -> dict[str, float]:
         "silence_rate": sum(r.silence_collapse for r in rows) / n,
         "mean_dtw_l1": float(np.mean([r.dtw_l1 for r in rows])),
         "duration_in_band_rate": sum(0.8 <= r.duration_ratio <= 1.2 for r in rows) / n,
+        "mean_duration_ratio": float(np.mean([r.duration_ratio for r in rows])),
+    }
+
+
+def fr_selection_key(stab: dict[str, float]) -> tuple:
+    """Higher is better. Prefer duration band, then stop, then low runaway/nan/DTW."""
+    return (
+        float(stab.get("duration_in_band_rate", 0.0)),
+        float(stab.get("stop_success_rate", 0.0)),
+        -float(stab.get("runaway_rate", 1.0)),
+        -float(stab.get("nan_rate", 1.0)),
+        -float(stab.get("mean_dtw_l1", 1e9)),
+    )
+
+
+def evaluate_free_running_loader(
+    model,
+    loader,
+    *,
+    device: torch.device | None = None,
+    stop_threshold: float = 0.45,
+    stop_consecutive: int = 3,
+    min_frac: float = 0.94,
+    max_frac: float = 1.6,
+    duration_scale: float = 1.04,
+    max_items: int | None = None,
+) -> dict[str, Any]:
+    """Run free-running generate on a DataLoader of collated MiniSpeech batches."""
+    import torch as _torch
+
+    device = device or next(model.parameters()).device
+    was_training = model.training
+    model.eval()
+    rows: list[FreeRunningMetrics] = []
+    ratios: list[float] = []
+    dur_preds: list[float] = []
+    n_gts: list[int] = []
+    with _torch.inference_mode():
+        for batch in loader:
+            if max_items is not None and len(rows) >= max_items:
+                break
+            th = batch["text_hidden"].to(device)
+            tm = batch["text_mask"].to(device)
+            z_gt = batch["z_target"].to(device)
+            fm = batch["frame_mask"].to(device)
+            bsz = th.shape[0]
+            for b in range(bsz):
+                if max_items is not None and len(rows) >= max_items:
+                    break
+                n_gt = int(fm[b].sum().item())
+                z_pred, info = model.generate(
+                    th[b : b + 1],
+                    tm[b : b + 1],
+                    stop_threshold=stop_threshold,
+                    stop_consecutive=stop_consecutive,
+                    min_frac=min_frac,
+                    max_frac=max_frac,
+                    duration_scale=duration_scale,
+                )
+                m = evaluate_free_running_latents(
+                    z_pred,
+                    z_gt[b : b + 1, :n_gt],
+                    stop_triggered=bool(info.get("stop_triggered")),
+                    hit_max_frames=bool(info.get("hit_max_frames")),
+                )
+                rows.append(m)
+                ratios.append(m.duration_ratio)
+                dur_preds.append(float(info.get("dur_pred", 0)))
+                n_gts.append(n_gt)
+    if was_training:
+        model.train()
+    stab = aggregate_stability(rows)
+    return {
+        "n": len(rows),
+        "stability": stab,
+        "duration_ratios": ratios,
+        "dur_preds": dur_preds,
+        "n_gts": n_gts,
+        "selection_key": list(fr_selection_key(stab)),
     }
