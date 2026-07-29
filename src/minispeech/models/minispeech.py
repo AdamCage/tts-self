@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Literal
+from typing import Any, Callable, Iterator, Literal
 
 import torch
 import torch.nn as nn
@@ -150,7 +150,7 @@ class MiniSpeech(nn.Module):
         )
 
     @torch.inference_mode()
-    def generate(
+    def iter_generate(
         self,
         text_hidden: torch.Tensor,
         text_mask: torch.Tensor | None = None,
@@ -166,16 +166,8 @@ class MiniSpeech(nn.Module):
         duration_scale: float = 1.04,
         use_kv_cache: bool = True,
         duration_stop_boost: bool = True,
-    ) -> tuple[torch.Tensor, dict[str, Any]]:
-        """Autoregressive generation. Returns z [1,T,64] normalized.
-
-        Uses incremental Talker KV-cache by default (O(T) vs full-prefix O(T²)).
-        Stop rule: ``stop_consecutive`` frames above ``stop_threshold`` after
-        ``min_frac * dur_pred`` (AGENTS.md triple-stop), capped at
-        ``max_frac * dur_pred``. Optional duration boost after ``dur_pred``
-        raises stop probability so late endings do not always hit max.
-        ``duration_scale`` multiplies the head's frame prediction (infer calibration).
-        """
+    ) -> Iterator[tuple[torch.Tensor, dict[str, Any]]]:
+        """Yield ``(z_t [1,1,64], step_info)`` frames for streaming pipelines."""
         self.eval()
         import time
 
@@ -183,7 +175,7 @@ class MiniSpeech(nn.Module):
         text_memory = self.encode_text(text_hidden)
         if text_memory.device.type == "cuda":
             torch.cuda.synchronize()
-        text_encode_ms = (time.perf_counter() - t_text0) * 1000.0
+        talker_text_ms = (time.perf_counter() - t_text0) * 1000.0
 
         dur = self.dur_head(text_memory, text_mask)
         dur_raw = float(dur.item()) if dur.ndim == 0 or dur.numel() == 1 else float(dur[0].item())
@@ -198,6 +190,7 @@ class MiniSpeech(nn.Module):
         stop_probs: list[float] = []
         past_kvs = None
         first_latent_ms = 0.0
+        first_sampler_ms = 0.0
         t_loop0 = time.perf_counter()
         hit_max = True
 
@@ -230,16 +223,22 @@ class MiniSpeech(nn.Module):
             if self.mode == "regression":
                 assert isinstance(self.head, RegressionHead)
                 z_t = self.head(h_t, z_prev=z_prev_for_head)
+                sampler_ms_t = 0.0
             else:
                 assert isinstance(self.head, FlowHead)
+                t_samp0 = time.perf_counter()
                 z_t = sample_rectified_flow(
                     self.head, h_t, steps=flow_steps, method=sampler, cfg_scale=cfg_scale
                 )
+                if device.type == "cuda":
+                    torch.cuda.synchronize()
+                sampler_ms_t = (time.perf_counter() - t_samp0) * 1000.0
             z_frames.append(z_t)
             if t == 0:
                 if device.type == "cuda":
                     torch.cuda.synchronize()
                 first_latent_ms = (time.perf_counter() - t_loop0) * 1000.0
+                first_sampler_ms = sampler_ms_t
             sp = torch.sigmoid(self.stop_head(h_t))[0, 0].item()
             # After predicted duration, blend toward stop so weak stop heads
             # still terminate before max_frac (reduces runaway without early cuts).
@@ -247,22 +246,94 @@ class MiniSpeech(nn.Module):
                 overshoot = ((t + 1) - dur_frames) / float(max_f - dur_frames)
                 sp = max(sp, stop_threshold + (1.0 - stop_threshold) * min(overshoot, 1.0))
             stop_probs.append(sp)
+            should_stop = False
             if t + 1 >= min_f:
                 if len(stop_probs) >= stop_consecutive and all(
                     p > stop_threshold for p in stop_probs[-stop_consecutive:]
                 ):
                     hit_max = False
-                    break
+                    should_stop = True
+            step_info = {
+                "t": t,
+                "dur_pred": dur_frames,
+                "dur_pred_raw": dur_raw,
+                "duration_scale": float(duration_scale),
+                "stop_prob": sp,
+                "stop_probs": list(stop_probs),
+                "should_stop": should_stop,
+                "hit_max_frames": hit_max and not should_stop and (t + 1) >= max_f,
+                "talker_text_ms": talker_text_ms,
+                # Legacy alias: Talker text projector encode (not Qwen).
+                "text_encode_ms": talker_text_ms,
+                "first_latent_ms": first_latent_ms,
+                "sampler_ms": first_sampler_ms,
+                "n_frames": t + 1,
+            }
+            yield z_t, step_info
+            if should_stop:
+                break
+
+    @torch.inference_mode()
+    def generate(
+        self,
+        text_hidden: torch.Tensor,
+        text_mask: torch.Tensor | None = None,
+        *,
+        max_frames: int | None = None,
+        cfg_scale: float = 1.3,
+        flow_steps: int = 4,
+        sampler: str = "heun",
+        stop_threshold: float = 0.45,
+        stop_consecutive: int = 3,
+        min_frac: float = 0.94,
+        max_frac: float = 1.6,
+        duration_scale: float = 1.04,
+        use_kv_cache: bool = True,
+        duration_stop_boost: bool = True,
+        on_frame: Callable[[int, torch.Tensor, dict[str, Any]], None] | None = None,
+    ) -> tuple[torch.Tensor, dict[str, Any]]:
+        """Autoregressive generation. Returns z [1,T,64] normalized.
+
+        Uses incremental Talker KV-cache by default (O(T) vs full-prefix O(T²)).
+        Stop rule: ``stop_consecutive`` frames above ``stop_threshold`` after
+        ``min_frac * dur_pred`` (AGENTS.md triple-stop), capped at
+        ``max_frac * dur_pred``. Optional duration boost after ``dur_pred``
+        raises stop probability so late endings do not always hit max.
+        ``duration_scale`` multiplies the head's frame prediction (infer calibration).
+        """
+        z_frames: list[torch.Tensor] = []
+        last: dict[str, Any] = {}
+        for z_t, step in self.iter_generate(
+            text_hidden,
+            text_mask,
+            max_frames=max_frames,
+            cfg_scale=cfg_scale,
+            flow_steps=flow_steps,
+            sampler=sampler,
+            stop_threshold=stop_threshold,
+            stop_consecutive=stop_consecutive,
+            min_frac=min_frac,
+            max_frac=max_frac,
+            duration_scale=duration_scale,
+            use_kv_cache=use_kv_cache,
+            duration_stop_boost=duration_stop_boost,
+        ):
+            z_frames.append(z_t)
+            last = step
+            if on_frame is not None:
+                on_frame(step["t"], z_t, step)
 
         z = torch.cat(z_frames, dim=1)
         return z, {
-            "dur_pred": dur_frames,
-            "dur_pred_raw": dur_raw,
-            "duration_scale": float(duration_scale),
-            "stop_probs": stop_probs,
+            "dur_pred": last.get("dur_pred", z.shape[1]),
+            "dur_pred_raw": last.get("dur_pred_raw", float(z.shape[1])),
+            "duration_scale": last.get("duration_scale", float(duration_scale)),
+            "stop_probs": last.get("stop_probs", []),
             "n_frames": z.shape[1],
-            "stop_triggered": not hit_max,
-            "hit_max_frames": hit_max,
-            "text_encode_ms": text_encode_ms,
-            "first_latent_ms": first_latent_ms,
+            "stop_triggered": bool(last.get("should_stop", False)),
+            "hit_max_frames": bool(last.get("hit_max_frames", True)),
+            "talker_text_ms": float(last.get("talker_text_ms", 0.0)),
+            "text_encode_ms": float(last.get("text_encode_ms", 0.0)),
+            "first_latent_ms": float(last.get("first_latent_ms", 0.0)),
+            "sampler_ms": float(last.get("sampler_ms", 0.0)),
         }

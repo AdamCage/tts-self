@@ -50,9 +50,15 @@ Primary: DTW-aligned L1, duration ratio ∈ [0.8, 1.2] on ≥90% val, ASR CER/WE
 
 ## Flow A/B + S4
 
-- Init flow from `runs/v01_regression_direct/best.pt`; `freeze_talker_fraction: 0.05`.
-- Full S4 for **both** heads; final A/B on the frozen test set.
+- Flow A/B on S1–S3: **keep regression** (`docs/phase3_ab.md`). Flow S4 not started.
+- Regression S4 **abandoned** after FR-best `duration_in_band=0.844` FAIL (gate ≥0.90); no restart.
+  Production snap remains S3 calibrated: `runs/v01_regression_direct/best.pt`
+  (= `S3_calibrated_best.pt`; see `docs/phase2_train.md`).
+- Gate (val32, calibrated infer): stop≥0.95, runaway≤0.02, duration_in_band≥0.90.
 
 ## TTFB (Phase 4)
 
-Real marks: `text_encode_ms`, `first_latent_ms`, `first_pcm_ms` (≥40 ms PCM). Report cold and warm start separately.
+Real marks via streaming path (`synthesize_streaming`, chunk_latents=4):
+`qwen_ms` / `text_encode_ms`, `first_latent_ms`, `first_pcm_ms` (≥40 ms PCM), plus
+`talker_ms` / `sampler_ms` / `codec_first_ms`. Report cold and warm start separately
+(`scripts/18_measure_ttfb.py` → `docs/phase4_latency.md`).

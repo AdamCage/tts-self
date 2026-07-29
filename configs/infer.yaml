@@ -1,5 +1,6 @@
 infer:
-  # Winning head after Phase 3 A/B: keep regression (see docs/phase3_ab.md)
+  # Production snap: regression S3 calibrated (S4 abandoned; see docs/phase2_train.md)
+  # best.pt == S3_calibrated_best.pt (restored after S4 overwrite)
   ckpt: runs/v01_regression_direct/best.pt
   codec: microsoft/VibeVoice-AcousticTokenizer
   qwen: Qwen/Qwen3.5-0.8B-Base

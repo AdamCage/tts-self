@@ -70,7 +70,9 @@ Reasons:
 3. DTW is comparable or slightly worse for flow on the same val32.
 4. Flow FR collapse repeats on S2 and S3 — do not promote flow until a duration-aware train recipe (shorter schedule / stronger freeze / dur FT) is proven.
 
-**S4 status: not started** (A/B chose regression; flow S3-subset unstable). Next natural scale-up is **regression S4 only** when ready — not dual-head S4.
+**Flow S4 status: not started** (A/B chose regression; flow S3-subset unstable).
+
+**Regression S4 status: abandoned / FAIL** — FR-best `duration_in_band=0.844` (gate ≥0.90); train died ~6937/34000; **no restart**. Production inference remains S3 calibrated (`runs/v01_regression_direct/best.pt` = `S3_calibrated_best.pt`). Details: [`docs/phase2_train.md`](phase2_train.md) §C4.
 
 Optional follow-ups (non-blocking):
 

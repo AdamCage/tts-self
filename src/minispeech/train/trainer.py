@@ -105,6 +105,21 @@ class Trainer:
             "duration_scale": float(stop_infer.get("duration_scale", 1.04)),
         }
         self._best_fr_key: tuple | None = None
+        # Resume FR-best selection across crash restarts (do not clobber prior best.pt).
+        fr_best_path = self.run_dir / "best_fr_metrics.json"
+        if self.fr_select_best and fr_best_path.is_file():
+            try:
+                prior = json.loads(fr_best_path.read_text(encoding="utf-8"))
+                key = prior.get("selection_key")
+                if isinstance(key, list) and key:
+                    self._best_fr_key = tuple(key)
+                    print(
+                        f"[fr-best] restored prior key from {fr_best_path.name} "
+                        f"step={prior.get('step')} "
+                        f"duration_in_band={prior.get('stability', {}).get('duration_in_band_rate')}"
+                    )
+            except Exception as exc:  # noqa: BLE001 — best-effort resume
+                print(f"[fr-best] could not restore prior key: {exc}")
         write_run_manifest(
             self.run_dir,
             {

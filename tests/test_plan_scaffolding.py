@@ -142,3 +142,52 @@ def test_generate_duration_scale_extends_cap():
     assert info1["dur_pred"] == max(1, int(round(base)))
     assert info2["dur_pred"] == max(1, int(round(base * 1.5)))
     assert z2.shape[1] >= z1.shape[1]
+
+
+def test_measure_ttfb_uses_real_first_pcm():
+    from minispeech.infer.stream import measure_ttfb
+
+    def _gen():
+        audio = np.zeros(int(0.2 * 24000), dtype=np.float32)
+        info = {
+            "text_encode_ms": 12.0,
+            "qwen_ms": 12.0,
+            "first_latent_ms": 40.0,
+            "first_pcm_ms": 55.0,
+            "sampler_ms": 0.0,
+            "codec_first_ms": 15.0,
+            "talker_ms": 28.0,
+            "n_frames": 10,
+            "estimated": False,
+        }
+        return audio, info
+
+    bd = measure_ttfb(_gen, min_pcm_ms=40.0)
+    assert bd.estimated is False
+    assert abs(bd.ttfb_ms - 55.0) < 1e-6
+    assert abs(bd.qwen_ms - 12.0) < 1e-6
+    assert abs(bd.sampler_ms) < 1e-9
+
+
+def test_iter_generate_matches_generate():
+    from minispeech.models.minispeech import MiniSpeech
+
+    torch.manual_seed(0)
+    m = MiniSpeech(mode="regression", residual_head=False)
+    m.eval()
+    th = torch.randn(1, 3, 4, 1024)
+    tm = torch.ones(1, 4, dtype=torch.bool)
+    z_gen, info = m.generate(
+        th, tm, max_frames=5, stop_consecutive=99, min_frac=1.0, max_frac=1.0, use_kv_cache=True
+    )
+    frames = []
+    last = {}
+    for z_t, step in m.iter_generate(
+        th, tm, max_frames=5, stop_consecutive=99, min_frac=1.0, max_frac=1.0, use_kv_cache=True
+    ):
+        frames.append(z_t)
+        last = step
+    z_iter = torch.cat(frames, dim=1)
+    assert z_iter.shape == z_gen.shape
+    assert torch.allclose(z_iter, z_gen, atol=1e-4, rtol=1e-4)
+    assert last["n_frames"] == info["n_frames"]

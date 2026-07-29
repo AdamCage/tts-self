@@ -4,9 +4,10 @@ Date: 2026-07-29
 Git (stop fix): `df36687` · `min_frac0.8`: `502b239` · preload/save: `f1e66d7` · phase2 docs: `60e812c`  
 Config: `configs/talker_v01_direct.yaml` (direct head, `acoustic_dropout: 0.40`)  
 Data: `configs/data_ruslan_local.yaml` — QC `exclude` filtered  
-Best ckpt: `runs/v01_regression_direct/best.pt` (WSL; S3 dur-ft)  
-Infer stop (calibrated): `min_frac=0.94`, `duration_scale=1.04` (`configs/infer.yaml`)  
-Also kept: `S2b_last.pt`, `S3_last.pt`
+Best ckpt: `runs/v01_regression_direct/best.pt` (WSL; = `S3_calibrated_best.pt`)  
+Infer stop (calibrated): `min_frac=0.94`, `duration_scale=1.04`, `threshold=0.45` (`configs/infer.yaml`)  
+Also kept: `S2b_last.pt`, `S3_last.pt`, `S3_calibrated_best.pt`  
+**S4 abandoned** (see below) — do not promote `S4_*` over S3.
 
 ## Root cause — S2 stop FAIL (0.844 / runaway 0.156)
 
@@ -79,6 +80,24 @@ Runs:
 
 Eval artifact: `runs/v01_regression_direct/eval_free_running_S3_calibrated.json`.
 
+## C4 — S4 — **ABANDONED / FAIL** (no restart)
+
+Regression full-corpus S4 was started from S3, then stopped:
+
+| Item | Value |
+|------|-------|
+| Run | `S4b` / `S4_*` under `runs/v01_regression_direct/` |
+| Progress | died ~6937 / 34000 steps (no clean finish) |
+| FR-best | step 3000 → `duration_in_band=0.84375` (**FAIL** vs ≥0.90) |
+| stop / runaway | 1.0 / 0.0 (green; duration gate failed) |
+| Side effect | briefly overwrote `best.pt` with S4 FR-best |
+
+**Action taken:** restored production snap from `S3_calibrated_best.pt` → `best.pt`.  
+Artifacts retained for forensics only: `S4_fr_best_step3000.pt`, `S4_last.pt`.  
+**Do not restart S4** for MVP; S3 calibrated remains the inference / demo checkpoint.
+
+Calibrated S3 gate (val32): stop **1.0**, runaway **0**, duration_in_band **0.906** — artifact `eval_free_running_S3_calibrated.json`.
+
 ## Flow (Workstream D) — **A/B DONE → keep regression**
 
 Unblocked after duration_in_band ≥0.90 on val32 with stop green. Full writeup: [`docs/phase3_ab.md`](phase3_ab.md).
@@ -86,12 +105,17 @@ Unblocked after duration_in_band ≥0.90 on val32 with stop green. Full writeup:
 - Config: `configs/flow_v02.yaml`
 - S1/S2 done; S3 started then stopped (~23%) after repeating FR collapse (`0.75→0.625`)
 - Best flow FR so far: **duration_in_band ≤0.781** vs regression **0.906**
-- CFG {1.0,1.3,1.6} does not close the gap; **S4 not started**
-- **Recommendation: keep regression**; do not promote flow / dual S4 yet
+- CFG {1.0,1.3,1.6} does not close the gap; **flow S4 not started**
+- **Recommendation: keep regression**; do not promote flow / dual S4
+- Regression S4 also abandoned (above) — MVP ladder stops at S3 production snap
 
 ## Demo phrases
 
-Winning head = regression. Calibrated demos in `out/demo_phrases/` (Windows mirror: `C:\projects\tts-self\out\demo_phrases\`). Listen A/B: `out/listen_ab_flow/`.
+Winning head = regression S3 calibrated. Demos in `out/demo_phrases/` (Windows mirror: `C:\projects\tts-self\out\demo_phrases\`). Listen A/B: `out/listen_ab_flow/`.
+
+## Phase 4 streaming TTFB
+
+Completed on S3 production snap — see [`docs/phase4_latency.md`](phase4_latency.md) (warm TTFB ~132 ms, RTF ~0.086, `chunk_latents=4`).
 
 ### Commands (WSL)
 

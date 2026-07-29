@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import time
 from pathlib import Path
 from typing import Any, Iterator
 
@@ -13,6 +14,7 @@ from minispeech.codec.wrapper import VibeVoiceCodec
 from minispeech.constants import SR
 from minispeech.frontend.normalize import normalize_text
 from minispeech.frontend.stress import accentuate
+from minispeech.infer.stream import fill_stream_timing
 from minispeech.models.minispeech import MiniSpeech
 from minispeech.utils import expand
 
@@ -94,11 +96,36 @@ def synthesize(
     flow_steps: int = 4,
     use_stress: bool = True,
     stop: dict[str, Any] | None = None,
+    stream: bool = False,
+    chunk_latents: int = 4,
+    min_pcm_ms: float = 40.0,
 ) -> tuple[np.ndarray, dict[str, Any]]:
+    """Synthesize audio. Prefer ``stream=True`` for real TTFB marks."""
+    if stream:
+        return synthesize_streaming(
+            text,
+            model,
+            codec,
+            normalizer,
+            tokenizer,
+            text_model,
+            cfg_scale=cfg_scale,
+            flow_steps=flow_steps,
+            use_stress=use_stress,
+            stop=stop,
+            chunk_latents=chunk_latents,
+            min_pcm_ms=min_pcm_ms,
+        )
     text_n = normalize_text(text)
     text_s = accentuate(text_n) if use_stress else text_n
+    # TTFB clock starts after text normalization / stress (protocol).
+    t_start = time.perf_counter()
     model_dtype = next(model.parameters()).dtype
-    th, mask = cache_text_hidden_online([text_s], tokenizer, text_model, device=next(model.parameters()).device)
+    device = next(model.parameters()).device
+    th, mask = cache_text_hidden_online([text_s], tokenizer, text_model, device=device)
+    if device.type == "cuda":
+        torch.cuda.synchronize()
+    t_qwen = time.perf_counter()
     th = th.to(dtype=model_dtype)
     stop_cfg = stop or {}
     z_norm, info = model.generate(
@@ -114,7 +141,143 @@ def synthesize(
     )
     z = normalizer.denormalize(z_norm)
     audio = codec.decode(z).audio.squeeze().float().cpu().numpy()
+    if device.type == "cuda":
+        torch.cuda.synchronize()
+    t_end = time.perf_counter()
     info["text_stressed"] = text_s
+    info["qwen_ms"] = (t_qwen - t_start) * 1000.0
+    # Non-streaming path: first_pcm is end of full decode (not a streaming TTFB).
+    fill_stream_timing(info, t_start=t_start, t_text_done=t_qwen, t_first_pcm=t_end)
+    info["estimated"] = True
+    return audio, info
+
+
+@torch.inference_mode()
+def synthesize_streaming(
+    text: str,
+    model: MiniSpeech,
+    codec: VibeVoiceCodec,
+    normalizer: LatentNormalizer,
+    tokenizer,
+    text_model,
+    *,
+    cfg_scale: float = 1.3,
+    flow_steps: int = 4,
+    use_stress: bool = True,
+    stop: dict[str, Any] | None = None,
+    chunk_latents: int = 4,
+    min_pcm_ms: float = 40.0,
+) -> tuple[np.ndarray, dict[str, Any]]:
+    """Interleaved AR + cached causal decode; stamps real ``first_pcm_ms`` (≥ min_pcm_ms)."""
+    text_n = normalize_text(text)
+    text_s = accentuate(text_n) if use_stress else text_n
+    t_start = time.perf_counter()
+    model_dtype = next(model.parameters()).dtype
+    device = next(model.parameters()).device
+    th, mask = cache_text_hidden_online([text_s], tokenizer, text_model, device=device)
+    if device.type == "cuda":
+        torch.cuda.synchronize()
+    t_qwen = time.perf_counter()
+    th = th.to(dtype=model_dtype)
+    stop_cfg = stop or {}
+
+    chunk = max(1, int(chunk_latents))
+    min_samples = max(1, int(round(min_pcm_ms / 1000.0 * SR)))
+    pending: list[torch.Tensor] = []
+    pcm_chunks: list[np.ndarray] = []
+    pcm_samples = 0
+    cache = None
+    t_first_latent: float | None = None
+    t_first_pcm: float | None = None
+    t_codec0: float | None = None
+    codec_first_ms = 0.0
+    last: dict[str, Any] = {}
+
+    for z_t, step in model.iter_generate(
+        th,
+        mask,
+        cfg_scale=cfg_scale,
+        flow_steps=flow_steps,
+        stop_threshold=float(stop_cfg.get("threshold", 0.45)),
+        stop_consecutive=int(stop_cfg.get("consecutive", 3)),
+        min_frac=float(stop_cfg.get("min_frac", 0.94)),
+        max_frac=float(stop_cfg.get("max_frac", 1.6)),
+        duration_scale=float(stop_cfg.get("duration_scale", 1.04)),
+    ):
+        last = step
+        if t_first_latent is None and step.get("first_latent_ms", 0) > 0:
+            t_first_latent = time.perf_counter()
+        pending.append(z_t)
+        flush = step.get("should_stop", False) or len(pending) >= chunk
+        if not flush:
+            continue
+        piece_norm = torch.cat(pending, dim=1)
+        pending.clear()
+        piece = normalizer.denormalize(piece_norm)
+        if t_codec0 is None:
+            t_codec0 = time.perf_counter()
+        out = codec.decode(piece, use_cache=True, padding_cache=cache)
+        cache = out.padding_cache
+        wav = out.audio.squeeze().float().cpu().numpy()
+        pcm_chunks.append(wav)
+        pcm_samples += int(wav.shape[0])
+        if t_first_pcm is None and pcm_samples >= min_samples:
+            if device.type == "cuda":
+                torch.cuda.synchronize()
+            t_first_pcm = time.perf_counter()
+            if t_codec0 is not None:
+                codec_first_ms = (t_first_pcm - t_codec0) * 1000.0
+
+    if pending:
+        piece_norm = torch.cat(pending, dim=1)
+        piece = normalizer.denormalize(piece_norm)
+        if t_codec0 is None:
+            t_codec0 = time.perf_counter()
+        out = codec.decode(piece, use_cache=True, padding_cache=cache)
+        wav = out.audio.squeeze().float().cpu().numpy()
+        pcm_chunks.append(wav)
+        pcm_samples += int(wav.shape[0])
+        if t_first_pcm is None and pcm_samples >= min_samples:
+            if device.type == "cuda":
+                torch.cuda.synchronize()
+            t_first_pcm = time.perf_counter()
+            if t_codec0 is not None:
+                codec_first_ms = (t_first_pcm - t_codec0) * 1000.0
+
+    if not pcm_chunks:
+        audio = np.zeros(0, dtype=np.float32)
+    else:
+        audio = np.concatenate(pcm_chunks, axis=0)
+
+    info = {
+        "dur_pred": last.get("dur_pred", 0),
+        "dur_pred_raw": last.get("dur_pred_raw", 0.0),
+        "duration_scale": last.get("duration_scale", 1.0),
+        "stop_probs": last.get("stop_probs", []),
+        "n_frames": int(last.get("n_frames", 0)),
+        "stop_triggered": bool(last.get("should_stop", False)),
+        "hit_max_frames": bool(last.get("hit_max_frames", False)),
+        "talker_text_ms": float(last.get("talker_text_ms", 0.0)),
+        "first_latent_ms_talker": float(last.get("first_latent_ms", 0.0)),
+        "sampler_ms": float(last.get("sampler_ms", 0.0)),
+        "codec_first_ms": codec_first_ms,
+        "chunk_latents": chunk,
+        "min_pcm_ms": float(min_pcm_ms),
+        "text_stressed": text_s,
+        "qwen_ms": (t_qwen - t_start) * 1000.0,
+        "estimated": False,
+        "stream": True,
+    }
+    fill_stream_timing(
+        info,
+        t_start=t_start,
+        t_text_done=t_qwen,
+        t_first_latent=t_first_latent,
+        t_first_pcm=t_first_pcm,
+    )
+    # Protocol text_encode_ms = Qwen (post-normalization), not Talker projector.
+    info["text_encode_ms"] = info["qwen_ms"]
+    info["talker_ms"] = float(info.get("first_latent_ms", 0.0)) - float(info["qwen_ms"])
     return audio, info
 
 
