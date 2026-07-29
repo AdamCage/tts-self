@@ -1,5 +1,6 @@
 infer:
-  ckpt: runs/v02_flow/best.pt
+  # Winning head after Phase 3 A/B: keep regression (see docs/phase3_ab.md)
+  ckpt: runs/v01_regression_direct/best.pt
   codec: microsoft/VibeVoice-AcousticTokenizer
   qwen: Qwen/Qwen3.5-0.8B-Base
   stats: ~/datasets/tts/ruslan/stats.safetensors

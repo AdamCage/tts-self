@@ -79,19 +79,19 @@ Runs:
 
 Eval artifact: `runs/v01_regression_direct/eval_free_running_S3_calibrated.json`.
 
-## Flow (Workstream D) — **STARTED**
+## Flow (Workstream D) — **A/B DONE → keep regression**
 
-Unblocked after duration_in_band ≥0.90 on val32 with stop green.
+Unblocked after duration_in_band ≥0.90 on val32 with stop green. Full writeup: [`docs/phase3_ab.md`](phase3_ab.md).
 
 - Config: `configs/flow_v02.yaml`
-- Init: partial load from `runs/v01_regression_direct/best.pt` (`freeze_talker_fraction: 0.05`)
-- Infer stop inherits calibrated `min_frac` / `duration_scale`
-- FR checkpointing enabled for flow runs
-- S1 started under `runs/v02_flow/` (`console_S1.log`)
+- S1/S2 completed under `runs/v02_flow/`; S3 (5 h) may still be training
+- Best flow FR so far: **duration_in_band ≤0.781** (S2@1k) vs regression **0.906**
+- Flow mid-run FR collapse on S2 (→0.062); CFG {1.0,1.3,1.6} does not close the gap
+- **Recommendation: keep regression**; do not promote flow / dual S4 yet
 
 ## Demo phrases
 
-Regenerated with calibrated stop into `out/demo_phrases/` (Windows mirror: `C:\projects\tts-self\out\demo_phrases\`).
+Winning head = regression. Calibrated demos in `out/demo_phrases/` (Windows mirror: `C:\projects\tts-self\out\demo_phrases\`). Listen A/B: `out/listen_ab_flow/`.
 
 ### Commands (WSL)
 

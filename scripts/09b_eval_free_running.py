@@ -75,18 +75,26 @@ def main() -> int:
                     batch["z_target"] = norm.normalize(batch["z_target"])
                 yield batch
 
-    # TF L1 diagnostic (scale-independent)
+    infer_root = load_yaml(args.infer).get("infer", {})
+    cfg_scale = float(infer_root.get("cfg_scale", 1.3))
+    flow_steps = int(infer_root.get("flow_steps", 4))
+    sampler = str(infer_root.get("sampler", "heun"))
+
+    # TF L1 diagnostic (regression only; flow forward has no z_pred)
     tf_l1s: list[float] = []
-    for batch in NormLoader():
-        th = batch["text_hidden"].to(device)
-        tm = batch["text_mask"].to(device)
-        z_gt_n = batch["z_target"].to(device)
-        z_in = torch.zeros_like(z_gt_n)
-        z_in[:, 1:] = z_gt_n[:, :-1]
-        with torch.no_grad():
-            out = model(z_in, th, frame_mask=batch["frame_mask"].to(device), text_mask=tm, z_target=z_gt_n)
-            tf_l1s.append(float(masked_l1(out.z_pred, z_gt_n, batch["frame_mask"].to(device)).item()))
-    tf_mean = sum(tf_l1s) / max(len(tf_l1s), 1)
+    if getattr(model, "mode", "regression") == "regression":
+        for batch in NormLoader():
+            th = batch["text_hidden"].to(device)
+            tm = batch["text_mask"].to(device)
+            z_gt_n = batch["z_target"].to(device)
+            z_in = torch.zeros_like(z_gt_n)
+            z_in[:, 1:] = z_gt_n[:, :-1]
+            with torch.no_grad():
+                out = model(z_in, th, frame_mask=batch["frame_mask"].to(device), text_mask=tm, z_target=z_gt_n)
+                if out.z_pred is None:
+                    continue
+                tf_l1s.append(float(masked_l1(out.z_pred, z_gt_n, batch["frame_mask"].to(device)).item()))
+    tf_mean = sum(tf_l1s) / max(len(tf_l1s), 1) if tf_l1s else float("nan")
 
     scales = _parse_scales(args.sweep_duration_scale, float(stop_cfg.get("duration_scale", 1.0)))
     sweep_rows = []
@@ -105,15 +113,16 @@ def main() -> int:
             tm = batch["text_mask"].to(device)
             z_gt_n = batch["z_target"].to(device)
             n_gt = int(batch["frame_mask"].sum().item())
-            z_pred, info = model.generate(
-                th,
-                tm,
-                stop_threshold=float(stop_cfg.get("threshold", 0.45)),
-                stop_consecutive=int(stop_cfg.get("consecutive", 3)),
-                min_frac=float(stop_cfg.get("min_frac", 0.94)),
-                max_frac=float(stop_cfg.get("max_frac", 1.6)),
-                duration_scale=float(scale),
-            )
+            gen_kwargs: dict = {
+                "stop_threshold": float(stop_cfg.get("threshold", 0.45)),
+                "stop_consecutive": int(stop_cfg.get("consecutive", 3)),
+                "min_frac": float(stop_cfg.get("min_frac", 0.94)),
+                "max_frac": float(stop_cfg.get("max_frac", 1.6)),
+                "duration_scale": float(scale),
+            }
+            if getattr(model, "mode", "regression") == "flow":
+                gen_kwargs.update(cfg_scale=cfg_scale, flow_steps=flow_steps, sampler=sampler)
+            z_pred, info = model.generate(th, tm, **gen_kwargs)
             m = evaluate_free_running_latents(
                 z_pred,
                 z_gt_n[:, :n_gt],
@@ -127,12 +136,19 @@ def main() -> int:
             n_gts.append(n_gt)
 
         stab = aggregate_stability(rows)
+        dtw_over_tf = None
+        if tf_l1s and tf_mean == tf_mean:  # not NaN
+            dtw_over_tf = stab.get("mean_dtw_l1", 0.0) / max(tf_mean, 1e-8)
         report = {
             "n": len(rows),
             "split": args.split,
+            "mode": getattr(model, "mode", "regression"),
+            "cfg_scale": cfg_scale if getattr(model, "mode", "") == "flow" else None,
+            "flow_steps": flow_steps if getattr(model, "mode", "") == "flow" else None,
+            "sampler": sampler if getattr(model, "mode", "") == "flow" else None,
             "stop_cfg": {**stop_cfg, "duration_scale": float(scale)},
             "tf_l1_mean": tf_mean,
-            "dtw_over_tf": stab.get("mean_dtw_l1", 0.0) / max(tf_mean, 1e-8),
+            "dtw_over_tf": dtw_over_tf,
             "stability": stab,
             "bucket_mean_dtw": {k: sum(v) / len(v) for k, v in sorted(bucket_dtw.items())},
             "duration_ratios": ratios,
