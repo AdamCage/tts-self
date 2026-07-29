@@ -125,12 +125,25 @@ class Trainer:
     def _noise_sigma(self, step: int, total: int) -> float:
         return self.input_noise_max * min(1.0, step / max(total * 0.5, 1))
 
+    def _save_ckpt(self, stage: str, step: int | None = None) -> None:
+        ckpt = {
+            "model": self.model.state_dict(),
+            "ema": self.ema.state_dict(),
+            "cfg": self.cfg,
+            "stage": stage,
+            "step": step,
+        }
+        # Overwrite rolling last/best only (avoid N×165MB step dumps).
+        torch.save(ckpt, self.run_dir / f"{stage}_last.pt")
+        torch.save(ckpt, self.run_dir / "best.pt")
+
     def train_steps(self, steps: int, stage: str = "S1") -> dict[str, float]:
         self.model.train()
         it = iter(self.train_loader)
         pbar = tqdm(range(steps), desc=f"train-{stage}")
         last: dict[str, float] = {}
         freeze_steps = self._freeze_steps(steps)
+        save_every = int(self.cfg.get("train", {}).get("save_every", 0) or 0)
         for step in pbar:
             self._set_talker_frozen(step < freeze_steps)
             try:
@@ -222,16 +235,11 @@ class Trainer:
                 pbar.set_postfix(loss=f"{last['total']:.4f}")
                 with open(self.run_dir / "train_log.jsonl", "a", encoding="utf-8") as f:
                     f.write(json.dumps({"step": step, "stage": stage, **last}) + "\n")
+            if save_every > 0 and step > 0 and (step + 1) % save_every == 0:
+                self._save_ckpt(stage, step=step + 1)
 
         self._set_talker_frozen(False)
-        ckpt = {
-            "model": self.model.state_dict(),
-            "ema": self.ema.state_dict(),
-            "cfg": self.cfg,
-            "stage": stage,
-        }
-        torch.save(ckpt, self.run_dir / f"{stage}_last.pt")
-        torch.save(ckpt, self.run_dir / "best.pt")
+        self._save_ckpt(stage, step=steps)
         return last
 
 

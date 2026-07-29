@@ -60,7 +60,9 @@ train:
       # full corpus — only after head decision (Workstream D)
       steps: 40000
   data:
-    preload: true   # set false for S4 full corpus (~6GB text_hidden)
+    # Preload caches only the stage subset (not full shard index).
+    # Keep true through S3; set false only if host RAM is tight.
+    preload: true
   batch:
     mode: auto
     candidates: [8, 16, 32, 64]

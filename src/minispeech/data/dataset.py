@@ -46,8 +46,14 @@ class MiniSpeechDataset(Dataset):
         self.latents = ShardReader(latent_dir, "latents")
         self.text_h = ShardReader(text_hidden_dir, "text_hidden")
         self.align = ShardReader(align_dir, "align") if align_dir else None
-        self._lat_cache = self.latents.preload_all() if preload else None
-        self._txt_cache = self.text_h.preload_all() if preload else None
+        # Preload only this split/subset — never the full shard index (S3/S4 OOM).
+        if preload:
+            ids = [u.utt_id for u in self.rows]
+            self._lat_cache = {i: self.latents.get(i) for i in ids}
+            self._txt_cache = {i: self.text_h.get(i) for i in ids}
+        else:
+            self._lat_cache = None
+            self._txt_cache = None
 
     def __len__(self) -> int:
         return len(self.rows)
