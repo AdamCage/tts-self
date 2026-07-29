@@ -15,7 +15,7 @@ Artifact: `runs/v01_regression_direct/ttfb_phase4.json`
 | Stream | cached causal decode, `chunk_latents=4`, `min_pcm_ms=40` |
 | Gate proof | val32 `duration_in_band=0.906`, stop=1.0 (`eval_free_running_S3_calibrated.json`) |
 
-S4 abandoned (FR-best in_band=0.844 FAIL) — see [`phase2_train.md`](phase2_train.md) §C4. No S4 restart; no Flow for latency.
+S4 FR-best fails duration gate (in_band=0.844) — see [`phase2_train.md`](phase2_train.md) §C4. Latency measured on S3 production snap; no Flow.
 
 ## Method
 
@@ -88,6 +88,6 @@ python scripts/17_demo_phrases.py \
 | S1 text-usage | PASS |
 | S2 / S2b stop | PASS |
 | S3 + calibrated infer | **PASS** — **production snap** |
-| S4 full corpus | **CANCELLED / FAIL** (in_band 0.844; no restart) |
+| S4 full corpus | **FAIL gate** (FR-best in_band 0.844; MVP stays on S3) |
 | Flow A/B | Done → keep regression |
 | Phase 4 streaming TTFB | **DONE** (this doc) |

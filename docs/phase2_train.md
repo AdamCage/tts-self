@@ -80,23 +80,24 @@ Runs:
 
 Eval artifact: `runs/v01_regression_direct/eval_free_running_S3_calibrated.json`.
 
-## C4 — S4 — **ABANDONED / FAIL** (no restart)
+## C4 — S4 — **FAIL gate** (MVP keeps S3)
 
-Regression full-corpus S4 was started from S3, then stopped:
+Regression full-corpus S4 started from S3 calibrated; WSL host restarts killed the job twice near ~6.9k continue-steps (host thrash → it/s collapse → reboot).
 
 | Item | Value |
 |------|-------|
-| Run | `S4b` / `S4_*` under `runs/v01_regression_direct/` |
-| Progress | died ~6937 / 34000 steps (no clean finish) |
-| FR-best | step 3000 → `duration_in_band=0.84375` (**FAIL** vs ≥0.90) |
-| stop / runaway | 1.0 / 0.0 (green; duration gate failed) |
+| Consoles | `console_S4.log`, `console_S4b.log`, `console_S4c.log` |
+| Effective progress | ~6k (first) + ~6.9k (S4b) before kills; S4c resume +27k optional in background |
+| FR-best (re-eval) | step 3000 → `duration_in_band=0.84375` (**FAIL** vs ≥0.90) — `eval_free_running_S4_frbest.json` |
+| stop / runaway / nan | 1.0 / 0.0 / 0 (green; duration gate failed) |
 | Side effect | briefly overwrote `best.pt` with S4 FR-best |
 
 **Action taken:** restored production snap from `S3_calibrated_best.pt` → `best.pt`.  
-Artifacts retained for forensics only: `S4_fr_best_step3000.pt`, `S4_last.pt`.  
-**Do not restart S4** for MVP; S3 calibrated remains the inference / demo checkpoint.
+Kept forensics: `S4_fr_best_step3000.pt`, `S4_last.pt`, `best_fr_metrics.json`.  
+Trainer now restores FR selection key from `best_fr_metrics.json` across crash restarts.
 
-Calibrated S3 gate (val32): stop **1.0**, runaway **0**, duration_in_band **0.906** — artifact `eval_free_running_S3_calibrated.json`.
+S3 recheck (val32, calibrated): stop **1.0**, runaway **0**, duration_in_band **0.906** — `eval_free_running_S3_recheck.json`.  
+**MVP inference / demos / TTFB use S3.** S4c may keep training overnight; do not promote unless in_band ≥0.90.
 
 ## Flow (Workstream D) — **A/B DONE → keep regression**
 
@@ -107,7 +108,7 @@ Unblocked after duration_in_band ≥0.90 on val32 with stop green. Full writeup:
 - Best flow FR so far: **duration_in_band ≤0.781** vs regression **0.906**
 - CFG {1.0,1.3,1.6} does not close the gap; **flow S4 not started**
 - **Recommendation: keep regression**; do not promote flow / dual S4
-- Regression S4 also abandoned (above) — MVP ladder stops at S3 production snap
+- Regression S4 FAIL gate (above) — MVP ladder production snap remains S3 calibrated
 
 ## Demo phrases
 
