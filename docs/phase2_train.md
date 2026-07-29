@@ -82,22 +82,31 @@ Eval artifact: `runs/v01_regression_direct/eval_free_running_S3_calibrated.json`
 
 ## C4 — S4 — **FAIL gate** (MVP keeps S3)
 
-Regression full-corpus S4 started from S3 calibrated; WSL host restarts killed the job twice near ~6.9k continue-steps (host thrash → it/s collapse → reboot).
+Regression full-corpus S4 started from S3 calibrated; WSL host thrash killed the job three times near ~6.9k continue-steps (it/s collapse 1.1s→70s+ then process death).
 
 | Item | Value |
 |------|-------|
 | Consoles | `console_S4.log`, `console_S4b.log`, `console_S4c.log` |
-| Effective progress | ~6k (first) + ~6.9k (S4b) before kills; S4c resume +27k optional in background |
-| FR-best (re-eval) | step 3000 → `duration_in_band=0.84375` (**FAIL** vs ≥0.90) — `eval_free_running_S4_frbest.json` |
+| Effective progress | ~6k (S4) + ~6.9k (S4b) + ~6.9k/27k (S4c) before thrash death |
+| FR-best (calibrated re-eval) | step 3000 → `duration_in_band=0.84375` (**FAIL** vs ≥0.90) — `eval_free_running_S4c_frbest.json` |
+| S4c mid-run FR | never beat prior FR key (peak tie 0.84375 @ step 5000; others 0.8125) |
 | stop / runaway / nan | 1.0 / 0.0 / 0 (green; duration gate failed) |
-| Side effect | briefly overwrote `best.pt` with S4 FR-best |
+| Side effect | briefly overwrote `best.pt` with S4 FR-best (restored) |
 
-**Action taken:** restored production snap from `S3_calibrated_best.pt` → `best.pt`.  
+**S4c closeout (optional resume):** `--steps 27000 --init-from S4_last.pt`; dead at ~6930 after host thrash. No promote.
+
+| Gate (val32, calibrated) | S4 FR-best | S3 production | Need |
+|--------------------------|------------|---------------|------|
+| duration_in_band | **0.844** | **0.906** | ≥0.90 |
+| stop_success | 1.0 | 1.0 | ≥0.95 |
+| runaway | 0.0 | 0.0 | ≤0.02 |
+
+**Action taken:** production snap remains `S3_calibrated_best.pt` → `best.pt` (md5 match).  
 Kept forensics: `S4_fr_best_step3000.pt`, `S4_last.pt`, `best_fr_metrics.json`.  
-Trainer now restores FR selection key from `best_fr_metrics.json` across crash restarts.
+Trainer restores FR selection key from `best_fr_metrics.json` across crash restarts.
 
-S3 recheck (val32, calibrated): stop **1.0**, runaway **0**, duration_in_band **0.906** — `eval_free_running_S3_recheck.json`.  
-**MVP inference / demos / TTFB use S3.** S4c may keep training overnight; do not promote unless in_band ≥0.90.
+S3 recheck after S4c (val32, calibrated): stop **1.0**, runaway **0**, duration_in_band **0.906** — `eval_free_running_S3_after_s4c.json`.  
+**MVP inference / demos / TTFB stay on S3.** Do not start Flow ladder / Phase 5 from this FAIL.
 
 ## Flow (Workstream D) — **A/B DONE → keep regression**
 
