@@ -7,7 +7,6 @@ from typing import Any, Iterator
 
 import numpy as np
 import torch
-import torchaudio
 
 from minispeech.codec.stats import LatentNormalizer
 from minispeech.codec.wrapper import VibeVoiceCodec
