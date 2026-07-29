@@ -84,9 +84,9 @@ Eval artifact: `runs/v01_regression_direct/eval_free_running_S3_calibrated.json`
 Unblocked after duration_in_band ≥0.90 on val32 with stop green. Full writeup: [`docs/phase3_ab.md`](phase3_ab.md).
 
 - Config: `configs/flow_v02.yaml`
-- S1/S2 completed under `runs/v02_flow/`; S3 (5 h) may still be training
-- Best flow FR so far: **duration_in_band ≤0.781** (S2@1k) vs regression **0.906**
-- Flow mid-run FR collapse on S2 (→0.062); CFG {1.0,1.3,1.6} does not close the gap
+- S1/S2 done; S3 started then stopped (~23%) after repeating FR collapse (`0.75→0.625`)
+- Best flow FR so far: **duration_in_band ≤0.781** vs regression **0.906**
+- CFG {1.0,1.3,1.6} does not close the gap; **S4 not started**
 - **Recommendation: keep regression**; do not promote flow / dual S4 yet
 
 ## Demo phrases

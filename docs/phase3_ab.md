@@ -20,6 +20,8 @@ Date: 2026-07-29. Runtime: WSL2 + RTX 4080 Super. Git authoring SHA at Flow S1 s
 | Flow S1 best (step 1k) | 1.0 | 0 | 0.656 | 0.801 | 0.885 | stop green; duration short |
 | Flow S2 best (step 1k) | 1.0 | 0 | 0.75–0.781 | 0.88–0.90 | 0.93–0.94 | best mid-run; later collapse |
 | Flow S2 late (step 8k) | 1.0 | 0 | **0.062** | — | — | FR selection kept step-1k best |
+| Flow S3 interim (@1k / @2k) | 1.0 | 0 | **0.75 → 0.625** | ~0.95 | ~0.94 | same early-peak then collapse; stopped ~23% (no path to 0.90) |
+| Flow best.pt re-eval (post-S3 stop) | 1.0 | 0 | 0.781 | 0.979 | — | `eval_free_running_S3_interim.json` |
 
 Artifacts:
 
@@ -55,6 +57,7 @@ ASR CER/WER not re-run in this pass (codec+ASR cost); latent FR gates + listen p
 1. Flow S1 completed 3k steps without crash; FR-best at 1k (`in_band=0.625`), later steps worsened duration while DTW edged down.
 2. Flow S2 (1 h, 8k) improved early FR to **0.781** then **collapsed** (`in_band→0.062` by 8k). FR-aware `best.pt` correctly retained step 1k — same failure mode class as pre-calibration regression duration drift.
 3. Partial init from regression works (`init_from` talker/stop/dur); flow head trains from scratch under `freeze_talker_fraction=0.05`.
+4. Flow S3 (5 h) started from FR-best; @1k `in_band=0.75`, @2k already **0.625** (kept prior). Stopped at ~23% — no evidence of beating regression’s 0.906. **S4 not started.**
 
 ## Recommendation
 
@@ -65,12 +68,13 @@ Reasons:
 1. Hard duration gate: regression **0.906** vs best flow subset **≤0.781** (CFG sweep does not fix it).
 2. Stop / runaway already matched (both green); flow adds no stability win.
 3. DTW is comparable or slightly worse for flow on the same val32.
-4. Flow mid-run FR collapse on S2 argues against promoting flow before a duration-aware train recipe (shorter schedule, stronger freeze, or dur-focused FT) is proven on ≥5 h.
+4. Flow FR collapse repeats on S2 and S3 — do not promote flow until a duration-aware train recipe (shorter schedule / stronger freeze / dur FT) is proven.
 
-**Do not start full S4 for both heads yet.** Optional next experiments (not blocking demos):
+**S4 status: not started** (A/B chose regression; flow S3-subset unstable). Next natural scale-up is **regression S4 only** when ready — not dual-head S4.
 
-- Flow S3 (5 h) with FR selection only — check whether early peak exceeds 0.85–0.90.
-- Duration-head FT on flow FR-best (mirror regression dur-ft) + re-calibrate `min_frac` / `duration_scale`.
+Optional follow-ups (non-blocking):
+
+- Duration-head FT on flow FR-best + re-calibrate `min_frac` / `duration_scale`.
 - If flow ever clears `duration_in_band≥0.90` with stop green on val32, re-open A/B with ASR + full S4 for both.
 
 ## Demo
