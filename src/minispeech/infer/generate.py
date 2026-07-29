@@ -98,7 +98,9 @@ def synthesize(
 ) -> tuple[np.ndarray, dict[str, Any]]:
     text_n = normalize_text(text)
     text_s = accentuate(text_n) if use_stress else text_n
+    model_dtype = next(model.parameters()).dtype
     th, mask = cache_text_hidden_online([text_s], tokenizer, text_model, device=next(model.parameters()).device)
+    th = th.to(dtype=model_dtype)
     stop_cfg = stop or {}
     z_norm, info = model.generate(
         th,
