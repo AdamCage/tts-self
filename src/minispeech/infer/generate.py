@@ -136,7 +136,7 @@ def stream_decode_latents(
 def save_wav(path: str | Path, audio: np.ndarray, sr: int = SR) -> None:
     path = expand(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    t = torch.from_numpy(np.asarray(audio, dtype=np.float32))
-    if t.ndim == 1:
-        t = t.unsqueeze(0)
-    torchaudio.save(str(path), t, sr)
+    import soundfile as sf
+
+    arr = np.asarray(audio, dtype=np.float32)
+    sf.write(str(path), arr, sr)
