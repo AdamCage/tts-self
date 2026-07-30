@@ -66,6 +66,16 @@ def _load_mel_model(ckpt_path: Path, device: torch.device) -> MelBaseline:
     sd = ckpt.get("ema") or ckpt["model"]
     emb_w = sd.get("emb.weight")
     vocab_size = int(emb_w.shape[0]) if emb_w is not None else int(mcfg.get("vocab_size", 512))
+    # Infer optional heads from config or checkpoint keys (stress/variance models).
+    predict_pitch = bool(mcfg.get("predict_pitch", False)) or any(
+        k.startswith("pitch_head.") for k in sd
+    )
+    predict_energy = bool(mcfg.get("predict_energy", False)) or any(
+        k.startswith("energy_head.") for k in sd
+    )
+    use_postnet = bool(mcfg.get("use_postnet", False)) or any(
+        k.startswith("postnet.") for k in sd
+    )
     model = MelBaseline(
         vocab_size=vocab_size,
         d_model=int(mcfg.get("d_model", 256)),
@@ -78,6 +88,9 @@ def _load_mel_model(ckpt_path: Path, device: torch.device) -> MelBaseline:
         decoder=str(mcfg.get("decoder", "conv")),  # type: ignore[arg-type]
         upsample=str(mcfg.get("upsample", "hard")),  # type: ignore[arg-type]
         predict_duration=bool(mcfg.get("predict_duration", True)),
+        predict_pitch=predict_pitch,
+        predict_energy=predict_energy,
+        use_postnet=use_postnet,
     )
     model.load_state_dict(sd, strict=False)
     model.to(device).eval()
@@ -86,7 +99,12 @@ def _load_mel_model(ckpt_path: Path, device: torch.device) -> MelBaseline:
 
 def _raw_labels(text: str, vocab: PhoneVocab) -> tuple[list[str], dict[str, Any]]:
     if getattr(vocab, "unit", "phone") == "char" or "|" in vocab.stoi:
-        phones, meta = text_to_ctc_char_labels(text, already_stressed=False)
+        from minispeech.constants import STRESS_CHAR
+
+        keep_stress = any(STRESS_CHAR in t for t in vocab.stoi)
+        phones, meta = text_to_ctc_char_labels(
+            text, already_stressed=False, keep_stress=keep_stress
+        )
         return phones, meta
     phones, meta = text_to_phones_for_align(text, already_stressed=False)
     return phones, meta
@@ -101,7 +119,11 @@ def _fill_utt_texts(ts: EvalTestSet, data_cfg: str) -> EvalTestSet:
     items = []
     for it in ts.items:
         row = rows.get(it.utt_id)
-        text = it.text or (row.text_norm or row.text_raw if row else "")
+        text = it.text or (
+            (getattr(row, "text_norm", None) or getattr(row, "text_stressed", None) or row.text_raw)
+            if row
+            else ""
+        )
         items.append(type(it)(utt_id=it.utt_id, text=text, note=it.note, meta=it.meta))
     return EvalTestSet(
         id=ts.id,
@@ -244,8 +266,16 @@ def main() -> int:
     ap.add_argument("--skip-asr", action="store_true")
     ap.add_argument(
         "--optional",
-        default="gigaam_ctc,utmos_v2,nisqa",
+        default="gigaam_ctc,utmos_v2,nisqa,mcd_dtw,f0_rmse",
         help="Comma list of optional metrics (skipped if missing). Empty to disable.",
+    )
+    ap.add_argument(
+        "--copy-synth-topline",
+        action="store_true",
+        help=(
+            "For utt_ids sets with a known corpus wav: also score real audio and "
+            "GT mel→vocoder as toplines alongside free synth."
+        ),
     )
     ap.add_argument("--max-utts", type=int, default=None, help="Cap per set (debug)")
     args = ap.parse_args()
@@ -300,6 +330,15 @@ def main() -> int:
         "sets": {},
     }
 
+    from minispeech.data.mel import MelCacheReader, extract_mel_file, load_wav_mono
+    from minispeech.data.mel import default_mel_dir
+
+    id_to_row = {u.utt_id: u for u in read_manifest(expand(dcfg["manifest"]))}
+    mel_reader: MelCacheReader | None = None
+    mel_dir = expand(default_mel_dir(dcfg))
+    if args.copy_synth_topline and (mel_dir / "mels_index.json").is_file():
+        mel_reader = MelCacheReader(mel_dir, lazy=True, expect_target="mel80")
+
     for set_id, ts in test_sets.items():
         set_dir = wav_root / set_id
         set_dir.mkdir(parents=True, exist_ok=True)
@@ -339,13 +378,24 @@ def main() -> int:
                 wer = float(compute_wer([ref], [hyp]))
             else:
                 ref = hyp = ""
+
+            ref_wav = None
+            corpus_row = id_to_row.get(item.utt_id)
+            if corpus_row is not None and corpus_row.wav:
+                try:
+                    ref_wav, _ = load_wav_mono(corpus_row.wav, target_sr=int(MEL80.sample_rate))
+                except Exception as exc:  # noqa: BLE001
+                    ref_wav = None
+                    meta["ref_wav_error"] = str(exc)
+
             opt = run_optional_metrics(
                 optional_names,
                 hyp_wav=wav,
                 sr=sr if wav is not None else int(MEL80.sample_rate),
+                ref_wav=ref_wav,
                 text=item.text,
             )
-            row = {
+            row: dict[str, Any] = {
                 "utt_id": item.utt_id,
                 "text": item.text,
                 "text_tn": meta.get("text_tn"),
@@ -359,6 +409,55 @@ def main() -> int:
                 "vocoder_backend": meta.get("vocoder_backend"),
                 "optional_metrics": opt,
             }
+
+            if args.copy_synth_topline and corpus_row is not None:
+                topline: dict[str, Any] = {}
+                if ref_wav is not None and engine is not None:
+                    hyp_r = engine.transcribe(ref_wav, sr=int(MEL80.sample_rate)) or ""
+                    ref_n = normalize_verbalized_for_asr(item.text)
+                    hyp_n = normalize_verbalized_for_asr(hyp_r)
+                    topline["real"] = {
+                        "cer": float(compute_cer([ref_n], [hyp_n])),
+                        "wer": float(compute_wer([ref_n], [hyp_n])),
+                        "optional_metrics": run_optional_metrics(
+                            optional_names,
+                            hyp_wav=ref_wav,
+                            sr=int(MEL80.sample_rate),
+                            ref_wav=ref_wav,
+                            text=item.text,
+                        ),
+                    }
+                try:
+                    if mel_reader is not None and item.utt_id in mel_reader.index:
+                        gt_mel = mel_reader.get(item.utt_id).float()
+                    else:
+                        gt_mel = extract_mel_file(corpus_row.wav, target="mel80")
+                    gt_res = mel_to_wav(
+                        gt_mel,
+                        vocoder_ckpt=args.vocoder_ckpt,
+                        prefer=prefer,  # type: ignore[arg-type]
+                        device=device,
+                    )
+                    if gt_res.wav is not None and engine is not None:
+                        hyp_g = engine.transcribe(gt_res.wav, sr=gt_res.sample_rate) or ""
+                        ref_n = normalize_verbalized_for_asr(item.text)
+                        hyp_n = normalize_verbalized_for_asr(hyp_g)
+                        topline["gt_mel_vocoder"] = {
+                            "cer": float(compute_cer([ref_n], [hyp_n])),
+                            "wer": float(compute_wer([ref_n], [hyp_n])),
+                            "vocoder_backend": gt_res.backend,
+                            "optional_metrics": run_optional_metrics(
+                                optional_names,
+                                hyp_wav=gt_res.wav,
+                                sr=gt_res.sample_rate,
+                                ref_wav=ref_wav,
+                                text=item.text,
+                            ),
+                        }
+                except Exception as exc:  # noqa: BLE001
+                    topline["gt_mel_vocoder_error"] = str(exc)
+                row["copy_synth_topline"] = topline
+
             rows.append(row)
             print(
                 f"[{set_id}] {item.utt_id} cer={cer} backend={meta.get('vocoder_backend')}",

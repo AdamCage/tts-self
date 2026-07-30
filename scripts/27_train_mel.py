@@ -21,15 +21,24 @@ def _build_vocab(
     max_utts: int | None,
     *,
     gap_mode: str = "expand_neighbor",
+    keep_stress: bool = False,
 ) -> PhoneVocab:
-    forced = data_cfg.get("forced_path")
-    if forced and expand(forced).is_file():
-        return build_vocab_from_forced(
-            expand(forced), max_utts=max_utts, gap_mode=gap_mode  # type: ignore[arg-type]
-        )
-    # Fallback: scan manifest texts via G2P (grapheme fallback ok)
     from minispeech.data.manifest import filter_split, read_manifest
 
+    forced = data_cfg.get("forced_path")
+    text_by_utt: dict[str, str] | None = None
+    if keep_stress:
+        rows = filter_split(read_manifest(expand(data_cfg["manifest"])), "train")
+        text_by_utt = {u.utt_id: (u.text_stressed or u.text_raw) for u in rows}
+    if forced and expand(forced).is_file():
+        return build_vocab_from_forced(
+            expand(forced),
+            max_utts=max_utts,
+            gap_mode=gap_mode,  # type: ignore[arg-type]
+            keep_stress=keep_stress,
+            text_by_utt=text_by_utt,
+        )
+    # Fallback: scan manifest texts via G2P (grapheme fallback ok)
     rows = filter_split(read_manifest(expand(data_cfg["manifest"])), "train")
     if max_utts is not None:
         rows = rows[:max_utts]
@@ -60,8 +69,8 @@ def main() -> int:
     ap.add_argument(
         "--gap-mode",
         default=None,
-        choices=["expand_neighbor", "sil_fill"],
-        help="CTC gap packing (default: config train.data.gap_mode or expand_neighbor)",
+        choices=["expand_neighbor", "sil_fill", "none", "raw"],
+        help="CTC gap packing (none/raw = leave blank gaps; paper2 ablation)",
     )
     ap.add_argument(
         "--init-ckpt",
@@ -89,17 +98,26 @@ def main() -> int:
         or "expand_neighbor"
     )
     cfg.setdefault("train", {}).setdefault("data", {})["gap_mode"] = gap_mode
+    mcfg = cfg.get("model", {}).get("mel", {})
+    keep_stress = bool(
+        cfg.get("train", {}).get("data", {}).get("keep_stress", mcfg.get("keep_stress", False))
+    )
+    cfg.setdefault("train", {}).setdefault("data", {})["keep_stress"] = keep_stress
 
     # Vocab from forced.json should cover the hour-cut; ignore max_utterances-only stages.
     vocab_cap = stages[0].get("max_utterances")
-    vocab = _build_vocab(data_cfg, vocab_cap, gap_mode=gap_mode)
+    vocab = _build_vocab(
+        data_cfg, vocab_cap, gap_mode=gap_mode, keep_stress=keep_stress
+    )
     vocab_path = expand(args.vocab_out or Path(cfg["train"]["run_dir"]) / "phone_vocab.json")
     vocab_path.parent.mkdir(parents=True, exist_ok=True)
     vocab.save(vocab_path)
     has_sil = "sil" in vocab.stoi
-    print(f"vocab_size={len(vocab)} gap_mode={gap_mode} sil_in_vocab={has_sil} saved={vocab_path}")
+    print(
+        f"vocab_size={len(vocab)} gap_mode={gap_mode} keep_stress={keep_stress} "
+        f"sil_in_vocab={has_sil} saved={vocab_path}"
+    )
 
-    mcfg = cfg.get("model", {}).get("mel", {})
     model = MelBaseline(
         vocab_size=max(len(vocab), int(mcfg.get("vocab_size", 512))),
         d_model=int(mcfg.get("d_model", 256)),
@@ -112,6 +130,9 @@ def main() -> int:
         decoder=str(mcfg.get("decoder", "conv")),  # type: ignore[arg-type]
         upsample=str(mcfg.get("upsample", "hard")),  # type: ignore[arg-type]
         predict_duration=bool(mcfg.get("predict_duration", True)),
+        predict_pitch=bool(mcfg.get("predict_pitch", False)),
+        predict_energy=bool(mcfg.get("predict_energy", False)),
+        use_postnet=bool(mcfg.get("use_postnet", False)),
         pad_id=vocab.pad_id,
     )
 

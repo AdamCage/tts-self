@@ -418,11 +418,36 @@ def ctc_forced_align_available() -> bool:
         return False
 
 
-def mfa_available() -> bool:
-    """True if Montreal Forced Aligner CLI appears on PATH (optional)."""
-    import shutil
+def _mfa_cli() -> list[str] | None:
+    """Return argv prefix to invoke MFA, or None if unavailable.
 
-    return shutil.which("mfa") is not None
+    Prefers ``mfa`` on PATH (e.g. ``~/bin/mfa`` wrapper). Falls back to
+    user-local micromamba env ``mfa`` without requiring sudo.
+    """
+    import os
+    import shutil
+    from pathlib import Path
+
+    which = shutil.which("mfa")
+    if which:
+        return [which]
+    home = Path.home()
+    for candidate in (
+        home / "bin" / "mfa",
+        home / ".local" / "bin" / "mfa",
+    ):
+        if candidate.is_file() and os.access(candidate, os.X_OK):
+            return [str(candidate)]
+    micromamba = shutil.which("micromamba") or str(home / "bin" / "micromamba")
+    if Path(micromamba).is_file():
+        # Existence of env is checked at run time; prefix is still useful.
+        return [micromamba, "run", "-n", "mfa", "mfa"]
+    return None
+
+
+def mfa_available() -> bool:
+    """True if Montreal Forced Aligner CLI appears runnable (optional)."""
+    return _mfa_cli() is not None
 
 
 def mfa_crosscheck_stub(
@@ -431,11 +456,7 @@ def mfa_crosscheck_stub(
     dictionary: str | None = None,
     acoustic_model: str | None = None,
 ) -> dict[str, Any]:
-    """Documented MFA cross-check stub — does **not** require MFA installed.
-
-    Returns a status dict describing how a future WSL MFA run would be invoked.
-    Never downloads models or runs alignment.
-    """
+    """Status dict for MFA (install + CLI presence). Prefer ``build_mfa_corpus_entries``."""
     return {
         "status": "not_run",
         "mfa_on_path": mfa_available(),
@@ -443,9 +464,8 @@ def mfa_crosscheck_stub(
         "dictionary": dictionary,
         "acoustic_model": acoustic_model,
         "reason": (
-            "MFA is an optional cross-check against CTC/uniform packing. "
-            "Install separately in WSL if desired; MiniSpeech does not bundle MFA. "
-            "Primary path remains torchaudio CTC + pack_forced_entry."
+            "Use scripts/26_build_forced_align.py --method mfa --mfa-run "
+            "after installing MFA user-local (micromamba/conda-forge)."
         ),
         "suggested_cli": (
             "mfa align <corpus_dir> <dictionary> <acoustic_model> <output_dir>"
@@ -453,6 +473,274 @@ def mfa_crosscheck_stub(
             else None
         ),
     }
+
+
+def _parse_textgrid_phones(path: Path) -> list[tuple[float, float, str]]:
+    """Minimal TextGrid IntervalTier parser → ``(start, end, label)`` phones.
+
+    Prefers tiers named ``phones`` / ``phone``; falls back to the last interval tier.
+    Skips empty / silence-like labels that MFA marks as ``""`` / ``sil`` / ``sp``.
+    """
+    text = path.read_text(encoding="utf-8", errors="replace")
+    # Detect short-text vs long-text format via presence of 'xmin =' lines.
+    tiers: list[tuple[str, list[tuple[float, float, str]]]] = []
+    name = ""
+    intervals: list[tuple[float, float, str]] = []
+    xmin = xmax = None
+    text_val: str | None = None
+    in_interval = False
+
+    def _flush_interval() -> None:
+        nonlocal xmin, xmax, text_val, in_interval
+        if in_interval and xmin is not None and xmax is not None and text_val is not None:
+            intervals.append((float(xmin), float(xmax), text_val))
+        xmin = xmax = None
+        text_val = None
+        in_interval = False
+
+    for raw in text.splitlines():
+        line = raw.strip()
+        if line.startswith("name =") or line.startswith("name="):
+            _flush_interval()
+            if intervals:
+                tiers.append((name, intervals))
+                intervals = []
+            name = line.split("=", 1)[1].strip().strip('"')
+        elif "intervals [" in line or line.startswith("intervals ["):
+            _flush_interval()
+            in_interval = True
+        elif in_interval and (line.startswith("xmin") or line.startswith("xmin =")):
+            try:
+                xmin = float(line.split("=", 1)[1].strip())
+            except ValueError:
+                pass
+        elif in_interval and (line.startswith("xmax") or line.startswith("xmax =")):
+            try:
+                xmax = float(line.split("=", 1)[1].strip())
+            except ValueError:
+                pass
+        elif in_interval and (line.startswith("text") or line.startswith("text =")):
+            text_val = line.split("=", 1)[1].strip().strip('"')
+    _flush_interval()
+    if intervals:
+        tiers.append((name, intervals))
+
+    if not tiers:
+        return []
+    preferred = None
+    for n, iv in tiers:
+        if n.lower() in ("phones", "phone", "phonemes"):
+            preferred = iv
+            break
+    if preferred is None:
+        preferred = tiers[-1][1]
+    out: list[tuple[float, float, str]] = []
+    for t0, t1, lab in preferred:
+        lab_s = (lab or "").strip()
+        if not lab_s:
+            continue
+        out.append((float(t0), float(t1), lab_s))
+    return out
+
+
+def prepare_mfa_corpus(
+    rows: Iterable[Any],
+    corpus_dir: str | Path,
+    *,
+    max_utts: int | None = None,
+    text_attr: str = "text_stressed",
+) -> dict[str, Any]:
+    """Write MFA lab layout: ``<utt_id>.wav`` symlink/copy + ``<utt_id>.lab`` transcript."""
+    import shutil
+
+    corpus_dir = Path(corpus_dir).expanduser()
+    corpus_dir.mkdir(parents=True, exist_ok=True)
+    n = 0
+    written = 0
+    for i, r in enumerate(rows):
+        if max_utts is not None and i >= max_utts:
+            break
+        n += 1
+        utt_id = str(getattr(r, "utt_id", f"utt_{i}"))
+        text_stressed = getattr(r, text_attr, None) or ""
+        text_raw = getattr(r, "text_raw", "") or ""
+        text = str(text_stressed or text_raw).strip()
+        if not text:
+            continue
+        from minispeech.frontend.stress import strip_stress
+
+        lab = strip_stress(text).replace("\n", " ").strip()
+        wav_src = Path(str(getattr(r, "wav", ""))).expanduser()
+        if not wav_src.is_file():
+            continue
+        dst_wav = corpus_dir / f"{utt_id}.wav"
+        dst_lab = corpus_dir / f"{utt_id}.lab"
+        if not dst_wav.exists():
+            try:
+                dst_wav.symlink_to(wav_src.resolve())
+            except OSError:
+                shutil.copy2(wav_src, dst_wav)
+        dst_lab.write_text(lab + "\n", encoding="utf-8")
+        written += 1
+    return {"corpus_dir": str(corpus_dir), "n_seen": n, "n_written": written}
+
+
+def build_mfa_corpus_entries(
+    rows: Iterable[Any],
+    *,
+    corpus_dir: str | Path,
+    output_dir: str | Path,
+    dictionary: str = "russian_mfa",
+    acoustic_model: str = "russian_mfa",
+    max_utts: int | None = None,
+    run_align: bool = True,
+    text_attr: str = "text_stressed",
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Run MFA (optional) and convert TextGrids into ``forced.json`` phone entries.
+
+    Requires ``mfa`` on PATH. Does not use sudo. Returns ``(forced, stats)``.
+    """
+    import subprocess
+
+    rows_list = list(rows)
+    prep = prepare_mfa_corpus(
+        rows_list, corpus_dir, max_utts=max_utts, text_attr=text_attr
+    )
+    corpus_dir = Path(prep["corpus_dir"])
+    output_dir = Path(output_dir).expanduser()
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    stats: dict[str, Any] = {
+        "method": "mfa",
+        "mfa_on_path": mfa_available(),
+        "dictionary": dictionary,
+        "acoustic_model": acoustic_model,
+        "prepare": prep,
+        "output_dir": str(output_dir),
+    }
+    if run_align:
+        cli = _mfa_cli()
+        if not cli:
+            stats["status"] = "mfa_not_installed"
+            stats["reason"] = (
+                "mfa not on PATH. Install user-local via micromamba: "
+                "micromamba install -c conda-forge montreal-forced-aligner"
+            )
+            return {}, stats
+        import os
+
+        env = os.environ.copy()
+        env.setdefault("MAMBA_ROOT_PREFIX", str(Path.home() / "micromamba"))
+        # Ensure ~/bin wrappers resolve when subprocess PATH is minimal.
+        home_bin = str(Path.home() / "bin")
+        env["PATH"] = home_bin + os.pathsep + env.get("PATH", "")
+        cmd = [
+            *cli,
+            "align",
+            str(corpus_dir),
+            dictionary,
+            acoustic_model,
+            str(output_dir),
+            "--clean",
+            "--overwrite",
+            "--num_jobs",
+            "1",
+            "--single_speaker",
+        ]
+        stats["cli"] = cmd
+        try:
+            # Do not capture stdout/stderr into pipes (can SIGPIPE / OOM on large MFA logs).
+            log_path = output_dir / "mfa_align_console.log"
+            output_dir.mkdir(parents=True, exist_ok=True)
+            with open(log_path, "w", encoding="utf-8") as logf:
+                proc = subprocess.run(
+                    cmd,
+                    check=False,
+                    stdout=logf,
+                    stderr=subprocess.STDOUT,
+                    timeout=7200,
+                    env=env,
+                )
+            stats["log"] = str(log_path)
+            stats["returncode"] = proc.returncode
+            try:
+                stats["log_tail"] = log_path.read_text(encoding="utf-8", errors="replace")[-2000:]
+            except OSError:
+                stats["log_tail"] = ""
+            if proc.returncode != 0:
+                stats["status"] = "mfa_align_failed"
+                return {}, stats
+        except Exception as exc:  # noqa: BLE001
+            stats["status"] = "mfa_align_exception"
+            stats["error"] = str(exc)
+            return {}, stats
+
+    # Index rows by utt_id for duration / words
+    by_id = {str(getattr(r, "utt_id", "")): r for r in rows_list}
+    forced: dict[str, Any] = {}
+    n_ok = 0
+    n_skip = 0
+    coverages: list[float] = []
+    for tg in sorted(output_dir.glob("**/*.TextGrid")):
+        utt_id = tg.stem
+        phones = _parse_textgrid_phones(tg)
+        if not phones:
+            n_skip += 1
+            continue
+        r = by_id.get(utt_id)
+        dur_s = float(getattr(r, "dur_s", 0.0) or 0.0) if r is not None else 0.0
+        if dur_s <= 0:
+            dur_s = phones[-1][1]
+        labels = [p for _, _, p in phones]
+        spans = [(float(a), float(b)) for a, b, _ in phones]
+        covered = sum(max(0.0, b - a) for a, b in spans)
+        cover = covered / max(dur_s, 1e-6)
+        coverages.append(cover)
+        words = split_words(strip_stress_safe(getattr(r, text_attr, None) or getattr(r, "text_raw", "") or ""))
+        if not words:
+            words = ["_"]
+        n_frames = int(getattr(r, "n_frames", 0) or 0) if r is not None else 0
+        if n_frames <= 0:
+            n_frames = max(1, int(round(dur_s * FRAME_RATE)))
+        tw, tl = token_word_ids_from_words(words)
+        forced[utt_id] = pack_forced_entry(
+            words=words,
+            dur_s=dur_s,
+            n_frames=max(n_frames, 1),
+            token_word_ids=tw,
+            token_char_lens=tl,
+            phones=labels,
+            phone_spans_seconds=spans,
+            method="mfa",
+            granularity="phone",
+            extra={
+                "align_unit": "phone",
+                "g2p_backend": "mfa",
+                "mfa_textgrid": str(tg),
+                "cover_ratio_vs_end": cover,
+            },
+        )
+        n_ok += 1
+
+    stats.update(
+        {
+            "status": "ok" if forced else "no_textgrids",
+            "n_ok": n_ok,
+            "n_skip_empty": n_skip,
+            "success_rate": (n_ok / max(prep["n_written"], 1)),
+            "mean_cover_ratio": float(sum(coverages) / len(coverages)) if coverages else None,
+        }
+    )
+    return forced, stats
+
+
+def strip_stress_safe(text: str) -> str:
+    try:
+        from minispeech.frontend.stress import strip_stress
+
+        return strip_stress(text)
+    except Exception:
+        return text.replace("\u0301", "")
 
 
 # Wav2Vec2 feature encoder: 320 samples @ 16 kHz → 20 ms / frame (≈50 Hz).
@@ -525,19 +813,74 @@ def ctc_labels_from_transcript(
     return ids, labels
 
 
-def text_to_ctc_char_labels(text: str, *, already_stressed: bool = False) -> tuple[list[str], dict[str, Any]]:
+def _filter_ctc_chars_keep_stress(stressed: str) -> list[str]:
+    """Same keep/collapse rules as ``transcript_for_ctc`` text_ctc, preserving U+0301.
+
+    Returns one label per kept base character; stressed vowels are a base char
+    plus combining acute (length of this list must equal ``len(text_ctc)``).
+    """
+    from minispeech.constants import STRESS_CHAR
+    from minispeech.frontend.stress import to_canonical_stress
+
+    s = to_canonical_stress(stressed or "").lower()
+    labels: list[str] = []
+    for ch in s:
+        if ch == STRESS_CHAR:
+            if labels and labels[-1] not in ("|", " ") and STRESS_CHAR not in labels[-1]:
+                labels[-1] = labels[-1] + STRESS_CHAR
+            continue
+        if ch.isspace():
+            if labels and labels[-1] != "|":
+                labels.append("|")
+            continue
+        if ch.isalpha() or ch.isdigit() or ch in "-":
+            labels.append(ch)
+    # strip leading/trailing word delimiters to match text_ctc.strip()
+    while labels and labels[0] == "|":
+        labels.pop(0)
+    while labels and labels[-1] == "|":
+        labels.pop()
+    return labels
+
+
+def text_to_ctc_char_labels(
+    text: str,
+    *,
+    already_stressed: bool = False,
+    keep_stress: bool = False,
+) -> tuple[list[str], dict[str, Any]]:
     """Infer-time / train-time char units matching RU wav2vec2 alphabet (no model load).
 
-    Spaces → ``|``. Does not require the HF processor; mirrors typical char-CTC vocab.
+    Spaces → ``|``. When ``keep_stress=True``, stressed vowels keep the combining
+    acute U+0301 as part of the label (``а́``), while still matching CTC span
+    length 1:1 with ``text_ctc`` base characters. Default is False so legacy
+    mel80 / mel80_hifigan checkpoints keep unstressed units at infer.
     """
     meta = transcript_for_ctc(text, already_stressed=already_stressed)
     text_ctc = meta["text_ctc"]
-    labels: list[str] = []
-    for ch in text_ctc:
-        if ch == " ":
-            labels.append("|")
+    if keep_stress:
+        labels = _filter_ctc_chars_keep_stress(meta["text_stressed"])
+        # Map spaces already emitted as ``|``; ensure 1:1 with text_ctc bases.
+        plain = []
+        for lab in labels:
+            base = lab.replace("\u0301", "")
+            plain.append(" " if base == "|" else base)
+        plain_s = "".join(plain)
+        if plain_s != text_ctc:
+            # Fall back to unstressed labels if filters diverge (safety).
+            log.warning(
+                "stressed CTC labels length/filter mismatch "
+                "(plain=%r text_ctc=%r); falling back to unstressed",
+                plain_s[:80],
+                text_ctc[:80],
+            )
+            labels = ["|" if ch == " " else ch for ch in text_ctc]
+            meta = {**meta, "stress_labels": False}
         else:
-            labels.append(ch)
+            meta = {**meta, "stress_labels": True}
+    else:
+        labels = ["|" if ch == " " else ch for ch in text_ctc]
+        meta = {**meta, "stress_labels": False}
     meta = {**meta, "granularity": "char", "n_labels": len(labels)}
     return labels, meta
 

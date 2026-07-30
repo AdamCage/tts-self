@@ -32,6 +32,10 @@ class TargetSpec:
         Wave samples per frame (= hop for mel; codec hop for latents).
     n_fft / hop_length / win_length / n_mels:
         Mel STFT parameters (None for latent targets).
+    fmin / fmax / mel_scale / mel_norm:
+        Mel filterbank domain (None → backend defaults; mel targets should set
+        these explicitly). ``mel_scale`` is ``\"slaney\"`` or ``\"htk\"``;
+        ``mel_norm`` is ``\"slaney\"`` or ``None``.
     """
 
     name: str
@@ -44,6 +48,10 @@ class TargetSpec:
     hop_length: int | None = None
     win_length: int | None = None
     n_mels: int | None = None
+    fmin: float | None = None
+    fmax: float | None = None
+    mel_scale: str | None = None
+    mel_norm: str | None = None
     notes: str = ""
 
     @property
@@ -82,6 +90,8 @@ VIBEVOICE64 = TargetSpec(
 # Track A mel target @ ~86.1 Hz.
 # Exact: frame_rate = 22050 / 256 = 86.1328125 Hz.
 # hop=256 is the standard 22.05 kHz setting that lands on ~86.1 Hz.
+# fmin/fmax/mel_scale/mel_norm match historical librosa defaults used to build
+# the production mel cache (do not change — paper2 freeze / S4 numbers).
 MEL80 = TargetSpec(
     name="mel80",
     kind="mel",
@@ -93,15 +103,43 @@ MEL80 = TargetSpec(
     hop_length=256,
     win_length=1024,
     n_mels=80,
+    fmin=0.0,
+    fmax=11_025.0,  # sr/2 — historical Track A domain
+    mel_scale="slaney",
+    mel_norm="slaney",
     notes=(
         "Log-mel (Track A). STFT: sr=22050, n_fft=1024, win=1024, hop=256, "
-        "n_mels=80 → frame_rate=22050/256≈86.1328125 Hz."
+        "n_mels=80, fmax=11025 (nyquist) → frame_rate=22050/256≈86.1328125 Hz."
+    ),
+)
+
+# HiFi-GAN-matched mel domain (SpeechBrain LibriTTS 22050 Hz vocoder train).
+# Same hop/n_fft/n_mels as mel80; fmax=8000 + slaney filters per model card.
+MEL80_HIFIGAN = TargetSpec(
+    name="mel80_hifigan",
+    kind="mel",
+    dim=80,
+    sample_rate=22_050,
+    frame_rate=22_050 / 256,
+    samples_per_frame=256,
+    n_fft=1024,
+    hop_length=256,
+    win_length=1024,
+    n_mels=80,
+    fmin=0.0,
+    fmax=8_000.0,
+    mel_scale="slaney",
+    mel_norm="slaney",
+    notes=(
+        "Log-mel matched to speechbrain/tts-hifigan-libritts-22050Hz "
+        "(fmax=8000, slaney/slaney). Cache separately from mel80."
     ),
 )
 
 TARGETS: dict[str, TargetSpec] = {
     VIBEVOICE64.name: VIBEVOICE64,
     MEL80.name: MEL80,
+    MEL80_HIFIGAN.name: MEL80_HIFIGAN,
 }
 
 DEFAULT_TARGET: str = VIBEVOICE64.name

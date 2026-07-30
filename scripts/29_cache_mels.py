@@ -22,6 +22,11 @@ def main() -> int:
     ap.add_argument("--split", default="train", help="train|val|test|all")
     ap.add_argument("--max-utts", type=int, default=None)
     ap.add_argument("--out", default=None, help="Override mel_dir")
+    ap.add_argument(
+        "--target",
+        default="mel80",
+        help="Registered mel target (mel80 | mel80_hifigan)",
+    )
     ap.add_argument("--shard-size", type=int, default=2000)
     args = ap.parse_args()
 
@@ -40,7 +45,9 @@ def main() -> int:
     if args.max_utts is not None:
         rows = rows[: args.max_utts]
 
-    writer = MelCacheWriter(out_dir, shard_size=args.shard_size, resume=True)
+    writer = MelCacheWriter(
+        out_dir, shard_size=args.shard_size, resume=True, target=args.target
+    )
     n_ok, n_skip, n_err = 0, 0, 0
     errors: list[dict] = []
     for u in tqdm(rows, desc="cache-mels"):
@@ -48,7 +55,7 @@ def main() -> int:
             n_skip += 1
             continue
         try:
-            mel = extract_mel_file(u.wav, target="mel80")
+            mel = extract_mel_file(u.wav, target=args.target)
             writer.add(
                 u.utt_id,
                 mel,
@@ -62,6 +69,7 @@ def main() -> int:
     report = {
         "out_dir": str(out_dir),
         "index": str(idx),
+        "target": args.target,
         "backend": backend,
         "n_ok": n_ok,
         "n_skip": n_skip,

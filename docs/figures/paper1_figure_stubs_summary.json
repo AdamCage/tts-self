@@ -1,0 +1,42 @@
+{
+  "r2_vs_cer": {
+    "figure": "r2_vs_cer",
+    "points": [
+      {
+        "label": "latent_talker_s3",
+        "r2": -0.11025440692901611,
+        "cer": 0.889,
+        "source_r2": "out/head_diagnostics_v01_best.json",
+        "source_cer": "docs/part1_diagnosis.md (measured)"
+      },
+      {
+        "label": "mel_s4_val100",
+        "r2": null,
+        "cer": 0.04806474055351101,
+        "note": "mel path has no latent R²; CER only"
+      }
+    ],
+    "png": "/home/adam/projects/tts-self/docs/figures/paper1_r2_vs_cer.png"
+  },
+  "cer_sigma_alpha": {
+    "figure": "cer_sigma_alpha",
+    "series": {
+      "cer_sigma": {
+        "source": "out/phase0_sensitivity.json",
+        "available": false,
+        "note": "Plot when scripts/21_latent_error_calibration.py / phase0 artifacts exist"
+      },
+      "cer_alpha": {
+        "source": "out/phase0_sensitivity.json",
+        "available": false,
+        "note": "Plot when scripts/21_latent_error_calibration.py / phase0 artifacts exist"
+      }
+    }
+  },
+  "diagonality": {
+    "figure": "diagonality_vs_chance",
+    "status": "pending_artifact",
+    "candidate": "out/head_diagnostics_v01_best.json"
+  },
+  "matplotlib": true
+}

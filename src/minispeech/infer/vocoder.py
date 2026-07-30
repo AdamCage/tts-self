@@ -182,6 +182,9 @@ def griffin_lim(
         hop = int(spec.hop_length or 256)
         win = int(spec.win_length or n_fft)
         # mel_to_stft needs filters; use mel_to_audio when available
+        from minispeech.data.mel import mel_filter_kwargs
+
+        fk = mel_filter_kwargs(spec)
         if hasattr(librosa.feature, "inverse") and hasattr(librosa.feature.inverse, "mel_to_audio"):
             wav = librosa.feature.inverse.mel_to_audio(
                 S,
@@ -191,6 +194,10 @@ def griffin_lim(
                 win_length=win,
                 power=1.0,
                 n_iter=n_iter,
+                fmin=fk["fmin"],
+                fmax=fk["fmax"],
+                htk=fk["mel_scale"] == "htk",
+                norm=fk["mel_norm"],
             )
         else:
             wav = librosa.griffinlim(
@@ -206,6 +213,9 @@ def griffin_lim(
 
     import torchaudio.transforms as T
 
+    from minispeech.data.mel import mel_filter_kwargs
+
+    fk = mel_filter_kwargs(spec)
     # torchaudio InverseMelScale + GriffinLim expects power spectrogram
     mel_t = torch.from_numpy(S).float()
     n_stft = (int(spec.n_fft or 1024) // 2) + 1
@@ -213,8 +223,10 @@ def griffin_lim(
         n_stft=n_stft,
         n_mels=int(spec.n_mels or 80),
         sample_rate=spec.sample_rate,
-        f_min=0.0,
-        f_max=spec.sample_rate / 2.0,
+        f_min=fk["fmin"],
+        f_max=fk["fmax"],
+        norm=fk["mel_norm"],
+        mel_scale=fk["mel_scale"],
     )
     gl = T.GriffinLim(
         n_fft=int(spec.n_fft or 1024),

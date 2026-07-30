@@ -135,6 +135,34 @@ class MelBaselineOutput:
     extras: dict
 
 
+class _PostNet(nn.Module):
+    """Tacotron2-style 5-layer Conv residual post-net over mel bins."""
+
+    def __init__(self, n_mels: int, hidden: int = 512, layers: int = 5, kernel: int = 5, dropout: float = 0.1):
+        super().__init__()
+        pad = kernel // 2
+        blocks: list[nn.Module] = []
+        for i in range(layers):
+            in_ch = n_mels if i == 0 else hidden
+            out_ch = n_mels if i == layers - 1 else hidden
+            blocks.append(
+                nn.Sequential(
+                    nn.Conv1d(in_ch, out_ch, kernel, padding=pad),
+                    nn.BatchNorm1d(out_ch),
+                    nn.Tanh() if i < layers - 1 else nn.Identity(),
+                    nn.Dropout(dropout),
+                )
+            )
+        self.blocks = nn.ModuleList(blocks)
+
+    def forward(self, mel: torch.Tensor) -> torch.Tensor:
+        # mel [B, T, n_mels]
+        h = mel.transpose(1, 2)
+        for blk in self.blocks:
+            h = blk(h)
+        return mel + h.transpose(1, 2)
+
+
 class MelBaseline(nn.Module):
     """Small FastSpeech-style non-AR mel model."""
 
@@ -151,6 +179,9 @@ class MelBaseline(nn.Module):
         decoder: Literal["conv", "transformer"] = "conv",
         upsample: Literal["hard", "soft"] = "hard",
         predict_duration: bool = True,
+        predict_pitch: bool = False,
+        predict_energy: bool = False,
+        use_postnet: bool = False,
         pad_id: int = 0,
     ):
         super().__init__()
@@ -174,6 +205,19 @@ class MelBaseline(nn.Module):
             if predict_duration
             else None
         )
+        # FastSpeech2-style variance adaptor (phone-level, before length regulator).
+        self.pitch_head = (
+            nn.Sequential(nn.Linear(d_model, d_model // 2), nn.GELU(), nn.Linear(d_model // 2, 1))
+            if predict_pitch
+            else None
+        )
+        self.energy_head = (
+            nn.Sequential(nn.Linear(d_model, d_model // 2), nn.GELU(), nn.Linear(d_model // 2, 1))
+            if predict_energy
+            else None
+        )
+        self.pitch_emb = nn.Linear(1, d_model) if predict_pitch else None
+        self.energy_emb = nn.Linear(1, d_model) if predict_energy else None
         if decoder == "transformer":
             self.decoder: nn.Module = nn.ModuleList(
                 [_EncoderBlock(d_model, n_heads, ffn_dim, dropout) for _ in range(dec_layers)]
@@ -183,6 +227,7 @@ class MelBaseline(nn.Module):
             self.decoder = _ConvDecoder(d_model, layers=dec_layers, dropout=dropout)
             self._dec_kind = "conv"
         self.mel_proj = nn.Linear(d_model, n_mels)
+        self.postnet = _PostNet(n_mels, dropout=dropout) if use_postnet else None
         self.drop = nn.Dropout(dropout)
 
     def encode_phones(
@@ -210,6 +255,8 @@ class MelBaseline(nn.Module):
         durations: torch.Tensor | None = None,
         proj_W: torch.Tensor | None = None,
         use_pred_duration: bool = False,
+        pitch_target: torch.Tensor | None = None,
+        energy_target: torch.Tensor | None = None,
     ) -> MelBaselineOutput:
         """
         Parameters
@@ -219,6 +266,7 @@ class MelBaseline(nn.Module):
         durations : [B, P] teacher frame counts (hard upsample)
         proj_W : [B, P, T] soft/hard overlap (soft upsample)
         use_pred_duration : if True and dur_head exists, use predicted durs at infer
+        pitch_target / energy_target : [B, P] teacher values for adaptor emb (train)
         """
         if phone_mask is None:
             phone_mask = phone_ids != self.pad_id
@@ -226,6 +274,24 @@ class MelBaseline(nn.Module):
         dur_pred = None
         if self.dur_head is not None:
             dur_pred = self.dur_head(phone_h).squeeze(-1)  # [B, P]
+
+        pitch_pred = energy_pred = None
+        if self.pitch_head is not None:
+            pitch_pred = self.pitch_head(phone_h)  # [B, P, 1]
+            pitch_for_emb = (
+                pitch_target.unsqueeze(-1)
+                if pitch_target is not None and self.training
+                else pitch_pred
+            )
+            phone_h = phone_h + self.pitch_emb(pitch_for_emb)  # type: ignore[misc]
+        if self.energy_head is not None:
+            energy_pred = self.energy_head(phone_h)  # [B, P, 1]
+            energy_for_emb = (
+                energy_target.unsqueeze(-1)
+                if energy_target is not None and self.training
+                else energy_pred
+            )
+            phone_h = phone_h + self.energy_emb(energy_for_emb)  # type: ignore[misc]
 
         if self.upsample_mode == "soft":
             if proj_W is None:
@@ -250,13 +316,19 @@ class MelBaseline(nn.Module):
             h = frames
             for blk in self.decoder:  # type: ignore[union-attr]
                 h = blk(h, kpm)
-        mel_pred = self.mel_proj(h)
+        mel_pre = self.mel_proj(h)
+        mel_pred = self.postnet(mel_pre) if self.postnet is not None else mel_pre
+        # When post-net is on, supervise both coarse and refined mel (Tacotron-style).
         return MelBaselineOutput(
             mel_pred=mel_pred,
             frame_mask=frame_mask,
             phone_mask=phone_mask,
             dur_pred=dur_pred,
-            extras={},
+            extras={
+                "mel_pre_postnet": mel_pre,
+                "pitch_pred": pitch_pred.squeeze(-1) if pitch_pred is not None else None,
+                "energy_pred": energy_pred.squeeze(-1) if energy_pred is not None else None,
+            },
         )
 
     @torch.no_grad()
@@ -276,6 +348,23 @@ class MelBaseline(nn.Module):
             proj_W=proj_W,
             use_pred_duration=durations is None and proj_W is None,
         )
+
+
+def phone_scalar_loss(
+    pred: torch.Tensor,
+    target: torch.Tensor,
+    phone_mask: torch.Tensor,
+    *,
+    sample_weight: torch.Tensor | None = None,
+) -> torch.Tensor:
+    """Masked L1 over phone-level scalars (pitch / energy)."""
+    err = (pred - target).abs()
+    m = phone_mask.float()
+    per = (err * m).sum(dim=-1) / m.sum(dim=-1).clamp_min(1.0)
+    if sample_weight is not None:
+        w = sample_weight.float()
+        return (per * w).sum() / w.sum().clamp_min(1.0)
+    return per.mean()
 
 
 def mel_l1_loss(

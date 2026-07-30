@@ -1,0 +1,15 @@
+{
+  "figure": "cer_sigma_alpha",
+  "series": {
+    "cer_sigma": {
+      "source": "out/phase0_sensitivity.json",
+      "available": false,
+      "note": "Plot when scripts/21_latent_error_calibration.py / phase0 artifacts exist"
+    },
+    "cer_alpha": {
+      "source": "out/phase0_sensitivity.json",
+      "available": false,
+      "note": "Plot when scripts/21_latent_error_calibration.py / phase0 artifacts exist"
+    }
+  }
+}

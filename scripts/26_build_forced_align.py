@@ -47,11 +47,13 @@ from pathlib import Path
 
 from minispeech.data.forced_align import (
     build_ctc_corpus_entries,
+    build_mfa_corpus_entries,
     build_uniform_corpus_entries,
     ctc_forced_align_available,
     discover_local_ctc_models,
     load_forced_json,
     merge_forced,
+    mfa_available,
     mfa_crosscheck_stub,
     write_forced_json,
 )
@@ -89,12 +91,24 @@ def main() -> int:
     ap.add_argument(
         "--mfa-corpus",
         default=None,
-        help="Optional MFA corpus dir (documented only; MFA not required)",
+        help="MFA corpus dir (wav+lab); default <align_dir>/mfa_corpus",
+    )
+    ap.add_argument(
+        "--mfa-out",
+        default=None,
+        help="MFA TextGrid output dir; default <align_dir>/mfa_out",
+    )
+    ap.add_argument("--mfa-dictionary", default="russian_mfa")
+    ap.add_argument("--mfa-acoustic", default="russian_mfa")
+    ap.add_argument(
+        "--mfa-run",
+        action="store_true",
+        help="Actually run `mfa align` (requires mfa on PATH)",
     )
     ap.add_argument(
         "--mfa-write-uniform",
         action="store_true",
-        help="With --method mfa, still write phone-level uniform packing tagged mfa_pending",
+        help="With --method mfa and no --mfa-run, write uniform packing tagged mfa_pending",
     )
     ap.add_argument(
         "--discover-ctc",
@@ -188,21 +202,61 @@ def main() -> int:
             "on WSL when a RU CTC model is local."
         )
     elif args.method == "mfa":
-        info = mfa_crosscheck_stub(corpus_dir=args.mfa_corpus)
+        mfa_corpus = expand(args.mfa_corpus) if args.mfa_corpus else align_dir / "mfa_corpus"
+        mfa_out = expand(args.mfa_out) if args.mfa_out else align_dir / "mfa_out"
+        info = mfa_crosscheck_stub(
+            corpus_dir=mfa_corpus,
+            dictionary=args.mfa_dictionary,
+            acoustic_model=args.mfa_acoustic,
+        )
         meta["mfa"] = info
-        if not args.mfa_write_uniform:
+        if args.mfa_run or mfa_available():
+            # Prefer real MFA when CLI is present or user asked --mfa-run.
+            forced, mfa_stats = build_mfa_corpus_entries(
+                rows,
+                corpus_dir=mfa_corpus,
+                output_dir=mfa_out,
+                dictionary=args.mfa_dictionary,
+                acoustic_model=args.mfa_acoustic,
+                max_utts=args.max_utts,
+                run_align=bool(args.mfa_run or mfa_available()),
+            )
+            meta["mfa"].update(mfa_stats)
+            meta["n_written"] = len(forced)
+            meta["granularity"] = "phone"
+            meta["align_unit"] = "phone"
+            if not forced:
+                print(json.dumps(meta, indent=2, ensure_ascii=False))
+                print(
+                    "\nMFA produced 0 alignments. Install MFA user-local "
+                    "(micromamba -c conda-forge montreal-forced-aligner), "
+                    "download russian_mfa models, then re-run with --mfa-run. "
+                    "Or use --mfa-write-uniform as a labeled pending fallback."
+                )
+                if not args.mfa_write_uniform:
+                    return 3
+                forced = build_uniform_corpus_entries(rows, **pack_kw)
+                for v in forced.values():
+                    v["method"] = "mfa_pending"
+                meta["n_written"] = len(forced)
+                meta["mfa"]["status"] = "fallback_uniform_phone"
+        elif args.mfa_write_uniform:
+            forced = build_uniform_corpus_entries(rows, **pack_kw)
+            for v in forced.values():
+                v["method"] = "mfa_pending"
+            meta["n_written"] = len(forced)
+            meta["mfa"]["status"] = "fallback_uniform_phone"
+        else:
             print(json.dumps(meta, indent=2, ensure_ascii=False))
             print(
-                "\nMFA is optional and not required. "
-                "Re-run with --mfa-write-uniform to emit phone-level uniform packing, "
-                "or use --method uniform / ctc."
+                "\nMFA not on PATH. Install user-local (no sudo), e.g.:\n"
+                "  curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj -C ~/bin bin/micromamba\n"
+                "  micromamba create -y -n mfa -c conda-forge montreal-forced-aligner\n"
+                "  micromamba run -n mfa mfa model download acoustic russian_mfa\n"
+                "  micromamba run -n mfa mfa model download dictionary russian_mfa\n"
+                "Then: python scripts/26_build_forced_align.py --method mfa --mfa-run ..."
             )
             return 0
-        forced = build_uniform_corpus_entries(rows, **pack_kw)
-        for v in forced.values():
-            v["method"] = "mfa_pending"
-        meta["n_written"] = len(forced)
-        meta["mfa"]["status"] = "fallback_uniform_phone"
     else:
         model = args.model
         if not model:

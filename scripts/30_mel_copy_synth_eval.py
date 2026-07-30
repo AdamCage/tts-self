@@ -242,8 +242,8 @@ def main() -> int:
     ap.add_argument(
         "--gap-mode",
         default="expand_neighbor",
-        choices=["expand_neighbor", "sil_fill"],
-        help="CTC gap packing for oracle durs (must match train)",
+        choices=["expand_neighbor", "sil_fill", "none", "raw"],
+        help="CTC gap packing for oracle durs (must match train; raw/none = blank gaps)",
     )
     args = ap.parse_args()
 

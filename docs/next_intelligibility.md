@@ -554,9 +554,119 @@ python scripts/28_infer_mel.py \
 
 Residual failures: `bank_08` ИНН/КПП letterisms still weak under ASR (hyp drops acronyms; CER≈0.56); `bank_02` occasional семьсот↔семьдесят. **No bank-heavy finetune / S4 retrain** — gap was scoring + TN coverage.
 
+### Gate V0 — mel domain vs HiFi-GAN (2026-07-30)
+
+Four-point copy-synth probe on **n=40 val** (`scripts/34_vocoder_domain_probe.py` → `out/vocoder_domain_probe.json`). Vocoder facts: `docs/vocoder_facts.md` (`mel_fmax=8000`, WSL mel backend **librosa**). Freeze tag: `paper2-frozen-mel80` @ `56c8182` (`docs/frozen_numbers_mel80.md`).
+
+| Arm | mean CER | mean UTMOS |
+|-----|---------:|-----------:|
+| A real wav @ 22050 | 0.0661 | **3.215** |
+| B mel@11025 → Griffin-Lim | 0.0660 | 1.405 |
+| C mel@11025 → HiFi-GAN | 0.0677 | 2.470 |
+| D mel@8000 → HiFi-GAN | 0.0664 | **2.730** |
+
+- Self-check: B CER ≈ A CER on this val slice (known train GT-mel griffin topline was 0.027 on n=20; val ASR floor here ≈0.066). Probe contour is consistent.
+- **Δ(D−C) CER ≈ −0.001** (≪ 0.01 threshold).
+- **Δ(D−C) UTMOS ≈ +0.26** (noticeable; closes ~⅓ of the C→real gap).
+
+**Verdict: GO** — mel domain mismatch contributes to naturalness under HiFi-GAN. Proceed to `mel80_hifigan` target + separate cache (`configs/mel_hifigan_v01.yaml`) and fine-tune / A/B (roadmap T06–T07). Do **not** mutate legacy `MEL80`.
+
+UTMOS backend: SpeechMOS `utmos22_strong` via `torch.hub` (`src/minispeech/eval/utmos.py`, cache under `~/models/utmos`).
+
+**T06/T07 progress (same day):** `mel80_hifigan` registered; mel cache rebuilt at `~/datasets/tts/ruslan/mels_hifigan/` (**13831** utts, librosa). Fine-tune from S4 at `runs/mel_hifigan_v01_s4/` (`--init-ckpt runs/mel_baseline_v01_s4/best.pt`). After train finishes, A/B with:
+
+```bash
+# T04 baseline (mel80) once GPU free:
+python scripts/32_eval_mel_suite.py \
+  --ckpt runs/mel_baseline_v01_s4/best.pt \
+  --sets demo5,val100 --prefer-vocoder neural \
+  --optional utmos_v2,mcd_dtw,f0_rmse --copy-synth-topline \
+  --out out/eval_mel_suite_s4_baseline_full.json
+
+# Gate V2 — hifigan-domain FT:
+python scripts/32_eval_mel_suite.py \
+  --ckpt runs/mel_hifigan_v01_s4/best.pt \
+  --sets demo5,val100 --prefer-vocoder neural \
+  --optional utmos_v2,mcd_dtw,f0_rmse --copy-synth-topline \
+  --out out/eval_mel_suite_hifigan_s4.json
+# Gate V2: UTMOS up vs mel80 baseline, val100 CER ≤ 0.06
+```
+
+### Gate V2 — mel80_hifigan FT vs mel80 S4 (2026-07-30)
+
+Artifacts: `out/eval_mel_suite_s4_baseline_full.json`, `out/eval_mel_suite_hifigan_s4.json`, `out/gate_v2_summary.json`. Vocoder=HiFi-GAN neural; UTMOS=`utmos22_strong`.
+
+| Arm | val100 CER | val100 UTMOS | demo5 CER | demo5 UTMOS |
+|-----|-----------:|-------------:|----------:|------------:|
+| mel80 S4 baseline | 0.0559 | **1.272** | 0.0990 | 1.315 |
+| mel80_hifigan S4 FT | **0.0457** | 1.257 | **0.0746** | 1.298 |
+| Δ (hifi − base) | **−0.010** | −0.015 | −0.024 | −0.017 |
+
+**Verdict: CER_OK_UTMOS_NOT_UP** — intelligibility gate (CER ≤ 0.06) passes and CER improves, but UTMOS does **not** rise. Per roadmap acceptance, do **not** promote `mel80_hifigan` as the naturalness winner; keep **mel80 S4** as production for quality A/B, treat hifigan FT as an intelligibility-optional branch. T11 vocoder FT remains deferred. Next quality lever: **T12 stress units** on mel80 (or hifigan if chasing CER).
+
+Note: `runs/mel_hifigan_v01_s4/best.pt` was selected at step 3000 by val mel L1 (CER hook not wired); final step=40000.
+
+### T09 — MFA forced align (2026-07-30)
+
+- Install: micromamba env `mfa`, MFA **3.4.1**, models `russian_mfa`.
+- Align 32 utts → **32 TextGrids**, `forced_mfa.json` with **mean cover_ratio ≈ 0.946**, success 32/32.
+- Code path: `build_mfa_corpus_entries` + `scripts/26_build_forced_align.py --method mfa --mfa-run`.
+
+### Post-V2 ladder (code ready; GPU after T07)
+
+```bash
+# T08 paper2 seeds (S1×3×3) — prefers freeze tag paper2-frozen-mel80
+python scripts/35_paper2_seeds.py --seeds 11,22,33 --max-utts 32
+python scripts/37_paper2_threeway.py  # T10 figure after seeds
+
+# T12 stress units (warm-start from best domain ckpt)
+python scripts/27_train_mel.py --config configs/mel_stress_v01.yaml \
+  --data configs/data_ruslan_local.yaml --stage S4 \
+  --init-ckpt runs/mel_hifigan_v01_s4/best.pt \
+  --run-dir runs/mel_stress_v01_s4
+
+# T13/T14 variance + post-net
+python scripts/36_cache_f0_energy.py --config configs/data_ruslan_local.yaml
+python scripts/27_train_mel.py --config configs/mel_variance_v01.yaml \
+  --data configs/data_ruslan_local.yaml --stage S4 \
+  --init-ckpt runs/mel_stress_v01_s4/best.pt \
+  --run-dir runs/mel_variance_v01_s4
+```
+
+**T11 (vocoder FT)** deferred until Gate V2 shows a naturalness win worth chasing on the vocoder side.
+
+### Gate V4 — stress units (T12, 2026-07-30)
+
+Warm-start S4 from `runs/mel_baseline_v01_s4/best.pt` with `keep_stress=True` (`configs/mel_stress_v01.yaml` → `runs/mel_stress_v01_s4/`). Eval: `out/eval_mel_suite_stress_s4.json` (HiFi-GAN + UTMOS).
+
+| Arm | val100 CER | val100 UTMOS | demo5 CER | demo5 UTMOS |
+|-----|-----------:|-------------:|----------:|------------:|
+| mel80 S4 baseline | 0.0559 | 1.272 | 0.0990 | 1.315 |
+| stress S4 | **0.0313** | **1.277** | **0.0930** | **1.329** |
+| Δ (stress − base) | **−0.025** | **+0.005** | −0.006 | +0.014 |
+
+**Verdict: GO** — CER well under 0.06 and improved; UTMOS up slightly. **New production candidate:** `runs/mel_stress_v01_s4/best.pt`.
+
+val100 optional metrics (same suite): MCD-DTW **12.87** (base 13.14), F0 RMSE **48.9** (base 63.7) — both improved.
+
+### Gate V5 — variance adaptor + post-net (T13/T14, 2026-07-30)
+
+F0/energy cache: `~/datasets/tts/ruslan/f0_energy/` (n_ok=12490). Train: `configs/mel_variance_v01.yaml` → `runs/mel_variance_v01_s4/` init from stress S4. Eval: `out/eval_mel_suite_variance_s4.json`. Summary: `out/gate_v4_v5_summary.json`.
+
+| Arm | val100 CER | val100 UTMOS | MCD-DTW | F0 RMSE |
+|-----|-----------:|-------------:|--------:|--------:|
+| mel80 S4 baseline | 0.0559 | 1.272 | 13.14 | 63.7 |
+| stress S4 (V4) | **0.0313** | 1.277 | **12.87** | **48.9** |
+| variance S4 | **0.430** | **1.304** | 13.31 | 87.8 |
+| Δ (var − base) | **+0.374** | +0.032 | +0.17 | +24.2 |
+
+**Verdict: FAIL** — UTMOS rose slightly, but intelligibility collapsed (CER 0.43 ≫ 0.06). Do **not** promote variance/post-net. Keep **stress S4** as quality head. Likely causes to investigate later: pitch scale (raw Hz L1 ≈36 in train loss), teacher-forced pitch emb at train vs predicted at infer, or post-net over-smoothing — not blocking Track A production.
+
+**Production (Track A mel):** `runs/mel_stress_v01_s4/best.pt` (Gate V4 GO). Baseline mel80 S4 retained for A/B.
+
 ### Next recommended steps
 
-**Mel S4 done — production = S4** (`runs/mel_baseline_v01_s4/best.pt`): val100 free CER≈0.048 (med≈0.026) vs S3≈0.057; demo5≈0.048 (GL) / ≈0.042 (HiFi-GAN dedicated) / suite-live neural **≈0.099**; val mel_l1≈1.049; train **12490** utts / **15.4 h**. **Bank gap closed for Gate scoring** (mean CER **0.093**; artifact `out/eval_mel_suite_s4_bankfix.json`). Homograph ≈0.034. **CFM parked**. **Do not** restart latent Talker S4 / Flow / LoRA / VibeVoice train; **do not** train CFM further. Next: optional MOS (UTMOSv2); optional letterism/acronym data if bank_08 matters for product.
+**Mel S4 done — production = S4** (`runs/mel_baseline_v01_s4/best.pt`): val100 free CER≈0.048 (med≈0.026) vs S3≈0.057; demo5≈0.048 (GL) / ≈0.042 (HiFi-GAN dedicated) / suite-live neural **≈0.099**; val mel_l1≈1.049; train **12490** utts / **15.4 h**. **Bank gap closed for Gate scoring** (mean CER **0.093**; artifact `out/eval_mel_suite_s4_bankfix.json`). Homograph ≈0.034. **CFM parked**. **Gate V0 = GO** (see above). **Do not** restart latent Talker S4 / Flow / LoRA / VibeVoice train; **do not** train CFM further. Next: recache `mel80_hifigan` → fine-tune `runs/mel_hifigan_v01_s4`; paper2 seeds + MFA; then stress units / variance adaptor.
 
 ```bash
 cd ~/projects/tts-self && source .venv/bin/activate

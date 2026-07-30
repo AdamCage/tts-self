@@ -24,31 +24,36 @@ def score_gigaam_ctc(wav: np.ndarray, sr: int, *, text: str | None = None) -> di
 
 
 def score_utmos_v2(wav: np.ndarray, sr: int) -> dict[str, Any]:
-    """UTMOSv2 / utmos placeholder — tries common package names."""
-    for mod_name in ("utmosv2", "utmos", "speechmos"):
-        try:
-            __import__(mod_name)
-        except ImportError:
-            continue
-        return _skip("utmos_v2", f"{mod_name} present but MiniSpeech scorer not wired yet")
-    # Legacy local stub
+    """UTMOS22 strong (SpeechMOS / torch.hub) via ``minispeech.eval.utmos``."""
     try:
-        from minispeech.eval.utmos import utmos_score
+        from minispeech.eval.utmos import utmos_load_error, utmos_score_wav
 
-        val = utmos_score("")  # path-based stub returns None
+        val = utmos_score_wav(np.asarray(wav, dtype=np.float32), int(sr))
         if val is None:
-            return _skip("utmos_v2", "utmos stub returns None (no model)")
-        return {"metric": "utmos_v2", "available": True, "skipped": False, "value": float(val)}
+            reason = utmos_load_error() or "utmos backend unavailable"
+            return _skip("utmos_v2", reason)
+        return {
+            "metric": "utmos_v2",
+            "available": True,
+            "skipped": False,
+            "value": float(val),
+            "backend": "speechmos_utmos22_strong",
+        }
     except Exception as exc:  # noqa: BLE001
         return _skip("utmos_v2", str(exc))
 
 
 def score_nisqa(wav: np.ndarray, sr: int) -> dict[str, Any]:
+    """NISQA MOS — honest skip until a local adapter is wired."""
     try:
         import nisqa  # type: ignore  # noqa: F401
     except ImportError:
         return _skip("nisqa", "nisqa package not installed")
-    return _skip("nisqa", "nisqa imported but MiniSpeech adapter not wired yet")
+    return _skip(
+        "nisqa",
+        "nisqa imported but MiniSpeech adapter not wired yet "
+        "(prefer UTMOS22 via score_utmos_v2)",
+    )
 
 
 def score_mcd_dtw(

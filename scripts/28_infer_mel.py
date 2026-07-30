@@ -75,6 +75,15 @@ def _load_model(
 
     emb_w = sd.get("emb.weight")
     vocab_size = int(emb_w.shape[0]) if emb_w is not None else int(mcfg.get("vocab_size", 512))
+    predict_pitch = bool(mcfg.get("predict_pitch", False)) or any(
+        k.startswith("pitch_head.") for k in sd
+    )
+    predict_energy = bool(mcfg.get("predict_energy", False)) or any(
+        k.startswith("energy_head.") for k in sd
+    )
+    use_postnet = bool(mcfg.get("use_postnet", False)) or any(
+        k.startswith("postnet.") for k in sd
+    )
     model = MelBaseline(
         vocab_size=vocab_size,
         d_model=int(mcfg.get("d_model", 256)),
@@ -87,6 +96,9 @@ def _load_model(
         decoder=str(mcfg.get("decoder", "conv")),  # type: ignore[arg-type]
         upsample=str(mcfg.get("upsample", "hard")),  # type: ignore[arg-type]
         predict_duration=bool(mcfg.get("predict_duration", True)),
+        predict_pitch=predict_pitch,
+        predict_energy=predict_energy,
+        use_postnet=use_postnet,
     )
     model.load_state_dict(sd, strict=False)
     model.to(device).eval()
@@ -121,8 +133,13 @@ def _resolve_forced(args: argparse.Namespace, ckpt_path: Path) -> Path | None:
 
 def _raw_labels(text: str, vocab: PhoneVocab) -> tuple[list[str], dict]:
     if getattr(vocab, "unit", "phone") == "char" or "|" in vocab.stoi:
-        phones, meta = text_to_ctc_char_labels(text, already_stressed=False)
-        meta = {**meta, "g2p_backend": "wav2vec2_char_ctc"}
+        from minispeech.constants import STRESS_CHAR
+
+        keep_stress = any(STRESS_CHAR in t for t in vocab.stoi)
+        phones, meta = text_to_ctc_char_labels(
+            text, already_stressed=False, keep_stress=keep_stress
+        )
+        meta = {**meta, "g2p_backend": "wav2vec2_char_ctc", "keep_stress": keep_stress}
         return phones, meta
     phones, meta = text_to_phones_for_align(text, already_stressed=False)
     return phones, meta

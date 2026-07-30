@@ -11,7 +11,12 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 from minispeech.data.mel_dataset import MelSpeechDataset, collate_mel
-from minispeech.models.mel_baseline import MelBaseline, mel_l1_loss, phone_duration_loss
+from minispeech.models.mel_baseline import (
+    MelBaseline,
+    mel_l1_loss,
+    phone_duration_loss,
+    phone_scalar_loss,
+)
 from minispeech.train.ema import EMA
 from minispeech.train.schedule import lr_multiplier, set_optimizer_lr
 from minispeech.utils import expand, write_run_manifest
@@ -156,6 +161,9 @@ class MelTrainer:
         save_every = int(self.cfg.get("train", {}).get("save_every", 500) or 0)
         w_mel = float(self.lcfg.get("mel_l1", 1.0))
         w_dur = float(self.lcfg.get("duration", 0.1))
+        w_pitch = float(self.lcfg.get("pitch", 0.0))
+        w_energy = float(self.lcfg.get("energy", 0.0))
+        w_post = float(self.lcfg.get("mel_postnet", 0.0))
         for step in pbar:
             mult = lr_multiplier(
                 step,
@@ -178,12 +186,21 @@ class MelTrainer:
                     phone_mask=batch["phone_mask"],
                     durations=batch["durations"],
                     proj_W=batch.get("proj_W"),
+                    pitch_target=batch.get("pitch_target"),
+                    energy_target=batch.get("energy_target"),
                 )
                 mel_loss = mel_l1_loss(
                     out.mel_pred, batch["mel_target"], out.frame_mask, sample_weight=sw
                 )
                 losses: dict[str, torch.Tensor] = {"mel_l1": mel_loss}
                 total = w_mel * mel_loss
+                mel_pre = out.extras.get("mel_pre_postnet") if out.extras else None
+                if mel_pre is not None and w_post > 0 and mel_pre is not out.mel_pred:
+                    pre_loss = mel_l1_loss(
+                        mel_pre, batch["mel_target"], out.frame_mask, sample_weight=sw
+                    )
+                    losses["mel_pre"] = pre_loss
+                    total = total + w_post * pre_loss
                 if out.dur_pred is not None and w_dur > 0:
                     d_loss = phone_duration_loss(
                         out.dur_pred,
@@ -193,6 +210,34 @@ class MelTrainer:
                     )
                     losses["duration"] = d_loss
                     total = total + w_dur * d_loss
+                pitch_pred = out.extras.get("pitch_pred") if out.extras else None
+                if (
+                    pitch_pred is not None
+                    and w_pitch > 0
+                    and batch.get("pitch_target") is not None
+                ):
+                    p_loss = phone_scalar_loss(
+                        pitch_pred,
+                        batch["pitch_target"],
+                        batch["phone_mask"],
+                        sample_weight=sw,
+                    )
+                    losses["pitch"] = p_loss
+                    total = total + w_pitch * p_loss
+                energy_pred = out.extras.get("energy_pred") if out.extras else None
+                if (
+                    energy_pred is not None
+                    and w_energy > 0
+                    and batch.get("energy_target") is not None
+                ):
+                    e_loss = phone_scalar_loss(
+                        energy_pred,
+                        batch["energy_target"],
+                        batch["phone_mask"],
+                        sample_weight=sw,
+                    )
+                    losses["energy"] = e_loss
+                    total = total + w_energy * e_loss
                 losses["total"] = total
 
             self.opt.zero_grad(set_to_none=True)
@@ -236,7 +281,8 @@ def make_mel_loaders(
     )
     if forced is not None:
         forced = str(expand(forced))
-    mel_dir = data_cfg.get("mel_dir")
+    # Prefer train.data.mel_dir (e.g. mel_hifigan_v01) over data YAML default.
+    mel_dir = data_sec.get("mel_dir") or data_cfg.get("mel_dir")
     if mel_dir is None and data_cfg.get("ruslan_dir"):
         mel_dir = str(expand(data_cfg["ruslan_dir"]) / "mels")
     if mel_dir is not None:
@@ -248,6 +294,12 @@ def make_mel_loaders(
         or train_section.get("gap_mode")
         or "expand_neighbor"
     )
+    keep_stress = bool(
+        data_sec.get("keep_stress", mel_cfg.get("keep_stress", False))
+    )
+    f0_energy_dir = data_sec.get("f0_energy_dir") or data_cfg.get("f0_energy_dir")
+    if f0_energy_dir is not None:
+        f0_energy_dir = str(expand(f0_energy_dir))
     common = dict(
         manifest_path=str(expand(data_cfg["manifest"])),
         mel_dir=mel_dir,
@@ -260,6 +312,8 @@ def make_mel_loaders(
         preload_mel=preload,
         allow_missing_mel=bool(data_sec.get("allow_missing_mel", False)),
         gap_mode=gap_mode,  # type: ignore[arg-type]
+        keep_stress=keep_stress,
+        f0_energy_dir=f0_energy_dir,
     )
     train_ds = MelSpeechDataset(
         split="train",

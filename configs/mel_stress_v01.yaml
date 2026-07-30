@@ -1,0 +1,66 @@
+# Track A T12 — stressed char units (U+0301 on vowels).
+# Gate V2 kept mel80 as naturalness production; warm-start from mel_baseline_v01_s4.
+
+model:
+  mel:
+    target: mel80
+    vocab_size: 512
+    d_model: 256
+    n_mels: 80
+    enc_layers: 3
+    dec_layers: 4
+    n_heads: 4
+    ffn_dim: 1024
+    dropout: 0.1
+    decoder: conv
+    upsample: hard
+    predict_duration: true
+    keep_stress: true
+    gap_mode: expand_neighbor
+
+loss:
+  mel_l1: 1.0
+  duration: 0.1
+
+train:
+  seed: 42
+  stages:
+    - name: S1
+      max_utterances: 32
+      steps: 3000
+    - name: S2
+      max_hours: 1.0
+      steps: 12000
+    - name: S3
+      max_hours: 5.0
+      steps: 20000
+    - name: S4
+      steps: 40000
+  data:
+    preload: false
+    allow_missing_mel: false
+    gap_mode: expand_neighbor
+    keep_stress: true
+    mel_dir: ~/datasets/tts/ruslan/mels
+
+  batch:
+    mode: fixed
+    size: 8
+  lr: 2.0e-4
+  lr_schedule: cosine
+  warmup_steps: 200
+  min_lr_ratio: 0.05
+  weight_decay: 0.01
+  grad_clip: 1.0
+  log_every: 50
+  save_every: 500
+  ema_decay: 0.999
+  precision: bf16
+  run_dir: runs/mel_stress_v01
+  cer_checkpoint:
+    enabled: true
+    every: 500
+
+infer:
+  vocoder_ckpt: ~/models/hifigan/generator.pt
+  fallback: griffin_lim

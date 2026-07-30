@@ -42,7 +42,7 @@ from minispeech.data.forced_align import load_forced_json
 # Explicit silence / CTC-blank gap label for mel packing (in PhoneVocab).
 SIL_LABEL = "sil"
 
-GapMode = Literal["expand_neighbor", "sil_fill"]
+GapMode = Literal["expand_neighbor", "sil_fill", "none", "raw"]
 DEFAULT_GAP_MODE: GapMode = "expand_neighbor"
 
 
@@ -160,6 +160,8 @@ def fill_segment_gaps(
         Empty input returns ``[]`` (no synthetic ``sil``).
     """
     start = float(utt_start)
+    if mode in ("none", "raw"):
+        return list(segments)
     if mode == "expand_neighbor":
         return _expand_neighbor_gaps(
             segments, utt_end=utt_end, utt_start=start, min_gap_s=min_gap_s
@@ -243,7 +245,8 @@ def segments_covering_utterance(
 ) -> list[TimeSegment]:
     """``segments_from_forced_entry`` then optional CTC gap repair."""
     segs = segments_from_forced_entry(entry)
-    if not fill_gaps:
+    # ``none`` / ``raw``: keep CTC blank gaps (paper2 ablation arm).
+    if not fill_gaps or gap_mode in ("none", "raw"):
         return segs
     utt_end = utterance_end_seconds(entry, segs, fallback_dur_s=fallback_dur_s)
     return fill_segment_gaps(
@@ -251,7 +254,7 @@ def segments_covering_utterance(
         utt_end=utt_end,
         utt_start=0.0,
         gap_label=gap_label,
-        mode=gap_mode,
+        mode=gap_mode,  # type: ignore[arg-type]
     )
 
 

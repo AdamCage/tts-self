@@ -16,7 +16,7 @@ import torch
 from torch.utils.data import Dataset
 
 from minispeech.constants import MEL80, get_target
-from minispeech.data.forced_align import load_forced_json
+from minispeech.data.forced_align import load_forced_json, text_to_ctc_char_labels
 from minispeech.data.frame_projection import (
     DEFAULT_GAP_MODE,
     SIL_LABEL,
@@ -29,10 +29,43 @@ from minispeech.data.frame_projection import (
 )
 from minispeech.data.manifest import Utterance, filter_split, read_manifest
 from minispeech.data.mel import MelCacheReader
+from minispeech.data.shards import ShardReader
 from minispeech.frontend.durations import MeanDurationPredictor
 from minispeech.frontend.g2p import text_to_phonemes
 from minispeech.frontend.phone_vocab import PhoneVocab
+from minispeech.frontend.stress import strip_stress
 from minispeech.utils import expand
+
+
+def overlay_stress_on_char_phones(
+    phones: Sequence[str],
+    text_stressed: str,
+    *,
+    gap_label: str = SIL_LABEL,
+) -> list[str]:
+    """Replace char phones with stressed labels when 1:1 with text_ctc bases.
+
+    ``sil`` (and other gap labels) keep their positions; only non-gap slots are
+    matched against ``text_to_ctc_char_labels(..., keep_stress=True)``.
+    """
+    labels, meta = text_to_ctc_char_labels(
+        text_stressed, already_stressed=True, keep_stress=True
+    )
+    if not meta.get("stress_labels"):
+        return list(phones)
+    non_gap_idx = [i for i, p in enumerate(phones) if p != gap_label]
+    if len(non_gap_idx) != len(labels):
+        return list(phones)
+    # Base-character sanity: unstressed phones must match label bases.
+    for i, lab in zip(non_gap_idx, labels):
+        base = strip_stress(lab)
+        plain = phones[i]
+        if plain != base and plain.replace("|", " ") != base:
+            return list(phones)
+    out = list(phones)
+    for i, lab in zip(non_gap_idx, labels):
+        out[i] = lab
+    return out
 
 
 class MelSpeechDataset(Dataset):
@@ -56,11 +89,14 @@ class MelSpeechDataset(Dataset):
         duration_predictor: MeanDurationPredictor | None = None,
         allow_missing_mel: bool = False,
         gap_mode: GapMode = DEFAULT_GAP_MODE,
+        keep_stress: bool = False,
+        f0_energy_dir: str | None = None,
     ):
         self.target_spec = get_target(target)
         self.upsample = upsample
         self.frame_rate = float(self.target_spec.frame_rate)
         self.gap_mode: GapMode = gap_mode
+        self.keep_stress = bool(keep_stress)
         rows = filter_split(read_manifest(expand(manifest_path)), split)
         if exclude_tags:
             excl = set(exclude_tags)
@@ -82,10 +118,21 @@ class MelSpeechDataset(Dataset):
         self.dur_pred = duration_predictor
         self.vocab = vocab or PhoneVocab()
         self.mels: MelCacheReader | None = None
+        self.f0e: ShardReader | None = None
         if mel_dir is not None:
             mel_p = expand(mel_dir)
             if (mel_p / "mels_index.json").is_file():
-                self.mels = MelCacheReader(mel_p, lazy=True)
+                self.mels = MelCacheReader(
+                    mel_p, lazy=True, expect_target=str(self.target_spec.name)
+                )
+        if f0_energy_dir is not None:
+            f0_p = expand(f0_energy_dir)
+            if (f0_p / "f0e_index.json").is_file() or any(f0_p.glob("f0e_*.safetensors")):
+                # ShardWriter prefix "f0e" → index name f0e_index.json
+                try:
+                    self.f0e = ShardReader(f0_p, "f0e", lazy=True)
+                except Exception:
+                    self.f0e = None
         # Prefer forced+mel coverage only: char-CTC vocab mismatches G2P fallback,
         # and missing mel raises in __getitem__. Dry-run (allow_missing_mel) keeps all.
         if not allow_missing_mel:
@@ -162,6 +209,9 @@ class MelSpeechDataset(Dataset):
         mel_probe = self._get_mel(u, n_frames_for_duration(float(u.dur_s or 1.0), self.frame_rate))
         n_mel = int(mel_probe.shape[0]) if mel_probe is not None else None
         phones, durs = self._phones_and_durs(u, n_mel_frames=n_mel)
+        if self.keep_stress:
+            text = u.text_stressed or u.text_raw
+            phones = overlay_stress_on_char_phones(phones, text)
         self.vocab.add_phones(phones)
         ids = self.vocab.encode(phones)
         n_frames = int(sum(durs))
@@ -193,6 +243,11 @@ class MelSpeechDataset(Dataset):
             "n_frames": n_frames,
             "sample_weight": weight,
         }
+        if self.f0e is not None and u.utt_id in self.f0e.index:
+            pe = self.f0e.get(u.utt_id).float()  # [P, 2] pitch, energy
+            if pe.ndim == 2 and pe.shape[0] == len(ids):
+                item["pitch_target"] = pe[:, 0]
+                item["energy_target"] = pe[:, 1]
         if self.upsample == "soft":
             from minispeech.data.frame_projection import TimeSegment
 
@@ -233,6 +288,10 @@ def collate_mel(batch: list[dict[str, Any]], *, pad_id: int = 0) -> dict[str, An
     sample_weight = torch.ones(B)
     has_W = all("proj_W" in b for b in batch)
     proj_W = torch.zeros(B, P, T) if has_W else None
+    has_pitch = all("pitch_target" in b for b in batch)
+    has_energy = all("energy_target" in b for b in batch)
+    pitch_target = torch.zeros(B, P) if has_pitch else None
+    energy_target = torch.zeros(B, P) if has_energy else None
 
     for i, b in enumerate(batch):
         p, t = b["n_phones"], b["n_frames"]
@@ -242,6 +301,10 @@ def collate_mel(batch: list[dict[str, Any]], *, pad_id: int = 0) -> dict[str, An
         phone_mask[i, :p] = True
         frame_mask[i, :t] = True
         sample_weight[i] = float(b.get("sample_weight", 1.0))
+        if pitch_target is not None:
+            pitch_target[i, :p] = b["pitch_target"][:p]
+        if energy_target is not None:
+            energy_target[i, :p] = b["energy_target"][:p]
         if proj_W is not None and "proj_W" in b:
             W = b["proj_W"]
             pp, tt = min(p, W.shape[0]), min(t, W.shape[1])
@@ -258,6 +321,10 @@ def collate_mel(batch: list[dict[str, Any]], *, pad_id: int = 0) -> dict[str, An
     }
     if proj_W is not None:
         out["proj_W"] = proj_W
+    if pitch_target is not None:
+        out["pitch_target"] = pitch_target
+    if energy_target is not None:
+        out["energy_target"] = energy_target
     return out
 
 
@@ -267,11 +334,13 @@ def build_vocab_from_forced(
     max_utts: int | None = None,
     fill_gaps: bool = True,
     gap_mode: GapMode = DEFAULT_GAP_MODE,
+    keep_stress: bool = False,
+    text_by_utt: dict[str, str] | None = None,
 ) -> PhoneVocab:
     forced = load_forced_json(expand(forced_path))
     v = PhoneVocab()
     unit = "phone"
-    for i, (_uid, entry) in enumerate(forced.items()):
+    for i, (uid, entry) in enumerate(forced.items()):
         if max_utts is not None and i >= max_utts:
             break
         if not isinstance(entry, dict):
@@ -283,7 +352,10 @@ def build_vocab_from_forced(
             segs = segments_covering_utterance(
                 entry, fill_gaps=fill_gaps, gap_mode=gap_mode
             )
-            v.add_phones(s.label for s in segs if s.label)
+            phones = [s.label for s in segs if s.label]
+            if keep_stress and text_by_utt and uid in text_by_utt:
+                phones = overlay_stress_on_char_phones(phones, text_by_utt[uid])
+            v.add_phones(phones)
         except ValueError:
             continue
     # ``sil`` only required for sil_fill packing; expand_neighbor never emits it.

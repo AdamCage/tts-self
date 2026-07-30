@@ -20,6 +20,18 @@ from minispeech.utils import expand
 
 log = logging.getLogger(__name__)
 
+MEL_CACHE_META_KEY = "__mel_cache_meta__"
+
+
+def mel_filter_kwargs(spec: TargetSpec, *, sample_rate: int | None = None) -> dict[str, Any]:
+    """Resolve fmin/fmax/mel_scale/mel_norm for a mel ``TargetSpec``."""
+    sr = int(sample_rate or spec.sample_rate)
+    fmin = float(spec.fmin if spec.fmin is not None else 0.0)
+    fmax = float(spec.fmax if spec.fmax is not None else sr / 2.0)
+    mel_scale = str(spec.mel_scale or "slaney")
+    mel_norm = spec.mel_norm  # may be None
+    return {"fmin": fmin, "fmax": fmax, "mel_scale": mel_scale, "mel_norm": mel_norm}
+
 
 def mel_backend_name() -> str:
     """Return ``librosa``, ``torchaudio``, or ``none``."""
@@ -70,6 +82,7 @@ def waveform_to_logmel(
             "Install project deps or pass precomputed mel tensors."
         )
 
+    fk = mel_filter_kwargs(spec, sample_rate=sr_tgt)
     if backend == "librosa":
         import librosa
 
@@ -82,8 +95,10 @@ def waveform_to_logmel(
             hop_length=spec.hop_length,
             win_length=spec.win_length,
             n_mels=spec.n_mels,
-            fmin=0.0,
-            fmax=sr_tgt / 2.0,
+            fmin=fk["fmin"],
+            fmax=fk["fmax"],
+            htk=fk["mel_scale"] == "htk",
+            norm=fk["mel_norm"],
             power=1.0,
         )
         logmel = np.log(np.maximum(mel, 1e-5)).T  # [T, n_mels]
@@ -101,8 +116,10 @@ def waveform_to_logmel(
         win_length=spec.win_length,
         hop_length=spec.hop_length,
         n_mels=spec.n_mels,
-        f_min=0.0,
-        f_max=sr_tgt / 2.0,
+        f_min=fk["fmin"],
+        f_max=fk["fmax"],
+        norm=fk["mel_norm"],
+        mel_scale=fk["mel_scale"],
         power=1.0,
     )
     mel = transform(wav_t).squeeze(0)  # [n_mels, T]
@@ -167,30 +184,113 @@ def mel_n_frames(n_samples: int, *, target: str | TargetSpec | None = "mel80") -
 class MelCacheWriter:
     """Write mel shards via ``ShardWriter`` (prefix ``mels``)."""
 
-    def __init__(self, out_dir: str | Path, shard_size: int = 2000, *, resume: bool = True):
+    def __init__(
+        self,
+        out_dir: str | Path,
+        shard_size: int = 2000,
+        *,
+        resume: bool = True,
+        target: str = "mel80",
+    ):
+        self.target = str(target)
+        self.backend = mel_backend_name()
         self._w = ShardWriter(out_dir, "mels", shard_size=shard_size, resume=resume)
+        # Guard against silently mixing domains in one directory.
+        existing = self._w.index.get(MEL_CACHE_META_KEY)
+        if isinstance(existing, dict):
+            prev_t = existing.get("target")
+            prev_b = existing.get("mel_backend_name")
+            if prev_t and prev_t != self.target:
+                raise RuntimeError(
+                    f"Mel cache at {self._w.out_dir} was built for target={prev_t!r}, "
+                    f"refusing to append target={self.target!r}. Use a separate directory."
+                )
+            if prev_b and prev_b != self.backend:
+                raise RuntimeError(
+                    f"Mel cache at {self._w.out_dir} was built with mel_backend={prev_b!r}, "
+                    f"current backend={self.backend!r}. Use a separate directory or matching env."
+                )
 
     def has(self, utt_id: str) -> bool:
+        if utt_id == MEL_CACHE_META_KEY:
+            return True
         return self._w.has(utt_id)
 
     def add(self, utt_id: str, mel: torch.Tensor, meta: dict[str, Any] | None = None) -> None:
-        self._w.add(utt_id, mel.float().contiguous(), meta=meta)
+        if utt_id == MEL_CACHE_META_KEY:
+            raise ValueError(f"utt_id {MEL_CACHE_META_KEY!r} is reserved")
+        merged = {
+            "target": self.target,
+            "mel_backend_name": self.backend,
+            **(meta or {}),
+        }
+        self._w.add(utt_id, mel.float().contiguous(), meta=merged)
 
     def close(self) -> Path:
+        self._w.index[MEL_CACHE_META_KEY] = {
+            "target": self.target,
+            "mel_backend_name": self.backend,
+            "kind": "mel_cache_meta",
+        }
         return self._w.close()
 
 
 class MelCacheReader:
     """Read mel shards (``mels_index.json``)."""
 
-    def __init__(self, mel_dir: str | Path, *, lru_shards: int = 3, lazy: bool = True):
+    def __init__(
+        self,
+        mel_dir: str | Path,
+        *,
+        lru_shards: int = 3,
+        lazy: bool = True,
+        expect_target: str | None = None,
+        expect_backend: str | None = None,
+    ):
         self._r = ShardReader(mel_dir, "mels", lru_shards=lru_shards, lazy=lazy)
+        self._validate_meta(expect_target=expect_target, expect_backend=expect_backend)
+
+    def _validate_meta(
+        self,
+        *,
+        expect_target: str | None,
+        expect_backend: str | None,
+    ) -> None:
+        meta = self._r.index.get(MEL_CACHE_META_KEY)
+        if not isinstance(meta, dict):
+            # Legacy caches (pre-guard): warn only.
+            if expect_target is not None:
+                log.warning(
+                    "Mel cache %s has no %s; cannot verify expect_target=%r",
+                    self._r.out_dir,
+                    MEL_CACHE_META_KEY,
+                    expect_target,
+                )
+            return
+        got_t = meta.get("target")
+        got_b = meta.get("mel_backend_name")
+        if expect_target is not None and got_t is not None and got_t != expect_target:
+            raise RuntimeError(
+                f"Mel cache {self._r.out_dir} target={got_t!r} != expect_target={expect_target!r}. "
+                "Do not mix mel80 / mel80_hifigan directories."
+            )
+        if expect_backend is not None and got_b is not None and got_b != expect_backend:
+            raise RuntimeError(
+                f"Mel cache {self._r.out_dir} mel_backend={got_b!r} != expect_backend={expect_backend!r}."
+            )
+
+    @property
+    def cache_meta(self) -> dict[str, Any] | None:
+        meta = self._r.index.get(MEL_CACHE_META_KEY)
+        return meta if isinstance(meta, dict) else None
 
     @property
     def index(self) -> dict[str, Any]:
-        return self._r.index
+        return {k: v for k, v in self._r.index.items() if k != MEL_CACHE_META_KEY}
 
     def get(self, utt_id: str) -> torch.Tensor:
+        if utt_id == MEL_CACHE_META_KEY:
+            raise KeyError(MEL_CACHE_META_KEY)
         return self._r.get(utt_id)
 
 
