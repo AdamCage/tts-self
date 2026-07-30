@@ -15,6 +15,10 @@ See `docs/` for conversation notes and the VibeVoice technical report.
 
 **Agents:** start at [AGENTS.md](AGENTS.md).
 
+## Current status
+
+Part 1 (latent Talker) is measured — Gate 0 **FAIL**; see [docs/part1_diagnosis.md](docs/part1_diagnosis.md). Active intelligibility path is **Track A mel**: production = **mel regression S4** (`runs/mel_baseline_v01_s4/best.pt`, val100 free CER≈0.048). **CFM parked** after S2 A/B loss. Eval suite: `scripts/32_eval_mel_suite.py`. Neural vocoder: `~/models/hifigan/generator.pt` (listening `out/mel_s4_demo_wavs_neural/`). Details in [docs/next_intelligibility.md](docs/next_intelligibility.md).
+
 ## Quick start (WSL2)
 
 ```bash
@@ -49,6 +53,12 @@ uv run python scripts/00_env_check.py
 | `09_eval.py` | WER / latency / text-usage gates |
 | `10_smoke_e2e.py` | End-to-end smoke |
 | `11_phase0_feasibility.py` | Codec GO/NO-GO |
+| `27_train_mel.py` / `28_infer_mel.py` | Track A mel regression train / infer |
+| `31_train_mel_cfm.py` | Track A CFM mel decoder (**parked**) |
+| `32_eval_mel_suite.py` | Frozen mel eval suite (demo5 / val100 / OOD) |
+| `33_download_hifigan.py` | Local HiFi-GAN → `~/models/hifigan/` |
+
+See [docs/next_intelligibility.md](docs/next_intelligibility.md) for Track A status, eval suite, and vocoder listening path.
 
 ## License / data
 

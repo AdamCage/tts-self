@@ -1,4 +1,9 @@
-"""Text normalization for Russian TTS frontend."""
+"""Text normalization for Russian TTS frontend.
+
+``normalize_text`` — light TTS cleanup (NFC, abbreviations, whitespace).
+``normalize_for_asr`` — shared ASR ref/hyp normalization (separate from TN).
+Full spoken-form TN (numbers, dates, money) lives in ``verbalize.py``.
+"""
 
 from __future__ import annotations
 
@@ -6,30 +11,59 @@ import re
 import unicodedata
 
 _WS = re.compile(r"\s+")
+# Longer keys first so "т.д." wins over "д." etc.
 _ABBR = {
-    "г.": "год",
-    "гг.": "годы",
     "т.е.": "то есть",
     "т.д.": "так далее",
     "т.п.": "тому подобное",
+    "и т.д.": "и так далее",
+    "и т.п.": "и тому подобное",
+    "т.к.": "так как",
+    "т.н.": "так называемый",
+    "гг.": "годы",
+    "стр.": "страница",
+    "см.": "смотри",
     "др.": "другие",
     "руб.": "рублей",
+    "коп.": "копеек",
     "тыс.": "тысяч",
+    "млн.": "миллионов",
     "млн": "миллионов",
+    "млрд.": "миллиардов",
     "млрд": "миллиардов",
+    "ул.": "улица",
+    "пр.": "проспект",
+    "обл.": "область",
+    "г.": "год",  # ambiguous with "город"; verbalize year patterns first
+    # Bank / entity letterisms (spoken letter-by-letter)
+    "ИНН": "и эн эн",
+    "КПП": "ка пэ пэ",
+    "БИК": "бик",
+    "ОГРН": "о гэ эр эн",
 }
 
 
+def expand_abbreviations(text: str) -> str:
+    """Expand common RU abbreviations (case-insensitive)."""
+    if not text:
+        return ""
+    t = text
+    # Sort by length descending so multi-char abbreviations match first.
+    for a, b in sorted(_ABBR.items(), key=lambda kv: len(kv[0]), reverse=True):
+        t = re.sub(re.escape(a), b, t, flags=re.IGNORECASE)
+    return t
+
+
 def normalize_text(text: str) -> str:
-    """Lightweight RU normalization. Numbers/dates kept for challenge-set coverage."""
+    """Lightweight RU TTS normalization (no digit verbalization).
+
+    Preserves ё. Does not strip stress marks. Numbers/dates are left for
+    ``verbalize_text`` / ``normalize_for_tts``.
+    """
     if not text:
         return ""
     t = unicodedata.normalize("NFC", text.strip())
-    t = t.replace("Ё", "Е").replace("ё", "е")  # optional; stress path may restore
-    # Restore ё if present as combining — keep original ё from input when present
-    t = unicodedata.normalize("NFC", text.strip())
-    for a, b in _ABBR.items():
-        t = re.sub(re.escape(a), b, t, flags=re.IGNORECASE)
+    t = expand_abbreviations(t)
     t = _WS.sub(" ", t)
     return t.strip()
 

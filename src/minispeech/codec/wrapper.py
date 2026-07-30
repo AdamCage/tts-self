@@ -7,7 +7,10 @@ from typing import Any
 
 import numpy as np
 import torch
-import torchaudio
+try:
+    import torchaudio
+except ImportError:  # optional on Windows authoring hosts without torchaudio
+    torchaudio = None  # type: ignore
 
 from minispeech.constants import CODEC_MODEL_ID, LATENT_DIM, SAMPLES_PER_FRAME, SR
 
@@ -108,6 +111,8 @@ class VibeVoiceCodec:
         # DC offset removal only (no loudness norm — FE does it)
         audio_t = audio_t - audio_t.mean()
         if sr != SR:
+            if torchaudio is None:
+                raise RuntimeError("torchaudio required to resample to 24 kHz for VibeVoice")
             audio_t = torchaudio.functional.resample(audio_t.unsqueeze(0), sr, SR).squeeze(0)
         arr = audio_t.numpy()
         inputs = self.feature_extractor(

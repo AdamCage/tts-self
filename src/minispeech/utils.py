@@ -48,11 +48,28 @@ def set_seed(seed: int) -> None:
         pass
 
 
+def _find_git_root(start: Path | None = None) -> Path | None:
+    """Walk parents for a ``.git`` directory (file or dir)."""
+    cur = (start or Path.cwd()).resolve()
+    for p in [cur, *cur.parents]:
+        if (p / ".git").exists():
+            return p
+    return None
+
+
 def git_sha(cwd: Path | None = None) -> str:
+    """Return HEAD SHA, searching upward for the repo root.
+
+    Previously used only ``Path.cwd()``, which yielded ``\"unknown\"`` when
+    training was launched from a non-repo working directory.
+    """
+    root = _find_git_root(cwd)
+    if root is None:
+        return "unknown"
     try:
         out = subprocess.check_output(
             ["git", "rev-parse", "HEAD"],
-            cwd=str(cwd or Path.cwd()),
+            cwd=str(root),
             stderr=subprocess.DEVNULL,
             text=True,
         )

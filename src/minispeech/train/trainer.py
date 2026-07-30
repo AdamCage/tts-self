@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 import json
+from contextlib import nullcontext
 from functools import partial
-from typing import Any
+from typing import Any, Callable
 
 import torch
 from torch.utils.data import DataLoader
@@ -16,7 +17,24 @@ from minispeech.models.minispeech import MiniSpeech
 from minispeech.train.ema import EMA
 from minispeech.train.guided_attn import guided_attention_loss, guided_weight_schedule
 from minispeech.train.losses import flow_mse, total_regression_loss
+from minispeech.train.schedule import lr_multiplier, set_optimizer_lr
 from minispeech.utils import expand, write_run_manifest
+
+
+def cer_aware_selection_key(
+    *,
+    cer: float | None = None,
+    fr_stability: dict[str, Any] | None = None,
+) -> tuple:
+    """Prefer lower synth CER when provided; else free-running stability key.
+
+    CER need not be computed yet — pass ``cer=None`` to keep FR ranking.
+    Comparison convention: higher tuple wins (so CER is negated).
+    """
+    if cer is not None:
+        fr_tail = fr_selection_key(fr_stability or {}) if fr_stability else (0.0,)
+        return (-float(cer),) + tuple(fr_tail)
+    return fr_selection_key(fr_stability or {})
 
 
 def build_model_from_cfg(cfg: dict[str, Any], mode: str = "regression") -> MiniSpeech:
@@ -59,6 +77,8 @@ class Trainer:
         cfg: dict[str, Any],
         device: torch.device,
         normalizer=None,
+        *,
+        cer_eval_fn: Callable[[Any], dict[str, Any]] | None = None,
     ):
         self.model = model.to(device)
         self.train_loader = train_loader
@@ -66,10 +86,12 @@ class Trainer:
         self.cfg = cfg
         self.device = device
         self.normalizer = normalizer
+        self.cer_eval_fn = cer_eval_fn
         tcfg = cfg.get("train", {})
+        self.base_lr = float(tcfg.get("lr", 2e-4))
         self.opt = torch.optim.AdamW(
             model.parameters(),
-            lr=tcfg.get("lr", 2e-4),
+            lr=self.base_lr,
             weight_decay=tcfg.get("weight_decay", 0.01),
         )
         self.ema = EMA(model, decay=tcfg.get("ema_decay", 0.999))
@@ -77,6 +99,11 @@ class Trainer:
         self.run_dir.mkdir(parents=True, exist_ok=True)
         self.grad_clip = tcfg.get("grad_clip", 1.0)
         self.input_noise_max = tcfg.get("input_noise_sigma_max", 0.15)
+        self.warmup_steps = int(tcfg.get("warmup_steps", 0) or 0)
+        self.lr_schedule = str(tcfg.get("lr_schedule", "cosine"))
+        self.min_lr_ratio = float(tcfg.get("min_lr_ratio", 0.05))
+        prec = str(tcfg.get("precision", "fp32")).lower()
+        self.use_bf16 = device.type == "cuda" and prec in ("bf16", "bfloat16")
         self.lcfg = cfg.get("loss", {})
         self.stop_cfg = cfg.get("model", {}).get("stop_head", {})
         mean_frames = None
@@ -92,10 +119,14 @@ class Trainer:
         self.stop_focal_gamma = float(self.stop_cfg.get("focal_gamma", 2.0))
         self.stop_focal_alpha = float(self.stop_cfg.get("focal_alpha", 0.75))
         self.soft_stop = bool(self.stop_cfg.get("soft_labels", False))
+        self.w_tok_dur = float(self.lcfg.get("token_duration", 0.0))
         fr_cfg = tcfg.get("fr_checkpoint", {})
         self.fr_eval_every = int(fr_cfg.get("every", tcfg.get("fr_eval_every", 0)) or 0)
         self.fr_eval_n = int(fr_cfg.get("n", tcfg.get("fr_eval_n", 32)) or 32)
         self.fr_select_best = bool(fr_cfg.get("enabled", self.fr_eval_every > 0))
+        cer_cfg = tcfg.get("cer_checkpoint", {})
+        self.cer_every = int(cer_cfg.get("every", 0) or 0)
+        self.cer_select = bool(cer_cfg.get("enabled", False))
         stop_infer = cfg.get("infer", {}).get("stop", {}) if isinstance(cfg.get("infer"), dict) else {}
         self.fr_stop = {
             "threshold": float(stop_infer.get("threshold", 0.45)),
@@ -134,11 +165,26 @@ class Trainer:
                     "fr_eval_every": self.fr_eval_every,
                     "fr_select_best": self.fr_select_best,
                     "fr_stop": self.fr_stop,
+                    "use_bf16": self.use_bf16,
+                    "warmup_steps": self.warmup_steps,
+                    "lr_schedule": self.lr_schedule,
+                    "w_tok_dur": self.w_tok_dur,
+                    "cer_select": self.cer_select,
+                    "acoustic_dropout_note": (
+                        "acoustic_dropout kept for latent Talker resume (S3). "
+                        "Mel baseline does not use it. Prefer removing only after "
+                        "a measured alignment/duration path replaces the need."
+                    ),
                 },
             },
         )
         self._freeze_modules = [model.talker, model.text_proj, model.layer_mix]
         self._frozen = False
+
+    def _autocast(self):
+        if self.use_bf16:
+            return torch.autocast(device_type="cuda", dtype=torch.bfloat16)
+        return nullcontext()
 
     def _set_talker_frozen(self, frozen: bool) -> None:
         if frozen == self._frozen:
@@ -195,13 +241,22 @@ class Trainer:
         return report
 
     def _maybe_promote_fr_best(self, stage: str, step: int) -> dict[str, Any] | None:
-        if not self.fr_select_best:
+        if not self.fr_select_best and not self.cer_select:
             return None
-        report = self._eval_free_running()
-        if not report:
-            return None
-        stab = report.get("stability", {})
-        key = fr_selection_key(stab)
+        report = self._eval_free_running() if self.fr_select_best or self.val_loader is not None else {}
+        stab = report.get("stability", {}) if report else {}
+        cer_val = None
+        if self.cer_select and self.cer_eval_fn is not None:
+            try:
+                cer_report = self.cer_eval_fn(self.ema.shadow)
+                if cer_report.get("cer") is not None:
+                    cer_val = float(cer_report["cer"])
+            except Exception as exc:  # noqa: BLE001
+                print(f"[cer-eval] skipped: {exc}")
+        elif self.cer_select:
+            # Interface ready: enabled but no hook yet — keep FR ranking.
+            cer_val = None
+        key = cer_aware_selection_key(cer=cer_val, fr_stability=stab)
         improved = self._best_fr_key is None or key > self._best_fr_key
         meta = {
             "stage": stage,
@@ -210,8 +265,9 @@ class Trainer:
             "selection_key": list(key),
             "prev_selection_key": list(self._best_fr_key) if self._best_fr_key is not None else None,
             "stability": stab,
-            "n": report.get("n"),
-            "duration_ratios": report.get("duration_ratios"),
+            "cer": cer_val,
+            "n": report.get("n") if report else None,
+            "duration_ratios": report.get("duration_ratios") if report else None,
         }
         with open(self.run_dir / "fr_eval.jsonl", "a", encoding="utf-8") as f:
             f.write(json.dumps(meta) + "\n")
@@ -221,17 +277,19 @@ class Trainer:
             (self.run_dir / "best_fr_metrics.json").write_text(
                 json.dumps(meta, indent=2), encoding="utf-8"
             )
-            print(
-                f"[fr-best] step={step} duration_in_band={stab.get('duration_in_band_rate'):.3f} "
-                f"stop={stab.get('stop_success_rate'):.3f} runaway={stab.get('runaway_rate'):.3f}"
-            )
+            msg = f"[ckpt-best] step={step}"
+            if cer_val is not None:
+                msg += f" cer={cer_val:.4f}"
+            if stab:
+                msg += (
+                    f" duration_in_band={stab.get('duration_in_band_rate'):.3f} "
+                    f"stop={stab.get('stop_success_rate'):.3f}"
+                )
+            print(msg)
         else:
             # Still refresh rolling last without clobbering FR best.
             self._save_ckpt(stage, step=step, promote_best=False)
-            print(
-                f"[fr-eval] step={step} duration_in_band={stab.get('duration_in_band_rate'):.3f} "
-                f"(kept prior best)"
-            )
+            print(f"[ckpt-eval] step={step} (kept prior best)")
         return meta
 
     def train_steps(self, steps: int, stage: str = "S1") -> dict[str, float]:
@@ -243,6 +301,14 @@ class Trainer:
         save_every = int(self.cfg.get("train", {}).get("save_every", 0) or 0)
         for step in pbar:
             self._set_talker_frozen(step < freeze_steps)
+            mult = lr_multiplier(
+                step,
+                steps,
+                warmup_steps=self.warmup_steps,
+                schedule=self.lr_schedule,  # type: ignore[arg-type]
+                min_lr_ratio=self.min_lr_ratio,
+            )
+            set_optimizer_lr(self.opt, self.base_lr, mult)
             try:
                 batch = next(it)
             except StopIteration:
@@ -263,63 +329,76 @@ class Trainer:
                 start=self.lcfg.get("guided_attn_start", 1.0),
                 end_frac=self.lcfg.get("guided_attn_end_frac", 0.35),
             )
-            out = self.model(
-                z_input,
-                batch["text_hidden"],
-                frame_mask=batch["frame_mask"],
-                text_mask=batch["text_mask"],
-                align_prior=batch.get("align_prior"),
-                guided_weight=gw,
-                z_target=z_target,
-                acoustic_dropout=float(self.cfg.get("train", {}).get("acoustic_dropout", 0.25)),
-            )
-            if self.model.mode == "regression":
-                guided = None
-                if out.cross_attn is not None and batch.get("align_prior") is not None and gw > 0:
-                    guided = guided_attention_loss(
-                        out.cross_attn, batch["align_prior"], batch["frame_mask"], batch["text_mask"]
-                    )
-                losses = total_regression_loss(
-                    out.z_pred,
-                    z_target,
-                    out.stop_logits,
-                    batch["stop_target"],
-                    out.dur_pred,
-                    batch["durations"],
-                    batch["frame_mask"],
-                    w_l1=self.lcfg.get("l1", 1.0),
-                    w_cos=self.lcfg.get("cosine", 0.2),
-                    w_stop=self.lcfg.get("stop", 0.1),
-                    w_dur=self.lcfg.get("duration", 0.05),
-                    stop_pos_weight=self.stop_pos_weight,
-                    stop_loss=self.stop_loss,
-                    stop_focal_gamma=self.stop_focal_gamma,
-                    stop_focal_alpha=self.stop_focal_alpha,
-                    guided=guided,
-                    w_guided=gw,
+            sw = batch.get("sample_weight")
+            with self._autocast():
+                out = self.model(
+                    z_input,
+                    batch["text_hidden"],
+                    frame_mask=batch["frame_mask"],
+                    text_mask=batch["text_mask"],
+                    align_prior=batch.get("align_prior"),
+                    guided_weight=gw,
+                    z_target=z_target,
+                    acoustic_dropout=float(self.cfg.get("train", {}).get("acoustic_dropout", 0.25)),
                 )
-            else:
-                losses = {
-                    "flow": flow_mse(out.extras["v_pred"], out.extras["v_target"], batch["frame_mask"]),
-                    "stop": total_regression_loss(
-                        z_target,
+                if self.model.mode == "regression":
+                    guided = None
+                    if out.cross_attn is not None and batch.get("align_prior") is not None and gw > 0:
+                        guided = guided_attention_loss(
+                            out.cross_attn, batch["align_prior"], batch["frame_mask"], batch["text_mask"]
+                        )
+                    losses = total_regression_loss(
+                        out.z_pred,
                         z_target,
                         out.stop_logits,
                         batch["stop_target"],
                         out.dur_pred,
                         batch["durations"],
                         batch["frame_mask"],
-                        w_l1=0,
-                        w_cos=0,
+                        w_l1=self.lcfg.get("l1", 1.0),
+                        w_cos=self.lcfg.get("cosine", 0.2),
                         w_stop=self.lcfg.get("stop", 0.1),
                         w_dur=self.lcfg.get("duration", 0.05),
                         stop_pos_weight=self.stop_pos_weight,
                         stop_loss=self.stop_loss,
                         stop_focal_gamma=self.stop_focal_gamma,
                         stop_focal_alpha=self.stop_focal_alpha,
-                    )["stop"],
-                }
-                losses["total"] = losses["flow"] + 0.1 * losses["stop"]
+                        guided=guided,
+                        w_guided=gw,
+                        sample_weight=sw,
+                        tok_dur_pred=out.tok_dur_pred,
+                        tok_dur_target=batch.get("token_durations"),
+                        text_mask=batch["text_mask"],
+                        w_tok_dur=self.w_tok_dur,
+                    )
+                else:
+                    losses = {
+                        "flow": flow_mse(
+                            out.extras["v_pred"],
+                            out.extras["v_target"],
+                            batch["frame_mask"],
+                            sample_weight=sw,
+                        ),
+                        "stop": total_regression_loss(
+                            z_target,
+                            z_target,
+                            out.stop_logits,
+                            batch["stop_target"],
+                            out.dur_pred,
+                            batch["durations"],
+                            batch["frame_mask"],
+                            w_l1=0,
+                            w_cos=0,
+                            w_stop=self.lcfg.get("stop", 0.1),
+                            w_dur=self.lcfg.get("duration", 0.05),
+                            stop_pos_weight=self.stop_pos_weight,
+                            stop_loss=self.stop_loss,
+                            stop_focal_gamma=self.stop_focal_gamma,
+                            stop_focal_alpha=self.stop_focal_alpha,
+                            sample_weight=sw,
+                        )["stop"],
+                    }
+                    losses["total"] = losses["flow"] + 0.1 * losses["stop"]
 
             self.opt.zero_grad(set_to_none=True)
             losses["total"].backward()
@@ -328,19 +407,21 @@ class Trainer:
             self.ema.update(self.model)
 
             last = {k: float(v.detach().cpu()) for k, v in losses.items()}
+            last["lr"] = float(self.opt.param_groups[0]["lr"])
             if step % 50 == 0:
-                pbar.set_postfix(loss=f"{last['total']:.4f}")
+                pbar.set_postfix(loss=f"{last['total']:.4f}", lr=f"{last['lr']:.2e}")
                 with open(self.run_dir / "train_log.jsonl", "a", encoding="utf-8") as f:
                     f.write(json.dumps({"step": step, "stage": stage, **last}) + "\n")
             do_save = save_every > 0 and step > 0 and (step + 1) % save_every == 0
             do_fr = self.fr_eval_every > 0 and step > 0 and (step + 1) % self.fr_eval_every == 0
-            if do_fr:
+            do_cer = self.cer_every > 0 and step > 0 and (step + 1) % self.cer_every == 0
+            if do_fr or do_cer:
                 self._maybe_promote_fr_best(stage, step=step + 1)
             elif do_save:
                 self._save_ckpt(stage, step=step + 1, promote_best=not self.fr_select_best)
 
         self._set_talker_frozen(False)
-        if self.fr_select_best:
+        if self.fr_select_best or self.cer_select:
             self._maybe_promote_fr_best(stage, step=steps)
         else:
             self._save_ckpt(stage, step=steps, promote_best=True)
@@ -357,7 +438,9 @@ def make_loaders(
 ):
     train_section = train_section or {}
     model_cfg = model_cfg or {}
-    preload = bool(train_section.get("data", {}).get("preload", True))
+    # Default False: ShardReader lazy-opens tensors (lower host RAM). S1/S2 may
+    # still set train.data.preload: true for speed on tiny subsets.
+    preload = bool(train_section.get("data", {}).get("preload", False))
     stop_cfg = model_cfg.get("stop_head", {})
     stop_window = int(stop_cfg.get("stop_window", 1))
     soft_stop = bool(stop_cfg.get("soft_labels", False))

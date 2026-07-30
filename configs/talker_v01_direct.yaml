@@ -72,7 +72,15 @@ train:
   grad_clip: 1.0
   warmup_steps: 200
   input_noise_sigma_max: 0.15
+  # Kept for S3 resume compatibility. Mel baseline does not use this.
+  # Prefer removing only after forced-align + explicit durations replace the need.
   acoustic_dropout: 0.40
+  lr_schedule: cosine
+  min_lr_ratio: 0.05
+  # Optional: prefer synth CER when cer_eval_fn is wired (interface ready).
+  cer_checkpoint:
+    enabled: false
+    every: 0
   log_every: 50
   eval_every: 250
   save_every: 1000

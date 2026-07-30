@@ -12,7 +12,7 @@ stressed RU text → offline Qwen3.5-0.8B text hidden
   → VibeVoice latents [64] @ 7.5 Hz → frozen cached decoder
 ```
 
-Primary docs: [README.md](README.md), [docs/conversation.md](docs/conversation.md), [docs/vibevoice.pdf](docs/vibevoice.pdf), [docs/phase0_report.md](docs/phase0_report.md), [docs/experiment_protocol.md](docs/experiment_protocol.md).
+Primary docs: [README.md](README.md), [docs/conversation.md](docs/conversation.md), [docs/vibevoice.pdf](docs/vibevoice.pdf), [docs/phase0_report.md](docs/phase0_report.md), [docs/experiment_protocol.md](docs/experiment_protocol.md), [docs/part1_diagnosis.md](docs/part1_diagnosis.md) (Part 1 measured), [docs/next_intelligibility.md](docs/next_intelligibility.md) (Track A next). **Intelligibility work is mel Track A** (phoneme→mel baseline); do not resume latent S4/Flow until Gate 0 passes.
 
 ## Environment
 
@@ -44,29 +44,29 @@ python scripts/00_env_check.py && pytest -q
 ## Non-negotiables
 
 1. **Never train the codec.** `sample=False` only for TTS targets.
-2. **Do not treat `vae_std=0.625` as a head error budget** — use empirical sensitivity curves.
-3. **Qwen stays out of the train loop** until Phase 5 LoRA; use offline text-hidden caches.
+2. **Do not treat `vae_std=0.625` as a head error budget** — use normalized CER(σ)/CER(α) from `scripts/21_latent_error_calibration.py` (Phase 0 sensitivity is secondary).
+3. **Qwen stays out of the train loop** until a measured win justifies LoRA; use offline text-hidden caches.
 4. **Feed stressed natural Russian into Qwen**, not phoneme strings.
-5. **Latent geometry** lives in [`src/minispeech/constants.py`](src/minispeech/constants.py) only (`LATENT_DIM=64`, `FRAME_RATE=7.5`, `SAMPLES_PER_FRAME=3200`).
+5. **Target geometry** lives in [`src/minispeech/constants.py`](src/minispeech/constants.py) only — use the `TARGETS` registry (`get_target`). VibeVoice branch keeps module aliases `LATENT_DIM=64`, `FRAME_RATE=7.5`, `SAMPLES_PER_FRAME=3200`, `SR=24000` (`vibevoice64`). Track A adds registered mel target `mel80` (22.05 kHz, `n_fft=1024`, `hop=256` → ≈86.13 Hz, 80 bins). Do not invent parallel constants ad hoc.
 6. **Stress format** is combining acute `U+0301` via [`frontend/stress.py`](src/minispeech/frontend/stress.py) — train and infer must match.
 7. Research-only speech synthesis — no impersonation / fraud tooling.
 
 ## Phase order
 
-Do not skip gates:
+Do not skip gates. **Promotion gates 0–6** are defined in [`docs/experiment_protocol.md`](docs/experiment_protocol.md) (R² / CER first; stop/duration alone is not enough). Part 1 is **done** — see [`docs/part1_diagnosis.md`](docs/part1_diagnosis.md) (Gate 0 FAIL). Next: Track A frontend + forced align ([`docs/next_intelligibility.md`](docs/next_intelligibility.md)).
 
 | Phase | Gate |
 |-------|------|
 | 0 | Codec GO/NO-GO (`scripts/11_phase0_feasibility.py`) — ASR ΔWER with bootstrap CI |
 | 1 | Latent + text-hidden shards + stats |
-| 1b | Align prior A/B/C (C is enough to start; not a hard blocker) |
-| 2 | Ladder S1→S4; **text-usage gate on S1** (three counterfactuals by S2) |
-| 3 | Flow head + A/B vs regression |
-| 4 | Cached streaming decode + measured TTFB |
+| 1b | Align prior A/B/C — prefer `forced.json` from `scripts/26_build_forced_align.py` then `06_align.py --level A`; C only as scaffold |
+| 2 | Ladder only after Gate 0 (R²); **text-usage on S1** + synth CER |
+| 3 | Generative head A/B only after intelligibility baseline exists |
+| 4 | Cached streaming decode + measured TTFB (Gate 6) |
 | 5 | LoRA only if measurable win |
 | 6 | Multi-speaker / emotion |
 
-Training ladder: **32 utts → 1 h → 5 h → full corpus**. Overfit S1 before scaling.
+Training ladder: **32 utts → 1 h → 5 h → full corpus**. Overfit S1 before scaling. Do **not** restart abandoned S4/Flow until Gate 0 (currently FAIL per Part 1).
 
 ## Commands (WSL)
 
@@ -81,11 +81,14 @@ python scripts/03_verify_text_asr.py --config configs/data_ruslan_local.yaml
 python scripts/03b_apply_qc.py --config configs/data_ruslan_local.yaml
 python scripts/04_encode_latents.py --config configs/data_ruslan_local.yaml
 python scripts/05_cache_text_hidden.py --config configs/data_ruslan_local.yaml --qwen-config configs/qwen_local.yaml
-python scripts/06_align.py --config configs/data_ruslan_local.yaml --level C
+python scripts/26_build_forced_align.py --config configs/data_ruslan_local.yaml --method uniform --max-utts 32
+python scripts/06_align.py --config configs/data_ruslan_local.yaml --level A
 python scripts/07_train.py --config configs/talker_v01_direct.yaml --data configs/data_ruslan_local.yaml --mode regression --stage S1
 python scripts/09_eval.py --ckpt runs/v01_regression_direct/best.pt --data configs/data_ruslan_local.yaml
 pytest -q
 ```
+
+Frontend order for Track A: **TN (`normalize`/`verbalize`) → stress (`accentuate`) → G2P (`text_to_phonemes`)**. Optional: `uv pip install -e ".[g2p,stress]"` plus system `espeak-ng` in WSL.
 
 ## Architecture pitfalls (learned)
 

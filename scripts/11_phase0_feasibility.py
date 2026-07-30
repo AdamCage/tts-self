@@ -24,6 +24,7 @@ from minispeech.codec.cache_check import (
     decode_chunked,
     evaluate_cache_gate,
 )
+from minispeech.codec.stats import LatentNormalizer
 from minispeech.codec.wrapper import VibeVoiceCodec
 from minispeech.constants import SR
 from minispeech.eval.asr import AsrConfig, AsrEngine
@@ -34,6 +35,7 @@ from minispeech.eval.bootstrap import (
     edits_from_jiwer_words,
     paired_bootstrap_delta,
 )
+from minispeech.eval.latent_perturb import add_ar1_noise, add_white_noise
 from minispeech.frontend.normalize import normalize_for_asr
 from minispeech.utils import expand, load_yaml, set_seed
 
@@ -75,15 +77,6 @@ def load_sample_utterances(ruslan_dir: Path, n: int, seed: int = 42):
     return out
 
 
-def ar1_noise(shape, rho: float, sigma: float, device, dtype):
-    eps = torch.randn(*shape, device=device, dtype=dtype)
-    out = torch.zeros_like(eps)
-    out[:, 0] = eps[:, 0]
-    for t in range(1, shape[1]):
-        out[:, t] = rho * out[:, t - 1] + (1 - rho**2) ** 0.5 * eps[:, t]
-    return out * sigma
-
-
 def _gate_decision(
     structural_ok: bool,
     dwer: float | None,
@@ -120,11 +113,26 @@ def main() -> int:
     ap.add_argument("--skip-asr", action="store_true")
     ap.add_argument("--report", default=None)
     ap.add_argument("--records", default="docs/phase0_asr_records.jsonl")
+    ap.add_argument(
+        "--stats",
+        default=None,
+        help="Latent stats for normalized sensitivity (default: data.stats_path)",
+    )
     args = ap.parse_args()
     ccfg = load_yaml(args.config)
     dcfg = load_yaml(args.data)["data"]
     p0 = ccfg["phase0"]
     set_seed(p0.get("seed", 42))
+
+    # Sensitivity must use *normalized* latent units (see scripts/21_*; recovery plan E1).
+    norm: LatentNormalizer | None = None
+    stats_path = args.stats or dcfg.get("stats_path")
+    if stats_path:
+        try:
+            norm = LatentNormalizer.from_file(stats_path)
+            print(f"sensitivity units=normalized stats={stats_path}")
+        except Exception as e:
+            print(f"WARNING: stats unavailable ({e}); sensitivity falls back to raw latents")
 
     ruslan = expand(args.ruslan_dir or dcfg["ruslan_dir"])
     n = args.n or p0.get("n_utterances", 300)
@@ -298,7 +306,7 @@ def main() -> int:
         dwer = boot_wer.delta_pp
         dcer = boot_cer.delta_pp
 
-    # Sensitivity sweep on sweep-n utterances with texts
+    # Sensitivity sweep on sweep-n utterances with texts (normalized latent σ)
     sweep_samples = [(wp, t) for wp, t in samples if t][: max(1, args.sweep_n)]
     if not sweep_samples:
         sweep_samples = samples[:1]
@@ -312,19 +320,32 @@ def main() -> int:
                 if audio.ndim > 1:
                     audio = audio.mean(-1)
                 enc_s = codec.encode(audio, sr, sample=False)
-                mu_s = enc_s.latents
-                if sigma == 0:
-                    z_n = mu_s
-                elif kind == "white":
-                    z_n = mu_s + sigma * torch.randn_like(mu_s)
+                mu_s = enc_s.latents  # raw [B,T,D]
+                if norm is not None:
+                    z_unit = norm.normalize(mu_s.float())
+                    if sigma == 0:
+                        z_p = z_unit
+                    elif kind == "white":
+                        z_p = add_white_noise(z_unit, float(sigma))
+                    else:
+                        z_p = add_ar1_noise(z_unit, float(sigma), rho=rho)
+                    z_dec = norm.denormalize(z_p).to(dtype=mu_s.dtype)
                 else:
-                    z_n = mu_s + ar1_noise(mu_s.shape, rho, sigma, mu_s.device, mu_s.dtype)
-                aud = codec.decode(z_n).audio.squeeze().float().cpu().numpy()
+                    # Legacy raw-space path (not comparable to head MAE)
+                    if sigma == 0:
+                        z_dec = mu_s
+                    elif kind == "white":
+                        z_dec = mu_s + float(sigma) * torch.randn_like(mu_s)
+                    else:
+                        z_dec = add_ar1_noise(mu_s.float(), float(sigma), rho=rho).to(mu_s.dtype)
+                aud = codec.decode(z_dec).audio.squeeze().float().cpu().numpy()
                 rms_acc.append(float(np.sqrt(np.mean(aud**2))))
                 if asr is not None and text:
-                    hyps_s.append(normalize_for_asr(asr.transcribe(aud, SR)))
+                    # use_cache=True is fine: distinct PCM → distinct hash
+                    hyps_s.append(normalize_for_asr(asr.transcribe(aud, SR, use_cache=True)))
             entry: dict = {
                 "sigma": sigma,
+                "units": "normalized" if norm is not None else "raw",
                 "rms": float(np.mean(rms_acc)) if rms_acc else 0.0,
                 "n": len(sweep_samples),
             }
@@ -397,7 +418,13 @@ def main() -> int:
         "sensitivity": sweep,
         "worst_by_cer_delta": worst_cer,
         "worst_by_abs_char_errors": worst_abs,
-        "note": "vae_std=0.625 is NOT a guaranteed noise budget; see sensitivity curves.",
+        "note": (
+            "vae_std=0.625 is NOT a guaranteed noise budget; see sensitivity curves. "
+            "Sensitivity σ is in normalized latent units when stats_path loads "
+            "(comparable to head MAE); prefer scripts/21_latent_error_calibration.py "
+            "for CER(σ)/CER(α)."
+        ),
+        "sensitivity_units": "normalized" if norm is not None else "raw",
         "gate": {
             "GO": "ΔWER ≤ 2 pp and CI95 high ≤ 4 pp",
             "REVIEW": "ΔWER in 2–4 pp or CI crosses 4 pp; or ASR unavailable",

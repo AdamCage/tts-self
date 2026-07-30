@@ -1,0 +1,39 @@
+# Frozen mel eval suite (plan c) — small RU stress / bank / demo sets.
+# Paths are relative to repo root unless absolute.
+
+suite:
+  name: mel_eval_suite_v01
+  asr_config: configs/asr.yaml
+  target: mel80
+
+# Production reference (griffin-lim free infer; Whisper CER)
+production:
+  ckpt: runs/mel_baseline_v01_s4/best.pt
+  label: mel_s4_production
+  free_demo_cer: 0.04814814814814815
+  val100_cer: 0.04806474055351101
+  vocoder: griffin_lim
+  summary_json: out/intelligibility_mel_s4.json
+  cfm_parked: true
+
+test_sets:
+  demo5: configs/eval_sets/demo5.json
+  val100: configs/eval_sets/val100.json
+  homograph: configs/eval_sets/homograph.json
+  bank_entity: configs/eval_sets/bank_entity.json
+
+infer_defaults:
+  duration_mode: mean_stats
+  gap_mode: expand_neighbor
+  sil_policy: none
+  forced_lookup: false
+  data: configs/data_ruslan_local.yaml
+
+# Optional metrics — skipped gracefully when deps/models missing
+optional_metrics:
+  - whisper_cer   # always attempted when ASR available
+  - gigaam_ctc
+  - utmos_v2
+  - nisqa
+  - mcd_dtw
+  - f0_rmse

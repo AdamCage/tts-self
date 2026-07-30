@@ -6,6 +6,9 @@ data:
   text_hidden_dir: ~/datasets/tts/ruslan/text_hidden
   stats_path: ~/datasets/tts/ruslan/stats.safetensors
   align_dir: ~/datasets/tts/ruslan/align
+  # Track A mel cache (scripts/29_cache_mels.py); forced.json under align_dir
+  mel_dir: ~/datasets/tts/ruslan/mels
+  forced_path: ~/datasets/tts/ruslan/align/forced.json
   speaker: ruslan
   sample_rate_src: 22050
   sample_rate_tgt: 24000

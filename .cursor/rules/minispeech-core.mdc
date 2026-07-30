@@ -8,7 +8,7 @@ alwaysApply: true
 - Target stack: WSL2 + CUDA, frozen VibeVoice acoustic tokenizer, offline Qwen3.5 text hiddens, trainable Talker + head only.
 - Never train/finetune the codec. Encode TTS targets with `sample=False`.
 - Do not treat `vae_std=0.625` as an allowed prediction error; use Phase 0 sensitivity results.
-- Keep codec constants in `src/minispeech/constants.py` only.
+- Keep target geometry in `src/minispeech/constants.py` only (`TARGETS` registry + VibeVoice aliases; mel via `mel80`).
 - Stress marks: Unicode combining acute (`U+0301`) via `frontend/stress.py` for both train and infer.
 - Pass stressed natural Russian into Qwen — never raw phoneme sequences as Qwen tokens.
 - Before Phase 0 / cache build / train ladder / text-usage debug: read the matching skill under `.cursor/skills/`.

@@ -84,7 +84,25 @@ class ShardWriter:
 
 
 class ShardReader:
-    def __init__(self, out_dir: str | Path, prefix: str, lru_shards: int = 3):
+    """Read sharded safetensors caches.
+
+    Parameters
+    ----------
+    lazy:
+        If True (default), fetch a single tensor via ``safe_open`` without
+        materializing the whole shard into a Python dict (lower peak RAM).
+        An LRU of recently opened shard handles is still kept. Set False to
+        load entire shards with ``load_file`` (previous behaviour).
+    """
+
+    def __init__(
+        self,
+        out_dir: str | Path,
+        prefix: str,
+        lru_shards: int = 3,
+        *,
+        lazy: bool = True,
+    ):
         self.out_dir = expand(out_dir)
         self.prefix = prefix
         idx_path = self.out_dir / f"{prefix}_index.json"
@@ -92,20 +110,34 @@ class ShardReader:
         self._cache: dict[str, dict[str, torch.Tensor]] = {}
         self._lru: list[str] = []
         self.lru_shards = lru_shards
+        self.lazy = lazy
+
+    def _touch(self, shard: str) -> None:
+        if shard in self._lru:
+            self._lru.remove(shard)
+        self._lru.append(shard)
+        while len(self._lru) > self.lru_shards:
+            old = self._lru.pop(0)
+            self._cache.pop(old, None)
 
     def get(self, utt_id: str) -> torch.Tensor:
         info = self.index[utt_id]
         shard = info["shard"]
+        key = info["key"]
+        path = str(self.out_dir / shard)
+        if self.lazy:
+            try:
+                from safetensors import safe_open
+
+                with safe_open(path, framework="pt") as f:
+                    return f.get_tensor(key).clone()
+            except ImportError:
+                self.lazy = False
+
         if shard not in self._cache:
-            if len(self._lru) >= self.lru_shards:
-                old = self._lru.pop(0)
-                self._cache.pop(old, None)
-            self._cache[shard] = load_file(str(self.out_dir / shard))
-            self._lru.append(shard)
-        elif shard in self._lru:
-            self._lru.remove(shard)
-            self._lru.append(shard)
-        return self._cache[shard][info["key"]]
+            self._cache[shard] = load_file(path)
+        self._touch(shard)
+        return self._cache[shard][key]
 
     def preload_all(self) -> dict[str, torch.Tensor]:
         return {utt_id: self.get(utt_id) for utt_id in self.index}

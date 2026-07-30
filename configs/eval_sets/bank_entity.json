@@ -1,0 +1,48 @@
+{
+  "id": "bank_entity",
+  "description": "Bank/entity phrases: digit amounts/dates (TN→spoken) + verbalized account/codes; CER uses normalize_verbalized_for_asr",
+  "kind": "phrases",
+  "n": 8,
+  "items": [
+    {
+      "utt_id": "bank_01",
+      "text": "Переведите 1234 руб. 50 коп.",
+      "note": "digit money → verbalize_money at infer"
+    },
+    {
+      "utt_id": "bank_02",
+      "text": "Сумма платежа: 15700 руб.",
+      "note": "digit money"
+    },
+    {
+      "utt_id": "bank_03",
+      "text": "Дата операции: 23.07.2026.",
+      "note": "digit date DMY"
+    },
+    {
+      "utt_id": "bank_04",
+      "text": "Номер счёта 4082, проверьте реквизиты.",
+      "note": "account digits spelled one-by-one"
+    },
+    {
+      "utt_id": "bank_05",
+      "text": "Курс доллара сегодня 92 руб. 13 коп.",
+      "note": "digit money + kopecks"
+    },
+    {
+      "utt_id": "bank_06",
+      "text": "Комиссия составит 0.5%.",
+      "note": "percent decimal"
+    },
+    {
+      "utt_id": "bank_07",
+      "text": "Зачисление ожидается до 16:30.",
+      "note": "digit time HH:MM"
+    },
+    {
+      "utt_id": "bank_08",
+      "text": "ИНН организации девять цифр, КПП — девять цифр.",
+      "note": "letterism expansion ИНН/КПП"
+    }
+  ]
+}

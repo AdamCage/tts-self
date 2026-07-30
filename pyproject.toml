@@ -38,6 +38,9 @@ eval = [
 stress = [
   "ruaccent>=1.5.0",
 ]
+g2p = [
+  "phonemizer>=3.2.0",
+]
 train = [
   "wandb>=0.18.0",
 ]
