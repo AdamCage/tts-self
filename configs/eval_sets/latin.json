@@ -1,0 +1,710 @@
+{
+  "id": "latin",
+  "description": "Latin abbreviations and loanwords for frontend transliteration (D2); expected_spoken is fully Cyrillic spoken form",
+  "kind": "phrases",
+  "n": 117,
+  "items": [
+    {
+      "utt_id": "latin_001",
+      "text": "Установите TTS через Google Play.",
+      "note": "acronym: TTS+Google Play",
+      "expected_spoken": "Установите тэ-тэ-э́с через гугл плэй."
+    },
+    {
+      "utt_id": "latin_002",
+      "text": "Отправьте SMS на короткий номер.",
+      "note": "acronym: SMS",
+      "expected_spoken": "Отправьте эс-эм-э́с на короткий номер."
+    },
+    {
+      "utt_id": "latin_003",
+      "text": "Отдел HR ответит до пятницы.",
+      "note": "acronym: HR",
+      "expected_spoken": "Отдел эйч-а́р ответит до пятницы."
+    },
+    {
+      "utt_id": "latin_004",
+      "text": "Служба IT обновит сервер ночью.",
+      "note": "acronym: IT",
+      "expected_spoken": "Служба ай-ти́ обновит сервер ночью."
+    },
+    {
+      "utt_id": "latin_005",
+      "text": "Отсканируйте QR на чеке.",
+      "note": "acronym: QR",
+      "expected_spoken": "Отсканируйте ку-э́р на чеке."
+    },
+    {
+      "utt_id": "latin_006",
+      "text": "Подключите VPN перед доступом.",
+      "note": "acronym: VPN",
+      "expected_spoken": "Подключите ви́-пи-э́н перед доступом."
+    },
+    {
+      "utt_id": "latin_007",
+      "text": "Код PIN нельзя сообщать.",
+      "note": "acronym: PIN",
+      "expected_spoken": "Код пи́н нельзя сообщать."
+    },
+    {
+      "utt_id": "latin_008",
+      "text": "Проверьте CPU и RAM на стенде.",
+      "note": "acronym: CPU+RAM",
+      "expected_spoken": "Проверьте си́-пи-ю́ и ра́м на стенде."
+    },
+    {
+      "utt_id": "latin_009",
+      "text": "Файл в формате PDF готов.",
+      "note": "acronym: PDF",
+      "expected_spoken": "Файл в формате пи-ди́-э́ф готов."
+    },
+    {
+      "utt_id": "latin_010",
+      "text": "Ссылка ведёт на сайт URL.",
+      "note": "acronym: URL",
+      "expected_spoken": "Ссылка ведёт на сайт ю-а́р-э́л."
+    },
+    {
+      "utt_id": "latin_011",
+      "text": "Включите Wi-Fi в настройках.",
+      "note": "acronym: Wi-Fi",
+      "expected_spoken": "Включите ва́й-фа́й в настройках."
+    },
+    {
+      "utt_id": "latin_012",
+      "text": "Оплатите через NFC у терминала.",
+      "note": "acronym: NFC",
+      "expected_spoken": "Оплатите через э́н-эф-си́ у терминала."
+    },
+    {
+      "utt_id": "latin_013",
+      "text": "Войдите по номеру SIM-карты.",
+      "note": "acronym: SIM",
+      "expected_spoken": "Войдите по номеру си́м-карты."
+    },
+    {
+      "utt_id": "latin_014",
+      "text": "Сервис API вернул ошибку.",
+      "note": "acronym: API",
+      "expected_spoken": "Сервис эй-пи́-а́й вернул ошибку."
+    },
+    {
+      "utt_id": "latin_015",
+      "text": "Настройте DNS вручную.",
+      "note": "acronym: DNS",
+      "expected_spoken": "Настройте ди́-эн-э́с вручную."
+    },
+    {
+      "utt_id": "latin_016",
+      "text": "Сохраните файл в CSV.",
+      "note": "acronym: CSV",
+      "expected_spoken": "Сохраните файл в си́-эс-ви́."
+    },
+    {
+      "utt_id": "latin_017",
+      "text": "Экспорт в JSON завершён.",
+      "note": "acronym: JSON",
+      "expected_spoken": "Экспорт в джэ́й-сон завершён."
+    },
+    {
+      "utt_id": "latin_018",
+      "text": "Запустите SQL-запрос ещё раз.",
+      "note": "acronym: SQL",
+      "expected_spoken": "Запустите эс-кью́-э́л-запрос ещё раз."
+    },
+    {
+      "utt_id": "latin_019",
+      "text": "Подпишите договор через ЭЦП и USB.",
+      "note": "acronym: USB",
+      "expected_spoken": "Подпишите договор через эцэпэ́ и ю́-эс-би́."
+    },
+    {
+      "utt_id": "latin_020",
+      "text": "Скопируйте текст из HTML.",
+      "note": "acronym: HTML",
+      "expected_spoken": "Скопируйте текст из эйч-ти́-эм-э́л."
+    },
+    {
+      "utt_id": "latin_021",
+      "text": "Сайт на HTTPS обязателен.",
+      "note": "acronym: HTTPS",
+      "expected_spoken": "Сайт на эйч-ти́-ти́-пи́-э́с обязателен."
+    },
+    {
+      "utt_id": "latin_022",
+      "text": "Проверьте GPS на телефоне.",
+      "note": "acronym: GPS",
+      "expected_spoken": "Проверьте джи́-пи-э́с на телефоне."
+    },
+    {
+      "utt_id": "latin_023",
+      "text": "Включите режим CD и DVD.",
+      "note": "acronym: CD DVD",
+      "expected_spoken": "Включите режим си́-ди́ и ди́-ви-ди́."
+    },
+    {
+      "utt_id": "latin_024",
+      "text": "Отправьте файл по FTP.",
+      "note": "acronym: FTP",
+      "expected_spoken": "Отправьте файл по э́ф-ти-пи́."
+    },
+    {
+      "utt_id": "latin_025",
+      "text": "Код CVV на обороте карты.",
+      "note": "acronym: CVV",
+      "expected_spoken": "Код си́-ви́-ви́ на обороте карты."
+    },
+    {
+      "utt_id": "latin_026",
+      "text": "Введите OTP из сообщения.",
+      "note": "acronym: OTP",
+      "expected_spoken": "Введите о́-ти́-пи́ из сообщения."
+    },
+    {
+      "utt_id": "latin_027",
+      "text": "Поддержка IOS и Android доступна.",
+      "note": "acronym: IOS Android",
+      "expected_spoken": "Поддержка а́й-о́-э́с и андро́ид доступна."
+    },
+    {
+      "utt_id": "latin_028",
+      "text": "Откройте Google Maps для маршрута.",
+      "note": "loan: Google Maps",
+      "expected_spoken": "Откройте гугл мэпс для маршрута."
+    },
+    {
+      "utt_id": "latin_029",
+      "text": "Скачайте приложение из Apple Store.",
+      "note": "loan: Apple Store",
+      "expected_spoken": "Скачайте приложение из э́пл сто́р."
+    },
+    {
+      "utt_id": "latin_030",
+      "text": "Оплатите заказ через PayPal.",
+      "note": "loan: PayPal",
+      "expected_spoken": "Оплатите заказ через пэ́йпал."
+    },
+    {
+      "utt_id": "latin_031",
+      "text": "Войдите в аккаунт Microsoft.",
+      "note": "loan: Microsoft",
+      "expected_spoken": "Войдите в аккаунт ма́йкрософт."
+    },
+    {
+      "utt_id": "latin_032",
+      "text": "Обновите драйвер NVIDIA.",
+      "note": "loan: NVIDIA",
+      "expected_spoken": "Обновите драйвер энви́диа."
+    },
+    {
+      "utt_id": "latin_033",
+      "text": "Ноутбук на Intel Core готов.",
+      "note": "loan: Intel Core",
+      "expected_spoken": "Ноутбук на и́нтел ко́р готов."
+    },
+    {
+      "utt_id": "latin_034",
+      "text": "Камера на базе Sony стоит на штативе.",
+      "note": "loan: Sony",
+      "expected_spoken": "Камера на базе со́ни стоит на штативе."
+    },
+    {
+      "utt_id": "latin_035",
+      "text": "Наушники Samsung подключены.",
+      "note": "loan: Samsung",
+      "expected_spoken": "Наушники са́мсунг подключены."
+    },
+    {
+      "utt_id": "latin_036",
+      "text": "Телефон Xiaomi нужно зарядить.",
+      "note": "loan: Xiaomi",
+      "expected_spoken": "Телефон сяоми́ нужно зарядить."
+    },
+    {
+      "utt_id": "latin_037",
+      "text": "Планшет iPad лежит на столе.",
+      "note": "loan: iPad",
+      "expected_spoken": "Планшет а́йпад лежит на столе."
+    },
+    {
+      "utt_id": "latin_038",
+      "text": "Часы Apple Watch синхронизированы.",
+      "note": "loan: Apple Watch",
+      "expected_spoken": "Часы э́пл во́тч синхронизированы."
+    },
+    {
+      "utt_id": "latin_039",
+      "text": "Канал YouTube набрал подписчиков.",
+      "note": "loan: YouTube",
+      "expected_spoken": "Канал юту́б набрал подписчиков."
+    },
+    {
+      "utt_id": "latin_040",
+      "text": "Напишите в Telegram менеджеру.",
+      "note": "loan: Telegram",
+      "expected_spoken": "Напишите в телегра́м менеджеру."
+    },
+    {
+      "utt_id": "latin_041",
+      "text": "Созвонимся в Zoom в десять.",
+      "note": "loan: Zoom",
+      "expected_spoken": "Созвонимся в зу́м в десять."
+    },
+    {
+      "utt_id": "latin_042",
+      "text": "Файл лежит в Dropbox.",
+      "note": "loan: Dropbox",
+      "expected_spoken": "Файл лежит в дро́пбокс."
+    },
+    {
+      "utt_id": "latin_043",
+      "text": "Резервная копия в iCloud.",
+      "note": "loan: iCloud",
+      "expected_spoken": "Резервная копия в а́йкла́уд."
+    },
+    {
+      "utt_id": "latin_044",
+      "text": "Плейтест в Chrome прошёл успешно.",
+      "note": "loan: Chrome",
+      "expected_spoken": "Плейтест в хро́м прошёл успешно."
+    },
+    {
+      "utt_id": "latin_045",
+      "text": "Откройте страницу в Firefox.",
+      "note": "loan: Firefox",
+      "expected_spoken": "Откройте страницу в фа́йрфокс."
+    },
+    {
+      "utt_id": "latin_046",
+      "text": "Документ в Word отредактирован.",
+      "note": "loan: Word",
+      "expected_spoken": "Документ в во́рд отредактирован."
+    },
+    {
+      "utt_id": "latin_047",
+      "text": "Таблица Excel содержит сводку.",
+      "note": "loan: Excel",
+      "expected_spoken": "Таблица эксе́ль содержит сводку."
+    },
+    {
+      "utt_id": "latin_048",
+      "text": "Презентация PowerPoint готова.",
+      "note": "loan: PowerPoint",
+      "expected_spoken": "Презентация па́уэрпо́йнт готова."
+    },
+    {
+      "utt_id": "latin_049",
+      "text": "Сообщение в WhatsApp доставлено.",
+      "note": "loan: WhatsApp",
+      "expected_spoken": "Сообщение в ватса́п доставлено."
+    },
+    {
+      "utt_id": "latin_050",
+      "text": "Сторис в Instagram опубликовали.",
+      "note": "loan: Instagram",
+      "expected_spoken": "Сторис в инстагра́м опубликовали."
+    },
+    {
+      "utt_id": "latin_051",
+      "text": "Репост в Facebook не нужен.",
+      "note": "loan: Facebook",
+      "expected_spoken": "Репост в фэ́йсбук не нужен."
+    },
+    {
+      "utt_id": "latin_052",
+      "text": "Тред в Twitter уже закрыт.",
+      "note": "loan: Twitter",
+      "expected_spoken": "Тред в тви́ттер уже закрыт."
+    },
+    {
+      "utt_id": "latin_053",
+      "text": "Видео на TikTok набрало просмотры.",
+      "note": "loan: TikTok",
+      "expected_spoken": "Видео на тикто́к набрало просмотры."
+    },
+    {
+      "utt_id": "latin_054",
+      "text": "Плейлист Spotify обновили.",
+      "note": "loan: Spotify",
+      "expected_spoken": "Плейлист спо́тифай обновили."
+    },
+    {
+      "utt_id": "latin_055",
+      "text": "Фильм смотрите на Netflix.",
+      "note": "loan: Netflix",
+      "expected_spoken": "Фильм смотрите на не́тфликс."
+    },
+    {
+      "utt_id": "latin_056",
+      "text": "Код в GitHub лежит в README.",
+      "note": "mixed: GitHub README",
+      "expected_spoken": "Код в гитха́б лежит в ри́дми."
+    },
+    {
+      "utt_id": "latin_057",
+      "text": "Соберите проект через npm и Node.",
+      "note": "mixed: npm Node",
+      "expected_spoken": "Соберите проект через эн-пи́-э́м и но́уд."
+    },
+    {
+      "utt_id": "latin_058",
+      "text": "Контейнер Docker уже запущен.",
+      "note": "mixed: Docker",
+      "expected_spoken": "Контейнер до́кер уже запущен."
+    },
+    {
+      "utt_id": "latin_059",
+      "text": "Кластер Kubernetes в норме.",
+      "note": "mixed: Kubernetes",
+      "expected_spoken": "Кластер куберне́тес в норме."
+    },
+    {
+      "utt_id": "latin_060",
+      "text": "Очередь Kafka обработана.",
+      "note": "mixed: Kafka",
+      "expected_spoken": "Очередь ка́фка обработана."
+    },
+    {
+      "utt_id": "latin_061",
+      "text": "Кэш Redis очистите ночью.",
+      "note": "mixed: Redis",
+      "expected_spoken": "Кэш ре́дис очистите ночью."
+    },
+    {
+      "utt_id": "latin_062",
+      "text": "База PostgreSQL доступна.",
+      "note": "mixed: PostgreSQL",
+      "expected_spoken": "База постгрэ́с-кью́-э́л доступна."
+    },
+    {
+      "utt_id": "latin_063",
+      "text": "Индекс Elasticsearch перестроен.",
+      "note": "mixed: Elasticsearch",
+      "expected_spoken": "Индекс эласти́ксёч перестроен."
+    },
+    {
+      "utt_id": "latin_064",
+      "text": "Билд в Jenkins упал.",
+      "note": "mixed: Jenkins",
+      "expected_spoken": "Билд в дже́нкинс упал."
+    },
+    {
+      "utt_id": "latin_065",
+      "text": "Тикет в Jira назначен.",
+      "note": "mixed: Jira",
+      "expected_spoken": "Тикет в джи́ра назначен."
+    },
+    {
+      "utt_id": "latin_066",
+      "text": "Страница в Confluence обновлена.",
+      "note": "mixed: Confluence",
+      "expected_spoken": "Страница в ко́нфлюэнс обновлена."
+    },
+    {
+      "utt_id": "latin_067",
+      "text": "Чат в Slack для дежурных.",
+      "note": "mixed: Slack",
+      "expected_spoken": "Чат в сла́к для дежурных."
+    },
+    {
+      "utt_id": "latin_068",
+      "text": "Доска в Trello заполнена.",
+      "note": "mixed: Trello",
+      "expected_spoken": "Доска в тре́лло заполнена."
+    },
+    {
+      "utt_id": "latin_069",
+      "text": "Макет в Figma согласован.",
+      "note": "mixed: Figma",
+      "expected_spoken": "Макет в фи́гма согласован."
+    },
+    {
+      "utt_id": "latin_070",
+      "text": "Репозиторий в GitLab зеркалируют.",
+      "note": "mixed: GitLab",
+      "expected_spoken": "Репозиторий в гитла́б зеркалируют."
+    },
+    {
+      "utt_id": "latin_071",
+      "text": "Облако AWS подключено.",
+      "note": "mixed: AWS",
+      "expected_spoken": "Облако э́й-да́бл-ю́-э́с подключено."
+    },
+    {
+      "utt_id": "latin_072",
+      "text": "Ресурс в Azure создан.",
+      "note": "mixed: Azure",
+      "expected_spoken": "Ресурс в а́жур создан."
+    },
+    {
+      "utt_id": "latin_073",
+      "text": "Бакет Google Cloud открыт.",
+      "note": "mixed: Google Cloud",
+      "expected_spoken": "Бакет гугл кла́уд открыт."
+    },
+    {
+      "utt_id": "latin_074",
+      "text": "Сертификат SSL истекает завтра.",
+      "note": "acronym: SSL",
+      "expected_spoken": "Сертификат эс-эс-э́л истекает завтра."
+    },
+    {
+      "utt_id": "latin_075",
+      "text": "Токен JWT проверьте ещё раз.",
+      "note": "acronym: JWT",
+      "expected_spoken": "Токен джэ́й-да́бл-ю́-ти́ проверьте ещё раз."
+    },
+    {
+      "utt_id": "latin_076",
+      "text": "Заголовок HTTP содержит cookie.",
+      "note": "acronym: HTTP cookie",
+      "expected_spoken": "Заголовок эйч-ти́-ти́-пи́ содержит ку́ки."
+    },
+    {
+      "utt_id": "latin_077",
+      "text": "Порт TCP закрыт фаерволом.",
+      "note": "acronym: TCP",
+      "expected_spoken": "Порт ти́-си́-пи́ закрыт фаерволом."
+    },
+    {
+      "utt_id": "latin_078",
+      "text": "Пакет UDP потерян в сети.",
+      "note": "acronym: UDP",
+      "expected_spoken": "Пакет ю́-ди́-пи́ потерян в сети."
+    },
+    {
+      "utt_id": "latin_079",
+      "text": "Адрес IP укажите вручную.",
+      "note": "acronym: IP",
+      "expected_spoken": "Адрес а́й-пи́ укажите вручную."
+    },
+    {
+      "utt_id": "latin_080",
+      "text": "Сеть LAN недоступна.",
+      "note": "acronym: LAN",
+      "expected_spoken": "Сеть ла́н недоступна."
+    },
+    {
+      "utt_id": "latin_081",
+      "text": "Точка доступа WAN активна.",
+      "note": "acronym: WAN",
+      "expected_spoken": "Точка доступа ва́н активна."
+    },
+    {
+      "utt_id": "latin_082",
+      "text": "Ключ SSH лежит у админа.",
+      "note": "acronym: SSH",
+      "expected_spoken": "Ключ эс-эс-э́йч лежит у админа."
+    },
+    {
+      "utt_id": "latin_083",
+      "text": "Сервис CDN ускоряет сайт.",
+      "note": "acronym: CDN",
+      "expected_spoken": "Сервис си́-ди́-э́н ускоряет сайт."
+    },
+    {
+      "utt_id": "latin_084",
+      "text": "Роль RBAC проверена.",
+      "note": "acronym: RBAC",
+      "expected_spoken": "Роль а́р-би́-э́й-си́ проверена."
+    },
+    {
+      "utt_id": "latin_085",
+      "text": "Лог SIEM зафиксировал событие.",
+      "note": "acronym: SIEM",
+      "expected_spoken": "Лог си́-э́м зафиксировал событие."
+    },
+    {
+      "utt_id": "latin_086",
+      "text": "Скан OCR завершён.",
+      "note": "acronym: OCR",
+      "expected_spoken": "Скан о́-си́-а́р завершён."
+    },
+    {
+      "utt_id": "latin_087",
+      "text": "Модель LLM отвечает медленно.",
+      "note": "acronym: LLM",
+      "expected_spoken": "Модель э́л-э́л-э́м отвечает медленно."
+    },
+    {
+      "utt_id": "latin_088",
+      "text": "Вектор GPU заполнен.",
+      "note": "acronym: GPU",
+      "expected_spoken": "Вектор джи́-пи́-ю́ заполнен."
+    },
+    {
+      "utt_id": "latin_089",
+      "text": "Диск SSD почти полон.",
+      "note": "acronym: SSD",
+      "expected_spoken": "Диск эс-эс-ди́ почти полон."
+    },
+    {
+      "utt_id": "latin_090",
+      "text": "Архив ZIP скачан.",
+      "note": "acronym: ZIP",
+      "expected_spoken": "Архив зи́п скачан."
+    },
+    {
+      "utt_id": "latin_091",
+      "text": "Магазин на Amazon доставит завтра.",
+      "note": "loan: Amazon",
+      "expected_spoken": "Магазин на амазо́н доставит завтра."
+    },
+    {
+      "utt_id": "latin_092",
+      "text": "Заказ на eBay отменён.",
+      "note": "loan: eBay",
+      "expected_spoken": "Заказ на ибэ́й отменён."
+    },
+    {
+      "utt_id": "latin_093",
+      "text": "Оплата через Visa прошла.",
+      "note": "loan: Visa",
+      "expected_spoken": "Оплата через ви́за прошла."
+    },
+    {
+      "utt_id": "latin_094",
+      "text": "Карта Mastercard отклонена.",
+      "note": "loan: Mastercard",
+      "expected_spoken": "Карта ма́стерка́рд отклонена."
+    },
+    {
+      "utt_id": "latin_095",
+      "text": "Терминал принимает Mir Pay.",
+      "note": "loan: Mir Pay",
+      "expected_spoken": "Терминал принимает мир пэ́й."
+    },
+    {
+      "utt_id": "latin_096",
+      "text": "Приложение Uber уже открыто.",
+      "note": "loan: Uber",
+      "expected_spoken": "Приложение у́бер уже открыто."
+    },
+    {
+      "utt_id": "latin_097",
+      "text": "Поездка в Yandex Go заказана.",
+      "note": "loan: Yandex Go",
+      "expected_spoken": "Поездка в я́ндекс го́ заказана."
+    },
+    {
+      "utt_id": "latin_098",
+      "text": "Письмо в Outlook не ушло.",
+      "note": "loan: Outlook",
+      "expected_spoken": "Письмо в а́утлук не ушло."
+    },
+    {
+      "utt_id": "latin_099",
+      "text": "Календарь в Google Calendar синхронен.",
+      "note": "loan: Google Calendar",
+      "expected_spoken": "Календарь в гугл календа́рь синхронен."
+    },
+    {
+      "utt_id": "latin_100",
+      "text": "Заметка в Notion сохранена.",
+      "note": "loan: Notion",
+      "expected_spoken": "Заметка в но́ушн сохранена."
+    },
+    {
+      "utt_id": "latin_101",
+      "text": "Доска в Miro заполнена стикерами.",
+      "note": "loan: Miro",
+      "expected_spoken": "Доска в ми́ро заполнена стикерами."
+    },
+    {
+      "utt_id": "latin_102",
+      "text": "Стрим на Twitch начался.",
+      "note": "loan: Twitch",
+      "expected_spoken": "Стрим на твич начался."
+    },
+    {
+      "utt_id": "latin_103",
+      "text": "Подкаст в Apple Podcasts вышел.",
+      "note": "loan: Apple Podcasts",
+      "expected_spoken": "Подкаст в э́пл по́дкастс вышел."
+    },
+    {
+      "utt_id": "latin_104",
+      "text": "Деплой через CI/CD упал на тестах.",
+      "note": "mixed: CI/CD",
+      "expected_spoken": "Деплой через си́-а́й си́-ди́ упал на тестах."
+    },
+    {
+      "utt_id": "latin_105",
+      "text": "Секрет в HashiCorp Vault обновлён.",
+      "note": "mixed: Vault",
+      "expected_spoken": "Секрет в ха́шикорп во́лт обновлён."
+    },
+    {
+      "utt_id": "latin_106",
+      "text": "Метрики в Grafana на экране.",
+      "note": "mixed: Grafana",
+      "expected_spoken": "Метрики в графа́на на экране."
+    },
+    {
+      "utt_id": "latin_107",
+      "text": "Алерт в Prometheus сработал.",
+      "note": "mixed: Prometheus",
+      "expected_spoken": "Алерт в промете́ус сработал."
+    },
+    {
+      "utt_id": "latin_108",
+      "text": "Трейс в OpenTelemetry собран.",
+      "note": "mixed: OpenTelemetry",
+      "expected_spoken": "Трейс в о́пен-телеме́три собран."
+    },
+    {
+      "utt_id": "latin_109",
+      "text": "Схема в GraphQL устарела.",
+      "note": "mixed: GraphQL",
+      "expected_spoken": "Схема в гра́ф-кью́-э́л устарела."
+    },
+    {
+      "utt_id": "latin_110",
+      "text": "Пакет через pip установлен.",
+      "note": "mixed: pip",
+      "expected_spoken": "Пакет через пип установлен."
+    },
+    {
+      "utt_id": "latin_111",
+      "text": "Окружение в conda активировано.",
+      "note": "mixed: conda",
+      "expected_spoken": "Окружение в ко́нда активировано."
+    },
+    {
+      "utt_id": "latin_112",
+      "text": "Нажмите кнопку OK для продолжения.",
+      "note": "letter: OK",
+      "expected_spoken": "Нажмите кнопку окэ́й для продолжения."
+    },
+    {
+      "utt_id": "latin_113",
+      "text": "Выберите вариант A или B.",
+      "note": "letter: A/B",
+      "expected_spoken": "Выберите вариант а́ или бэ́."
+    },
+    {
+      "utt_id": "latin_114",
+      "text": "Отметьте пункт C в списке.",
+      "note": "letter: C",
+      "expected_spoken": "Отметьте пункт цэ́ в списке."
+    },
+    {
+      "utt_id": "latin_115",
+      "text": "Код ошибки E означает отказ.",
+      "note": "letter: E",
+      "expected_spoken": "Код ошибки е́ означает отказ."
+    },
+    {
+      "utt_id": "latin_116",
+      "text": "Группа X и группа Y разделены.",
+      "note": "letter: X Y",
+      "expected_spoken": "Группа икс и группа и́грек разделены."
+    },
+    {
+      "utt_id": "latin_117",
+      "text": "Формула содержит символ Z.",
+      "note": "letter: Z",
+      "expected_spoken": "Формула содержит символ зет."
+    }
+  ]
+}

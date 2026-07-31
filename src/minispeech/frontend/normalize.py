@@ -1,14 +1,23 @@
 """Text normalization for Russian TTS frontend.
 
-``normalize_text`` — light TTS cleanup (NFC, abbreviations, whitespace).
+``normalize_text`` — light TTS cleanup (NFC, abbreviations, whitespace,
+Latin→Cyrillic transliteration for defect D2).
 ``normalize_for_asr`` — shared ASR ref/hyp normalization (separate from TN).
 Full spoken-form TN (numbers, dates, money) lives in ``verbalize.py``.
+
+Pipeline order for synthesis prep:
+TN (``normalize_text``) → verbalization → stress.
+Latin transliteration runs at the end of ``normalize_text`` so it completes
+before stress; ``verbalize_text`` calls ``normalize_text`` first, so Latin
+spans are already Cyrillic when number/date rules run (equivalent for D2).
 """
 
 from __future__ import annotations
 
 import re
 import unicodedata
+
+from minispeech.frontend.translit import transliterate_latin
 
 _WS = re.compile(r"\s+")
 # Longer keys first so "т.д." wins over "д." etc.
@@ -54,17 +63,24 @@ def expand_abbreviations(text: str) -> str:
     return t
 
 
+def apply_transliteration(text: str) -> str:
+    """Latin→Cyrillic spoken forms (D2). Intended before stress marking."""
+    return transliterate_latin(text)
+
+
 def normalize_text(text: str) -> str:
     """Lightweight RU TTS normalization (no digit verbalization).
 
     Preserves ё. Does not strip stress marks. Numbers/dates are left for
-    ``verbalize_text`` / ``normalize_for_tts``.
+    ``verbalize_text`` / ``normalize_for_tts``. Latin tokens are rewritten to
+    Cyrillic spoken forms so they never reach ``PhoneVocab`` as ``<unk>``.
     """
     if not text:
         return ""
     t = unicodedata.normalize("NFC", text.strip())
     t = expand_abbreviations(t)
-    t = _WS.sub(" ", t)
+    t = _WS.sub(" ", t).strip()
+    t = apply_transliteration(t)
     return t.strip()
 
 

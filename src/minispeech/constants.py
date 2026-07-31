@@ -136,10 +136,26 @@ MEL80_HIFIGAN = TargetSpec(
     ),
 )
 
+# Track N σ-VAE acoustic tokenizer T0 (own weights; 7.5 Hz, P0 gate decision).
+# Same hop geometry as vibevoice64; not the frozen VibeVoice codec.
+SIGMA_VAE64_T0 = TargetSpec(
+    name="sigma_vae64_t0",
+    kind="latent",
+    dim=64,
+    sample_rate=24_000,
+    frame_rate=7.5,
+    samples_per_frame=3200,
+    notes=(
+        "Track N acoustic σ-VAE T0 (÷4 size). Encode with sample=False for TTS "
+        "targets. Downsample factors 2·4·5·5·4·4 = 3200 @ 24 kHz → 7.5 Hz."
+    ),
+)
+
 TARGETS: dict[str, TargetSpec] = {
     VIBEVOICE64.name: VIBEVOICE64,
     MEL80.name: MEL80,
     MEL80_HIFIGAN.name: MEL80_HIFIGAN,
+    SIGMA_VAE64_T0.name: SIGMA_VAE64_T0,
 }
 
 DEFAULT_TARGET: str = VIBEVOICE64.name

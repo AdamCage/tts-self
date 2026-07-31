@@ -38,6 +38,7 @@ from minispeech.data.forced_align import text_to_ctc_char_labels, text_to_phones
 from minispeech.data.manifest import read_manifest
 from minispeech.eval.asr import AsrConfig, AsrEngine
 from minispeech.eval.asr_wer import compute_cer, compute_wer
+from minispeech.eval.critical_spans import compute_set_critical_metrics
 from minispeech.eval.optional_metrics import run_optional_metrics
 from minispeech.eval.test_sets import (
     EvalTestSet,
@@ -464,12 +465,34 @@ def main() -> int:
                 flush=True,
             )
         agg = aggregate_cer_wer(rows)
-        results["sets"][set_id] = {
+        set_block: dict[str, Any] = {
             "description": ts.description,
             "kind": ts.kind,
             **agg,
             "utterances": rows,
         }
+        # DER / EER / SA when the frozen set carries critical_spans or stress_target.
+        crit = compute_set_critical_metrics(items, rows)
+        if crit.get("has_critical_spans") or crit.get("has_stress_target"):
+            for key in (
+                "der",
+                "eer",
+                "sa",
+                "n_spans",
+                "n_span_errors",
+                "n_digits",
+                "n_digit_errors",
+                "n_sa_scored",
+                "n_sa_correct",
+                "n_sa_incorrect",
+                "n_sa_skipped",
+                "has_critical_spans",
+                "has_stress_target",
+                "critical_utterances",
+            ):
+                if key in crit:
+                    set_block[key] = crit[key]
+        results["sets"][set_id] = set_block
 
     # Attach known production reference numbers
     results["production_reference"] = {
@@ -482,7 +505,15 @@ def main() -> int:
     out_path.write_text(json.dumps(results, indent=2, ensure_ascii=False), encoding="utf-8")
     print(f"WROTE {out_path}", flush=True)
     for sid, block in results["sets"].items():
-        print(f"  {sid}: mean_cer={block.get('mean_cer')} n={block.get('n')}", flush=True)
+        extra = ""
+        if block.get("der") is not None or block.get("eer") is not None:
+            extra += f" der={block.get('der')} eer={block.get('eer')}"
+        if "sa" in block:
+            extra += f" sa={block.get('sa')}"
+        print(
+            f"  {sid}: mean_cer={block.get('mean_cer')} n={block.get('n')}{extra}",
+            flush=True,
+        )
     return 0
 
 

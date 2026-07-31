@@ -1,48 +1,4418 @@
 {
   "id": "bank_entity",
-  "description": "Bank/entity phrases: digit amounts/dates (TN→spoken) + verbalized account/codes; CER uses normalize_verbalized_for_asr",
+  "description": "Bank/entity phrases for RU-Critical: numbers, money, dates, time, phones, accounts, codes, abbreviations, loanwords, units, ordinals, ranges; critical_spans for DER/EER; CER uses normalize_verbalized_for_asr",
   "kind": "phrases",
-  "n": 8,
+  "n": 315,
   "items": [
     {
-      "utt_id": "bank_01",
+      "utt_id": "bank_001",
+      "text": "На счёте осталось 7 рублей.",
+      "note": "integers; целые",
+      "category": "integers",
+      "critical_spans": [
+        {
+          "start": 18,
+          "end": 19,
+          "type": "number",
+          "expected_spoken": "семь"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_002",
+      "text": "Поступило 12 платежей.",
+      "note": "integers; целые",
+      "category": "integers",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 12,
+          "type": "number",
+          "expected_spoken": "двенадцать"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_003",
+      "text": "Одобрено 35 заявок.",
+      "note": "integers; целые",
+      "category": "integers",
+      "critical_spans": [
+        {
+          "start": 9,
+          "end": 11,
+          "type": "number",
+          "expected_spoken": "тридцать пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_004",
+      "text": "Лимит 100 операций в сутки.",
+      "note": "integers; целые",
+      "category": "integers",
+      "critical_spans": [
+        {
+          "start": 6,
+          "end": 9,
+          "type": "number",
+          "expected_spoken": "сто"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_005",
+      "text": "Код подтверждения 256.",
+      "note": "integers; целые",
+      "category": "integers",
+      "critical_spans": [
+        {
+          "start": 18,
+          "end": 21,
+          "type": "number",
+          "expected_spoken": "двести пятьдесят шесть"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_006",
+      "text": "Осталось 999 дней до погашения.",
+      "note": "integers; целые",
+      "category": "integers",
+      "critical_spans": [
+        {
+          "start": 9,
+          "end": 12,
+          "type": "number",
+          "expected_spoken": "девятьсот девяносто девять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_007",
+      "text": "Переведите 1000 рублей без копеек.",
+      "note": "integers; целые",
+      "category": "integers",
+      "critical_spans": [
+        {
+          "start": 11,
+          "end": 15,
+          "type": "number",
+          "expected_spoken": "одна тысяча"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_008",
+      "text": "Сумма в целых: 1234.",
+      "note": "integers; целые",
+      "category": "integers",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 19,
+          "type": "number",
+          "expected_spoken": "одна тысяча двести тридцать четыре"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_009",
+      "text": "Минимальный платёж 2500 рублей.",
+      "note": "integers; целые",
+      "category": "integers",
+      "critical_spans": [
+        {
+          "start": 19,
+          "end": 23,
+          "type": "number",
+          "expected_spoken": "две тысячи пятьсот"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_010",
+      "text": "Баланс равен 15700.",
+      "note": "integers; целые",
+      "category": "integers",
+      "critical_spans": [
+        {
+          "start": 13,
+          "end": 18,
+          "type": "number",
+          "expected_spoken": "пятнадцать тысяч семьсот"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_011",
+      "text": "Кредит на 48000 рублей.",
+      "note": "integers; целые",
+      "category": "integers",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 15,
+          "type": "number",
+          "expected_spoken": "сорок восемь тысяч"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_012",
+      "text": "Страховая сумма 100000 рублей.",
+      "note": "integers; целые",
+      "category": "integers",
+      "critical_spans": [
+        {
+          "start": 16,
+          "end": 22,
+          "type": "number",
+          "expected_spoken": "сто тысяч"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_013",
+      "text": "Лимит карты 250000 рублей.",
+      "note": "integers; целые",
+      "category": "integers",
+      "critical_spans": [
+        {
+          "start": 12,
+          "end": 18,
+          "type": "number",
+          "expected_spoken": "двести пятьдесят тысяч"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_014",
+      "text": "Оборот составил 1000000 рублей.",
+      "note": "integers; целые",
+      "category": "integers",
+      "critical_spans": [
+        {
+          "start": 16,
+          "end": 23,
+          "type": "number",
+          "expected_spoken": "один миллион"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_015",
+      "text": "Инвестиции 2500000 рублей.",
+      "note": "integers; целые",
+      "category": "integers",
+      "critical_spans": [
+        {
+          "start": 11,
+          "end": 18,
+          "type": "number",
+          "expected_spoken": "два миллиона пятьсот тысяч"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_016",
+      "text": "Осталось 3 попытки ввода PIN.",
+      "note": "integers; целые",
+      "category": "integers",
+      "critical_spans": [
+        {
+          "start": 9,
+          "end": 10,
+          "type": "number",
+          "expected_spoken": "три"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_017",
+      "text": "Через 21 день начислим проценты.",
+      "note": "integers; целые",
+      "category": "integers",
+      "critical_spans": [
+        {
+          "start": 6,
+          "end": 8,
+          "type": "number",
+          "expected_spoken": "двадцать один"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_018",
+      "text": "В очереди 42 клиента.",
+      "note": "integers; целые",
+      "category": "integers",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 12,
+          "type": "number",
+          "expected_spoken": "сорок два"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_019",
+      "text": "Отклонено 77 транзакций.",
+      "note": "integers; целые",
+      "category": "integers",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 12,
+          "type": "number",
+          "expected_spoken": "семьдесят семь"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_020",
+      "text": "Ошибка 404, повторите позже.",
+      "note": "integers; целые",
+      "category": "integers",
+      "critical_spans": [
+        {
+          "start": 7,
+          "end": 10,
+          "type": "number",
+          "expected_spoken": "четыреста четыре"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_021",
+      "text": "За 2024 год открыто новых счетов.",
+      "note": "integers; целые",
+      "category": "integers",
+      "critical_spans": [
+        {
+          "start": 3,
+          "end": 7,
+          "type": "number",
+          "expected_spoken": "две тысячи двадцать четыре"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_022",
+      "text": "Кэшбэк до 50000 рублей.",
+      "note": "integers; целые",
+      "category": "integers",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 15,
+          "type": "number",
+          "expected_spoken": "пятьдесят тысяч"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_023",
+      "text": "Курс вырос на 0.5 пункта.",
+      "note": "decimals; дробные",
+      "category": "decimals",
+      "critical_spans": [
+        {
+          "start": 14,
+          "end": 17,
+          "type": "number",
+          "expected_spoken": "ноль точка пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_024",
+      "text": "Коэффициент риска 0,25.",
+      "note": "decimals; дробные",
+      "category": "decimals",
+      "critical_spans": [
+        {
+          "start": 18,
+          "end": 22,
+          "type": "number",
+          "expected_spoken": "ноль точка два пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_025",
+      "text": "Множитель кэшбэка 1.5.",
+      "note": "decimals; дробные",
+      "category": "decimals",
+      "critical_spans": [
+        {
+          "start": 18,
+          "end": 21,
+          "type": "number",
+          "expected_spoken": "один точка пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_026",
+      "text": "Индекс равен 1,25.",
+      "note": "decimals; дробные",
+      "category": "decimals",
+      "critical_spans": [
+        {
+          "start": 13,
+          "end": 17,
+          "type": "number",
+          "expected_spoken": "один точка два пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_027",
+      "text": "Ставка по вкладу 2.75.",
+      "note": "decimals; дробные",
+      "category": "decimals",
+      "critical_spans": [
+        {
+          "start": 17,
+          "end": 21,
+          "type": "number",
+          "expected_spoken": "два точка семь пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_028",
+      "text": "Расчётный коэффициент 3,14.",
+      "note": "decimals; дробные",
+      "category": "decimals",
+      "critical_spans": [
+        {
+          "start": 22,
+          "end": 26,
+          "type": "number",
+          "expected_spoken": "три точка один четыре"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_029",
+      "text": "Средний чек 10.5 тысяч.",
+      "note": "decimals; дробные",
+      "category": "decimals",
+      "critical_spans": [
+        {
+          "start": 12,
+          "end": 16,
+          "type": "number",
+          "expected_spoken": "десять точка пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_030",
+      "text": "Доходность 12,8 процентов годовых уже учтена отдельно.",
+      "note": "decimals; дробные",
+      "category": "decimals",
+      "critical_spans": [
+        {
+          "start": 11,
+          "end": 15,
+          "type": "number",
+          "expected_spoken": "двенадцать точка восемь"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_031",
+      "text": "Шаг котировки 0.01.",
+      "note": "decimals; дробные",
+      "category": "decimals",
+      "critical_spans": [
+        {
+          "start": 14,
+          "end": 18,
+          "type": "number",
+          "expected_spoken": "ноль точка ноль один"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_032",
+      "text": "Допуск отклонения 0,05.",
+      "note": "decimals; дробные",
+      "category": "decimals",
+      "critical_spans": [
+        {
+          "start": 18,
+          "end": 22,
+          "type": "number",
+          "expected_spoken": "ноль точка ноль пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_033",
+      "text": "Плавающая ставка 7.25.",
+      "note": "decimals; дробные",
+      "category": "decimals",
+      "critical_spans": [
+        {
+          "start": 17,
+          "end": 21,
+          "type": "number",
+          "expected_spoken": "семь точка два пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_034",
+      "text": "Значение индикатора 9,99.",
+      "note": "decimals; дробные",
+      "category": "decimals",
+      "critical_spans": [
+        {
+          "start": 20,
+          "end": 24,
+          "type": "number",
+          "expected_spoken": "девять точка девять девять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_035",
+      "text": "Спред равен 15.75.",
+      "note": "decimals; дробные",
+      "category": "decimals",
+      "critical_spans": [
+        {
+          "start": 12,
+          "end": 17,
+          "type": "number",
+          "expected_spoken": "пятнадцать точка семь пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_036",
+      "text": "Курс пары 100.5.",
+      "note": "decimals; дробные",
+      "category": "decimals",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 15,
+          "type": "number",
+          "expected_spoken": "сто точка пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_037",
+      "text": "Средний оборот 250,5.",
+      "note": "decimals; дробные",
+      "category": "decimals",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 20,
+          "type": "number",
+          "expected_spoken": "двести пятьдесят точка пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_038",
+      "text": "Доля просрочки 0.33.",
+      "note": "decimals; дробные",
+      "category": "decimals",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 19,
+          "type": "number",
+          "expected_spoken": "ноль точка три три"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_039",
+      "text": "Рейтинг клиента 4,5.",
+      "note": "decimals; дробные",
+      "category": "decimals",
+      "critical_spans": [
+        {
+          "start": 16,
+          "end": 19,
+          "type": "number",
+          "expected_spoken": "четыре точка пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_040",
+      "text": "Показатель 6.0.",
+      "note": "decimals; дробные",
+      "category": "decimals",
+      "critical_spans": [
+        {
+          "start": 11,
+          "end": 14,
+          "type": "number",
+          "expected_spoken": "шесть точка ноль"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_041",
+      "text": "Маржа 8,75.",
+      "note": "decimals; дробные",
+      "category": "decimals",
+      "critical_spans": [
+        {
+          "start": 6,
+          "end": 10,
+          "type": "number",
+          "expected_spoken": "восемь точка семь пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_042",
+      "text": "Индекс волатильности 11.11.",
+      "note": "decimals; дробные",
+      "category": "decimals",
+      "critical_spans": [
+        {
+          "start": 21,
+          "end": 26,
+          "type": "number",
+          "expected_spoken": "одиннадцать точка один один"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_043",
+      "text": "Мультипликатор 20,25.",
+      "note": "decimals; дробные",
+      "category": "decimals",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 20,
+          "type": "number",
+          "expected_spoken": "двадцать точка два пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_044",
       "text": "Переведите 1234 руб. 50 коп.",
-      "note": "digit money → verbalize_money at infer"
+      "note": "money; деньги",
+      "category": "money",
+      "critical_spans": [
+        {
+          "start": 11,
+          "end": 28,
+          "type": "money",
+          "expected_spoken": "одна тысяча двести тридцать четыре рубля пятьдесят копеек"
+        }
+      ]
     },
     {
-      "utt_id": "bank_02",
+      "utt_id": "bank_045",
       "text": "Сумма платежа: 15700 руб.",
-      "note": "digit money"
+      "note": "money; деньги",
+      "category": "money",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 25,
+          "type": "money",
+          "expected_spoken": "пятнадцать тысяч семьсот рублей"
+        }
+      ]
     },
     {
-      "utt_id": "bank_03",
-      "text": "Дата операции: 23.07.2026.",
-      "note": "digit date DMY"
-    },
-    {
-      "utt_id": "bank_04",
-      "text": "Номер счёта 4082, проверьте реквизиты.",
-      "note": "account digits spelled one-by-one"
-    },
-    {
-      "utt_id": "bank_05",
+      "utt_id": "bank_046",
       "text": "Курс доллара сегодня 92 руб. 13 коп.",
-      "note": "digit money + kopecks"
+      "note": "money; деньги",
+      "category": "money",
+      "critical_spans": [
+        {
+          "start": 21,
+          "end": 36,
+          "type": "money",
+          "expected_spoken": "девяносто два рубля тринадцать копеек"
+        }
+      ]
     },
     {
-      "utt_id": "bank_06",
+      "utt_id": "bank_047",
+      "text": "Комиссия 100 руб.",
+      "note": "money; деньги",
+      "category": "money",
+      "critical_spans": [
+        {
+          "start": 9,
+          "end": 17,
+          "type": "money",
+          "expected_spoken": "сто рублей"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_048",
+      "text": "Минимальная сумма 1 руб. 01 коп.",
+      "note": "money; деньги",
+      "category": "money",
+      "critical_spans": [
+        {
+          "start": 18,
+          "end": 32,
+          "type": "money",
+          "expected_spoken": "один рубль одна копейка"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_049",
+      "text": "Оплата составит 999 руб. 99 коп.",
+      "note": "money; деньги",
+      "category": "money",
+      "critical_spans": [
+        {
+          "start": 16,
+          "end": 32,
+          "type": "money",
+          "expected_spoken": "девятьсот девяносто девять рублей девяносто девять копеек"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_050",
+      "text": "Зачисление 2500 руб.",
+      "note": "money; деньги",
+      "category": "money",
+      "critical_spans": [
+        {
+          "start": 11,
+          "end": 20,
+          "type": "money",
+          "expected_spoken": "две тысячи пятьсот рублей"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_051",
+      "text": "Итого к оплате 4800 руб. 20 коп.",
+      "note": "money; деньги",
+      "category": "money",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 32,
+          "type": "money",
+          "expected_spoken": "четыре тысячи восемьсот рублей двадцать копеек"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_052",
+      "text": "Перевод на сумму 10 500 руб.",
+      "note": "money; деньги",
+      "category": "money",
+      "critical_spans": [
+        {
+          "start": 17,
+          "end": 28,
+          "type": "money",
+          "expected_spoken": "десять тысяч пятьсот рублей"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_053",
+      "text": "Лимит операции 75 000 руб.",
+      "note": "money; деньги",
+      "category": "money",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 26,
+          "type": "money",
+          "expected_spoken": "семьдесят пять тысяч рублей"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_054",
+      "text": "Страховка 120 000 руб. 50 коп.",
+      "note": "money; деньги",
+      "category": "money",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 30,
+          "type": "money",
+          "expected_spoken": "сто двадцать тысяч рублей пятьдесят копеек"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_055",
+      "text": "Депозит 1 000 000 руб.",
+      "note": "money; деньги",
+      "category": "money",
+      "critical_spans": [
+        {
+          "start": 8,
+          "end": 22,
+          "type": "money",
+          "expected_spoken": "один миллион рублей"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_056",
+      "text": "Сервисный сбор 35 руб.",
+      "note": "money; деньги",
+      "category": "money",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 22,
+          "type": "money",
+          "expected_spoken": "тридцать пять рублей"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_057",
+      "text": "Стоимость СМС 7 руб. 50 коп.",
+      "note": "money; деньги",
+      "category": "money",
+      "critical_spans": [
+        {
+          "start": 14,
+          "end": 28,
+          "type": "money",
+          "expected_spoken": "семь рублей пятьдесят копеек"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_058",
+      "text": "Абонентская плата 500 руб. 00 коп.",
+      "note": "money; деньги",
+      "category": "money",
+      "critical_spans": [
+        {
+          "start": 18,
+          "end": 34,
+          "type": "money",
+          "expected_spoken": "пятьсот рублей"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_059",
+      "text": "Штраф 250 руб. 75 коп.",
+      "note": "money; деньги",
+      "category": "money",
+      "critical_spans": [
+        {
+          "start": 6,
+          "end": 22,
+          "type": "money",
+          "expected_spoken": "двести пятьдесят рублей семьдесят пять копеек"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_060",
+      "text": "Возврат 3333 руб.",
+      "note": "money; деньги",
+      "category": "money",
+      "critical_spans": [
+        {
+          "start": 8,
+          "end": 17,
+          "type": "money",
+          "expected_spoken": "три тысячи триста тридцать три рубля"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_061",
+      "text": "Остаток 888 руб. 08 коп.",
+      "note": "money; деньги",
+      "category": "money",
+      "critical_spans": [
+        {
+          "start": 8,
+          "end": 24,
+          "type": "money",
+          "expected_spoken": "восемьсот восемьдесят восемь рублей восемь копеек"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_062",
+      "text": "Курс евро 42 руб. 42 коп.",
+      "note": "money; деньги",
+      "category": "money",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 25,
+          "type": "money",
+          "expected_spoken": "сорок два рубля сорок две копеек"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_063",
+      "text": "Начислено 15 070 руб.",
+      "note": "money; деньги",
+      "category": "money",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 21,
+          "type": "money",
+          "expected_spoken": "пятнадцать тысяч семьдесят рублей"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_064",
+      "text": "Спишите 2 345 руб. 67 коп.",
+      "note": "money; деньги",
+      "category": "money",
+      "critical_spans": [
+        {
+          "start": 8,
+          "end": 26,
+          "type": "money",
+          "expected_spoken": "две тысячи триста сорок пять рублей шестьдесят семь копеек"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_065",
       "text": "Комиссия составит 0.5%.",
-      "note": "percent decimal"
+      "note": "percent; проценты",
+      "category": "percent",
+      "critical_spans": [
+        {
+          "start": 18,
+          "end": 22,
+          "type": "percent",
+          "expected_spoken": "ноль точка пять процентов"
+        }
+      ]
     },
     {
-      "utt_id": "bank_07",
+      "utt_id": "bank_066",
+      "text": "Ставка по кредиту 15%.",
+      "note": "percent; проценты",
+      "category": "percent",
+      "critical_spans": [
+        {
+          "start": 18,
+          "end": 21,
+          "type": "percent",
+          "expected_spoken": "пятнадцать процентов"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_067",
+      "text": "Кэшбэк 1% на всё.",
+      "note": "percent; проценты",
+      "category": "percent",
+      "critical_spans": [
+        {
+          "start": 7,
+          "end": 9,
+          "type": "percent",
+          "expected_spoken": "один процентов"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_068",
+      "text": "Доходность вклада 3,5%.",
+      "note": "percent; проценты",
+      "category": "percent",
+      "critical_spans": [
+        {
+          "start": 18,
+          "end": 22,
+          "type": "percent",
+          "expected_spoken": "три точка пять процентов"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_069",
+      "text": "Ключевая ставка 7%.",
+      "note": "percent; проценты",
+      "category": "percent",
+      "critical_spans": [
+        {
+          "start": 16,
+          "end": 18,
+          "type": "percent",
+          "expected_spoken": "семь процентов"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_070",
+      "text": "Межбанковская маржа 0,1%.",
+      "note": "percent; проценты",
+      "category": "percent",
+      "critical_spans": [
+        {
+          "start": 20,
+          "end": 24,
+          "type": "percent",
+          "expected_spoken": "ноль точка один процентов"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_071",
+      "text": "НДС составляет 12%.",
+      "note": "percent; проценты",
+      "category": "percent",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 18,
+          "type": "percent",
+          "expected_spoken": "двенадцать процентов"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_072",
+      "text": "Налог 20% от суммы.",
+      "note": "percent; проценты",
+      "category": "percent",
+      "critical_spans": [
+        {
+          "start": 6,
+          "end": 9,
+          "type": "percent",
+          "expected_spoken": "двадцать процентов"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_073",
+      "text": "Первый взнос 25%.",
+      "note": "percent; проценты",
+      "category": "percent",
+      "critical_spans": [
+        {
+          "start": 13,
+          "end": 16,
+          "type": "percent",
+          "expected_spoken": "двадцать пять процентов"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_074",
+      "text": "Скидка до 50%.",
+      "note": "percent; проценты",
+      "category": "percent",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 13,
+          "type": "percent",
+          "expected_spoken": "пятьдесят процентов"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_075",
+      "text": "Гарантия возврата 100%.",
+      "note": "percent; проценты",
+      "category": "percent",
+      "critical_spans": [
+        {
+          "start": 18,
+          "end": 22,
+          "type": "percent",
+          "expected_spoken": "сто процентов"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_076",
+      "text": "Льготный период — ставка 0%.",
+      "note": "percent; проценты",
+      "category": "percent",
+      "critical_spans": [
+        {
+          "start": 25,
+          "end": 27,
+          "type": "percent",
+          "expected_spoken": "ноль процентов"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_077",
+      "text": "Надбавка к ставке 2.5%.",
+      "note": "percent; проценты",
+      "category": "percent",
+      "critical_spans": [
+        {
+          "start": 18,
+          "end": 22,
+          "type": "percent",
+          "expected_spoken": "два точка пять процентов"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_078",
+      "text": "Рекламная ставка от 9,9%.",
+      "note": "percent; проценты",
+      "category": "percent",
+      "critical_spans": [
+        {
+          "start": 20,
+          "end": 24,
+          "type": "percent",
+          "expected_spoken": "девять точка девять процентов"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_079",
+      "text": "Налог на доход 13%.",
+      "note": "percent; проценты",
+      "category": "percent",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 18,
+          "type": "percent",
+          "expected_spoken": "тринадцать процентов"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_080",
+      "text": "Эффективная ставка 18%.",
+      "note": "percent; проценты",
+      "category": "percent",
+      "critical_spans": [
+        {
+          "start": 19,
+          "end": 22,
+          "type": "percent",
+          "expected_spoken": "восемнадцать процентов"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_081",
+      "text": "Инфляция за год 4%.",
+      "note": "percent; проценты",
+      "category": "percent",
+      "critical_spans": [
+        {
+          "start": 16,
+          "end": 18,
+          "type": "percent",
+          "expected_spoken": "четыре процентов"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_082",
+      "text": "Ипотечная ставка 6.5%.",
+      "note": "percent; проценты",
+      "category": "percent",
+      "critical_spans": [
+        {
+          "start": 17,
+          "end": 21,
+          "type": "percent",
+          "expected_spoken": "шесть точка пять процентов"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_083",
+      "text": "Резерв банка 8%.",
+      "note": "percent; проценты",
+      "category": "percent",
+      "critical_spans": [
+        {
+          "start": 13,
+          "end": 15,
+          "type": "percent",
+          "expected_spoken": "восемь процентов"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_084",
+      "text": "Досрочное погашение без комиссии до 30% тела кредита.",
+      "note": "percent; проценты",
+      "category": "percent",
+      "critical_spans": [
+        {
+          "start": 36,
+          "end": 39,
+          "type": "percent",
+          "expected_spoken": "тридцать процентов"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_085",
+      "text": "Технический остаток 0,01%.",
+      "note": "percent; проценты",
+      "category": "percent",
+      "critical_spans": [
+        {
+          "start": 20,
+          "end": 25,
+          "type": "percent",
+          "expected_spoken": "ноль точка ноль один процентов"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_086",
+      "text": "Дата операции: 23.07.2026.",
+      "note": "dates; даты",
+      "category": "dates",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 25,
+          "type": "date",
+          "expected_spoken": "двадцать третий июля две тысячи двадцать шесть года"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_087",
+      "text": "Договор действует с 01.01.2025.",
+      "note": "dates; даты",
+      "category": "dates",
+      "critical_spans": [
+        {
+          "start": 20,
+          "end": 30,
+          "type": "date",
+          "expected_spoken": "первый января две тысячи двадцать пять года"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_088",
+      "text": "Срок карты до 31.12.2026.",
+      "note": "dates; даты",
+      "category": "dates",
+      "critical_spans": [
+        {
+          "start": 14,
+          "end": 24,
+          "type": "date",
+          "expected_spoken": "тридцать первый декабря две тысячи двадцать шесть года"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_089",
+      "text": "Платёж от 15.03.2024.",
+      "note": "dates; даты",
+      "category": "dates",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 20,
+          "type": "date",
+          "expected_spoken": "пятнадцатый марта две тысячи двадцать четыре года"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_090",
+      "text": "Встреча назначена на 08.08.2025.",
+      "note": "dates; даты",
+      "category": "dates",
+      "critical_spans": [
+        {
+          "start": 21,
+          "end": 31,
+          "type": "date",
+          "expected_spoken": "восьмой августа две тысячи двадцать пять года"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_091",
+      "text": "Архивная выписка за 09.05.2023.",
+      "note": "dates; даты",
+      "category": "dates",
+      "critical_spans": [
+        {
+          "start": 20,
+          "end": 30,
+          "type": "date",
+          "expected_spoken": "девятый мая две тысячи двадцать три года"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_092",
+      "text": "Следующее списание 12.11.2026.",
+      "note": "dates; даты",
+      "category": "dates",
+      "critical_spans": [
+        {
+          "start": 19,
+          "end": 29,
+          "type": "date",
+          "expected_spoken": "двенадцатый ноября две тысячи двадцать шесть года"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_093",
+      "text": "Отчёт сформирован 28.02.2024.",
+      "note": "dates; даты",
+      "category": "dates",
+      "critical_spans": [
+        {
+          "start": 18,
+          "end": 28,
+          "type": "date",
+          "expected_spoken": "двадцать восьмой февраля две тысячи двадцать четыре года"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_094",
+      "text": "Напоминание на 07.04.2026.",
+      "note": "dates; даты",
+      "category": "dates",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 25,
+          "type": "date",
+          "expected_spoken": "седьмой апреля две тысячи двадцать шесть года"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_095",
+      "text": "Платёж просрочен с 19.09.2025.",
+      "note": "dates; даты",
+      "category": "dates",
+      "critical_spans": [
+        {
+          "start": 19,
+          "end": 29,
+          "type": "date",
+          "expected_spoken": "девятнадцатый сентября две тысячи двадцать пять года"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_096",
+      "text": "Заявка принята 03.06.2026.",
+      "note": "dates; даты",
+      "category": "dates",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 25,
+          "type": "date",
+          "expected_spoken": "третий июня две тысячи двадцать шесть года"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_097",
+      "text": "Акт сверки от 25.10.2024.",
+      "note": "dates; даты",
+      "category": "dates",
+      "critical_spans": [
+        {
+          "start": 14,
+          "end": 24,
+          "type": "date",
+          "expected_spoken": "двадцать пятый октября две тысячи двадцать четыре года"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_098",
+      "text": "Каникулы до 05.01.2026.",
+      "note": "dates; даты",
+      "category": "dates",
+      "critical_spans": [
+        {
+          "start": 12,
+          "end": 22,
+          "type": "date",
+          "expected_spoken": "пятый января две тысячи двадцать шесть года"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_099",
+      "text": "Зачисление ожидается 11.02.2026.",
+      "note": "dates; даты",
+      "category": "dates",
+      "critical_spans": [
+        {
+          "start": 21,
+          "end": 31,
+          "type": "date",
+          "expected_spoken": "одиннадцатый февраля две тысячи двадцать шесть года"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_100",
+      "text": "Реестр закрыт 22.03.2025.",
+      "note": "dates; даты",
+      "category": "dates",
+      "critical_spans": [
+        {
+          "start": 14,
+          "end": 24,
+          "type": "date",
+          "expected_spoken": "двадцать второй марта две тысячи двадцать пять года"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_101",
+      "text": "Отчётность за период до 30.04.2026.",
+      "note": "dates; даты",
+      "category": "dates",
+      "critical_spans": [
+        {
+          "start": 24,
+          "end": 34,
+          "type": "date",
+          "expected_spoken": "тридцатый апреля две тысячи двадцать шесть года"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_102",
+      "text": "Перевод исполнен 16.06.2024.",
+      "note": "dates; даты",
+      "category": "dates",
+      "critical_spans": [
+        {
+          "start": 17,
+          "end": 27,
+          "type": "date",
+          "expected_spoken": "шестнадцатый июня две тысячи двадцать четыре года"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_103",
+      "text": "Купонная дата 18.07.2025.",
+      "note": "dates; даты",
+      "category": "dates",
+      "critical_spans": [
+        {
+          "start": 14,
+          "end": 24,
+          "type": "date",
+          "expected_spoken": "восемнадцатый июля две тысячи двадцать пять года"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_104",
+      "text": "Погашение транша 21.08.2026.",
+      "note": "dates; даты",
+      "category": "dates",
+      "critical_spans": [
+        {
+          "start": 17,
+          "end": 27,
+          "type": "date",
+          "expected_spoken": "двадцать первый августа две тысячи двадцать шесть года"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_105",
+      "text": "Штраф начислен 27.09.2024.",
+      "note": "dates; даты",
+      "category": "dates",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 25,
+          "type": "date",
+          "expected_spoken": "двадцать седьмой сентября две тысячи двадцать четыре года"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_106",
+      "text": "Заседание совета 04.11.2025.",
+      "note": "dates; даты",
+      "category": "dates",
+      "critical_spans": [
+        {
+          "start": 17,
+          "end": 27,
+          "type": "date",
+          "expected_spoken": "четвёртый ноября две тысячи двадцать пять года"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_107",
       "text": "Зачисление ожидается до 16:30.",
-      "note": "digit time HH:MM"
+      "note": "time; время",
+      "category": "time",
+      "critical_spans": [
+        {
+          "start": 24,
+          "end": 29,
+          "type": "time",
+          "expected_spoken": "шестнадцать тридцать"
+        }
+      ]
     },
     {
-      "utt_id": "bank_08",
-      "text": "ИНН организации девять цифр, КПП — девять цифр.",
-      "note": "letterism expansion ИНН/КПП"
+      "utt_id": "bank_108",
+      "text": "Отделение открывается в 09:05.",
+      "note": "time; время",
+      "category": "time",
+      "critical_spans": [
+        {
+          "start": 24,
+          "end": 29,
+          "type": "time",
+          "expected_spoken": "девять пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_109",
+      "text": "Смена суток в 00:00.",
+      "note": "time; время",
+      "category": "time",
+      "critical_spans": [
+        {
+          "start": 14,
+          "end": 19,
+          "type": "time",
+          "expected_spoken": "ноль ноль"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_110",
+      "text": "Перерыв с 12:00.",
+      "note": "time; время",
+      "category": "time",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 15,
+          "type": "time",
+          "expected_spoken": "двенадцать ноль"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_111",
+      "text": "Колл-центр до 18:45.",
+      "note": "time; время",
+      "category": "time",
+      "critical_spans": [
+        {
+          "start": 14,
+          "end": 19,
+          "type": "time",
+          "expected_spoken": "восемнадцать сорок пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_112",
+      "text": "Напоминание в 07:15.",
+      "note": "time; время",
+      "category": "time",
+      "critical_spans": [
+        {
+          "start": 14,
+          "end": 19,
+          "type": "time",
+          "expected_spoken": "семь пятнадцать"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_113",
+      "text": "Заявка действует до 23:59.",
+      "note": "time; время",
+      "category": "time",
+      "critical_spans": [
+        {
+          "start": 20,
+          "end": 25,
+          "type": "time",
+          "expected_spoken": "двадцать три пятьдесят девять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_114",
+      "text": "Встреча в офисе в 10:10.",
+      "note": "time; время",
+      "category": "time",
+      "critical_spans": [
+        {
+          "start": 18,
+          "end": 23,
+          "type": "time",
+          "expected_spoken": "десять десять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_115",
+      "text": "Курьер приедет к 14:20.",
+      "note": "time; время",
+      "category": "time",
+      "critical_spans": [
+        {
+          "start": 17,
+          "end": 22,
+          "type": "time",
+          "expected_spoken": "четырнадцать двадцать"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_116",
+      "text": "Начало торгов в 08:00.",
+      "note": "time; время",
+      "category": "time",
+      "critical_spans": [
+        {
+          "start": 16,
+          "end": 21,
+          "type": "time",
+          "expected_spoken": "восемь ноль"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_117",
+      "text": "Ночной платёж после 21:30.",
+      "note": "time; время",
+      "category": "time",
+      "critical_spans": [
+        {
+          "start": 20,
+          "end": 25,
+          "type": "time",
+          "expected_spoken": "двадцать один тридцать"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_118",
+      "text": "Слот записи на 11:45.",
+      "note": "time; время",
+      "category": "time",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 20,
+          "type": "time",
+          "expected_spoken": "одиннадцать сорок пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_119",
+      "text": "Звонок оператора в 13:05.",
+      "note": "time; время",
+      "category": "time",
+      "critical_spans": [
+        {
+          "start": 19,
+          "end": 24,
+          "type": "time",
+          "expected_spoken": "тринадцать пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_120",
+      "text": "Закрытие операционного дня в 17:00.",
+      "note": "time; время",
+      "category": "time",
+      "critical_spans": [
+        {
+          "start": 29,
+          "end": 34,
+          "type": "time",
+          "expected_spoken": "семнадцать ноль"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_121",
+      "text": "Автоплатёж в 06:30.",
+      "note": "time; время",
+      "category": "time",
+      "critical_spans": [
+        {
+          "start": 13,
+          "end": 18,
+          "type": "time",
+          "expected_spoken": "шесть тридцать"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_122",
+      "text": "Повторная попытка в 19:19.",
+      "note": "time; время",
+      "category": "time",
+      "critical_spans": [
+        {
+          "start": 20,
+          "end": 25,
+          "type": "time",
+          "expected_spoken": "девятнадцать девятнадцать"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_123",
+      "text": "Окно обслуживания до 15:40.",
+      "note": "time; время",
+      "category": "time",
+      "critical_spans": [
+        {
+          "start": 21,
+          "end": 26,
+          "type": "time",
+          "expected_spoken": "пятнадцать сорок"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_124",
+      "text": "Блокировка карты в 22:10.",
+      "note": "time; время",
+      "category": "time",
+      "critical_spans": [
+        {
+          "start": 19,
+          "end": 24,
+          "type": "time",
+          "expected_spoken": "двадцать два десять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_125",
+      "text": "Техработы с 03:03.",
+      "note": "time; время",
+      "category": "time",
+      "critical_spans": [
+        {
+          "start": 12,
+          "end": 17,
+          "type": "time",
+          "expected_spoken": "три три"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_126",
+      "text": "Обед до 12:15.",
+      "note": "time; время",
+      "category": "time",
+      "critical_spans": [
+        {
+          "start": 8,
+          "end": 13,
+          "type": "time",
+          "expected_spoken": "двенадцать пятнадцать"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_127",
+      "text": "Стоп-лист обновляется в 20:00.",
+      "note": "time; время",
+      "category": "time",
+      "critical_spans": [
+        {
+          "start": 24,
+          "end": 29,
+          "type": "time",
+          "expected_spoken": "двадцать ноль"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_128",
+      "text": "Позвоните по номеру +7 900 123-45-67.",
+      "note": "phones; телефоны",
+      "category": "phones",
+      "critical_spans": [
+        {
+          "start": 20,
+          "end": 36,
+          "type": "account",
+          "expected_spoken": "плюс семь девять ноль ноль один два три четыре пять шесть семь"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_129",
+      "text": "Горячая линия +7 903 555-01-02.",
+      "note": "phones; телефоны",
+      "category": "phones",
+      "critical_spans": [
+        {
+          "start": 14,
+          "end": 30,
+          "type": "account",
+          "expected_spoken": "плюс семь девять ноль три пять пять пять ноль один ноль два"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_130",
+      "text": "Московский офис +7 495 123-45-67.",
+      "note": "phones; телефоны",
+      "category": "phones",
+      "critical_spans": [
+        {
+          "start": 16,
+          "end": 32,
+          "type": "account",
+          "expected_spoken": "плюс семь четыре девять пять один два три четыре пять шесть семь"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_131",
+      "text": "Санкт-Петербург +7 812 200-30-40.",
+      "note": "phones; телефоны",
+      "category": "phones",
+      "critical_spans": [
+        {
+          "start": 16,
+          "end": 32,
+          "type": "account",
+          "expected_spoken": "плюс семь восемь один два два ноль ноль три ноль четыре ноль"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_132",
+      "text": "Менеджер на связи +7 916 777-88-99.",
+      "note": "phones; телефоны",
+      "category": "phones",
+      "critical_spans": [
+        {
+          "start": 18,
+          "end": 34,
+          "type": "account",
+          "expected_spoken": "плюс семь девять один шесть семь семь семь восемь восемь девять девять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_133",
+      "text": "Подтвердите номер +7 999 111-22-33.",
+      "note": "phones; телефоны",
+      "category": "phones",
+      "critical_spans": [
+        {
+          "start": 18,
+          "end": 34,
+          "type": "account",
+          "expected_spoken": "плюс семь девять девять девять один один один два два три три"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_134",
+      "text": "SMS придёт на +7 901 234-56-78.",
+      "note": "phones; телефоны",
+      "category": "phones",
+      "critical_spans": [
+        {
+          "start": 14,
+          "end": 30,
+          "type": "account",
+          "expected_spoken": "плюс семь девять ноль один два три четыре пять шесть семь восемь"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_135",
+      "text": "Контакт для возврата +7 926 000-11-22.",
+      "note": "phones; телефоны",
+      "category": "phones",
+      "critical_spans": [
+        {
+          "start": 21,
+          "end": 37,
+          "type": "account",
+          "expected_spoken": "плюс семь девять два шесть ноль ноль ноль один один два два"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_136",
+      "text": "Региональный центр +7 983 444-55-66.",
+      "note": "phones; телефоны",
+      "category": "phones",
+      "critical_spans": [
+        {
+          "start": 19,
+          "end": 35,
+          "type": "account",
+          "expected_spoken": "плюс семь девять восемь три четыре четыре четыре пять пять шесть шесть"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_137",
+      "text": "Бесплатный номер +7 800 555-35-35.",
+      "note": "phones; телефоны",
+      "category": "phones",
+      "critical_spans": [
+        {
+          "start": 17,
+          "end": 33,
+          "type": "account",
+          "expected_spoken": "плюс семь восемь ноль ноль пять пять пять три пять три пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_138",
+      "text": "Факс отделения +7 495 789-00-11.",
+      "note": "phones; телефоны",
+      "category": "phones",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 31,
+          "type": "account",
+          "expected_spoken": "плюс семь четыре девять пять семь восемь девять ноль ноль один один"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_139",
+      "text": "Екатеринбург +7 343 200-10-20.",
+      "note": "phones; телефоны",
+      "category": "phones",
+      "critical_spans": [
+        {
+          "start": 13,
+          "end": 29,
+          "type": "account",
+          "expected_spoken": "плюс семь три четыре три два ноль ноль один ноль два ноль"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_140",
+      "text": "Новосибирск +7 383 300-40-50.",
+      "note": "phones; телефоны",
+      "category": "phones",
+      "critical_spans": [
+        {
+          "start": 12,
+          "end": 28,
+          "type": "account",
+          "expected_spoken": "плюс семь три восемь три три ноль ноль четыре ноль пять ноль"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_141",
+      "text": "Самара +7 846 111-22-33.",
+      "note": "phones; телефоны",
+      "category": "phones",
+      "critical_spans": [
+        {
+          "start": 7,
+          "end": 23,
+          "type": "account",
+          "expected_spoken": "плюс семь восемь четыре шесть один один один два два три три"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_142",
+      "text": "Краснодар +7 861 555-66-77.",
+      "note": "phones; телефоны",
+      "category": "phones",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 26,
+          "type": "account",
+          "expected_spoken": "плюс семь восемь шесть один пять пять пять шесть шесть семь семь"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_143",
+      "text": "Челябинск +7 351 222-33-44.",
+      "note": "phones; телефоны",
+      "category": "phones",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 26,
+          "type": "account",
+          "expected_spoken": "плюс семь три пять один два два два три три четыре четыре"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_144",
+      "text": "Нижний Новгород +7 831 100-20-30.",
+      "note": "phones; телефоны",
+      "category": "phones",
+      "critical_spans": [
+        {
+          "start": 16,
+          "end": 32,
+          "type": "account",
+          "expected_spoken": "плюс семь восемь три один один ноль ноль два ноль три ноль"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_145",
+      "text": "Казань +7 843 700-80-90.",
+      "note": "phones; телефоны",
+      "category": "phones",
+      "critical_spans": [
+        {
+          "start": 7,
+          "end": 23,
+          "type": "account",
+          "expected_spoken": "плюс семь восемь четыре три семь ноль ноль восемь ноль девять ноль"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_146",
+      "text": "Хабаровск +7 4212 12-34-56.",
+      "note": "phones; телефоны",
+      "category": "phones",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 26,
+          "type": "account",
+          "expected_spoken": "плюс семь четыре два один два один два три четыре пять шесть"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_147",
+      "text": "Иркутск +7 3952 60-70-80.",
+      "note": "phones; телефоны",
+      "category": "phones",
+      "critical_spans": [
+        {
+          "start": 8,
+          "end": 24,
+          "type": "account",
+          "expected_spoken": "плюс семь три девять пять два шесть ноль семь ноль восемь ноль"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_148",
+      "text": "Альтернативный формат 8 900 123-45-67.",
+      "note": "phones; телефоны",
+      "category": "phones",
+      "critical_spans": [
+        {
+          "start": 22,
+          "end": 37,
+          "type": "account",
+          "expected_spoken": "восемь девять ноль ноль один два три четыре пять шесть семь"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_149",
+      "text": "Номер счёта 40817810000000001234.",
+      "note": "accounts; счета/карты",
+      "category": "accounts",
+      "critical_spans": [
+        {
+          "start": 12,
+          "end": 32,
+          "type": "account",
+          "expected_spoken": "четыре ноль восемь один семь восемь один ноль ноль ноль ноль ноль ноль ноль ноль ноль один два три четыре"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_150",
+      "text": "Расчётный счёт 40817810123456789012.",
+      "note": "accounts; счета/карты",
+      "category": "accounts",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 35,
+          "type": "account",
+          "expected_spoken": "четыре ноль восемь один семь восемь один ноль один два три четыре пять шесть семь восемь девять ноль один два"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_151",
+      "text": "Счёт организации 40702810900000000001.",
+      "note": "accounts; счета/карты",
+      "category": "accounts",
+      "critical_spans": [
+        {
+          "start": 17,
+          "end": 37,
+          "type": "account",
+          "expected_spoken": "четыре ноль семь ноль два восемь один ноль девять ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль один"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_152",
+      "text": "Депозитный счёт 42301810000001234567.",
+      "note": "accounts; счета/карты",
+      "category": "accounts",
+      "critical_spans": [
+        {
+          "start": 16,
+          "end": 36,
+          "type": "account",
+          "expected_spoken": "четыре два три ноль один восемь один ноль ноль ноль ноль ноль ноль один два три четыре пять шесть семь"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_153",
+      "text": "Корр. счёт 30101810400000000555.",
+      "note": "accounts; счета/карты",
+      "category": "accounts",
+      "critical_spans": [
+        {
+          "start": 11,
+          "end": 31,
+          "type": "account",
+          "expected_spoken": "три ноль один ноль один восемь один ноль четыре ноль ноль ноль ноль ноль ноль ноль ноль пять пять пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_154",
+      "text": "Карта 2200 1234 5678 9010.",
+      "note": "accounts; счета/карты",
+      "category": "accounts",
+      "critical_spans": [
+        {
+          "start": 6,
+          "end": 25,
+          "type": "account",
+          "expected_spoken": "два два ноль ноль один два три четыре пять шесть семь восемь девять ноль один ноль"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_155",
+      "text": "Номер карты 4276 1234 5678 9012.",
+      "note": "accounts; счета/карты",
+      "category": "accounts",
+      "critical_spans": [
+        {
+          "start": 12,
+          "end": 31,
+          "type": "account",
+          "expected_spoken": "четыре два семь шесть один два три четыре пять шесть семь восемь девять ноль один два"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_156",
+      "text": "Mastercard 5536 9100 0011 2233.",
+      "note": "accounts; счета/карты",
+      "category": "accounts",
+      "critical_spans": [
+        {
+          "start": 11,
+          "end": 30,
+          "type": "account",
+          "expected_spoken": "пять пять три шесть девять один ноль ноль ноль ноль один один два два три три"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_157",
+      "text": "Карта Мир 2202 2000 3000 4000.",
+      "note": "accounts; счета/карты",
+      "category": "accounts",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 29,
+          "type": "account",
+          "expected_spoken": "два два ноль два два ноль ноль ноль три ноль ноль ноль четыре ноль ноль ноль"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_158",
+      "text": "Номер счёта 4082, проверьте реквизиты.",
+      "note": "accounts; счета/карты",
+      "category": "accounts",
+      "critical_spans": [
+        {
+          "start": 12,
+          "end": 16,
+          "type": "account",
+          "expected_spoken": "четыре ноль восемь два"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_159",
+      "text": "Внутренний счёт 47422810.",
+      "note": "accounts; счета/карты",
+      "category": "accounts",
+      "critical_spans": [
+        {
+          "start": 16,
+          "end": 24,
+          "type": "account",
+          "expected_spoken": "четыре семь четыре два два восемь один ноль"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_160",
+      "text": "Счёт незавершённых расчётов 30232810100000000001.",
+      "note": "accounts; счета/карты",
+      "category": "accounts",
+      "critical_spans": [
+        {
+          "start": 28,
+          "end": 48,
+          "type": "account",
+          "expected_spoken": "три ноль два три два восемь один ноль один ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль один"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_161",
+      "text": "Счёт вкладов до востребования 42106810.",
+      "note": "accounts; счета/карты",
+      "category": "accounts",
+      "critical_spans": [
+        {
+          "start": 30,
+          "end": 38,
+          "type": "account",
+          "expected_spoken": "четыре два один ноль шесть восемь один ноль"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_162",
+      "text": "Visa 4555 4412 3456 7890.",
+      "note": "accounts; счета/карты",
+      "category": "accounts",
+      "critical_spans": [
+        {
+          "start": 5,
+          "end": 24,
+          "type": "account",
+          "expected_spoken": "четыре пять пять пять четыре четыре один два три четыре пять шесть семь восемь девять ноль"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_163",
+      "text": "Тестовая карта 2200 0000 0000 0001.",
+      "note": "accounts; счета/карты",
+      "category": "accounts",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 34,
+          "type": "account",
+          "expected_spoken": "два два ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль один"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_164",
+      "text": "Длинный счёт 40817810999999999999.",
+      "note": "accounts; счета/карты",
+      "category": "accounts",
+      "critical_spans": [
+        {
+          "start": 13,
+          "end": 33,
+          "type": "account",
+          "expected_spoken": "четыре ноль восемь один семь восемь один ноль девять девять девять девять девять девять девять девять девять девять девять девять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_165",
+      "text": "Валютный счёт 40502810111111111111.",
+      "note": "accounts; счета/карты",
+      "category": "accounts",
+      "critical_spans": [
+        {
+          "start": 14,
+          "end": 34,
+          "type": "account",
+          "expected_spoken": "четыре ноль пять ноль два восемь один ноль один один один один один один один один один один один один"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_166",
+      "text": "Корпоративная карта 4260 9876 5432 1098.",
+      "note": "accounts; счета/карты",
+      "category": "accounts",
+      "critical_spans": [
+        {
+          "start": 20,
+          "end": 39,
+          "type": "account",
+          "expected_spoken": "четыре два шесть ноль девять восемь семь шесть пять четыре три два один ноль девять восемь"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_167",
+      "text": "Зарплатная карта 2201 2345 6789 0123.",
+      "note": "accounts; счета/карты",
+      "category": "accounts",
+      "critical_spans": [
+        {
+          "start": 17,
+          "end": 36,
+          "type": "account",
+          "expected_spoken": "два два ноль один два три четыре пять шесть семь восемь девять ноль один два три"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_168",
+      "text": "Счёт эскроу 40914810000000000005.",
+      "note": "accounts; счета/карты",
+      "category": "accounts",
+      "critical_spans": [
+        {
+          "start": 12,
+          "end": 32,
+          "type": "account",
+          "expected_spoken": "четыре ноль девять один четыре восемь один ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_169",
+      "text": "Короткий код счёта 30233.",
+      "note": "accounts; счета/карты",
+      "category": "accounts",
+      "critical_spans": [
+        {
+          "start": 19,
+          "end": 24,
+          "type": "account",
+          "expected_spoken": "три ноль два три три"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_170",
+      "text": "ИНН организации 7707083893.",
+      "note": "codes; коды ИНН",
+      "category": "codes",
+      "critical_spans": [
+        {
+          "start": 16,
+          "end": 26,
+          "type": "code",
+          "expected_spoken": "семь семь ноль семь ноль восемь три восемь девять три"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_171",
+      "text": "ИНН клиента 5024088366.",
+      "note": "codes; коды ИНН",
+      "category": "codes",
+      "critical_spans": [
+        {
+          "start": 12,
+          "end": 22,
+          "type": "code",
+          "expected_spoken": "пять ноль два четыре ноль восемь восемь три шесть шесть"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_172",
+      "text": "Проверьте ИНН 7736050003.",
+      "note": "codes; коды ИНН",
+      "category": "codes",
+      "critical_spans": [
+        {
+          "start": 14,
+          "end": 24,
+          "type": "code",
+          "expected_spoken": "семь семь три шесть ноль пять ноль ноль ноль три"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_173",
+      "text": "ИНН физлица 500100732259.",
+      "note": "codes; коды ИНН",
+      "category": "codes",
+      "critical_spans": [
+        {
+          "start": 12,
+          "end": 24,
+          "type": "code",
+          "expected_spoken": "пять ноль ноль один ноль ноль семь три два два пять девять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_174",
+      "text": "Двенадцатизначный ИНН 771234567890.",
+      "note": "codes; коды ИНН",
+      "category": "codes",
+      "critical_spans": [
+        {
+          "start": 22,
+          "end": 34,
+          "type": "code",
+          "expected_spoken": "семь семь один два три четыре пять шесть семь восемь девять ноль"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_175",
+      "text": "КПП 773601001.",
+      "note": "codes; коды КПП",
+      "category": "codes",
+      "critical_spans": [
+        {
+          "start": 4,
+          "end": 13,
+          "type": "code",
+          "expected_spoken": "семь семь три шесть ноль один ноль ноль один"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_176",
+      "text": "КПП филиала 502401001.",
+      "note": "codes; коды КПП",
+      "category": "codes",
+      "critical_spans": [
+        {
+          "start": 12,
+          "end": 21,
+          "type": "code",
+          "expected_spoken": "пять ноль два четыре ноль один ноль ноль один"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_177",
+      "text": "Укажите КПП 770201001.",
+      "note": "codes; коды КПП",
+      "category": "codes",
+      "critical_spans": [
+        {
+          "start": 12,
+          "end": 21,
+          "type": "code",
+          "expected_spoken": "семь семь ноль два ноль один ноль ноль один"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_178",
+      "text": "БИК банка 044525225.",
+      "note": "codes; коды БИК",
+      "category": "codes",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 19,
+          "type": "code",
+          "expected_spoken": "ноль четыре четыре пять два пять два два пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_179",
+      "text": "БИК получателя 044525593.",
+      "note": "codes; коды БИК",
+      "category": "codes",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 24,
+          "type": "code",
+          "expected_spoken": "ноль четыре четыре пять два пять пять девять три"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_180",
+      "text": "БИК отделения 040702615.",
+      "note": "codes; коды БИК",
+      "category": "codes",
+      "critical_spans": [
+        {
+          "start": 14,
+          "end": 23,
+          "type": "code",
+          "expected_spoken": "ноль четыре ноль семь ноль два шесть один пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_181",
+      "text": "СНИЛС 112-233-445 95.",
+      "note": "codes; коды СНИЛС",
+      "category": "codes",
+      "critical_spans": [
+        {
+          "start": 6,
+          "end": 20,
+          "type": "code",
+          "expected_spoken": "один один два два три три четыре четыре пять девять пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_182",
+      "text": "Проверьте СНИЛС 001-234-567 89.",
+      "note": "codes; коды СНИЛС",
+      "category": "codes",
+      "critical_spans": [
+        {
+          "start": 16,
+          "end": 30,
+          "type": "code",
+          "expected_spoken": "ноль ноль один два три четыре пять шесть семь восемь девять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_183",
+      "text": "Страховой номер 123-456-789 00.",
+      "note": "codes; коды СНИЛС",
+      "category": "codes",
+      "critical_spans": [
+        {
+          "start": 16,
+          "end": 30,
+          "type": "code",
+          "expected_spoken": "один два три четыре пять шесть семь восемь девять ноль ноль"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_184",
+      "text": "Реквизиты: ИНН 7707083893 для платежа.",
+      "note": "codes; коды ИНН",
+      "category": "codes",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 25,
+          "type": "code",
+          "expected_spoken": "семь семь ноль семь ноль восемь три восемь девять три"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_185",
+      "text": "КПП крупнейшего налогоплательщика 997950001.",
+      "note": "codes; коды КПП",
+      "category": "codes",
+      "critical_spans": [
+        {
+          "start": 34,
+          "end": 43,
+          "type": "code",
+          "expected_spoken": "девять девять семь девять пять ноль ноль ноль один"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_186",
+      "text": "БИК регионального банка 045805777.",
+      "note": "codes; коды БИК",
+      "category": "codes",
+      "critical_spans": [
+        {
+          "start": 24,
+          "end": 33,
+          "type": "code",
+          "expected_spoken": "ноль четыре пять восемь ноль пять семь семь семь"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_187",
+      "text": "СНИЛС сотрудника 987-654-321 09.",
+      "note": "codes; коды СНИЛС",
+      "category": "codes",
+      "critical_spans": [
+        {
+          "start": 17,
+          "end": 31,
+          "type": "code",
+          "expected_spoken": "девять восемь семь шесть пять четыре три два один ноль девять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_188",
+      "text": "ИНН контрагента 3664069397.",
+      "note": "codes; коды ИНН",
+      "category": "codes",
+      "critical_spans": [
+        {
+          "start": 16,
+          "end": 26,
+          "type": "code",
+          "expected_spoken": "три шесть шесть четыре ноль шесть девять три девять семь"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_189",
+      "text": "КПП новосибирского офиса 540601001.",
+      "note": "codes; коды КПП",
+      "category": "codes",
+      "critical_spans": [
+        {
+          "start": 25,
+          "end": 34,
+          "type": "code",
+          "expected_spoken": "пять четыре ноль шесть ноль один ноль ноль один"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_190",
+      "text": "БИК сибирского филиала 046015207.",
+      "note": "codes; коды БИК",
+      "category": "codes",
+      "critical_spans": [
+        {
+          "start": 23,
+          "end": 32,
+          "type": "code",
+          "expected_spoken": "ноль четыре шесть ноль один пять два ноль семь"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_191",
+      "text": "Укажите ИНН организации.",
+      "note": "ru_abbr; русские аббревиатуры",
+      "category": "ru_abbr",
+      "critical_spans": [
+        {
+          "start": 8,
+          "end": 11,
+          "type": "entity",
+          "expected_spoken": "и эн эн"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_192",
+      "text": "Поле КПП обязательно.",
+      "note": "ru_abbr; русские аббревиатуры",
+      "category": "ru_abbr",
+      "critical_spans": [
+        {
+          "start": 5,
+          "end": 8,
+          "type": "entity",
+          "expected_spoken": "ка пэ пэ"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_193",
+      "text": "Введите БИК банка.",
+      "note": "ru_abbr; русские аббревиатуры",
+      "category": "ru_abbr",
+      "critical_spans": [
+        {
+          "start": 8,
+          "end": 11,
+          "type": "entity",
+          "expected_spoken": "бик"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_194",
+      "text": "Сумма включает НДС.",
+      "note": "ru_abbr; русские аббревиатуры",
+      "category": "ru_abbr",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 18,
+          "type": "entity",
+          "expected_spoken": "эн дэ эс"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_195",
+      "text": "Получатель — ОАО Банк.",
+      "note": "ru_abbr; русские аббревиатуры",
+      "category": "ru_abbr",
+      "critical_spans": [
+        {
+          "start": 13,
+          "end": 16,
+          "type": "entity",
+          "expected_spoken": "о а о"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_196",
+      "text": "Плательщик ООО Ромашка.",
+      "note": "ru_abbr; русские аббревиатуры",
+      "category": "ru_abbr",
+      "critical_spans": [
+        {
+          "start": 11,
+          "end": 14,
+          "type": "entity",
+          "expected_spoken": "о о о"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_197",
+      "text": "АО Тинькофф Банк.",
+      "note": "ru_abbr; русские аббревиатуры",
+      "category": "ru_abbr",
+      "critical_spans": [
+        {
+          "start": 0,
+          "end": 2,
+          "type": "entity",
+          "expected_spoken": "а о"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_198",
+      "text": "ПАО Сбербанк.",
+      "note": "ru_abbr; русские аббревиатуры",
+      "category": "ru_abbr",
+      "critical_spans": [
+        {
+          "start": 0,
+          "end": 3,
+          "type": "entity",
+          "expected_spoken": "пэ а о"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_199",
+      "text": "Счёт открыт на ИП Иванова.",
+      "note": "ru_abbr; русские аббревиатуры",
+      "category": "ru_abbr",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 17,
+          "type": "entity",
+          "expected_spoken": "и пэ"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_200",
+      "text": "УК управляет фондом.",
+      "note": "ru_abbr; русские аббревиатуры",
+      "category": "ru_abbr",
+      "critical_spans": [
+        {
+          "start": 0,
+          "end": 2,
+          "type": "entity",
+          "expected_spoken": "у ка"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_201",
+      "text": "Требования ЦБ обязательны.",
+      "note": "ru_abbr; русские аббревиатуры",
+      "category": "ru_abbr",
+      "critical_spans": [
+        {
+          "start": 11,
+          "end": 13,
+          "type": "entity",
+          "expected_spoken": "цэ бэ"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_202",
+      "text": "Резидент РФ.",
+      "note": "ru_abbr; русские аббревиатуры",
+      "category": "ru_abbr",
+      "critical_spans": [
+        {
+          "start": 9,
+          "end": 11,
+          "type": "entity",
+          "expected_spoken": "эр эф"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_203",
+      "text": "Перевод через СБП.",
+      "note": "ru_abbr; русские аббревиатуры",
+      "category": "ru_abbr",
+      "critical_spans": [
+        {
+          "start": 14,
+          "end": 17,
+          "type": "entity",
+          "expected_spoken": "эс бэ пэ"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_204",
+      "text": "Укажите КБК платежа.",
+      "note": "ru_abbr; русские аббревиатуры",
+      "category": "ru_abbr",
+      "critical_spans": [
+        {
+          "start": 8,
+          "end": 11,
+          "type": "entity",
+          "expected_spoken": "ка бэ ка"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_205",
+      "text": "Проверьте ОГРН.",
+      "note": "ru_abbr; русские аббревиатуры",
+      "category": "ru_abbr",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 14,
+          "type": "entity",
+          "expected_spoken": "о гэ эр эн"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_206",
+      "text": "Код ОКПО организации.",
+      "note": "ru_abbr; русские аббревиатуры",
+      "category": "ru_abbr",
+      "critical_spans": [
+        {
+          "start": 4,
+          "end": 8,
+          "type": "entity",
+          "expected_spoken": "о ка пэ о"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_207",
+      "text": "Основной ОКВЭД.",
+      "note": "ru_abbr; русские аббревиатуры",
+      "category": "ru_abbr",
+      "critical_spans": [
+        {
+          "start": 9,
+          "end": 14,
+          "type": "entity",
+          "expected_spoken": "о ка вэ э дэ"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_208",
+      "text": "Займ в МФО.",
+      "note": "ru_abbr; русские аббревиатуры",
+      "category": "ru_abbr",
+      "critical_spans": [
+        {
+          "start": 7,
+          "end": 10,
+          "type": "entity",
+          "expected_spoken": "эм эф о"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_209",
+      "text": "Платёж через НКО.",
+      "note": "ru_abbr; русские аббревиатуры",
+      "category": "ru_abbr",
+      "critical_spans": [
+        {
+          "start": 13,
+          "end": 16,
+          "type": "entity",
+          "expected_spoken": "эн ка о"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_210",
+      "text": "Отчёт в ФНС.",
+      "note": "ru_abbr; русские аббревиатуры",
+      "category": "ru_abbr",
+      "critical_spans": [
+        {
+          "start": 8,
+          "end": 11,
+          "type": "entity",
+          "expected_spoken": "эф эн эс"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_211",
+      "text": "Ставка НДС уже указана отдельно.",
+      "note": "ru_abbr; русские аббревиатуры",
+      "category": "ru_abbr",
+      "critical_spans": [
+        {
+          "start": 7,
+          "end": 10,
+          "type": "entity",
+          "expected_spoken": "эн дэ эс"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_212",
+      "text": "Установите TTS в приложении.",
+      "note": "lat_abbr; латинские аббревиатуры",
+      "category": "lat_abbr",
+      "critical_spans": [
+        {
+          "start": 11,
+          "end": 14,
+          "type": "latin",
+          "expected_spoken": "тэ-тэ-эс"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_213",
+      "text": "Обратитесь в отдел IT.",
+      "note": "lat_abbr; латинские аббревиатуры",
+      "category": "lat_abbr",
+      "critical_spans": [
+        {
+          "start": 19,
+          "end": 21,
+          "type": "latin",
+          "expected_spoken": "ай-ти"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_214",
+      "text": "Код придёт по SMS.",
+      "note": "lat_abbr; латинские аббревиатуры",
+      "category": "lat_abbr",
+      "critical_spans": [
+        {
+          "start": 14,
+          "end": 17,
+          "type": "latin",
+          "expected_spoken": "эс-эм-эс"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_215",
+      "text": "Отсканируйте QR-код.",
+      "note": "lat_abbr; латинские аббревиатуры",
+      "category": "lat_abbr",
+      "critical_spans": [
+        {
+          "start": 13,
+          "end": 15,
+          "type": "latin",
+          "expected_spoken": "ку-эр"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_216",
+      "text": "Введите PIN-код карты.",
+      "note": "lat_abbr; латинские аббревиатуры",
+      "category": "lat_abbr",
+      "critical_spans": [
+        {
+          "start": 8,
+          "end": 11,
+          "type": "latin",
+          "expected_spoken": "пин"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_217",
+      "text": "Укажите CVV на обороте.",
+      "note": "lat_abbr; латинские аббревиатуры",
+      "category": "lat_abbr",
+      "critical_spans": [
+        {
+          "start": 8,
+          "end": 11,
+          "type": "latin",
+          "expected_spoken": "си-ви-ви"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_218",
+      "text": "Международный IBAN счёта.",
+      "note": "lat_abbr; латинские аббревиатуры",
+      "category": "lat_abbr",
+      "critical_spans": [
+        {
+          "start": 14,
+          "end": 18,
+          "type": "latin",
+          "expected_spoken": "ай-бан"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_219",
+      "text": "Код SWIFT банка.",
+      "note": "lat_abbr; латинские аббревиатуры",
+      "category": "lat_abbr",
+      "critical_spans": [
+        {
+          "start": 4,
+          "end": 9,
+          "type": "latin",
+          "expected_spoken": "свифт"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_220",
+      "text": "Интеграция через API.",
+      "note": "lat_abbr; латинские аббревиатуры",
+      "category": "lat_abbr",
+      "critical_spans": [
+        {
+          "start": 17,
+          "end": 20,
+          "type": "latin",
+          "expected_spoken": "а-пи-ай"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_221",
+      "text": "Смотрите раздел FAQ.",
+      "note": "lat_abbr; латинские аббревиатуры",
+      "category": "lat_abbr",
+      "critical_spans": [
+        {
+          "start": 16,
+          "end": 19,
+          "type": "latin",
+          "expected_spoken": "эф-эй-кью"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_222",
+      "text": "Заявка в HR.",
+      "note": "lat_abbr; латинские аббревиатуры",
+      "category": "lat_abbr",
+      "critical_spans": [
+        {
+          "start": 9,
+          "end": 11,
+          "type": "latin",
+          "expected_spoken": "эйч-ар"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_223",
+      "text": "Выполнение KPI менеджера.",
+      "note": "lat_abbr; латинские аббревиатуры",
+      "category": "lat_abbr",
+      "critical_spans": [
+        {
+          "start": 11,
+          "end": 14,
+          "type": "latin",
+          "expected_spoken": "кэ-пи-ай"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_224",
+      "text": "Карточка клиента в CRM.",
+      "note": "lat_abbr; латинские аббревиатуры",
+      "category": "lat_abbr",
+      "critical_spans": [
+        {
+          "start": 19,
+          "end": 22,
+          "type": "latin",
+          "expected_spoken": "си-ар-эм"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_225",
+      "text": "Одноразовый OTP код.",
+      "note": "lat_abbr; латинские аббревиатуры",
+      "category": "lat_abbr",
+      "critical_spans": [
+        {
+          "start": 12,
+          "end": 15,
+          "type": "latin",
+          "expected_spoken": "о-тэ-пэ"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_226",
+      "text": "POS-терминал в магазине.",
+      "note": "lat_abbr; латинские аббревиатуры",
+      "category": "lat_abbr",
+      "critical_spans": [
+        {
+          "start": 0,
+          "end": 3,
+          "type": "latin",
+          "expected_spoken": "пос"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_227",
+      "text": "Снятие в ATM.",
+      "note": "lat_abbr; латинские аббревиатуры",
+      "category": "lat_abbr",
+      "critical_spans": [
+        {
+          "start": 9,
+          "end": 12,
+          "type": "latin",
+          "expected_spoken": "эй-ти-эм"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_228",
+      "text": "Ключ на USB-носителе.",
+      "note": "lat_abbr; латинские аббревиатуры",
+      "category": "lat_abbr",
+      "critical_spans": [
+        {
+          "start": 8,
+          "end": 11,
+          "type": "latin",
+          "expected_spoken": "ю-эс-би"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_229",
+      "text": "Подключение через VPN.",
+      "note": "lat_abbr; латинские аббревиатуры",
+      "category": "lat_abbr",
+      "critical_spans": [
+        {
+          "start": 18,
+          "end": 21,
+          "type": "latin",
+          "expected_spoken": "ви-пи-эн"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_230",
+      "text": "Выписка в формате PDF.",
+      "note": "lat_abbr; латинские аббревиатуры",
+      "category": "lat_abbr",
+      "critical_spans": [
+        {
+          "start": 18,
+          "end": 21,
+          "type": "latin",
+          "expected_spoken": "пи-ди-эф"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_231",
+      "text": "Откройте URL кабинета.",
+      "note": "lat_abbr; латинские аббревиатуры",
+      "category": "lat_abbr",
+      "critical_spans": [
+        {
+          "start": 9,
+          "end": 12,
+          "type": "latin",
+          "expected_spoken": "ю-ар-эл"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_232",
+      "text": "Поддержка IT круглосуточно.",
+      "note": "lat_abbr; латинские аббревиатуры",
+      "category": "lat_abbr",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 12,
+          "type": "latin",
+          "expected_spoken": "ай-ти"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_233",
+      "text": "Оплата через Google Pay недоступна.",
+      "note": "loanwords; заимствования",
+      "category": "loanwords",
+      "critical_spans": [
+        {
+          "start": 13,
+          "end": 19,
+          "type": "latin",
+          "expected_spoken": "гугл"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_234",
+      "text": "Подключите Apple Pay.",
+      "note": "loanwords; заимствования",
+      "category": "loanwords",
+      "critical_spans": [
+        {
+          "start": 11,
+          "end": 20,
+          "type": "latin",
+          "expected_spoken": "эпл пэй"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_235",
+      "text": "Вывод на PayPal.",
+      "note": "loanwords; заимствования",
+      "category": "loanwords",
+      "critical_spans": [
+        {
+          "start": 9,
+          "end": 15,
+          "type": "latin",
+          "expected_spoken": "пэйпал"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_236",
+      "text": "Напишите нам в WhatsApp.",
+      "note": "loanwords; заимствования",
+      "category": "loanwords",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 23,
+          "type": "latin",
+          "expected_spoken": "вотсап"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_237",
+      "text": "Бот банка в Telegram.",
+      "note": "loanwords; заимствования",
+      "category": "loanwords",
+      "critical_spans": [
+        {
+          "start": 12,
+          "end": 20,
+          "type": "latin",
+          "expected_spoken": "телеграм"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_238",
+      "text": "Карта Mastercard принята.",
+      "note": "loanwords; заимствования",
+      "category": "loanwords",
+      "critical_spans": [
+        {
+          "start": 6,
+          "end": 16,
+          "type": "latin",
+          "expected_spoken": "мастеркард"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_239",
+      "text": "Карта Visa отклонена.",
+      "note": "loanwords; заимствования",
+      "category": "loanwords",
+      "critical_spans": [
+        {
+          "start": 6,
+          "end": 10,
+          "type": "latin",
+          "expected_spoken": "виза"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_240",
+      "text": "Оплата картой Mir.",
+      "note": "loanwords; заимствования",
+      "category": "loanwords",
+      "critical_spans": [
+        {
+          "start": 14,
+          "end": 17,
+          "type": "latin",
+          "expected_spoken": "мир"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_241",
+      "text": "Приложение для iPhone.",
+      "note": "loanwords; заимствования",
+      "category": "loanwords",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 21,
+          "type": "latin",
+          "expected_spoken": "айфон"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_242",
+      "text": "Версия для Android.",
+      "note": "loanwords; заимствования",
+      "category": "loanwords",
+      "critical_spans": [
+        {
+          "start": 11,
+          "end": 18,
+          "type": "latin",
+          "expected_spoken": "андроид"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_243",
+      "text": "Клиент для Windows.",
+      "note": "loanwords; заимствования",
+      "category": "loanwords",
+      "critical_spans": [
+        {
+          "start": 11,
+          "end": 18,
+          "type": "latin",
+          "expected_spoken": "виндоус"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_244",
+      "text": "Выгрузка в Excel.",
+      "note": "loanwords; заимствования",
+      "category": "loanwords",
+      "critical_spans": [
+        {
+          "start": 11,
+          "end": 16,
+          "type": "latin",
+          "expected_spoken": "эксель"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_245",
+      "text": "Встреча в Zoom.",
+      "note": "loanwords; заимствования",
+      "category": "loanwords",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 14,
+          "type": "latin",
+          "expected_spoken": "зум"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_246",
+      "text": "Уведомление в Slack.",
+      "note": "loanwords; заимствования",
+      "category": "loanwords",
+      "critical_spans": [
+        {
+          "start": 14,
+          "end": 19,
+          "type": "latin",
+          "expected_spoken": "слак"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_247",
+      "text": "Новость в Twitter.",
+      "note": "loanwords; заимствования",
+      "category": "loanwords",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 17,
+          "type": "latin",
+          "expected_spoken": "твиттер"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_248",
+      "text": "Страница банка в Facebook.",
+      "note": "loanwords; заимствования",
+      "category": "loanwords",
+      "critical_spans": [
+        {
+          "start": 17,
+          "end": 25,
+          "type": "latin",
+          "expected_spoken": "фейсбук"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_249",
+      "text": "Инструкция на YouTube.",
+      "note": "loanwords; заимствования",
+      "category": "loanwords",
+      "critical_spans": [
+        {
+          "start": 14,
+          "end": 21,
+          "type": "latin",
+          "expected_spoken": "ютуб"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_250",
+      "text": "Подписка Netflix.",
+      "note": "loanwords; заимствования",
+      "category": "loanwords",
+      "critical_spans": [
+        {
+          "start": 9,
+          "end": 16,
+          "type": "latin",
+          "expected_spoken": "нетфликс"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_251",
+      "text": "Кэшбэк на Uber.",
+      "note": "loanwords; заимствования",
+      "category": "loanwords",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 14,
+          "type": "latin",
+          "expected_spoken": "убер"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_252",
+      "text": "Оплата через Apple.",
+      "note": "loanwords; заимствования",
+      "category": "loanwords",
+      "critical_spans": [
+        {
+          "start": 13,
+          "end": 18,
+          "type": "latin",
+          "expected_spoken": "эпл"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_253",
+      "text": "Вход через аккаунт Google.",
+      "note": "loanwords; заимствования",
+      "category": "loanwords",
+      "critical_spans": [
+        {
+          "start": 19,
+          "end": 25,
+          "type": "latin",
+          "expected_spoken": "гугл"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_254",
+      "text": "Посылка весом 5 кг.",
+      "note": "units; единицы",
+      "category": "units",
+      "critical_spans": [
+        {
+          "start": 14,
+          "end": 18,
+          "type": "number",
+          "expected_spoken": "пять килограммов"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_255",
+      "text": "Расстояние до офиса 10 км.",
+      "note": "units; единицы",
+      "category": "units",
+      "critical_spans": [
+        {
+          "start": 20,
+          "end": 25,
+          "type": "number",
+          "expected_spoken": "десять километров"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_256",
+      "text": "Лимит скорости 60 км/ч.",
+      "note": "units; единицы",
+      "category": "units",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 22,
+          "type": "number",
+          "expected_spoken": "шестьдесят километров в час"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_257",
+      "text": "Площадь сейфовой ячейки 2 м².",
+      "note": "units; единицы",
+      "category": "units",
+      "critical_spans": [
+        {
+          "start": 24,
+          "end": 28,
+          "type": "number",
+          "expected_spoken": "два квадратных метра"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_258",
+      "text": "Навеска 100 г.",
+      "note": "units; единицы",
+      "category": "units",
+      "critical_spans": [
+        {
+          "start": 8,
+          "end": 13,
+          "type": "number",
+          "expected_spoken": "сто граммов"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_259",
+      "text": "Объём 1 л.",
+      "note": "units; единицы",
+      "category": "units",
+      "critical_spans": [
+        {
+          "start": 6,
+          "end": 9,
+          "type": "number",
+          "expected_spoken": "один литр"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_260",
+      "text": "Длина 3 м.",
+      "note": "units; единицы",
+      "category": "units",
+      "critical_spans": [
+        {
+          "start": 6,
+          "end": 9,
+          "type": "number",
+          "expected_spoken": "три метра"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_261",
+      "text": "Ширина 15 см.",
+      "note": "units; единицы",
+      "category": "units",
+      "critical_spans": [
+        {
+          "start": 7,
+          "end": 12,
+          "type": "number",
+          "expected_spoken": "пятнадцать сантиметров"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_262",
+      "text": "Толщина 7 мм.",
+      "note": "units; единицы",
+      "category": "units",
+      "critical_spans": [
+        {
+          "start": 8,
+          "end": 12,
+          "type": "number",
+          "expected_spoken": "семь миллиметров"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_263",
+      "text": "Температура в зале 25 °C.",
+      "note": "units; единицы",
+      "category": "units",
+      "critical_spans": [
+        {
+          "start": 19,
+          "end": 24,
+          "type": "number",
+          "expected_spoken": "двадцать пять градусов Цельсия"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_264",
+      "text": "Напряжение 220 В.",
+      "note": "units; единицы",
+      "category": "units",
+      "critical_spans": [
+        {
+          "start": 11,
+          "end": 16,
+          "type": "number",
+          "expected_spoken": "двести двадцать вольт"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_265",
+      "text": "Частота сети 50 Гц.",
+      "note": "units; единицы",
+      "category": "units",
+      "critical_spans": [
+        {
+          "start": 13,
+          "end": 18,
+          "type": "number",
+          "expected_spoken": "пятьдесят герц"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_266",
+      "text": "Память ключа 8 ГБ.",
+      "note": "units; единицы",
+      "category": "units",
+      "critical_spans": [
+        {
+          "start": 13,
+          "end": 17,
+          "type": "number",
+          "expected_spoken": "восемь гигабайт"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_267",
+      "text": "Файл размером 256 МБ.",
+      "note": "units; единицы",
+      "category": "units",
+      "critical_spans": [
+        {
+          "start": 14,
+          "end": 20,
+          "type": "number",
+          "expected_spoken": "двести пятьдесят шесть мегабайт"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_268",
+      "text": "Архив 1 ТБ.",
+      "note": "units; единицы",
+      "category": "units",
+      "critical_spans": [
+        {
+          "start": 6,
+          "end": 10,
+          "type": "number",
+          "expected_spoken": "один терабайт"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_269",
+      "text": "Потребление 90 кВт·ч.",
+      "note": "units; единицы",
+      "category": "units",
+      "critical_spans": [
+        {
+          "start": 12,
+          "end": 20,
+          "type": "number",
+          "expected_spoken": "девяносто киловатт-часов"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_270",
+      "text": "Ожидание до 30 мин.",
+      "note": "units; единицы",
+      "category": "units",
+      "critical_spans": [
+        {
+          "start": 12,
+          "end": 18,
+          "type": "number",
+          "expected_spoken": "тридцать минут"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_271",
+      "text": "Срок обработки 2 ч.",
+      "note": "units; единицы",
+      "category": "units",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 18,
+          "type": "number",
+          "expected_spoken": "два часа"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_272",
+      "text": "Льготный период 14 дн..",
+      "note": "units; единицы",
+      "category": "units",
+      "critical_spans": [
+        {
+          "start": 16,
+          "end": 22,
+          "type": "number",
+          "expected_spoken": "четырнадцать дней"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_273",
+      "text": "Срок вклада 365 сут..",
+      "note": "units; единицы",
+      "category": "units",
+      "critical_spans": [
+        {
+          "start": 12,
+          "end": 20,
+          "type": "number",
+          "expected_spoken": "триста шестьдесят пять суток"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_274",
+      "text": "Рассрочка на 12 мес..",
+      "note": "units; единицы",
+      "category": "units",
+      "critical_spans": [
+        {
+          "start": 13,
+          "end": 20,
+          "type": "number",
+          "expected_spoken": "двенадцать месяцев"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_275",
+      "text": "Это ваш 1-й платёж.",
+      "note": "ordinals; порядковые",
+      "category": "ordinals",
+      "critical_spans": [
+        {
+          "start": 8,
+          "end": 11,
+          "type": "number",
+          "expected_spoken": "первый"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_276",
+      "text": "Откройте 2-й раздел.",
+      "note": "ordinals; порядковые",
+      "category": "ordinals",
+      "critical_spans": [
+        {
+          "start": 9,
+          "end": 12,
+          "type": "number",
+          "expected_spoken": "второй"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_277",
+      "text": "3-й квартал отчётности.",
+      "note": "ordinals; порядковые",
+      "category": "ordinals",
+      "critical_spans": [
+        {
+          "start": 0,
+          "end": 3,
+          "type": "number",
+          "expected_spoken": "третий"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_278",
+      "text": "5-й этаж офиса.",
+      "note": "ordinals; порядковые",
+      "category": "ordinals",
+      "critical_spans": [
+        {
+          "start": 0,
+          "end": 3,
+          "type": "number",
+          "expected_spoken": "пятый"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_279",
+      "text": "10-й рабочий день.",
+      "note": "ordinals; порядковые",
+      "category": "ordinals",
+      "critical_spans": [
+        {
+          "start": 0,
+          "end": 4,
+          "type": "number",
+          "expected_spoken": "десятый"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_280",
+      "text": "15-й день просрочки.",
+      "note": "ordinals; порядковые",
+      "category": "ordinals",
+      "critical_spans": [
+        {
+          "start": 0,
+          "end": 4,
+          "type": "number",
+          "expected_spoken": "пятнадцатый"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_281",
+      "text": "Это 21-й платёж по графику.",
+      "note": "ordinals; порядковые",
+      "category": "ordinals",
+      "critical_spans": [
+        {
+          "start": 4,
+          "end": 8,
+          "type": "number",
+          "expected_spoken": "двадцать первый"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_282",
+      "text": "30-й день месяца.",
+      "note": "ordinals; порядковые",
+      "category": "ordinals",
+      "critical_spans": [
+        {
+          "start": 0,
+          "end": 4,
+          "type": "number",
+          "expected_spoken": "тридцатый"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_283",
+      "text": "31-й день расчётного периода.",
+      "note": "ordinals; порядковые",
+      "category": "ordinals",
+      "critical_spans": [
+        {
+          "start": 0,
+          "end": 4,
+          "type": "number",
+          "expected_spoken": "тридцать первый"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_284",
+      "text": "Поздравляем со 100-й клиентом.",
+      "note": "ordinals; порядковые",
+      "category": "ordinals",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 20,
+          "type": "number",
+          "expected_spoken": "сто"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_285",
+      "text": "Отчёт 2026-го года.",
+      "note": "ordinals; порядковые",
+      "category": "ordinals",
+      "critical_spans": [
+        {
+          "start": 6,
+          "end": 13,
+          "type": "number",
+          "expected_spoken": "две тысячи двадцать шестого"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_286",
+      "text": "С 1-го числа.",
+      "note": "ordinals; порядковые",
+      "category": "ordinals",
+      "critical_spans": [
+        {
+          "start": 2,
+          "end": 6,
+          "type": "number",
+          "expected_spoken": "первого"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_287",
+      "text": "До 2-го числа.",
+      "note": "ordinals; порядковые",
+      "category": "ordinals",
+      "critical_spans": [
+        {
+          "start": 3,
+          "end": 7,
+          "type": "number",
+          "expected_spoken": "второго"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_288",
+      "text": "7-й пакет услуг.",
+      "note": "ordinals; порядковые",
+      "category": "ordinals",
+      "critical_spans": [
+        {
+          "start": 0,
+          "end": 3,
+          "type": "number",
+          "expected_spoken": "седьмой"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_289",
+      "text": "12-й месяц рассрочки.",
+      "note": "ordinals; порядковые",
+      "category": "ordinals",
+      "critical_spans": [
+        {
+          "start": 0,
+          "end": 4,
+          "type": "number",
+          "expected_spoken": "двенадцатый"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_290",
+      "text": "20-й транш.",
+      "note": "ordinals; порядковые",
+      "category": "ordinals",
+      "critical_spans": [
+        {
+          "start": 0,
+          "end": 4,
+          "type": "number",
+          "expected_spoken": "двадцатый"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_291",
+      "text": "4-й уровень риска.",
+      "note": "ordinals; порядковые",
+      "category": "ordinals",
+      "critical_spans": [
+        {
+          "start": 0,
+          "end": 3,
+          "type": "number",
+          "expected_spoken": "четвёртый"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_292",
+      "text": "8-й приоритет заявки.",
+      "note": "ordinals; порядковые",
+      "category": "ordinals",
+      "critical_spans": [
+        {
+          "start": 0,
+          "end": 3,
+          "type": "number",
+          "expected_spoken": "восьмой"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_293",
+      "text": "9-й шаг регистрации.",
+      "note": "ordinals; порядковые",
+      "category": "ordinals",
+      "critical_spans": [
+        {
+          "start": 0,
+          "end": 3,
+          "type": "number",
+          "expected_spoken": "девятый"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_294",
+      "text": "11-й пункт договора.",
+      "note": "ordinals; порядковые",
+      "category": "ordinals",
+      "critical_spans": [
+        {
+          "start": 0,
+          "end": 4,
+          "type": "number",
+          "expected_spoken": "одиннадцатый"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_295",
+      "text": "Срок рассмотрения 10–15 дней.",
+      "note": "ranges; диапазоны",
+      "category": "ranges",
+      "critical_spans": [
+        {
+          "start": 18,
+          "end": 23,
+          "type": "number",
+          "expected_spoken": "от десять до пятнадцать"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_296",
+      "text": "Ожидайте ответ в течение 5-7 рабочих дней.",
+      "note": "ranges; диапазоны",
+      "category": "ranges",
+      "critical_spans": [
+        {
+          "start": 25,
+          "end": 28,
+          "type": "number",
+          "expected_spoken": "от пять до семь"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_297",
+      "text": "Отделение работает с 9 до 18.",
+      "note": "ranges; диапазоны",
+      "category": "ranges",
+      "critical_spans": [
+        {
+          "start": 19,
+          "end": 28,
+          "type": "number",
+          "expected_spoken": "с девять до восемнадцать"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_298",
+      "text": "Колл-центр с 10 до 19.",
+      "note": "ranges; диапазоны",
+      "category": "ranges",
+      "critical_spans": [
+        {
+          "start": 11,
+          "end": 21,
+          "type": "number",
+          "expected_spoken": "с десять до девятнадцать"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_299",
+      "text": "Приоритет 1–3.",
+      "note": "ranges; диапазоны",
+      "category": "ranges",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 13,
+          "type": "number",
+          "expected_spoken": "от один до три"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_300",
+      "text": "Сумма в диапазоне 100–200 тысяч.",
+      "note": "ranges; диапазоны",
+      "category": "ranges",
+      "critical_spans": [
+        {
+          "start": 18,
+          "end": 25,
+          "type": "number",
+          "expected_spoken": "от сто до двести"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_301",
+      "text": "Срок вклада 2–5 лет.",
+      "note": "ranges; диапазоны",
+      "category": "ranges",
+      "critical_spans": [
+        {
+          "start": 12,
+          "end": 15,
+          "type": "number",
+          "expected_spoken": "от два до пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_302",
+      "text": "Часы работы банкомата с 8 до 20.",
+      "note": "ranges; диапазоны",
+      "category": "ranges",
+      "critical_spans": [
+        {
+          "start": 22,
+          "end": 31,
+          "type": "number",
+          "expected_spoken": "с восемь до двадцать"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_303",
+      "text": "Очередь 15–20 минут.",
+      "note": "ranges; диапазоны",
+      "category": "ranges",
+      "critical_spans": [
+        {
+          "start": 8,
+          "end": 13,
+          "type": "number",
+          "expected_spoken": "от пятнадцать до двадцать"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_304",
+      "text": "Доставка карты 30–45 дней.",
+      "note": "ranges; диапазоны",
+      "category": "ranges",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 20,
+          "type": "number",
+          "expected_spoken": "от тридцать до сорок пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_305",
+      "text": "Выберите число от с 1 до 10, номер пакета.",
+      "note": "ranges; диапазоны",
+      "category": "ranges",
+      "critical_spans": [
+        {
+          "start": 18,
+          "end": 27,
+          "type": "number",
+          "expected_spoken": "с один до десять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_306",
+      "text": "Ставка в коридоре 50–70.",
+      "note": "ranges; диапазоны",
+      "category": "ranges",
+      "critical_spans": [
+        {
+          "start": 18,
+          "end": 23,
+          "type": "number",
+          "expected_spoken": "от пятьдесят до семьдесят"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_307",
+      "text": "Рассрочка 3–6 месяцев.",
+      "note": "ranges; диапазоны",
+      "category": "ranges",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 13,
+          "type": "number",
+          "expected_spoken": "от три до шесть"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_308",
+      "text": "Срок кредита 12–24 месяца.",
+      "note": "ranges; диапазоны",
+      "category": "ranges",
+      "critical_spans": [
+        {
+          "start": 13,
+          "end": 18,
+          "type": "number",
+          "expected_spoken": "от двенадцать до двадцать четыре"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_309",
+      "text": "Окно платежей с 14 до 16.",
+      "note": "ranges; диапазоны",
+      "category": "ranges",
+      "critical_spans": [
+        {
+          "start": 14,
+          "end": 24,
+          "type": "number",
+          "expected_spoken": "с четырнадцать до шестнадцать"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_310",
+      "text": "Возврат за 7–14 дней.",
+      "note": "ranges; диапазоны",
+      "category": "ranges",
+      "critical_spans": [
+        {
+          "start": 11,
+          "end": 15,
+          "type": "number",
+          "expected_spoken": "от семь до четырнадцать"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_311",
+      "text": "Возраст клиента 20–25 лет.",
+      "note": "ranges; диапазоны",
+      "category": "ranges",
+      "critical_spans": [
+        {
+          "start": 16,
+          "end": 21,
+          "type": "number",
+          "expected_spoken": "от двадцать до двадцать пять"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_312",
+      "text": "Шкала риска с 0 до 100.",
+      "note": "ranges; диапазоны",
+      "category": "ranges",
+      "critical_spans": [
+        {
+          "start": 12,
+          "end": 22,
+          "type": "number",
+          "expected_spoken": "с ноль до сто"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_313",
+      "text": "Срок обработки 4–8 часов.",
+      "note": "ranges; диапазоны",
+      "category": "ranges",
+      "critical_spans": [
+        {
+          "start": 15,
+          "end": 18,
+          "type": "number",
+          "expected_spoken": "от четыре до восемь"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_314",
+      "text": "Мораторий 90–180 дней.",
+      "note": "ranges; диапазоны",
+      "category": "ranges",
+      "critical_spans": [
+        {
+          "start": 10,
+          "end": 16,
+          "type": "number",
+          "expected_spoken": "от девяносто до сто восемьдесят"
+        }
+      ]
+    },
+    {
+      "utt_id": "bank_315",
+      "text": "График с 9:00 до 18:00.",
+      "note": "ranges; диапазоны",
+      "category": "ranges",
+      "critical_spans": [
+        {
+          "start": 7,
+          "end": 22,
+          "type": "time",
+          "expected_spoken": "с девять ноль до восемнадцать ноль"
+        }
+      ]
     }
   ]
 }

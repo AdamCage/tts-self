@@ -1,0 +1,63 @@
+# Track N — acoustic σ-VAE tokenizer, stage T0.
+# Goal: pipeline overfit on 1 h RUSLAN (recon convergence), not held-out quality.
+# Frame rate locked by P0 gate: 7.5 Hz (hop 3200 @ 24 kHz).
+# T0 uses recon losses only; discriminator interface exists but adv_weight=0.
+
+target: sigma_vae64_t0
+
+model:
+  tokenizer:
+    target: sigma_vae64_t0
+    in_channels: 1
+    latent_dim: 64
+    # ~÷4 of 340M reference per component (T0 skeleton; ~80M encoder).
+    channels: [128, 256, 384, 512, 640, 768, 896]
+    blocks_per_stage: [2, 2, 2, 3, 3, 4, 4]
+    down_factors: [2, 4, 5, 5, 4, 4]   # product = 3200
+    kernel_size: 7
+    ffn_mult: 4
+    dropout: 0.0
+    vae_std: 0.625
+
+loss:
+  # DAC-style reconstruction; discriminators deferred (adv_weight=0 on T0).
+  wave_l1_weight: 1.0
+  stft_sc_weight: 1.0
+  stft_mag_weight: 1.0
+  mel_l1_weight: 1.0
+  kl_weight: 0.0  # T0 recon-only; KL deferred
+  latent_l2_weight: 0.01  # keep σ-VAE means from exploding (diagnosed |mean|~8)
+  adv_weight: 0.0
+  feat_weight: 0.0
+  note: "T0 recon-only; DiscriminatorProtocol wired for T1+."
+
+data:
+  config: configs/data_ruslan_local.yaml
+  split: train
+  max_hours: 1.0
+  exclude_tags: [exclude]
+  # Crop long utts for 16 GB; pad to hop multiple.
+  max_samples: 120000   # 5 s @ 24 kHz (16 GB headroom for ~80M×2)
+  min_samples: 16000    # ~0.67 s
+
+train:
+  seed: 42
+  steps: 8000
+  batch_size: 2
+  lr: 2.0e-4
+  lr_schedule: cosine
+  warmup_steps: 200
+  min_lr_ratio: 0.05
+  weight_decay: 0.01
+  grad_clip: 1.0
+  log_every: 50
+  save_every: 500
+  precision: bf16
+  run_dir: runs/tokenizer_t0
+  num_workers: 0  # avoid dataloader hang seen at step ~4650
+
+eval:
+  # Copy-synth CER on the same 1 h train subset (overfit expected / allowed).
+  copy_synth_n: 32
+  asr_config: configs/asr.yaml
+  sample: false

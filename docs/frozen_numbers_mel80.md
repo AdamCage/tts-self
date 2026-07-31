@@ -62,3 +62,46 @@ Do **not** push the tag without an explicit user request.
 - Primary narrative: `docs/next_intelligibility.md`.
 - Naturalness (UTMOS / NISQA) was **not** measured at freeze time — see roadmap tasks T02/T04.
 - JSON paths above live primarily under WSL `~/projects/tts-self/out/`; many were mirrored to Windows `C:\projects\tts-self\out\`.
+
+## Track N P0 baseline (N10) — 2026-07-31
+
+База для сравнения Track N с production Track A по расширенному RU-Critical и метрикам DER / EER / SA.
+Чекпойнт: `runs/mel_stress_v01_s4/best.pt`. Вокодер: neural (HiFi-GAN). Артефакт:
+`out/baseline_track_a_critical.json` (прогон 2026-07-31, WSL).
+
+Набор `latin` не был в `configs/eval_mel_suite.yaml`; зарегистрирован через
+`--suite out/eval_mel_suite_n10.yaml` (временный suite YAML под `out/`, без правки
+общего конфига).
+
+### Eval-set hashes (sha256)
+
+| Set | n | sha256 |
+|-----|--:|--------|
+| `bank_entity.json` | 315 | `34671d57adddce5f6fbea30aedf51bfa23afb64961b6aacb84935464c44480ab` |
+| `homograph.json` | 895 | `60067ae03bc288e9325ebe438554b3aa495958458f9ffa9077dc830adec9bbc6` |
+| `latin.json` | 117 | `5cec49347f3f49551436e5a907f6d6c85cc89f96240081fe56a49782727cec21` |
+
+Также: `out/n10_eval_set_hashes.txt`.
+
+### Free synth (neural)
+
+| Set | n | mean CER | DER | EER | SA | Notes |
+|-----|--:|---------:|----:|----:|----|-------|
+| demo5 | 5 | 0.0935 | — | — | — | нет critical_spans / stress_target |
+| val100 | 100 | **0.0310** | — | — | — | production CER якорь |
+| bank_entity | 315 | 0.1616 | **0.3647** | **0.4889** | — | n_spans=315, n_digits=1456 |
+| homograph | 895 | 0.0916 | — | — | **skipped** | n_sa_skipped=895 (ASR не различает лексемы) |
+| latin | 117 | 0.2408 | — | — | — | нет critical_spans / stress_target в наборе |
+
+SA=`skipped` — допустимый исход N07/N10: текстовый ASR не различает пары омографов.
+
+### Copy-synth topline (val100, utt_ids с корпусом)
+
+| Condition | mean CER | n | Artifact field |
+|-----------|---------:|--:|----------------|
+| Free synth (model) | 0.0310 | 100 | `sets.val100.mean_cer` |
+| Real corpus wav → ASR | 0.0601 | 100 | `utterances[].copy_synth_topline.real.cer` |
+| GT mel → neural vocoder → ASR | 0.0640 | 100 | `utterances[].copy_synth_topline.gt_mel_vocoder.cer` |
+
+Phrase-наборы (`demo5`, `bank_entity`, `homograph`, `latin`) не имеют corpus `utt_id` →
+copy-synth topline там не считается (ожидаемо).

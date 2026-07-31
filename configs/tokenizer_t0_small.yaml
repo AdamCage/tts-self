@@ -1,0 +1,70 @@
+target: sigma_vae64_t0
+model:
+  tokenizer:
+    target: sigma_vae64_t0
+    in_channels: 1
+    latent_dim: 64
+    channels:
+    - 64
+    - 128
+    - 192
+    - 256
+    - 320
+    - 384
+    - 512
+    blocks_per_stage:
+    - 1
+    - 1
+    - 1
+    - 2
+    - 2
+    - 2
+    - 2
+    down_factors:
+    - 2
+    - 4
+    - 5
+    - 5
+    - 4
+    - 4
+    kernel_size: 7
+    ffn_mult: 4
+    dropout: 0.0
+    vae_std: 0.625
+loss:
+  wave_l1_weight: 1.0
+  stft_sc_weight: 1.0
+  stft_mag_weight: 1.0
+  mel_l1_weight: 1.0
+  kl_weight: 0.0
+  latent_l2_weight: 0.01
+  adv_weight: 0.0
+  feat_weight: 0.0
+  note: T0 recon-only; DiscriminatorProtocol wired for T1+.
+data:
+  config: configs/data_ruslan_local.yaml
+  split: train
+  max_hours: 1.0
+  exclude_tags:
+  - exclude
+  max_samples: 96000
+  min_samples: 16000
+train:
+  seed: 42
+  steps: 12000
+  batch_size: 4
+  lr: 0.0002
+  lr_schedule: cosine
+  warmup_steps: 200
+  min_lr_ratio: 0.05
+  weight_decay: 0.01
+  grad_clip: 1.0
+  log_every: 50
+  save_every: 2000
+  precision: bf16
+  run_dir: runs/tokenizer_t0_small
+  num_workers: 0
+eval:
+  copy_synth_n: 32
+  asr_config: configs/asr.yaml
+  sample: false
