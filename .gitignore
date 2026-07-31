@@ -54,10 +54,14 @@ Thumbs.db
 !.cursor/rules/
 !.cursor/skills/
 !.cursor/hooks/
+!.cursor/methodology/
+!.cursor/plans/
 !.cursor/hooks.json
 !.cursor/rules/**
 !.cursor/skills/**
 !.cursor/hooks/**
+!.cursor/methodology/**
+!.cursor/plans/**
 
 # Local scratch / one-off WSL helpers (keep out of commits)
 /tmp_*
