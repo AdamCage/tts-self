@@ -25,7 +25,10 @@ def test_extract_digits_and_levenshtein():
 
 
 def test_der_one_wrong_digit_of_ten():
-    """Acceptance: one incorrect digit among ten → DER == 0.1 exactly."""
+    """Acceptance: one incorrect digit among ten → DER == 0.1 exactly.
+
+    Primary path (M04): spoken numeral words in the hypothesis.
+    """
     text = "Код 1234567890"
     spans = [
         CriticalSpan(
@@ -36,13 +39,18 @@ def test_der_one_wrong_digit_of_ten():
         )
     ]
     assert text[4:14] == "1234567890"
-    # ASR emits Arabic digits with the last digit wrong.
-    scored = score_utterance_critical(text, spans, hyp="код 1234567891", hyp_raw="код 1234567891")
+    # Spoken hyp with last numeral wrong (девять → один would be 2 errors; use один→… and last ноль→один)
+    hyp_spoken = "код один два три четыре пять шесть семь восемь девять один"
+    scored = score_utterance_critical(text, spans, hyp=hyp_spoken, hyp_raw=hyp_spoken)
     assert scored["n_digits"] == 10
     assert scored["n_digit_errors"] == 1
     agg = aggregate_der_eer([scored])
     assert agg["der"] == 0.1
     assert abs(float(agg["der"]) - 0.1) < 1e-12
+
+    # Secondary path: Arabic digits still supported.
+    scored_ar = score_utterance_critical(text, spans, hyp="код 1234567891", hyp_raw="код 1234567891")
+    assert aggregate_der_eer([scored_ar])["der"] == 0.1
 
 
 def test_der_perfect_and_eer_match():
@@ -65,9 +73,8 @@ def test_eer_any_mismatch_is_fail():
     spans = [
         CriticalSpan(start=10, end=12, type="number", expected_spoken="двенадцать")
     ]
-    # Wrong number in hyp.
     scored = score_utterance_critical(
-        text, spans, hyp="поступило тринадцать платежей", hyp_raw="поступило 13 платежей"
+        text, spans, hyp="поступило тринадцать платежей", hyp_raw="поступило тринадцать платежей"
     )
     assert scored["n_span_errors"] == 1
     agg = aggregate_der_eer([scored])
@@ -79,8 +86,15 @@ def test_span_match_uses_shared_verbalized_norm():
     text = "Поступило 12 платежей."
     span = CriticalSpan(start=10, end=12, type="number", expected_spoken="двенадцать")
     assert span_matches(text=text, span=span, hyp="поступило 12 платежей")
-    # Shared normalizer collapses digits ↔ words.
     assert "двенадцать" in normalize_span_form("поступило 12 платежей")
+
+
+def test_morphology_prefix_tolerance():
+    """Shared stem prefix ≥4 can match case variants (M01/M04)."""
+    text = "Срок тридцать дней."
+    span = CriticalSpan(start=5, end=13, type="number", expected_spoken="тридцать")
+    assert text[5:13] == "тридцать"
+    assert span_matches(text=text, span=span, hyp="срок тридцати дней")
 
 
 def test_sa_lexeme_distinction_and_skipped():

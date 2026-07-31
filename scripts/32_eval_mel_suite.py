@@ -279,6 +279,11 @@ def main() -> int:
         ),
     )
     ap.add_argument("--max-utts", type=int, default=None, help="Cap per set (debug)")
+    ap.add_argument(
+        "--acoustic-sa",
+        action="store_true",
+        help="Score homograph SA via CTC+duration/energy/F0 (M05) instead of ASR lexeme",
+    )
     args = ap.parse_args()
 
     suite_cfg = load_suite_config(args.suite)
@@ -472,7 +477,12 @@ def main() -> int:
             "utterances": rows,
         }
         # DER / EER / SA when the frozen set carries critical_spans or stress_target.
-        crit = compute_set_critical_metrics(items, rows)
+        crit = compute_set_critical_metrics(
+            items,
+            rows,
+            acoustic_sa=bool(args.acoustic_sa),
+            acoustic_device=str(device),
+        )
         if crit.get("has_critical_spans") or crit.get("has_stress_target"):
             for key in (
                 "der",
@@ -489,6 +499,7 @@ def main() -> int:
                 "has_critical_spans",
                 "has_stress_target",
                 "critical_utterances",
+                "sa_mode",
             ):
                 if key in crit:
                     set_block[key] = crit[key]
@@ -511,7 +522,9 @@ def main() -> int:
         if "sa" in block:
             extra += f" sa={block.get('sa')}"
         print(
-            f"  {sid}: mean_cer={block.get('mean_cer')} n={block.get('n')}{extra}",
+            f"  {sid}: mean_cer={block.get('mean_cer')} median_cer={block.get('median_cer')} "
+            f"ci95=[{block.get('cer_ci95_low')}, {block.get('cer_ci95_high')}] "
+            f"n={block.get('n')} n_cer_gt_1={block.get('n_cer_gt_1')}{extra}",
             flush=True,
         )
     return 0

@@ -117,6 +117,7 @@ Frontend order for Track A: **TN (`normalize`/`verbalize`) → stress (`accentua
 | `train-ladder` | S1→S4 regression & flow |
 | `text-usage-gate` | Shuffle/mask/prefix failures |
 | `streaming-infer` | Synth + TTFB streaming |
+| `checkpoint-listen` | **Mandatory** listen-demo after any new `best.pt` / FT ckpt |
 | `wsl-env` | Venv / CUDA / HF_HOME |
 | `eval-gates` | pytest, smoke, WER, promote checks |
 

@@ -105,3 +105,48 @@ SA=`skipped` — допустимый исход N07/N10: текстовый ASR
 
 Phrase-наборы (`demo5`, `bank_entity`, `homograph`, `latin`) не имеют corpus `utt_id` →
 copy-synth topline там не считается (ожидаемо).
+
+## Phase M baseline (M09) — 2026-07-31
+
+Новая точка отсчёта после починки метрик (M04–M06) и акустического SA (M05).
+Чекпойнт тот же: `runs/mel_stress_v01_s4/best.pt`, neural HiFi-GAN.
+Артефакт: `out/baseline_m_critical.json` (прогон с `--max-utts 50` на
+bank/homograph/latin; demo5 полный n=5).
+
+**Несравнимо с P0 DER/EER/SA:** старые DER≈0.365 и EER≈0.489 были фактически
+EER по unmatched digits (пустые `hyp_digits`); SA=`skipped` на всех 895 из‑за
+стресс-stripped лексем. Новые DER/EER считают числительные словами; SA —
+акустический (`sa_mode=acoustic`).
+
+Eval-set hashes **не менялись** (`out/n10_eval_set_hashes.txt`).
+
+### Free synth (neural), median + CI95
+
+| Set | n | mean CER | median CER | CER CI95 | DER | EER | SA | Notes |
+|-----|--:|---------:|-----------:|----------|----:|----:|----|-------|
+| demo5 | 5 | 0.0935 | 0.1163 | [0.023, 0.166] | — | — | — | |
+| bank_entity | 50* | 0.0852 | **0.000** | [0.050, 0.124] | **0.115** | **0.240** | — | DER≠EER |
+| homograph | 50* | 0.0596 | 0.0389 | [0.039, 0.082] | — | — | **0.34** | n_sa_scored=50, skipped=0 |
+| latin | 50* | 0.1325 | 0.1061 | [0.096, 0.171] | — | — | — | n_cer_gt_1=0 на этой подвыборке |
+
+\* Подвыборка `--max-utts 50` для wall-clock; полный пересчёт n=315/895/117 —
+следующий прогон без cap.
+
+### M05 acoustic SA calibration
+
+`out/m05_acoustic_sa_calibration.json`: word-local accuracy **0.358** on 779
+words (110 val utts) — **below 0.90 gate**. Detector is diagnostic-only.
+See `docs/m05_acoustic_sa.md`.
+
+### M07 vocoder FT (short)
+
+`runs/vocoder_ft_v01/` — 2000 steps, ~1 h RUSLAN, init SpeechBrain LibriTTS.
+`out/m07_best_metrics.json`: val_mel ≈ 0.317. Human blind A/B vs stock
+generator **pending listening** (ballot harness: M08).
+
+### M08/M09 preference harness
+
+Duration A/B ballot: `out/m09_pref_dur/` (mean_stats vs pred_dur from M02).
+Trap sanity (auto): `trap_same_rate=1.0`. Human votes not yet collected —
+`significant_vs_half` requires listener responses; coin-flip simulation stays
+inside CI around 0.5 as expected.

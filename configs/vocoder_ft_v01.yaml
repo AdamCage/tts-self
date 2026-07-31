@@ -1,0 +1,39 @@
+# Phase M / M07 — speaker-adapt the LibriTTS HiFi-GAN generator, never from scratch.
+# RUSLAN manifest split labels must remain contiguous book ranges.
+data:
+  target: mel80_hifigan
+  # Build with scripts/29_cache_mels.py --target mel80_hifigan --out this directory.
+  # Keep separate from Track A's fmax=11025 mel cache.
+  mel_dir: ~/datasets/tts/ruslan/vocoder_pairs_hifigan
+  segment_frames: 32       # 32 * 256 = 8192 waveform samples at 22.05 kHz
+  val_max_utterances: 64
+  max_utterances: null
+  max_hours: null
+
+loss:
+  # Standard HiFi-GAN V1 objective weights.
+  mel: 45.0
+  adversarial: 1.0
+  feature_matching: 2.0
+
+train:
+  seed: 42
+  run_dir: runs/vocoder_ft_v01
+  generator_init: ~/models/hifigan/generator.pt
+  # Training uses exact mel-hop output; inference-only reflect padding is disabled.
+  generator_inference_padding: 0
+  batch_size: 4
+  num_workers: 2
+  steps: 100000
+  generator_lr: 0.0002
+  discriminator_lr: 0.0002
+  betas: [0.8, 0.99]
+  weight_decay: 0.0
+  lr_schedule: constant
+  warmup_steps: 0
+  min_lr_ratio: 0.1
+  grad_clip: 10.0
+  precision: bf16
+  log_every: 50
+  save_every: 1000
+  val_batches: 8

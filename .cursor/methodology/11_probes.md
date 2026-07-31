@@ -146,20 +146,22 @@ Track A DER) **в работе** и не является блокером ге�
 | 2026-07-31 | З1 | GigaChat эффективнее на RU (ruslan_200: 3.32 ток/слово vs Qwen 3.41; доля кириллицы в словаре 0.295 vs 0.075). U+0301 intact: Qwen=`no` (in-word intact 0.0), GigaChat=`no` (in-word intact 0.195; частично одиночные кластеры а́/е́/и́/о́, но не надёжно) | `out/probe_tokenizer_fertility.json` | Ударение — **отдельный канал** (не строка). Предпочтение RU-токенизатора для N-Pro; критический путь бэкбона — см. З4 |
 | 2026-07-31 | З2 | Якорь E2 CER **0.07253** ≈ 0.073, `anchor_reproduced=true` (Δ 0.00047). Telephony (µ-law sim) CER **0.08720**, ΔCER **+0.01467**. bank_entity roundtrip DER **0.532** / EER 0.675 — источник аудио Track A synth, не GT wav (осторожно). multi-speaker: **skipped** (локально только RUSLAN) | `out/probe_ref_tokenizer_domains.json` | Первый токенизатор (T0): **7.5 Гц**. 7.5 Гц на студийном RU держится; телефония деградирует умеренно, не разваливается. Кривая 12.5/25 Гц (Н3) — отдельно после T0 |
 | 2026-07-31 | З3 | T1/T2/T3 по объёму **достижимы** (Golos 1240 ч; SOVA RU ~17850; YODAS RU ~39622). Свободного native **8 кГц** telephony с clear free/commercial лицензией **не найдено** (OpenSTT phone ~820 ч, но 16 кГц + NC) | `out/probe_corpus_inventory.json`, `docs/corpus_inventory.md` | Ступени T1–T3 реалистичны по часам. Пробел: native 8 кГц → симуляция (N12) + собственный/платный telephony. Нужны дедуп YouTube-источников и юр. проверка лицензий |
-| 2026-07-31 | З4 | Qwen3.5-0.8B bf16: peak alloc **~1.45 ГБ**, forward ~**105 мс** (seq≈12). GigaChat3.1-10B bf16: peak alloc **~20.9 ГБ** (shared/oversubscribe на 16 ГБ карте), forward ~136 мс; `bf16_auto_offload`: peak fwd **~13.7 ГБ**, forward ~**1.08 с**. int8/int4 GigaChat — load fail; FP8 forward — fail (`kernels`) | `out/probe_backbone_profile.json` | Критический путь: **свой ~0.5B (N-Lite)**. N-Pro на GigaChat на текущих 16 ГБ — **не стартовать** (VRAM + offload-латентность убивают стриминг); N-Pro — на целевом железе / non-realtime |
-| — | З5 | вне критерия гейта N14 (нужны З1–З4); расширение наборов шло параллельно | `configs/eval_sets/*` | — |
-| — | З6 | вне критерия гейта N14 | `frontend/translit.py` и др. | — |
+| 2026-07-31 | З4 | Qwen3.5-0.8B bf16: peak alloc **~1.45 ГБ**, forward ~**105 мс** (seq≈12). GigaChat3.1-10B bf16: peak alloc **~20.9 ГБ** (shared/oversubscribe на 16 ГБ карте), forward ~136 мс; `bf16_auto_offload`: peak fwd **~13.7 ГБ**, forward ~**1.08 с**. int8/int4 GigaChat — load fail; FP8 forward — fail (`kernels`) | `out/probe_backbone_profile.json` | **Realtime на 16 ГБ: Qwen3.5-0.8B.** N-Pro/GigaChat на текущих 16 ГБ — **не стартовать**. N-Lite — отдельный трек (M11), не вывод З4 о качестве приора |
+| 2026-07-31 | M10 | Synthetic ~0.517B bf16: **~14842 tok/s**; экстраполяции 10B–100B ток. ≈ 11–111 дней @ 70% duty | `out/probe_lm_budget.json`, `docs/text_corpus_inventory.md` | Предусловия N-Lite; **не** блокирует P3 |
 
-### Решения гейта P0 (N14)
+### Решения гейта P0 (N14; ревизия M11)
 
-Зафиксировано 2026-07-31. Ни одно решение не опирается на отсутствующий зонд.
-Дублируется в [05_backbone.md](05_backbone.md) (раздел решений).
+Зафиксировано 2026-07-31; бэкбон-решение переписано в M11. Ни одно решение не
+опирается на отсутствующий зонд. Дублируется в [05_backbone.md](05_backbone.md).
 
 | # | Вопрос | Решение | Опора |
 |---|--------|---------|-------|
-| 1 | Бэкбон | **Свой ~0.5B (N-Lite) на критическом пути.** GigaChat 10B — кандидат N-Pro, но на RTX 4080 Super 16 ГБ не брать в realtime-петлю | З1 + З4 |
+| 1 | Бэкбон | **P3 критический путь: Qwen3.5-0.8B** (предобученный). N-Lite (~0.5B) — отдельный трек с предусловиями M10, **не** блокирует P3. GigaChat 10B — N-Pro на целевом железе | З4; З1 Δфертильности ≈2.7% **не** аргумент против Qwen; правовой контур — [02_legal.md](02_legal.md)/[01_strategy.md](01_strategy.md); M10 |
 | 2 | Форма ударения | **Отдельный канал признаков** параллельно токенам; передача U+0301 строкой ненадёжна | З1 (`stress_vowel_single_token_answer=no` у обоих кандидатов) |
 | 3 | Частота кадров T0 | **7.5 Гц** (геометрия референса) для первого токенизатора | З2 (якорь воспроизведён; telephony ΔCER ≈ +0.015, не collapse) |
+
+Историческая формулировка N14 «критический путь = N-Lite» переклассифицирована
+в M11 (смешение правового контура с измерительным). См. `.cursor/results/track_n_p0_conclusion.md`.
 
 **T1–T3 (данные).** По З3 объём достижим; блокером объёма данные не являются. Не хватает: free native 8 кГц telephony, дедупликации пересекающихся YouTube-корпусов, юридической фиксации ShareAlike/NC перед продуктовым обучением.
 

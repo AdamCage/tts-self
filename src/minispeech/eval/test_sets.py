@@ -125,7 +125,7 @@ def load_suite_test_sets(
 
 
 def aggregate_cer_wer(rows: list[dict[str, Any]]) -> dict[str, float | int | None]:
-    """Aggregate per-utt CER/WER rows into mean/median/n (CPU-only)."""
+    """Aggregate per-utt CER/WER rows into mean/median/n/CI95/outliers (CPU-only)."""
     cers = [float(r["cer"]) for r in rows if r.get("cer") is not None]
     wers = [float(r["wer"]) for r in rows if r.get("wer") is not None]
     if not cers:
@@ -135,6 +135,9 @@ def aggregate_cer_wer(rows: list[dict[str, Any]]) -> dict[str, float | int | Non
             "median_cer": None,
             "mean_wer": None,
             "median_wer": None,
+            "cer_ci95_low": None,
+            "cer_ci95_high": None,
+            "n_cer_gt_1": 0,
         }
     cers_sorted = sorted(cers)
     wers_sorted = sorted(wers) if wers else []
@@ -152,10 +155,26 @@ def aggregate_cer_wer(rows: list[dict[str, Any]]) -> dict[str, float | int | Non
             med_wer = 0.5 * (wers_sorted[midw - 1] + wers_sorted[midw])
     else:
         med_wer = None
+
+    # Bootstrap CI95 for mean CER (scalar means; Phase M / M06).
+    import numpy as np
+
+    rng = np.random.default_rng(42)
+    n_boot = 1000
+    arr = np.asarray(cers, dtype=np.float64)
+    boots = np.empty(n_boot, dtype=np.float64)
+    for b in range(n_boot):
+        idx = rng.integers(0, len(arr), size=len(arr))
+        boots[b] = float(arr[idx].mean())
+    lo, hi = np.percentile(boots, [2.5, 97.5])
+
     return {
         "n": len(cers),
         "mean_cer": float(sum(cers) / len(cers)),
         "median_cer": float(med_cer),
         "mean_wer": float(sum(wers) / len(wers)) if wers else None,
         "median_wer": med_wer,
+        "cer_ci95_low": float(lo),
+        "cer_ci95_high": float(hi),
+        "n_cer_gt_1": int(sum(1 for c in cers if c > 1.0)),
     }

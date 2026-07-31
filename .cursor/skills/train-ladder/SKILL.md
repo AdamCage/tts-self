@@ -62,3 +62,4 @@ Expect smaller auto batch (often 8–32) than regression.
 - [ ] `run_manifest.json` written
 - [ ] Text-usage gate green on S1
 - [ ] Free-running metric logged (not only TF loss)
+- [ ] **Listen-demo infer** after `best.pt` (skill `checkpoint-listen`) — wavs under `out/<run>_listen_demo/`

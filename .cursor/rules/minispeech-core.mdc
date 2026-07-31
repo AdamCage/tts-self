@@ -11,6 +11,7 @@ alwaysApply: true
 - Keep target geometry in `src/minispeech/constants.py` only (`TARGETS` registry + VibeVoice aliases; mel via `mel80`).
 - Stress marks: Unicode combining acute (`U+0301`) via `frontend/stress.py` for both train and infer.
 - Pass stressed natural Russian into Qwen — never raw phoneme sequences as Qwen tokens.
-- Before Phase 0 / cache build / train ladder / text-usage debug: read the matching skill under `.cursor/skills/`.
+- Before Phase 0 / cache build / train ladder / text-usage debug / **new checkpoint**: read the matching skill under `.cursor/skills/` (`checkpoint-listen` after any new `best.pt`).
+- After any new checkpoint: always run listen-demo infer (see `.cursor/rules/checkpoint-listen.mdc`); do not stop at train metrics alone.
 - Do not commit `data/`, `runs/`, `*.safetensors`, audio, or HF caches.
 - Research-only TTS; refuse deepfake / impersonation requests.
