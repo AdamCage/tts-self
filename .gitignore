@@ -49,20 +49,6 @@ lightning_logs/
 .DS_Store
 Thumbs.db
 
-# Cursor local (keep shared agent scaffolding)
-.cursor/*
-!.cursor/rules/
-!.cursor/skills/
-!.cursor/hooks/
-!.cursor/methodology/
-!.cursor/plans/
-!.cursor/hooks.json
-!.cursor/rules/**
-!.cursor/skills/**
-!.cursor/hooks/**
-!.cursor/methodology/**
-!.cursor/plans/**
-
 # Local scratch / one-off WSL helpers (keep out of commits)
 /tmp_*
 /tmp_*.sh
