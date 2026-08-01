@@ -1,0 +1,565 @@
+{
+  "schema_version": 1,
+  "policy": "higher-priority corpus wins; conflicts remain qc_tag=duplicate",
+  "priority": [
+    "ruslan",
+    "common_voice_ru_17_hf_mirror"
+  ],
+  "compute_missing_audio": false,
+  "n_input": 68425,
+  "n_manifest": 68425,
+  "n_active": 68383,
+  "n_marked_duplicate": 42,
+  "marked_by_reason": {
+    "text": 42
+  },
+  "active_audio_fingerprints_unique": true,
+  "duplicates": [
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__0f2a7bf0a5738e7e79a2c3ef",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "db683b76ea24dddff5fdcd2d3600b4fa626172ebbc6e963ff4984b9b57b3ea1e",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_015585_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__e8dc6ae51f68bfcb812cdf8b",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "3223a360b80964cdf330251a4c09e07ad63f63858f952c25146859953013b618",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_007024_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__85d3aee4fff47e13d4c0ac0b",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "cdc5ed90cb4b9a7540b24d1c45c23c851930c98b07b6885667114c9f95fb0a12",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_014628_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__53b3ec573832579bf06d60bd",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "154652deb5041250b98953591bf17ec8bcfca3095b7114cf9885dc440f7ce692",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_008759_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__c315114879b425c6db6932ca",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "a5f34365dc313fc483f7326ceae266d139496bcb16b7c36b292f004cbf30b043",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_014660_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__5db34c57bdae444f157f5aaa",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "0f1c6ef7b47f311df5cdd3c6b952599084c4f79f559c6575f977f151af3ff23e",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_003623_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__d8e27f77b4d05def1be1ce3c",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "d3eff99d56926e16276ccfd50aa067b733256f8780c6caf2164ecf864569e506",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_001829_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__7916ed8580ce23e5f28c1411",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "d91163df4e851b54fb716f9048d8bd0bd285dc7a19289f36981a10bcd375f219",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_002618_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__efe1d4e4acae9de9ca51fb1f",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "cdc5ed90cb4b9a7540b24d1c45c23c851930c98b07b6885667114c9f95fb0a12",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_014628_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__ebc702cb9846ed5236355e41",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "2e01b53772e4dad7cbdfed9ef6af426f3f077eced5d562c3aea897078d51c54f",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_002024_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__f3ae4ca47b7ee45b2562c31e",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "e4e89e68d82e86eb43173f3c4274aa7d23571b8c25954ac2110a9b075d7f82ea",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_000836_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__cf46969af3d01bf4586f0946",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "f13b65df66250f95d1f2a05714d1662907ba2a3e3fc21d3922e81dd3414ef925",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_017055_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__cb8fa9d3b25dd522beeef0c3",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "a5f34365dc313fc483f7326ceae266d139496bcb16b7c36b292f004cbf30b043",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_014660_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__9eb4356ab99bcdce0eaeb2ef",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "ffe02f5c9d561ec2f472510cd73af7d1c7c411a37a202fea695126af3245160a",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_000778_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__660c7a050b2191fa0f41dd44",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "c5793a5856d7c50187d99efff79b32fdbbe32e114b69d9db1516be887fb9d7a7",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_016629_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__beda0f799e44db33421be99b",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "18db1ffe073bd43c14c832a864747402a7a40b5bfd7d66e6f4dbd6d3b08041b3",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_002038_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__f3693c00de8deb810ea964ba",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "f67d6e047eb207005cf737ee1f57fbdb3479c3a35b43be02e2b76539da63c40f",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_001124_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__1b924879aace9f7ef2bb26e0",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "0f106bd34cb2775f1b5ed2bfd6447158b9c2691f6b69fd42f707f6e12ac488dc",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_000432_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__a1140d0eedf6e4b78346fbb2",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "8323d9e0d1c770dc254e718a4bca28341a02b14d03cb7639044326330aef033c",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_001654_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__778ea2b7274e04bbceda43dc",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "fb924ad90c7693141d6cbe7649978fd43cfb2f5e2b41d44fb05af66eecd25384",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_003376_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__8af9781fb86670371222406c",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "ff6ba2e6b01f8d4589516ded0257db60aab29e3336214548289244ca8f7a539a",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_009585_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__4186cfc8365b78f975028eeb",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "8c64ae99292bc4592ce3f403b48d1695b513150e5d96490f2b2bc42e03077203",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_013107_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__a3d2b684c3592283ff947043",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "01fcf0ba9ac06a0db84df4a3668855befa8661e1cbb32e6276b00afb48b28f82",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_020340_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__b440a5829ca63a051e63b86a",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "b920a77f9c1db489bdb8a9e78076ca01983b7248c2bcb26f17508bdc27e414c5",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_011774_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__5ba4aa1203929dc0fba9b5f5",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "5e63e8ca10452b918b728960ca9c309190279655b8e1ad502e70b614ad65e810",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_011902_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__051ef9015c7b6e058b94a2d0",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "a79821c99ceddf5e4488baf77745880684cad6dfab145b7a3cc52c9327a73111",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_003530_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__08b804b578fe69d4bef8e2eb",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "cdc5ed90cb4b9a7540b24d1c45c23c851930c98b07b6885667114c9f95fb0a12",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_014628_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__5cc52cd0eb9e00fcf17ecb3a",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "1a78579c814fcd0cfc1879f57f2bc7e7e7bf8fe4c7fae3521870bbfd719d83a8",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_010261_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__8b83f9bac1fa82fce439a3c2",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "a5f34365dc313fc483f7326ceae266d139496bcb16b7c36b292f004cbf30b043",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_014660_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__b403f6541c1ba9996050b36a",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "8f7e7fa25bd585ac7728ced1066cbee6411bb8f7586ace39dee74fe3805299b6",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_000701_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__b926e51a6df0976d2c42384a",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "c5793a5856d7c50187d99efff79b32fdbbe32e114b69d9db1516be887fb9d7a7",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_016629_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__3ee60eae0ac091547600e9d6",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "5701374a2600880053a477e40df8dcbaccf031057ca160600bc1776614076d4e",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_005331_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__150ba3ca0e12d3c1449faf01",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "cdc5ed90cb4b9a7540b24d1c45c23c851930c98b07b6885667114c9f95fb0a12",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_014628_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__305d7b75cf85bc62fa64cb66",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "a0674e453b31fa7fd0837ba3ffdf5a005c9f2c4c5cd966bce90f082c90b207e6",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_004617_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__aa13212c727b9684f1cc09d2",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "ff6ba2e6b01f8d4589516ded0257db60aab29e3336214548289244ca8f7a539a",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_009585_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__8993bde24fc400ccb3a06a53",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "584b656c5c68035c9880b79a89b1bce4bf072b50369fb43f2533d126062df553",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_000982_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__1682b6132c67a96fb71f8f28",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "238df52925702767ad4b44deddc5cd7caaf80bc80b21ad6d6e46894c85e9ac25",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_003977_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__8190b5e0935690626d0fb875",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "a89a1de70c53500a1bda7ea9940281f4770715652c317b274de81562e050db28",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_001830_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__bb9eaf6cef9794a6e6902239",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "ff60690652f7a4c44ce0fd22a507a075be6bfd615557f55a7a7584c2e5824480",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_012179_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__d0b5b5cbfbf5aa2c991b4d7f",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "1d63a11d30461e8d8239fd4d262902f782d4fdfa68f8876a58cc265d7a0be9fb",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_007998_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__eaf228fed6d5fe76caa75c1c",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "c5cffb9e60232cdf6f395101a5987dcb1b5df343397604bfeca92cba411c784f",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_006729_RUSLAN"
+        }
+      ]
+    },
+    {
+      "duplicate_corpus": "common_voice_ru_17_hf_mirror",
+      "duplicate_utt_id": "common_voice_ru_17_hf_mirror__477778b8f5db927f11350964",
+      "source_manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+      "conflicts": [
+        {
+          "kind": "text",
+          "sha256": "f9c7b52c8298486a26db7c79922103252fc768ebd881d612fc71a9c5c3144e30",
+          "kept_corpus": "ruslan",
+          "kept_utt_id": "ruslan_005075_RUSLAN"
+        }
+      ]
+    }
+  ]
+}

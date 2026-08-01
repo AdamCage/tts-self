@@ -1,0 +1,42 @@
+---
+description: Methodology is read-only during plan execution; plan results/logs go under .cursor/results/<plan_slug>/
+alwaysApply: true
+---
+
+# Methodology + plan results
+
+## Methodology (`.cursor/methodology/`)
+
+- **Always read** relevant methodology docs before implementing or evaluating a
+  phase (start at `.cursor/methodology/README.md`, then roadmap / evaluation /
+  data / frontend as needed).
+- **Do not edit** `.cursor/methodology/**` while **implementing** an execution
+  plan (`.cursor/plans/*.plan.md`).
+- Methodology edits are allowed **only when planning a new stage** (new plan /
+  roadmap phase), and must stay consistent with measured artifacts.
+
+## Plan slug
+
+Derive the working plan directory name from the plan filename without the
+`.plan.md` suffix, e.g. `p1_data_execution.plan.md` → `p1_data_execution`.
+
+## Results + logs (mandatory after plan implementation)
+
+After finishing (or hard-stopping) a plan, write a detailed report under:
+
+```text
+.cursor/results/<plan_slug>/
+  RESULTS.md          # full narrative + tables + paths to artifacts
+  logs/               # console logs, tee output, command transcripts
+  listen_index.json   # wav paths for any inference done in the plan
+```
+
+- Directory name **must** match the plan slug.
+- Numbers must cite on-disk artifacts (`out/…`, WSL paths). Do not invent values.
+- Copy or symlink important JSON summaries into the results dir when useful;
+  keep large audio under `out/<plan_slug>/` (see inference-wavs rule).
+
+## Related
+
+- Inference wav layout: `.cursor/rules/inference-wavs.mdc`
+- Checkpoint listen skill still applies for new `best.pt`

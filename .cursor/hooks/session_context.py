@@ -14,9 +14,13 @@ def main() -> int:
         pass
     ctx = (
         "MiniSpeech-RU agent context: read AGENTS.md first. "
-        "GPU work runs in WSL2 (/mnt/c/projects/tts-self, HF_HOME=~/hf_cache). "
-        "Use project skills under .cursor/skills/ for Phase 0, caches, train ladder, "
-        "text-usage gate, streaming, WSL env, and eval gates. "
+        "Consult .cursor/methodology/ (read-only during plan implementation; "
+        "edit methodology only when planning a new stage). "
+        "GPU work runs in WSL2 (~/projects/tts-self, HF_HOME=~/hf_cache). "
+        "Any inference must write wavs under out/<plan_slug>/; after a plan, "
+        "write .cursor/results/<plan_slug>/RESULTS.md + logs/. "
+        "Use project skills under .cursor/skills/ (incl. checkpoint-listen, "
+        "plan-results, eval-gates). "
         "Never train the codec; encode with sample=False; do not treat vae_std as error budget."
     )
     json.dump({"additional_context": ctx}, sys.stdout)

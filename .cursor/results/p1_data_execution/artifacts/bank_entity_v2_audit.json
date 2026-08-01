@@ -1,0 +1,582 @@
+{
+  "schema_version": 1,
+  "set": "bank_entity",
+  "version_before": "1.0.0",
+  "version_after": "2.0.0",
+  "n_items": 315,
+  "n_spans": 315,
+  "n_findings": 48,
+  "n_changed": 44,
+  "classifications": {
+    "annotation_error": 44,
+    "legal_variant_or_orthography": 4,
+    "verifier_error": 21
+  },
+  "changed_by_category": {
+    "money": 2,
+    "ordinals": 1,
+    "phones": 21,
+    "ranges": 20
+  },
+  "verifier_fixes": [
+    {
+      "issue": "dotted decimals were interpreted as clock times without context",
+      "affected_items": [
+        "bank_031",
+        "bank_033",
+        "bank_038",
+        "bank_042"
+      ]
+    },
+    {
+      "issue": "ungrouped four-digit ruble amounts missed the money matcher",
+      "affected_items": [
+        "bank_044",
+        "bank_060"
+      ]
+    },
+    {
+      "issue": "genitive ordinal suffix -го was emitted as nominative",
+      "affected_items": [
+        "bank_285",
+        "bank_286",
+        "bank_287"
+      ]
+    },
+    {
+      "issue": "four-digit Russian area codes lost their phone prefix",
+      "affected_items": [
+        "bank_146",
+        "bank_147"
+      ]
+    },
+    {
+      "issue": "established financial Latin acronyms lacked dictionary readings",
+      "affected_items": [
+        "bank_216",
+        "bank_218",
+        "bank_219",
+        "bank_221",
+        "bank_225",
+        "bank_226"
+      ]
+    },
+    {
+      "issue": "established loanwords lacked or had incorrect dictionary readings",
+      "affected_items": [
+        "bank_234",
+        "bank_235",
+        "bank_239",
+        "bank_244"
+      ]
+    }
+  ],
+  "manual_spot_check": [
+    {
+      "utt_id": "bank_031",
+      "category": "decimals",
+      "fragment": "0.01",
+      "expected_after": "ноль точка ноль один",
+      "status": "checked"
+    },
+    {
+      "utt_id": "bank_044",
+      "category": "money",
+      "fragment": "1234 руб. 50 коп.",
+      "expected_after": "одна тысяча двести тридцать четыре рубля пятьдесят копеек",
+      "status": "checked"
+    },
+    {
+      "utt_id": "bank_128",
+      "category": "phones",
+      "fragment": "+7 900 123-45-67",
+      "expected_after": "плюс семь девятьсот сто двадцать три сорок пять шестьдесят семь",
+      "status": "checked"
+    },
+    {
+      "utt_id": "bank_166",
+      "category": "accounts",
+      "fragment": "4260 9876 5432 1098",
+      "expected_after": "четыре два шесть ноль девять восемь семь шесть пять четыре три два один ноль девять восемь",
+      "status": "checked"
+    },
+    {
+      "utt_id": "bank_190",
+      "category": "codes",
+      "fragment": "046015207",
+      "expected_after": "ноль четыре шесть ноль один пять два ноль семь",
+      "status": "checked"
+    },
+    {
+      "utt_id": "bank_191",
+      "category": "ru_abbr",
+      "fragment": "ИНН",
+      "expected_after": "и эн эн",
+      "status": "checked"
+    },
+    {
+      "utt_id": "bank_234",
+      "category": "loanwords",
+      "fragment": "Apple Pay",
+      "expected_after": "эпл пэй",
+      "status": "checked"
+    },
+    {
+      "utt_id": "bank_263",
+      "category": "units",
+      "fragment": "25 °C",
+      "expected_after": "двадцать пять градусов Цельсия",
+      "status": "checked"
+    },
+    {
+      "utt_id": "bank_284",
+      "category": "ordinals",
+      "fragment": "100-й",
+      "expected_after": "сотый",
+      "status": "checked"
+    },
+    {
+      "utt_id": "bank_295",
+      "category": "ranges",
+      "fragment": "10–15",
+      "expected_after": "от десяти до пятнадцати",
+      "status": "checked"
+    }
+  ],
+  "legal_variants_retained": [
+    {
+      "utt_id": "bank_220",
+      "category": "lat_abbr",
+      "span_index": 0,
+      "fragment": "API",
+      "before": "а-пи-ай",
+      "after": "эй-пи-ай",
+      "classification": "legal_variant_or_orthography"
+    },
+    {
+      "utt_id": "bank_223",
+      "category": "lat_abbr",
+      "span_index": 0,
+      "fragment": "KPI",
+      "before": "кэ-пи-ай",
+      "after": "кей-пи-ай",
+      "classification": "legal_variant_or_orthography"
+    },
+    {
+      "utt_id": "bank_227",
+      "category": "lat_abbr",
+      "span_index": 0,
+      "fragment": "ATM",
+      "before": "эй-ти-эм",
+      "after": "эй-тэ-эм",
+      "classification": "legal_variant_or_orthography"
+    },
+    {
+      "utt_id": "bank_236",
+      "category": "loanwords",
+      "span_index": 0,
+      "fragment": "WhatsApp",
+      "before": "вотсап",
+      "after": "ватсап",
+      "classification": "legal_variant_or_orthography"
+    }
+  ],
+  "changes": [
+    {
+      "utt_id": "bank_058",
+      "category": "money",
+      "span_index": 0,
+      "fragment": "500 руб. 00 коп.",
+      "before": "пятьсот рублей",
+      "after": "пятьсот рублей ноль копеек",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_062",
+      "category": "money",
+      "span_index": 0,
+      "fragment": "42 руб. 42 коп.",
+      "before": "сорок два рубля сорок две копеек",
+      "after": "сорок два рубля сорок две копейки",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_128",
+      "category": "phones",
+      "span_index": 0,
+      "fragment": "+7 900 123-45-67",
+      "before": "плюс семь девять ноль ноль один два три четыре пять шесть семь",
+      "after": "плюс семь девятьсот сто двадцать три сорок пять шестьдесят семь",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_129",
+      "category": "phones",
+      "span_index": 0,
+      "fragment": "+7 903 555-01-02",
+      "before": "плюс семь девять ноль три пять пять пять ноль один ноль два",
+      "after": "плюс семь девятьсот три пятьсот пятьдесят пять ноль один ноль два",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_130",
+      "category": "phones",
+      "span_index": 0,
+      "fragment": "+7 495 123-45-67",
+      "before": "плюс семь четыре девять пять один два три четыре пять шесть семь",
+      "after": "плюс семь четыреста девяносто пять сто двадцать три сорок пять шестьдесят семь",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_131",
+      "category": "phones",
+      "span_index": 0,
+      "fragment": "+7 812 200-30-40",
+      "before": "плюс семь восемь один два два ноль ноль три ноль четыре ноль",
+      "after": "плюс семь восемьсот двенадцать двести тридцать сорок",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_132",
+      "category": "phones",
+      "span_index": 0,
+      "fragment": "+7 916 777-88-99",
+      "before": "плюс семь девять один шесть семь семь семь восемь восемь девять девять",
+      "after": "плюс семь девятьсот шестнадцать семьсот семьдесят семь восемьдесят восемь девяносто девять",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_133",
+      "category": "phones",
+      "span_index": 0,
+      "fragment": "+7 999 111-22-33",
+      "before": "плюс семь девять девять девять один один один два два три три",
+      "after": "плюс семь девятьсот девяносто девять сто одиннадцать двадцать два тридцать три",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_134",
+      "category": "phones",
+      "span_index": 0,
+      "fragment": "+7 901 234-56-78",
+      "before": "плюс семь девять ноль один два три четыре пять шесть семь восемь",
+      "after": "плюс семь девятьсот один двести тридцать четыре пятьдесят шесть семьдесят восемь",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_135",
+      "category": "phones",
+      "span_index": 0,
+      "fragment": "+7 926 000-11-22",
+      "before": "плюс семь девять два шесть ноль ноль ноль один один два два",
+      "after": "плюс семь девятьсот двадцать шесть ноль ноль ноль одиннадцать двадцать два",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_136",
+      "category": "phones",
+      "span_index": 0,
+      "fragment": "+7 983 444-55-66",
+      "before": "плюс семь девять восемь три четыре четыре четыре пять пять шесть шесть",
+      "after": "плюс семь девятьсот восемьдесят три четыреста сорок четыре пятьдесят пять шестьдесят шесть",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_137",
+      "category": "phones",
+      "span_index": 0,
+      "fragment": "+7 800 555-35-35",
+      "before": "плюс семь восемь ноль ноль пять пять пять три пять три пять",
+      "after": "плюс семь восемьсот пятьсот пятьдесят пять тридцать пять тридцать пять",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_138",
+      "category": "phones",
+      "span_index": 0,
+      "fragment": "+7 495 789-00-11",
+      "before": "плюс семь четыре девять пять семь восемь девять ноль ноль один один",
+      "after": "плюс семь четыреста девяносто пять семьсот восемьдесят девять ноль ноль одиннадцать",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_139",
+      "category": "phones",
+      "span_index": 0,
+      "fragment": "+7 343 200-10-20",
+      "before": "плюс семь три четыре три два ноль ноль один ноль два ноль",
+      "after": "плюс семь триста сорок три двести десять двадцать",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_140",
+      "category": "phones",
+      "span_index": 0,
+      "fragment": "+7 383 300-40-50",
+      "before": "плюс семь три восемь три три ноль ноль четыре ноль пять ноль",
+      "after": "плюс семь триста восемьдесят три триста сорок пятьдесят",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_141",
+      "category": "phones",
+      "span_index": 0,
+      "fragment": "+7 846 111-22-33",
+      "before": "плюс семь восемь четыре шесть один один один два два три три",
+      "after": "плюс семь восемьсот сорок шесть сто одиннадцать двадцать два тридцать три",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_142",
+      "category": "phones",
+      "span_index": 0,
+      "fragment": "+7 861 555-66-77",
+      "before": "плюс семь восемь шесть один пять пять пять шесть шесть семь семь",
+      "after": "плюс семь восемьсот шестьдесят один пятьсот пятьдесят пять шестьдесят шесть семьдесят семь",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_143",
+      "category": "phones",
+      "span_index": 0,
+      "fragment": "+7 351 222-33-44",
+      "before": "плюс семь три пять один два два два три три четыре четыре",
+      "after": "плюс семь триста пятьдесят один двести двадцать два тридцать три сорок четыре",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_144",
+      "category": "phones",
+      "span_index": 0,
+      "fragment": "+7 831 100-20-30",
+      "before": "плюс семь восемь три один один ноль ноль два ноль три ноль",
+      "after": "плюс семь восемьсот тридцать один сто двадцать тридцать",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_145",
+      "category": "phones",
+      "span_index": 0,
+      "fragment": "+7 843 700-80-90",
+      "before": "плюс семь восемь четыре три семь ноль ноль восемь ноль девять ноль",
+      "after": "плюс семь восемьсот сорок три семьсот восемьдесят девяносто",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_146",
+      "category": "phones",
+      "span_index": 0,
+      "fragment": "+7 4212 12-34-56",
+      "before": "плюс семь четыре два один два один два три четыре пять шесть",
+      "after": "плюс семь четыре два один два двенадцать тридцать четыре пятьдесят шесть",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_147",
+      "category": "phones",
+      "span_index": 0,
+      "fragment": "+7 3952 60-70-80",
+      "before": "плюс семь три девять пять два шесть ноль семь ноль восемь ноль",
+      "after": "плюс семь три девять пять два шестьдесят семьдесят восемьдесят",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_148",
+      "category": "phones",
+      "span_index": 0,
+      "fragment": "8 900 123-45-67",
+      "before": "восемь девять ноль ноль один два три четыре пять шесть семь",
+      "after": "восемь девятьсот сто двадцать три сорок пять шестьдесят семь",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_284",
+      "category": "ordinals",
+      "span_index": 0,
+      "fragment": "100-й",
+      "before": "сто",
+      "after": "сотый",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_295",
+      "category": "ranges",
+      "span_index": 0,
+      "fragment": "10–15",
+      "before": "от десять до пятнадцать",
+      "after": "от десяти до пятнадцати",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_296",
+      "category": "ranges",
+      "span_index": 0,
+      "fragment": "5-7",
+      "before": "от пять до семь",
+      "after": "от пяти до семи",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_297",
+      "category": "ranges",
+      "span_index": 0,
+      "fragment": "с 9 до 18",
+      "before": "с девять до восемнадцать",
+      "after": "с девяти до восемнадцати",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_298",
+      "category": "ranges",
+      "span_index": 0,
+      "fragment": "с 10 до 19",
+      "before": "с десять до девятнадцать",
+      "after": "с десяти до девятнадцати",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_299",
+      "category": "ranges",
+      "span_index": 0,
+      "fragment": "1–3",
+      "before": "от один до три",
+      "after": "от одного до трёх",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_300",
+      "category": "ranges",
+      "span_index": 0,
+      "fragment": "100–200",
+      "before": "от сто до двести",
+      "after": "от ста до двухсот",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_301",
+      "category": "ranges",
+      "span_index": 0,
+      "fragment": "2–5",
+      "before": "от два до пять",
+      "after": "от двух до пяти",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_302",
+      "category": "ranges",
+      "span_index": 0,
+      "fragment": "с 8 до 20",
+      "before": "с восемь до двадцать",
+      "after": "с восьми до двадцати",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_303",
+      "category": "ranges",
+      "span_index": 0,
+      "fragment": "15–20",
+      "before": "от пятнадцать до двадцать",
+      "after": "от пятнадцати до двадцати",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_304",
+      "category": "ranges",
+      "span_index": 0,
+      "fragment": "30–45",
+      "before": "от тридцать до сорок пять",
+      "after": "от тридцати до сорока пяти",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_305",
+      "category": "ranges",
+      "span_index": 0,
+      "fragment": "с 1 до 10",
+      "before": "с один до десять",
+      "after": "с одного до десяти",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_306",
+      "category": "ranges",
+      "span_index": 0,
+      "fragment": "50–70",
+      "before": "от пятьдесят до семьдесят",
+      "after": "от пятидесяти до семидесяти",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_307",
+      "category": "ranges",
+      "span_index": 0,
+      "fragment": "3–6",
+      "before": "от три до шесть",
+      "after": "от трёх до шести",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_308",
+      "category": "ranges",
+      "span_index": 0,
+      "fragment": "12–24",
+      "before": "от двенадцать до двадцать четыре",
+      "after": "от двенадцати до двадцати четырёх",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_309",
+      "category": "ranges",
+      "span_index": 0,
+      "fragment": "с 14 до 16",
+      "before": "с четырнадцать до шестнадцать",
+      "after": "с четырнадцати до шестнадцати",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_310",
+      "category": "ranges",
+      "span_index": 0,
+      "fragment": "7–14",
+      "before": "от семь до четырнадцать",
+      "after": "от семи до четырнадцати",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_311",
+      "category": "ranges",
+      "span_index": 0,
+      "fragment": "20–25",
+      "before": "от двадцать до двадцать пять",
+      "after": "от двадцати до двадцати пяти",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_312",
+      "category": "ranges",
+      "span_index": 0,
+      "fragment": "с 0 до 100",
+      "before": "с ноль до сто",
+      "after": "с нуля до ста",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_313",
+      "category": "ranges",
+      "span_index": 0,
+      "fragment": "4–8",
+      "before": "от четыре до восемь",
+      "after": "от четырёх до восьми",
+      "classification": "annotation_error"
+    },
+    {
+      "utt_id": "bank_314",
+      "category": "ranges",
+      "span_index": 0,
+      "fragment": "90–180",
+      "before": "от девяносто до сто восемьдесят",
+      "after": "от девяноста до ста восьмидесяти",
+      "classification": "annotation_error"
+    }
+  ]
+}

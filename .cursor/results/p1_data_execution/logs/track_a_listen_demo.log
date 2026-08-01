@@ -1,0 +1,7 @@
+/home/adam/projects/tts-self/.venv/lib/python3.11/site-packages/torch/nn/utils/weight_norm.py:144: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+wrote /home/adam/projects/tts-self/out/p1_data_execution/track_a_listen_demo/01_привет_я_полностью_самостоятельно_обученная_tts-.wav backend=neural mode=mean_stats n_frames=355 n_sil=0
+wrote /home/adam/projects/tts-self/out/p1_data_execution/track_a_listen_demo/02_как_у_вас_дела_чем_вам_помочь.wav backend=neural mode=mean_stats n_frames=190 n_sil=0
+wrote /home/adam/projects/tts-self/out/p1_data_execution/track_a_listen_demo/03_сегодня_хорошая_погода_можно_пройтись_пешком.wav backend=neural mode=mean_stats n_frames=272 n_sil=0
+wrote /home/adam/projects/tts-self/out/p1_data_execution/track_a_listen_demo/04_пожалуйста_повторите_ещё_раз_чуть_медленнее.wav backend=neural mode=mean_stats n_frames=262 n_sil=0
+wrote /home/adam/projects/tts-self/out/p1_data_execution/track_a_listen_demo/05_спасибо_за_внимание_до_скорой_встречи.wav backend=neural mode=mean_stats n_frames=227 n_sil=0

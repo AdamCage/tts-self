@@ -1,0 +1,5563 @@
+{
+  "schema_version": 1,
+  "set": "homograph",
+  "version_before": "1.0.0",
+  "version_after": "2.0.0",
+  "n_items_before": 895,
+  "n_items": 740,
+  "n_pairs": 30,
+  "n_broken_char_index": 250,
+  "broken_char_index_fraction": 0.27932960893854747,
+  "n_broken_char_index_after": 0,
+  "n_canonical_corrections": 380,
+  "n_removed_invalid_pair_items": 155,
+  "n_structural_errors": 0,
+  "n_manual_reviewed": 100,
+  "manual_all_pairs_exist": true,
+  "manual_all_contexts_resolve": true,
+  "broken_indices": [],
+  "canonical_corrections": [
+    {
+      "utt_id": "homo_111",
+      "lexeme_before": "пр́опасть",
+      "lexeme_after": "про́пасть",
+      "contrast_before": "пропа́сть",
+      "contrast_after": "пропа́сть",
+      "char_index_before": 29,
+      "char_index_after": 30
+    },
+    {
+      "utt_id": "homo_112",
+      "lexeme_before": "пр́опасть",
+      "lexeme_after": "про́пасть",
+      "contrast_before": "пропа́сть",
+      "contrast_after": "пропа́сть",
+      "char_index_before": 26,
+      "char_index_after": 27
+    },
+    {
+      "utt_id": "homo_113",
+      "lexeme_before": "пр́опасть",
+      "lexeme_after": "про́пасть",
+      "contrast_before": "пропа́сть",
+      "contrast_after": "пропа́сть",
+      "char_index_before": 25,
+      "char_index_after": 26
+    },
+    {
+      "utt_id": "homo_114",
+      "lexeme_before": "пр́опасть",
+      "lexeme_after": "про́пасть",
+      "contrast_before": "пропа́сть",
+      "contrast_after": "пропа́сть",
+      "char_index_before": 28,
+      "char_index_after": 29
+    },
+    {
+      "utt_id": "homo_115",
+      "lexeme_before": "пр́опасть",
+      "lexeme_after": "про́пасть",
+      "contrast_before": "пропа́сть",
+      "contrast_after": "пропа́сть",
+      "char_index_before": 23,
+      "char_index_after": 24
+    },
+    {
+      "utt_id": "homo_116",
+      "lexeme_before": "пр́опасть",
+      "lexeme_after": "про́пасть",
+      "contrast_before": "пропа́сть",
+      "contrast_after": "пропа́сть",
+      "char_index_before": 37,
+      "char_index_after": 38
+    },
+    {
+      "utt_id": "homo_117",
+      "lexeme_before": "пр́опасть",
+      "lexeme_after": "про́пасть",
+      "contrast_before": "пропа́сть",
+      "contrast_after": "пропа́сть",
+      "char_index_before": 19,
+      "char_index_after": 20
+    },
+    {
+      "utt_id": "homo_118",
+      "lexeme_before": "пр́опасть",
+      "lexeme_after": "про́пасть",
+      "contrast_before": "пропа́сть",
+      "contrast_after": "пропа́сть",
+      "char_index_before": 20,
+      "char_index_after": 21
+    },
+    {
+      "utt_id": "homo_119",
+      "lexeme_before": "пр́опасть",
+      "lexeme_after": "про́пасть",
+      "contrast_before": "пропа́сть",
+      "contrast_after": "пропа́сть",
+      "char_index_before": 37,
+      "char_index_after": 38
+    },
+    {
+      "utt_id": "homo_120",
+      "lexeme_before": "пр́опасть",
+      "lexeme_after": "про́пасть",
+      "contrast_before": "пропа́сть",
+      "contrast_after": "пропа́сть",
+      "char_index_before": 22,
+      "char_index_after": 23
+    },
+    {
+      "utt_id": "homo_121",
+      "lexeme_before": "пропа́сть",
+      "lexeme_after": "пропа́сть",
+      "contrast_before": "пр́опасть",
+      "contrast_after": "про́пасть",
+      "char_index_before": 11,
+      "char_index_after": 11
+    },
+    {
+      "utt_id": "homo_122",
+      "lexeme_before": "пропа́сть",
+      "lexeme_after": "пропа́сть",
+      "contrast_before": "пр́опасть",
+      "contrast_after": "про́пасть",
+      "char_index_before": 17,
+      "char_index_after": 17
+    },
+    {
+      "utt_id": "homo_123",
+      "lexeme_before": "пропа́сть",
+      "lexeme_after": "пропа́сть",
+      "contrast_before": "пр́опасть",
+      "contrast_after": "про́пасть",
+      "char_index_before": 17,
+      "char_index_after": 17
+    },
+    {
+      "utt_id": "homo_124",
+      "lexeme_before": "пропа́сть",
+      "lexeme_after": "пропа́сть",
+      "contrast_before": "пр́опасть",
+      "contrast_after": "про́пасть",
+      "char_index_before": 19,
+      "char_index_after": 19
+    },
+    {
+      "utt_id": "homo_125",
+      "lexeme_before": "пропа́сть",
+      "lexeme_after": "пропа́сть",
+      "contrast_before": "пр́опасть",
+      "contrast_after": "про́пасть",
+      "char_index_before": 21,
+      "char_index_after": 21
+    },
+    {
+      "utt_id": "homo_126",
+      "lexeme_before": "пропа́сть",
+      "lexeme_after": "пропа́сть",
+      "contrast_before": "пр́опасть",
+      "contrast_after": "про́пасть",
+      "char_index_before": 13,
+      "char_index_after": 13
+    },
+    {
+      "utt_id": "homo_127",
+      "lexeme_before": "пропа́сть",
+      "lexeme_after": "пропа́сть",
+      "contrast_before": "пр́опасть",
+      "contrast_after": "про́пасть",
+      "char_index_before": 14,
+      "char_index_after": 14
+    },
+    {
+      "utt_id": "homo_128",
+      "lexeme_before": "пропа́сть",
+      "lexeme_after": "пропа́сть",
+      "contrast_before": "пр́опасть",
+      "contrast_after": "про́пасть",
+      "char_index_before": 12,
+      "char_index_after": 12
+    },
+    {
+      "utt_id": "homo_129",
+      "lexeme_before": "пропа́сть",
+      "lexeme_after": "пропа́сть",
+      "contrast_before": "пр́опасть",
+      "contrast_after": "про́пасть",
+      "char_index_before": 22,
+      "char_index_after": 22
+    },
+    {
+      "utt_id": "homo_130",
+      "lexeme_before": "пропа́сть",
+      "lexeme_after": "пропа́сть",
+      "contrast_before": "пр́опасть",
+      "contrast_after": "про́пасть",
+      "char_index_before": 18,
+      "char_index_after": 18
+    },
+    {
+      "utt_id": "homo_131",
+      "lexeme_before": "ду́хи",
+      "lexeme_after": "духи́",
+      "contrast_before": "духи́",
+      "contrast_after": "ду́хи",
+      "char_index_before": 21,
+      "char_index_after": 23
+    },
+    {
+      "utt_id": "homo_132",
+      "lexeme_before": "ду́хи",
+      "lexeme_after": "духи́",
+      "contrast_before": "духи́",
+      "contrast_after": "ду́хи",
+      "char_index_before": 8,
+      "char_index_after": 10
+    },
+    {
+      "utt_id": "homo_133",
+      "lexeme_before": "ду́хи",
+      "lexeme_after": "духи́",
+      "contrast_before": "духи́",
+      "contrast_after": "ду́хи",
+      "char_index_before": 30,
+      "char_index_after": 32
+    },
+    {
+      "utt_id": "homo_134",
+      "lexeme_before": "ду́хи",
+      "lexeme_after": "духи́",
+      "contrast_before": "духи́",
+      "contrast_after": "ду́хи",
+      "char_index_before": 8,
+      "char_index_after": 10
+    },
+    {
+      "utt_id": "homo_135",
+      "lexeme_before": "ду́хи",
+      "lexeme_after": "духи́",
+      "contrast_before": "духи́",
+      "contrast_after": "ду́хи",
+      "char_index_before": 34,
+      "char_index_after": 36
+    },
+    {
+      "utt_id": "homo_136",
+      "lexeme_before": "ду́хи",
+      "lexeme_after": "духи́",
+      "contrast_before": "духи́",
+      "contrast_after": "ду́хи",
+      "char_index_before": 16,
+      "char_index_after": 18
+    },
+    {
+      "utt_id": "homo_137",
+      "lexeme_before": "ду́хи",
+      "lexeme_after": "духи́",
+      "contrast_before": "духи́",
+      "contrast_after": "ду́хи",
+      "char_index_before": 32,
+      "char_index_after": 34
+    },
+    {
+      "utt_id": "homo_138",
+      "lexeme_before": "ду́хи",
+      "lexeme_after": "духи́",
+      "contrast_before": "духи́",
+      "contrast_after": "ду́хи",
+      "char_index_before": 11,
+      "char_index_after": 13
+    },
+    {
+      "utt_id": "homo_139",
+      "lexeme_before": "ду́хи",
+      "lexeme_after": "духи́",
+      "contrast_before": "духи́",
+      "contrast_after": "ду́хи",
+      "char_index_before": 25,
+      "char_index_after": 27
+    },
+    {
+      "utt_id": "homo_140",
+      "lexeme_before": "ду́хи",
+      "lexeme_after": "духи́",
+      "contrast_before": "духи́",
+      "contrast_after": "ду́хи",
+      "char_index_before": 27,
+      "char_index_after": 29
+    },
+    {
+      "utt_id": "homo_141",
+      "lexeme_before": "духи́",
+      "lexeme_after": "ду́хи",
+      "contrast_before": "ду́хи",
+      "contrast_after": "духи́",
+      "char_index_before": 17,
+      "char_index_after": 15
+    },
+    {
+      "utt_id": "homo_142",
+      "lexeme_before": "духи́",
+      "lexeme_after": "ду́хи",
+      "contrast_before": "ду́хи",
+      "contrast_after": "духи́",
+      "char_index_before": 25,
+      "char_index_after": 23
+    },
+    {
+      "utt_id": "homo_143",
+      "lexeme_before": "духи́",
+      "lexeme_after": "ду́хи",
+      "contrast_before": "ду́хи",
+      "contrast_after": "духи́",
+      "char_index_before": 22,
+      "char_index_after": 20
+    },
+    {
+      "utt_id": "homo_144",
+      "lexeme_before": "духи́",
+      "lexeme_after": "ду́хи",
+      "contrast_before": "ду́хи",
+      "contrast_after": "духи́",
+      "char_index_before": 21,
+      "char_index_after": 19
+    },
+    {
+      "utt_id": "homo_145",
+      "lexeme_before": "духи́",
+      "lexeme_after": "ду́хи",
+      "contrast_before": "ду́хи",
+      "contrast_after": "духи́",
+      "char_index_before": 30,
+      "char_index_after": 28
+    },
+    {
+      "utt_id": "homo_146",
+      "lexeme_before": "духи́",
+      "lexeme_after": "ду́хи",
+      "contrast_before": "ду́хи",
+      "contrast_after": "духи́",
+      "char_index_before": 15,
+      "char_index_after": 13
+    },
+    {
+      "utt_id": "homo_147",
+      "lexeme_before": "духи́",
+      "lexeme_after": "ду́хи",
+      "contrast_before": "ду́хи",
+      "contrast_after": "духи́",
+      "char_index_before": 29,
+      "char_index_after": 27
+    },
+    {
+      "utt_id": "homo_148",
+      "lexeme_before": "духи́",
+      "lexeme_after": "ду́хи",
+      "contrast_before": "ду́хи",
+      "contrast_after": "духи́",
+      "char_index_before": 18,
+      "char_index_after": 16
+    },
+    {
+      "utt_id": "homo_149",
+      "lexeme_before": "духи́",
+      "lexeme_after": "ду́хи",
+      "contrast_before": "ду́хи",
+      "contrast_after": "духи́",
+      "char_index_before": 29,
+      "char_index_after": 27
+    },
+    {
+      "utt_id": "homo_150",
+      "lexeme_before": "духи́",
+      "lexeme_after": "ду́хи",
+      "contrast_before": "ду́хи",
+      "contrast_after": "духи́",
+      "char_index_before": 23,
+      "char_index_after": 21
+    },
+    {
+      "utt_id": "homo_151",
+      "lexeme_before": "кр́ужки",
+      "lexeme_after": "кру́жки",
+      "contrast_before": "кружќи",
+      "contrast_after": "кружки́",
+      "char_index_before": 29,
+      "char_index_after": 30
+    },
+    {
+      "utt_id": "homo_152",
+      "lexeme_before": "кр́ужки",
+      "lexeme_after": "кру́жки",
+      "contrast_before": "кружќи",
+      "contrast_after": "кружки́",
+      "char_index_before": 20,
+      "char_index_after": 21
+    },
+    {
+      "utt_id": "homo_153",
+      "lexeme_before": "кр́ужки",
+      "lexeme_after": "кру́жки",
+      "contrast_before": "кружќи",
+      "contrast_after": "кружки́",
+      "char_index_before": 15,
+      "char_index_after": 16
+    },
+    {
+      "utt_id": "homo_154",
+      "lexeme_before": "кр́ужки",
+      "lexeme_after": "кру́жки",
+      "contrast_before": "кружќи",
+      "contrast_after": "кружки́",
+      "char_index_before": 30,
+      "char_index_after": 31
+    },
+    {
+      "utt_id": "homo_155",
+      "lexeme_before": "кр́ужки",
+      "lexeme_after": "кру́жки",
+      "contrast_before": "кружќи",
+      "contrast_after": "кружки́",
+      "char_index_before": 24,
+      "char_index_after": 25
+    },
+    {
+      "utt_id": "homo_156",
+      "lexeme_before": "кр́ужки",
+      "lexeme_after": "кру́жки",
+      "contrast_before": "кружќи",
+      "contrast_after": "кружки́",
+      "char_index_before": 31,
+      "char_index_after": 32
+    },
+    {
+      "utt_id": "homo_157",
+      "lexeme_before": "кр́ужки",
+      "lexeme_after": "кру́жки",
+      "contrast_before": "кружќи",
+      "contrast_after": "кружки́",
+      "char_index_before": 27,
+      "char_index_after": 28
+    },
+    {
+      "utt_id": "homo_158",
+      "lexeme_before": "кр́ужки",
+      "lexeme_after": "кру́жки",
+      "contrast_before": "кружќи",
+      "contrast_after": "кружки́",
+      "char_index_before": 22,
+      "char_index_after": 23
+    },
+    {
+      "utt_id": "homo_159",
+      "lexeme_before": "кр́ужки",
+      "lexeme_after": "кру́жки",
+      "contrast_before": "кружќи",
+      "contrast_after": "кружки́",
+      "char_index_before": 28,
+      "char_index_after": 29
+    },
+    {
+      "utt_id": "homo_160",
+      "lexeme_before": "кр́ужки",
+      "lexeme_after": "кру́жки",
+      "contrast_before": "кружќи",
+      "contrast_after": "кружки́",
+      "char_index_before": 22,
+      "char_index_after": 23
+    },
+    {
+      "utt_id": "homo_161",
+      "lexeme_before": "кружќи",
+      "lexeme_after": "кружки́",
+      "contrast_before": "кр́ужки",
+      "contrast_after": "кру́жки",
+      "char_index_before": 41,
+      "char_index_after": 42
+    },
+    {
+      "utt_id": "homo_162",
+      "lexeme_before": "кружќи",
+      "lexeme_after": "кружки́",
+      "contrast_before": "кр́ужки",
+      "contrast_after": "кру́жки",
+      "char_index_before": 37,
+      "char_index_after": 38
+    },
+    {
+      "utt_id": "homo_163",
+      "lexeme_before": "кружќи",
+      "lexeme_after": "кружки́",
+      "contrast_before": "кр́ужки",
+      "contrast_after": "кру́жки",
+      "char_index_before": 13,
+      "char_index_after": 14
+    },
+    {
+      "utt_id": "homo_164",
+      "lexeme_before": "кружќи",
+      "lexeme_after": "кружки́",
+      "contrast_before": "кр́ужки",
+      "contrast_after": "кру́жки",
+      "char_index_before": 22,
+      "char_index_after": 23
+    },
+    {
+      "utt_id": "homo_165",
+      "lexeme_before": "кружќи",
+      "lexeme_after": "кружки́",
+      "contrast_before": "кр́ужки",
+      "contrast_after": "кру́жки",
+      "char_index_before": 13,
+      "char_index_after": 14
+    },
+    {
+      "utt_id": "homo_166",
+      "lexeme_before": "кружќи",
+      "lexeme_after": "кружки́",
+      "contrast_before": "кр́ужки",
+      "contrast_after": "кру́жки",
+      "char_index_before": 37,
+      "char_index_after": 38
+    },
+    {
+      "utt_id": "homo_167",
+      "lexeme_before": "кружќи",
+      "lexeme_after": "кружки́",
+      "contrast_before": "кр́ужки",
+      "contrast_after": "кру́жки",
+      "char_index_before": 29,
+      "char_index_after": 30
+    },
+    {
+      "utt_id": "homo_168",
+      "lexeme_before": "кружќи",
+      "lexeme_after": "кружки́",
+      "contrast_before": "кр́ужки",
+      "contrast_after": "кру́жки",
+      "char_index_before": 15,
+      "char_index_after": 16
+    },
+    {
+      "utt_id": "homo_169",
+      "lexeme_before": "кружќи",
+      "lexeme_after": "кружки́",
+      "contrast_before": "кр́ужки",
+      "contrast_after": "кру́жки",
+      "char_index_before": 30,
+      "char_index_after": 31
+    },
+    {
+      "utt_id": "homo_170",
+      "lexeme_before": "кружќи",
+      "lexeme_after": "кружки́",
+      "contrast_before": "кр́ужки",
+      "contrast_after": "кру́жки",
+      "char_index_before": 11,
+      "char_index_after": 12
+    },
+    {
+      "utt_id": "homo_171",
+      "lexeme_before": "ст́релки",
+      "lexeme_after": "стре́лки",
+      "contrast_before": "стрелќи",
+      "contrast_after": "стрелки́",
+      "char_index_before": 9,
+      "char_index_after": 11
+    },
+    {
+      "utt_id": "homo_172",
+      "lexeme_before": "ст́релки",
+      "lexeme_after": "стре́лки",
+      "contrast_before": "стрелќи",
+      "contrast_after": "стрелки́",
+      "char_index_before": 11,
+      "char_index_after": 13
+    },
+    {
+      "utt_id": "homo_173",
+      "lexeme_before": "ст́релки",
+      "lexeme_after": "стре́лки",
+      "contrast_before": "стрелќи",
+      "contrast_after": "стрелки́",
+      "char_index_before": 23,
+      "char_index_after": 25
+    },
+    {
+      "utt_id": "homo_174",
+      "lexeme_before": "ст́релки",
+      "lexeme_after": "стре́лки",
+      "contrast_before": "стрелќи",
+      "contrast_after": "стрелки́",
+      "char_index_before": 17,
+      "char_index_after": 19
+    },
+    {
+      "utt_id": "homo_175",
+      "lexeme_before": "ст́релки",
+      "lexeme_after": "стре́лки",
+      "contrast_before": "стрелќи",
+      "contrast_after": "стрелки́",
+      "char_index_before": 10,
+      "char_index_after": 12
+    },
+    {
+      "utt_id": "homo_176",
+      "lexeme_before": "ст́релки",
+      "lexeme_after": "стре́лки",
+      "contrast_before": "стрелќи",
+      "contrast_after": "стрелки́",
+      "char_index_before": 29,
+      "char_index_after": 31
+    },
+    {
+      "utt_id": "homo_177",
+      "lexeme_before": "ст́релки",
+      "lexeme_after": "стре́лки",
+      "contrast_before": "стрелќи",
+      "contrast_after": "стрелки́",
+      "char_index_before": 22,
+      "char_index_after": 24
+    },
+    {
+      "utt_id": "homo_178",
+      "lexeme_before": "ст́релки",
+      "lexeme_after": "стре́лки",
+      "contrast_before": "стрелќи",
+      "contrast_after": "стрелки́",
+      "char_index_before": 21,
+      "char_index_after": 23
+    },
+    {
+      "utt_id": "homo_179",
+      "lexeme_before": "ст́релки",
+      "lexeme_after": "стре́лки",
+      "contrast_before": "стрелќи",
+      "contrast_after": "стрелки́",
+      "char_index_before": 29,
+      "char_index_after": 31
+    },
+    {
+      "utt_id": "homo_180",
+      "lexeme_before": "ст́релки",
+      "lexeme_after": "стре́лки",
+      "contrast_before": "стрелќи",
+      "contrast_after": "стрелки́",
+      "char_index_before": 11,
+      "char_index_after": 13
+    },
+    {
+      "utt_id": "homo_181",
+      "lexeme_before": "стрелќи",
+      "lexeme_after": "стрелки́",
+      "contrast_before": "ст́релки",
+      "contrast_after": "стре́лки",
+      "char_index_before": 39,
+      "char_index_after": 14
+    },
+    {
+      "utt_id": "homo_182",
+      "lexeme_before": "стрелќи",
+      "lexeme_after": "стрелки́",
+      "contrast_before": "ст́релки",
+      "contrast_after": "стре́лки",
+      "char_index_before": 23,
+      "char_index_after": 13
+    },
+    {
+      "utt_id": "homo_183",
+      "lexeme_before": "стрелќи",
+      "lexeme_after": "стрелки́",
+      "contrast_before": "ст́релки",
+      "contrast_after": "стре́лки",
+      "char_index_before": 25,
+      "char_index_after": 13
+    },
+    {
+      "utt_id": "homo_184",
+      "lexeme_before": "стрелќи",
+      "lexeme_after": "стрелки́",
+      "contrast_before": "ст́релки",
+      "contrast_after": "стре́лки",
+      "char_index_before": 11,
+      "char_index_after": 13
+    },
+    {
+      "utt_id": "homo_185",
+      "lexeme_before": "стрелќи",
+      "lexeme_after": "стрелки́",
+      "contrast_before": "ст́релки",
+      "contrast_after": "стре́лки",
+      "char_index_before": 24,
+      "char_index_after": 17
+    },
+    {
+      "utt_id": "homo_186",
+      "lexeme_before": "стрелќи",
+      "lexeme_after": "стрелки́",
+      "contrast_before": "ст́релки",
+      "contrast_after": "стре́лки",
+      "char_index_before": 37,
+      "char_index_after": 20
+    },
+    {
+      "utt_id": "homo_187",
+      "lexeme_before": "стрелќи",
+      "lexeme_after": "стрелки́",
+      "contrast_before": "ст́релки",
+      "contrast_after": "стре́лки",
+      "char_index_before": 32,
+      "char_index_after": 14
+    },
+    {
+      "utt_id": "homo_188",
+      "lexeme_before": "стрелќи",
+      "lexeme_after": "стрелки́",
+      "contrast_before": "ст́релки",
+      "contrast_after": "стре́лки",
+      "char_index_before": 31,
+      "char_index_after": 23
+    },
+    {
+      "utt_id": "homo_189",
+      "lexeme_before": "стрелќи",
+      "lexeme_after": "стрелки́",
+      "contrast_before": "ст́релки",
+      "contrast_after": "стре́лки",
+      "char_index_before": 40,
+      "char_index_after": 31
+    },
+    {
+      "utt_id": "homo_190",
+      "lexeme_before": "стрелќи",
+      "lexeme_after": "стрелки́",
+      "contrast_before": "ст́релки",
+      "contrast_after": "стре́лки",
+      "char_index_before": 28,
+      "char_index_after": 17
+    },
+    {
+      "utt_id": "homo_211",
+      "lexeme_before": "по́лки",
+      "lexeme_after": "по́лки",
+      "contrast_before": "полќи",
+      "contrast_after": "полки́",
+      "char_index_before": 32,
+      "char_index_after": 32
+    },
+    {
+      "utt_id": "homo_212",
+      "lexeme_before": "по́лки",
+      "lexeme_after": "по́лки",
+      "contrast_before": "полќи",
+      "contrast_after": "полки́",
+      "char_index_before": 13,
+      "char_index_after": 13
+    },
+    {
+      "utt_id": "homo_213",
+      "lexeme_before": "по́лки",
+      "lexeme_after": "по́лки",
+      "contrast_before": "полќи",
+      "contrast_after": "полки́",
+      "char_index_before": 22,
+      "char_index_after": 22
+    },
+    {
+      "utt_id": "homo_214",
+      "lexeme_before": "по́лки",
+      "lexeme_after": "по́лки",
+      "contrast_before": "полќи",
+      "contrast_after": "полки́",
+      "char_index_before": 22,
+      "char_index_after": 22
+    },
+    {
+      "utt_id": "homo_215",
+      "lexeme_before": "по́лки",
+      "lexeme_after": "по́лки",
+      "contrast_before": "полќи",
+      "contrast_after": "полки́",
+      "char_index_before": 26,
+      "char_index_after": 26
+    },
+    {
+      "utt_id": "homo_216",
+      "lexeme_before": "по́лки",
+      "lexeme_after": "по́лки",
+      "contrast_before": "полќи",
+      "contrast_after": "полки́",
+      "char_index_before": 11,
+      "char_index_after": 11
+    },
+    {
+      "utt_id": "homo_217",
+      "lexeme_before": "по́лки",
+      "lexeme_after": "по́лки",
+      "contrast_before": "полќи",
+      "contrast_after": "полки́",
+      "char_index_before": 33,
+      "char_index_after": 33
+    },
+    {
+      "utt_id": "homo_218",
+      "lexeme_before": "по́лки",
+      "lexeme_after": "по́лки",
+      "contrast_before": "полќи",
+      "contrast_after": "полки́",
+      "char_index_before": 4,
+      "char_index_after": 4
+    },
+    {
+      "utt_id": "homo_219",
+      "lexeme_before": "по́лки",
+      "lexeme_after": "по́лки",
+      "contrast_before": "полќи",
+      "contrast_after": "полки́",
+      "char_index_before": 29,
+      "char_index_after": 29
+    },
+    {
+      "utt_id": "homo_220",
+      "lexeme_before": "по́лки",
+      "lexeme_after": "по́лки",
+      "contrast_before": "полќи",
+      "contrast_after": "полки́",
+      "char_index_before": 20,
+      "char_index_after": 20
+    },
+    {
+      "utt_id": "homo_221",
+      "lexeme_before": "полќи",
+      "lexeme_after": "полки́",
+      "contrast_before": "по́лки",
+      "contrast_after": "по́лки",
+      "char_index_before": 26,
+      "char_index_after": 27
+    },
+    {
+      "utt_id": "homo_222",
+      "lexeme_before": "полќи",
+      "lexeme_after": "полки́",
+      "contrast_before": "по́лки",
+      "contrast_after": "по́лки",
+      "char_index_before": 20,
+      "char_index_after": 21
+    },
+    {
+      "utt_id": "homo_223",
+      "lexeme_before": "полќи",
+      "lexeme_after": "полки́",
+      "contrast_before": "по́лки",
+      "contrast_after": "по́лки",
+      "char_index_before": 32,
+      "char_index_after": 33
+    },
+    {
+      "utt_id": "homo_224",
+      "lexeme_before": "полќи",
+      "lexeme_after": "полки́",
+      "contrast_before": "по́лки",
+      "contrast_after": "по́лки",
+      "char_index_before": 26,
+      "char_index_after": 27
+    },
+    {
+      "utt_id": "homo_225",
+      "lexeme_before": "полќи",
+      "lexeme_after": "полки́",
+      "contrast_before": "по́лки",
+      "contrast_after": "по́лки",
+      "char_index_before": 19,
+      "char_index_after": 20
+    },
+    {
+      "utt_id": "homo_226",
+      "lexeme_before": "полќи",
+      "lexeme_after": "полки́",
+      "contrast_before": "по́лки",
+      "contrast_after": "по́лки",
+      "char_index_before": 28,
+      "char_index_after": 29
+    },
+    {
+      "utt_id": "homo_227",
+      "lexeme_before": "полќи",
+      "lexeme_after": "полки́",
+      "contrast_before": "по́лки",
+      "contrast_after": "по́лки",
+      "char_index_before": 21,
+      "char_index_after": 22
+    },
+    {
+      "utt_id": "homo_228",
+      "lexeme_before": "полќи",
+      "lexeme_after": "полки́",
+      "contrast_before": "по́лки",
+      "contrast_after": "по́лки",
+      "char_index_before": 37,
+      "char_index_after": 38
+    },
+    {
+      "utt_id": "homo_229",
+      "lexeme_before": "полќи",
+      "lexeme_after": "полки́",
+      "contrast_before": "по́лки",
+      "contrast_after": "по́лки",
+      "char_index_before": 33,
+      "char_index_after": 34
+    },
+    {
+      "utt_id": "homo_230",
+      "lexeme_before": "полќи",
+      "lexeme_after": "полки́",
+      "contrast_before": "по́лки",
+      "contrast_after": "по́лки",
+      "char_index_before": 13,
+      "char_index_after": 14
+    },
+    {
+      "utt_id": "homo_231",
+      "lexeme_before": "бе́лок",
+      "lexeme_after": "бело́к",
+      "contrast_before": "бело́к",
+      "contrast_after": "бе́лок",
+      "char_index_before": 24,
+      "char_index_after": 26
+    },
+    {
+      "utt_id": "homo_232",
+      "lexeme_before": "бе́лок",
+      "lexeme_after": "бело́к",
+      "contrast_before": "бело́к",
+      "contrast_after": "бе́лок",
+      "char_index_before": 26,
+      "char_index_after": 28
+    },
+    {
+      "utt_id": "homo_233",
+      "lexeme_before": "бе́лок",
+      "lexeme_after": "бело́к",
+      "contrast_before": "бело́к",
+      "contrast_after": "бе́лок",
+      "char_index_before": 36,
+      "char_index_after": 38
+    },
+    {
+      "utt_id": "homo_234",
+      "lexeme_before": "бе́лок",
+      "lexeme_after": "бело́к",
+      "contrast_before": "бело́к",
+      "contrast_after": "бе́лок",
+      "char_index_before": 24,
+      "char_index_after": 26
+    },
+    {
+      "utt_id": "homo_235",
+      "lexeme_before": "бе́лок",
+      "lexeme_after": "бело́к",
+      "contrast_before": "бело́к",
+      "contrast_after": "бе́лок",
+      "char_index_before": 37,
+      "char_index_after": 39
+    },
+    {
+      "utt_id": "homo_236",
+      "lexeme_before": "бе́лок",
+      "lexeme_after": "бело́к",
+      "contrast_before": "бело́к",
+      "contrast_after": "бе́лок",
+      "char_index_before": 23,
+      "char_index_after": 25
+    },
+    {
+      "utt_id": "homo_237",
+      "lexeme_before": "бе́лок",
+      "lexeme_after": "бело́к",
+      "contrast_before": "бело́к",
+      "contrast_after": "бе́лок",
+      "char_index_before": 12,
+      "char_index_after": 14
+    },
+    {
+      "utt_id": "homo_238",
+      "lexeme_before": "бе́лок",
+      "lexeme_after": "бело́к",
+      "contrast_before": "бело́к",
+      "contrast_after": "бе́лок",
+      "char_index_before": 28,
+      "char_index_after": 30
+    },
+    {
+      "utt_id": "homo_239",
+      "lexeme_before": "бе́лок",
+      "lexeme_after": "бело́к",
+      "contrast_before": "бело́к",
+      "contrast_after": "бе́лок",
+      "char_index_before": 23,
+      "char_index_after": 25
+    },
+    {
+      "utt_id": "homo_240",
+      "lexeme_before": "бе́лок",
+      "lexeme_after": "бело́к",
+      "contrast_before": "бело́к",
+      "contrast_after": "бе́лок",
+      "char_index_before": 32,
+      "char_index_after": 34
+    },
+    {
+      "utt_id": "homo_241",
+      "lexeme_before": "бело́к",
+      "lexeme_after": "бе́лок",
+      "contrast_before": "бе́лок",
+      "contrast_after": "бело́к",
+      "char_index_before": 25,
+      "char_index_after": 23
+    },
+    {
+      "utt_id": "homo_242",
+      "lexeme_before": "бело́к",
+      "lexeme_after": "бе́лок",
+      "contrast_before": "бе́лок",
+      "contrast_after": "бело́к",
+      "char_index_before": 15,
+      "char_index_after": 13
+    },
+    {
+      "utt_id": "homo_243",
+      "lexeme_before": "бело́к",
+      "lexeme_after": "бе́лок",
+      "contrast_before": "бе́лок",
+      "contrast_after": "бело́к",
+      "char_index_before": 29,
+      "char_index_after": 27
+    },
+    {
+      "utt_id": "homo_244",
+      "lexeme_before": "бело́к",
+      "lexeme_after": "бе́лок",
+      "contrast_before": "бе́лок",
+      "contrast_after": "бело́к",
+      "char_index_before": 26,
+      "char_index_after": 24
+    },
+    {
+      "utt_id": "homo_245",
+      "lexeme_before": "бело́к",
+      "lexeme_after": "бе́лок",
+      "contrast_before": "бе́лок",
+      "contrast_after": "бело́к",
+      "char_index_before": 9,
+      "char_index_after": 7
+    },
+    {
+      "utt_id": "homo_246",
+      "lexeme_before": "бело́к",
+      "lexeme_after": "бе́лок",
+      "contrast_before": "бе́лок",
+      "contrast_after": "бело́к",
+      "char_index_before": 10,
+      "char_index_after": 8
+    },
+    {
+      "utt_id": "homo_247",
+      "lexeme_before": "бело́к",
+      "lexeme_after": "бе́лок",
+      "contrast_before": "бе́лок",
+      "contrast_after": "бело́к",
+      "char_index_before": 18,
+      "char_index_after": 16
+    },
+    {
+      "utt_id": "homo_248",
+      "lexeme_before": "бело́к",
+      "lexeme_after": "бе́лок",
+      "contrast_before": "бе́лок",
+      "contrast_after": "бело́к",
+      "char_index_before": 22,
+      "char_index_after": 20
+    },
+    {
+      "utt_id": "homo_249",
+      "lexeme_before": "бело́к",
+      "lexeme_after": "бе́лок",
+      "contrast_before": "бе́лок",
+      "contrast_after": "бело́к",
+      "char_index_before": 27,
+      "char_index_after": 25
+    },
+    {
+      "utt_id": "homo_250",
+      "lexeme_before": "бело́к",
+      "lexeme_after": "бе́лок",
+      "contrast_before": "бе́лок",
+      "contrast_after": "бело́к",
+      "char_index_before": 9,
+      "char_index_after": 7
+    },
+    {
+      "utt_id": "homo_311",
+      "lexeme_before": "ле́са",
+      "lexeme_after": "леса́",
+      "contrast_before": "леса́",
+      "contrast_after": "ле́са",
+      "char_index_before": 24,
+      "char_index_after": 26
+    },
+    {
+      "utt_id": "homo_312",
+      "lexeme_before": "ле́са",
+      "lexeme_after": "леса́",
+      "contrast_before": "леса́",
+      "contrast_after": "ле́са",
+      "char_index_before": 29,
+      "char_index_after": 31
+    },
+    {
+      "utt_id": "homo_313",
+      "lexeme_before": "ле́са",
+      "lexeme_after": "леса́",
+      "contrast_before": "леса́",
+      "contrast_after": "ле́са",
+      "char_index_before": 8,
+      "char_index_after": 10
+    },
+    {
+      "utt_id": "homo_314",
+      "lexeme_before": "ле́са",
+      "lexeme_after": "леса́",
+      "contrast_before": "леса́",
+      "contrast_after": "ле́са",
+      "char_index_before": 3,
+      "char_index_after": 5
+    },
+    {
+      "utt_id": "homo_315",
+      "lexeme_before": "ле́са",
+      "lexeme_after": "леса́",
+      "contrast_before": "леса́",
+      "contrast_after": "ле́са",
+      "char_index_before": 28,
+      "char_index_after": 30
+    },
+    {
+      "utt_id": "homo_316",
+      "lexeme_before": "ле́са",
+      "lexeme_after": "леса́",
+      "contrast_before": "леса́",
+      "contrast_after": "ле́са",
+      "char_index_before": 26,
+      "char_index_after": 28
+    },
+    {
+      "utt_id": "homo_317",
+      "lexeme_before": "ле́са",
+      "lexeme_after": "леса́",
+      "contrast_before": "леса́",
+      "contrast_after": "ле́са",
+      "char_index_before": 21,
+      "char_index_after": 23
+    },
+    {
+      "utt_id": "homo_318",
+      "lexeme_before": "ле́са",
+      "lexeme_after": "леса́",
+      "contrast_before": "леса́",
+      "contrast_after": "ле́са",
+      "char_index_before": 27,
+      "char_index_after": 29
+    },
+    {
+      "utt_id": "homo_319",
+      "lexeme_before": "ле́са",
+      "lexeme_after": "леса́",
+      "contrast_before": "леса́",
+      "contrast_after": "ле́са",
+      "char_index_before": 30,
+      "char_index_after": 32
+    },
+    {
+      "utt_id": "homo_320",
+      "lexeme_before": "ле́са",
+      "lexeme_after": "леса́",
+      "contrast_before": "леса́",
+      "contrast_after": "ле́са",
+      "char_index_before": 28,
+      "char_index_after": 30
+    },
+    {
+      "utt_id": "homo_321",
+      "lexeme_before": "ле́са",
+      "lexeme_after": "леса́",
+      "contrast_before": "леса́",
+      "contrast_after": "ле́са",
+      "char_index_before": 20,
+      "char_index_after": 22
+    },
+    {
+      "utt_id": "homo_322",
+      "lexeme_before": "ле́са",
+      "lexeme_after": "леса́",
+      "contrast_before": "леса́",
+      "contrast_after": "ле́са",
+      "char_index_before": 25,
+      "char_index_after": 27
+    },
+    {
+      "utt_id": "homo_323",
+      "lexeme_before": "ле́са",
+      "lexeme_after": "леса́",
+      "contrast_before": "леса́",
+      "contrast_after": "ле́са",
+      "char_index_before": 7,
+      "char_index_after": 9
+    },
+    {
+      "utt_id": "homo_324",
+      "lexeme_before": "ле́са",
+      "lexeme_after": "леса́",
+      "contrast_before": "леса́",
+      "contrast_after": "ле́са",
+      "char_index_before": 27,
+      "char_index_after": 29
+    },
+    {
+      "utt_id": "homo_325",
+      "lexeme_before": "ле́са",
+      "lexeme_after": "леса́",
+      "contrast_before": "леса́",
+      "contrast_after": "ле́са",
+      "char_index_before": 28,
+      "char_index_after": 30
+    },
+    {
+      "utt_id": "homo_326",
+      "lexeme_before": "леса́",
+      "lexeme_after": "ле́са",
+      "contrast_before": "ле́са",
+      "contrast_after": "леса́",
+      "char_index_before": 10,
+      "char_index_after": 8
+    },
+    {
+      "utt_id": "homo_327",
+      "lexeme_before": "леса́",
+      "lexeme_after": "ле́са",
+      "contrast_before": "ле́са",
+      "contrast_after": "леса́",
+      "char_index_before": 25,
+      "char_index_after": 23
+    },
+    {
+      "utt_id": "homo_328",
+      "lexeme_before": "леса́",
+      "lexeme_after": "ле́са",
+      "contrast_before": "ле́са",
+      "contrast_after": "леса́",
+      "char_index_before": 7,
+      "char_index_after": 5
+    },
+    {
+      "utt_id": "homo_329",
+      "lexeme_before": "леса́",
+      "lexeme_after": "ле́са",
+      "contrast_before": "ле́са",
+      "contrast_after": "леса́",
+      "char_index_before": 31,
+      "char_index_after": 29
+    },
+    {
+      "utt_id": "homo_330",
+      "lexeme_before": "леса́",
+      "lexeme_after": "ле́са",
+      "contrast_before": "ле́са",
+      "contrast_after": "леса́",
+      "char_index_before": 15,
+      "char_index_after": 13
+    },
+    {
+      "utt_id": "homo_331",
+      "lexeme_before": "леса́",
+      "lexeme_after": "ле́са",
+      "contrast_before": "ле́са",
+      "contrast_after": "леса́",
+      "char_index_before": 11,
+      "char_index_after": 9
+    },
+    {
+      "utt_id": "homo_332",
+      "lexeme_before": "леса́",
+      "lexeme_after": "ле́са",
+      "contrast_before": "ле́са",
+      "contrast_after": "леса́",
+      "char_index_before": 31,
+      "char_index_after": 29
+    },
+    {
+      "utt_id": "homo_333",
+      "lexeme_before": "леса́",
+      "lexeme_after": "ле́са",
+      "contrast_before": "ле́са",
+      "contrast_after": "леса́",
+      "char_index_before": 15,
+      "char_index_after": 13
+    },
+    {
+      "utt_id": "homo_334",
+      "lexeme_before": "леса́",
+      "lexeme_after": "ле́са",
+      "contrast_before": "ле́са",
+      "contrast_after": "леса́",
+      "char_index_before": 40,
+      "char_index_after": 38
+    },
+    {
+      "utt_id": "homo_335",
+      "lexeme_before": "леса́",
+      "lexeme_after": "ле́са",
+      "contrast_before": "ле́са",
+      "contrast_after": "леса́",
+      "char_index_before": 27,
+      "char_index_after": 25
+    },
+    {
+      "utt_id": "homo_336",
+      "lexeme_before": "леса́",
+      "lexeme_after": "ле́са",
+      "contrast_before": "ле́са",
+      "contrast_after": "леса́",
+      "char_index_before": 27,
+      "char_index_after": 25
+    },
+    {
+      "utt_id": "homo_337",
+      "lexeme_before": "леса́",
+      "lexeme_after": "ле́са",
+      "contrast_before": "ле́са",
+      "contrast_after": "леса́",
+      "char_index_before": 24,
+      "char_index_after": 22
+    },
+    {
+      "utt_id": "homo_338",
+      "lexeme_before": "леса́",
+      "lexeme_after": "ле́са",
+      "contrast_before": "ле́са",
+      "contrast_after": "леса́",
+      "char_index_before": 21,
+      "char_index_after": 19
+    },
+    {
+      "utt_id": "homo_339",
+      "lexeme_before": "леса́",
+      "lexeme_after": "ле́са",
+      "contrast_before": "ле́са",
+      "contrast_after": "леса́",
+      "char_index_before": 28,
+      "char_index_after": 26
+    },
+    {
+      "utt_id": "homo_340",
+      "lexeme_before": "леса́",
+      "lexeme_after": "ле́са",
+      "contrast_before": "ле́са",
+      "contrast_after": "леса́",
+      "char_index_before": 28,
+      "char_index_after": 26
+    },
+    {
+      "utt_id": "homo_371",
+      "lexeme_before": "ос́трова",
+      "lexeme_after": "о́строва",
+      "contrast_before": "остр́ова",
+      "contrast_after": "острова́",
+      "char_index_before": 28,
+      "char_index_after": 27
+    },
+    {
+      "utt_id": "homo_372",
+      "lexeme_before": "ос́трова",
+      "lexeme_after": "о́строва",
+      "contrast_before": "остр́ова",
+      "contrast_after": "острова́",
+      "char_index_before": 25,
+      "char_index_after": 24
+    },
+    {
+      "utt_id": "homo_373",
+      "lexeme_before": "ос́трова",
+      "lexeme_after": "о́строва",
+      "contrast_before": "остр́ова",
+      "contrast_after": "острова́",
+      "char_index_before": 8,
+      "char_index_after": 7
+    },
+    {
+      "utt_id": "homo_374",
+      "lexeme_before": "ос́трова",
+      "lexeme_after": "о́строва",
+      "contrast_before": "остр́ова",
+      "contrast_after": "острова́",
+      "char_index_before": 8,
+      "char_index_after": 7
+    },
+    {
+      "utt_id": "homo_375",
+      "lexeme_before": "ос́трова",
+      "lexeme_after": "о́строва",
+      "contrast_before": "остр́ова",
+      "contrast_after": "острова́",
+      "char_index_before": 6,
+      "char_index_after": 5
+    },
+    {
+      "utt_id": "homo_376",
+      "lexeme_before": "ос́трова",
+      "lexeme_after": "о́строва",
+      "contrast_before": "остр́ова",
+      "contrast_after": "острова́",
+      "char_index_before": 9,
+      "char_index_after": 8
+    },
+    {
+      "utt_id": "homo_377",
+      "lexeme_before": "ос́трова",
+      "lexeme_after": "о́строва",
+      "contrast_before": "остр́ова",
+      "contrast_after": "острова́",
+      "char_index_before": 7,
+      "char_index_after": 6
+    },
+    {
+      "utt_id": "homo_378",
+      "lexeme_before": "ос́трова",
+      "lexeme_after": "о́строва",
+      "contrast_before": "остр́ова",
+      "contrast_after": "острова́",
+      "char_index_before": 8,
+      "char_index_after": 7
+    },
+    {
+      "utt_id": "homo_379",
+      "lexeme_before": "ос́трова",
+      "lexeme_after": "о́строва",
+      "contrast_before": "остр́ова",
+      "contrast_after": "острова́",
+      "char_index_before": 7,
+      "char_index_after": 6
+    },
+    {
+      "utt_id": "homo_380",
+      "lexeme_before": "ос́трова",
+      "lexeme_after": "о́строва",
+      "contrast_before": "остр́ова",
+      "contrast_after": "острова́",
+      "char_index_before": 6,
+      "char_index_after": 5
+    },
+    {
+      "utt_id": "homo_381",
+      "lexeme_before": "ос́трова",
+      "lexeme_after": "о́строва",
+      "contrast_before": "остр́ова",
+      "contrast_after": "острова́",
+      "char_index_before": 9,
+      "char_index_after": 8
+    },
+    {
+      "utt_id": "homo_382",
+      "lexeme_before": "ос́трова",
+      "lexeme_after": "о́строва",
+      "contrast_before": "остр́ова",
+      "contrast_after": "острова́",
+      "char_index_before": 10,
+      "char_index_after": 9
+    },
+    {
+      "utt_id": "homo_383",
+      "lexeme_before": "ос́трова",
+      "lexeme_after": "о́строва",
+      "contrast_before": "остр́ова",
+      "contrast_after": "острова́",
+      "char_index_before": 10,
+      "char_index_after": 9
+    },
+    {
+      "utt_id": "homo_384",
+      "lexeme_before": "ос́трова",
+      "lexeme_after": "о́строва",
+      "contrast_before": "остр́ова",
+      "contrast_after": "острова́",
+      "char_index_before": 28,
+      "char_index_after": 27
+    },
+    {
+      "utt_id": "homo_385",
+      "lexeme_before": "ос́трова",
+      "lexeme_after": "о́строва",
+      "contrast_before": "остр́ова",
+      "contrast_after": "острова́",
+      "char_index_before": 6,
+      "char_index_after": 5
+    },
+    {
+      "utt_id": "homo_386",
+      "lexeme_before": "остр́ова",
+      "lexeme_after": "острова́",
+      "contrast_before": "ос́трова",
+      "contrast_after": "о́строва",
+      "char_index_before": 30,
+      "char_index_after": 33
+    },
+    {
+      "utt_id": "homo_387",
+      "lexeme_before": "остр́ова",
+      "lexeme_after": "острова́",
+      "contrast_before": "ос́трова",
+      "contrast_after": "о́строва",
+      "char_index_before": 9,
+      "char_index_after": 12
+    },
+    {
+      "utt_id": "homo_388",
+      "lexeme_before": "остр́ова",
+      "lexeme_after": "острова́",
+      "contrast_before": "ос́трова",
+      "contrast_after": "о́строва",
+      "char_index_before": 30,
+      "char_index_after": 33
+    },
+    {
+      "utt_id": "homo_389",
+      "lexeme_before": "остр́ова",
+      "lexeme_after": "острова́",
+      "contrast_before": "ос́трова",
+      "contrast_after": "о́строва",
+      "char_index_before": 32,
+      "char_index_after": 35
+    },
+    {
+      "utt_id": "homo_390",
+      "lexeme_before": "остр́ова",
+      "lexeme_after": "острова́",
+      "contrast_before": "ос́трова",
+      "contrast_after": "о́строва",
+      "char_index_before": 17,
+      "char_index_after": 20
+    },
+    {
+      "utt_id": "homo_391",
+      "lexeme_before": "остр́ова",
+      "lexeme_after": "острова́",
+      "contrast_before": "ос́трова",
+      "contrast_after": "о́строва",
+      "char_index_before": 29,
+      "char_index_after": 32
+    },
+    {
+      "utt_id": "homo_392",
+      "lexeme_before": "остр́ова",
+      "lexeme_after": "острова́",
+      "contrast_before": "ос́трова",
+      "contrast_after": "о́строва",
+      "char_index_before": 11,
+      "char_index_after": 14
+    },
+    {
+      "utt_id": "homo_393",
+      "lexeme_before": "остр́ова",
+      "lexeme_after": "острова́",
+      "contrast_before": "ос́трова",
+      "contrast_after": "о́строва",
+      "char_index_before": 28,
+      "char_index_after": 31
+    },
+    {
+      "utt_id": "homo_394",
+      "lexeme_before": "остр́ова",
+      "lexeme_after": "острова́",
+      "contrast_before": "ос́трова",
+      "contrast_after": "о́строва",
+      "char_index_before": 34,
+      "char_index_after": 37
+    },
+    {
+      "utt_id": "homo_395",
+      "lexeme_before": "остр́ова",
+      "lexeme_after": "острова́",
+      "contrast_before": "ос́трова",
+      "contrast_after": "о́строва",
+      "char_index_before": 14,
+      "char_index_after": 17
+    },
+    {
+      "utt_id": "homo_396",
+      "lexeme_before": "остр́ова",
+      "lexeme_after": "острова́",
+      "contrast_before": "ос́трова",
+      "contrast_after": "о́строва",
+      "char_index_before": 14,
+      "char_index_after": 17
+    },
+    {
+      "utt_id": "homo_397",
+      "lexeme_before": "остр́ова",
+      "lexeme_after": "острова́",
+      "contrast_before": "ос́трова",
+      "contrast_after": "о́строва",
+      "char_index_before": 22,
+      "char_index_after": 25
+    },
+    {
+      "utt_id": "homo_398",
+      "lexeme_before": "остр́ова",
+      "lexeme_after": "острова́",
+      "contrast_before": "ос́трова",
+      "contrast_after": "о́строва",
+      "char_index_before": 18,
+      "char_index_after": 21
+    },
+    {
+      "utt_id": "homo_399",
+      "lexeme_before": "остр́ова",
+      "lexeme_after": "острова́",
+      "contrast_before": "ос́трова",
+      "contrast_after": "о́строва",
+      "char_index_before": 37,
+      "char_index_after": 40
+    },
+    {
+      "utt_id": "homo_400",
+      "lexeme_before": "остр́ова",
+      "lexeme_after": "острова́",
+      "contrast_before": "ос́трова",
+      "contrast_after": "о́строва",
+      "char_index_before": 32,
+      "char_index_after": 35
+    },
+    {
+      "utt_id": "homo_401",
+      "lexeme_before": "ад́реса",
+      "lexeme_after": "а́дреса",
+      "contrast_before": "адре́са",
+      "contrast_after": "адреса́",
+      "char_index_before": 24,
+      "char_index_after": 23
+    },
+    {
+      "utt_id": "homo_402",
+      "lexeme_before": "ад́реса",
+      "lexeme_after": "а́дреса",
+      "contrast_before": "адре́са",
+      "contrast_after": "адреса́",
+      "char_index_before": 26,
+      "char_index_after": 25
+    },
+    {
+      "utt_id": "homo_403",
+      "lexeme_before": "ад́реса",
+      "lexeme_after": "а́дреса",
+      "contrast_before": "адре́са",
+      "contrast_after": "адреса́",
+      "char_index_before": 23,
+      "char_index_after": 22
+    },
+    {
+      "utt_id": "homo_404",
+      "lexeme_before": "ад́реса",
+      "lexeme_after": "а́дреса",
+      "contrast_before": "адре́са",
+      "contrast_after": "адреса́",
+      "char_index_before": 24,
+      "char_index_after": 23
+    },
+    {
+      "utt_id": "homo_405",
+      "lexeme_before": "ад́реса",
+      "lexeme_after": "а́дреса",
+      "contrast_before": "адре́са",
+      "contrast_after": "адреса́",
+      "char_index_before": 11,
+      "char_index_after": 10
+    },
+    {
+      "utt_id": "homo_406",
+      "lexeme_before": "ад́реса",
+      "lexeme_after": "а́дреса",
+      "contrast_before": "адре́са",
+      "contrast_after": "адреса́",
+      "char_index_before": 25,
+      "char_index_after": 24
+    },
+    {
+      "utt_id": "homo_407",
+      "lexeme_before": "ад́реса",
+      "lexeme_after": "а́дреса",
+      "contrast_before": "адре́са",
+      "contrast_after": "адреса́",
+      "char_index_before": 30,
+      "char_index_after": 29
+    },
+    {
+      "utt_id": "homo_408",
+      "lexeme_before": "ад́реса",
+      "lexeme_after": "а́дреса",
+      "contrast_before": "адре́са",
+      "contrast_after": "адреса́",
+      "char_index_before": 5,
+      "char_index_after": 4
+    },
+    {
+      "utt_id": "homo_409",
+      "lexeme_before": "ад́реса",
+      "lexeme_after": "а́дреса",
+      "contrast_before": "адре́са",
+      "contrast_after": "адреса́",
+      "char_index_before": 9,
+      "char_index_after": 8
+    },
+    {
+      "utt_id": "homo_410",
+      "lexeme_before": "ад́реса",
+      "lexeme_after": "а́дреса",
+      "contrast_before": "адре́са",
+      "contrast_after": "адреса́",
+      "char_index_before": 17,
+      "char_index_after": 16
+    },
+    {
+      "utt_id": "homo_411",
+      "lexeme_before": "ад́реса",
+      "lexeme_after": "а́дреса",
+      "contrast_before": "адре́са",
+      "contrast_after": "адреса́",
+      "char_index_before": 21,
+      "char_index_after": 20
+    },
+    {
+      "utt_id": "homo_412",
+      "lexeme_before": "ад́реса",
+      "lexeme_after": "а́дреса",
+      "contrast_before": "адре́са",
+      "contrast_after": "адреса́",
+      "char_index_before": 20,
+      "char_index_after": 19
+    },
+    {
+      "utt_id": "homo_413",
+      "lexeme_before": "ад́реса",
+      "lexeme_after": "а́дреса",
+      "contrast_before": "адре́са",
+      "contrast_after": "адреса́",
+      "char_index_before": 27,
+      "char_index_after": 26
+    },
+    {
+      "utt_id": "homo_414",
+      "lexeme_before": "ад́реса",
+      "lexeme_after": "а́дреса",
+      "contrast_before": "адре́са",
+      "contrast_after": "адреса́",
+      "char_index_before": 9,
+      "char_index_after": 8
+    },
+    {
+      "utt_id": "homo_415",
+      "lexeme_before": "ад́реса",
+      "lexeme_after": "а́дреса",
+      "contrast_before": "адре́са",
+      "contrast_after": "адреса́",
+      "char_index_before": 33,
+      "char_index_after": 32
+    },
+    {
+      "utt_id": "homo_416",
+      "lexeme_before": "адре́са",
+      "lexeme_after": "адреса́",
+      "contrast_before": "ад́реса",
+      "contrast_after": "а́дреса",
+      "char_index_before": 19,
+      "char_index_after": 21
+    },
+    {
+      "utt_id": "homo_417",
+      "lexeme_before": "адре́са",
+      "lexeme_after": "адреса́",
+      "contrast_before": "ад́реса",
+      "contrast_after": "а́дреса",
+      "char_index_before": 27,
+      "char_index_after": 29
+    },
+    {
+      "utt_id": "homo_418",
+      "lexeme_before": "адре́са",
+      "lexeme_after": "адреса́",
+      "contrast_before": "ад́реса",
+      "contrast_after": "а́дреса",
+      "char_index_before": 28,
+      "char_index_after": 30
+    },
+    {
+      "utt_id": "homo_419",
+      "lexeme_before": "адре́са",
+      "lexeme_after": "адреса́",
+      "contrast_before": "ад́реса",
+      "contrast_after": "а́дреса",
+      "char_index_before": 25,
+      "char_index_after": 27
+    },
+    {
+      "utt_id": "homo_420",
+      "lexeme_before": "адре́са",
+      "lexeme_after": "адреса́",
+      "contrast_before": "ад́реса",
+      "contrast_after": "а́дреса",
+      "char_index_before": 26,
+      "char_index_after": 28
+    },
+    {
+      "utt_id": "homo_421",
+      "lexeme_before": "адре́са",
+      "lexeme_after": "адреса́",
+      "contrast_before": "ад́реса",
+      "contrast_after": "а́дреса",
+      "char_index_before": 29,
+      "char_index_after": 31
+    },
+    {
+      "utt_id": "homo_422",
+      "lexeme_before": "адре́са",
+      "lexeme_after": "адреса́",
+      "contrast_before": "ад́реса",
+      "contrast_after": "а́дреса",
+      "char_index_before": 26,
+      "char_index_after": 28
+    },
+    {
+      "utt_id": "homo_423",
+      "lexeme_before": "адре́са",
+      "lexeme_after": "адреса́",
+      "contrast_before": "ад́реса",
+      "contrast_after": "а́дреса",
+      "char_index_before": 20,
+      "char_index_after": 22
+    },
+    {
+      "utt_id": "homo_424",
+      "lexeme_before": "адре́са",
+      "lexeme_after": "адреса́",
+      "contrast_before": "ад́реса",
+      "contrast_after": "а́дреса",
+      "char_index_before": 19,
+      "char_index_after": 21
+    },
+    {
+      "utt_id": "homo_425",
+      "lexeme_before": "адре́са",
+      "lexeme_after": "адреса́",
+      "contrast_before": "ад́реса",
+      "contrast_after": "а́дреса",
+      "char_index_before": 22,
+      "char_index_after": 24
+    },
+    {
+      "utt_id": "homo_426",
+      "lexeme_before": "адре́са",
+      "lexeme_after": "адреса́",
+      "contrast_before": "ад́реса",
+      "contrast_after": "а́дреса",
+      "char_index_before": 21,
+      "char_index_after": 23
+    },
+    {
+      "utt_id": "homo_427",
+      "lexeme_before": "адре́са",
+      "lexeme_after": "адреса́",
+      "contrast_before": "ад́реса",
+      "contrast_after": "а́дреса",
+      "char_index_before": 10,
+      "char_index_after": 12
+    },
+    {
+      "utt_id": "homo_428",
+      "lexeme_before": "адре́са",
+      "lexeme_after": "адреса́",
+      "contrast_before": "ад́реса",
+      "contrast_after": "а́дреса",
+      "char_index_before": 32,
+      "char_index_after": 34
+    },
+    {
+      "utt_id": "homo_429",
+      "lexeme_before": "адре́са",
+      "lexeme_after": "адреса́",
+      "contrast_before": "ад́реса",
+      "contrast_after": "а́дреса",
+      "char_index_before": 31,
+      "char_index_after": 33
+    },
+    {
+      "utt_id": "homo_430",
+      "lexeme_before": "адре́са",
+      "lexeme_after": "адреса́",
+      "contrast_before": "ад́реса",
+      "contrast_after": "а́дреса",
+      "char_index_before": 33,
+      "char_index_after": 35
+    },
+    {
+      "utt_id": "homo_431",
+      "lexeme_before": "ма́стера",
+      "lexeme_after": "ма́стера",
+      "contrast_before": "маст́ера",
+      "contrast_after": "мастера́",
+      "char_index_before": 33,
+      "char_index_after": 33
+    },
+    {
+      "utt_id": "homo_432",
+      "lexeme_before": "ма́стера",
+      "lexeme_after": "ма́стера",
+      "contrast_before": "маст́ера",
+      "contrast_after": "мастера́",
+      "char_index_before": 25,
+      "char_index_after": 25
+    },
+    {
+      "utt_id": "homo_433",
+      "lexeme_before": "ма́стера",
+      "lexeme_after": "ма́стера",
+      "contrast_before": "маст́ера",
+      "contrast_after": "мастера́",
+      "char_index_before": 3,
+      "char_index_after": 3
+    },
+    {
+      "utt_id": "homo_434",
+      "lexeme_before": "ма́стера",
+      "lexeme_after": "ма́стера",
+      "contrast_before": "маст́ера",
+      "contrast_after": "мастера́",
+      "char_index_before": 12,
+      "char_index_after": 12
+    },
+    {
+      "utt_id": "homo_435",
+      "lexeme_before": "ма́стера",
+      "lexeme_after": "ма́стера",
+      "contrast_before": "маст́ера",
+      "contrast_after": "мастера́",
+      "char_index_before": 7,
+      "char_index_after": 7
+    },
+    {
+      "utt_id": "homo_436",
+      "lexeme_before": "ма́стера",
+      "lexeme_after": "ма́стера",
+      "contrast_before": "маст́ера",
+      "contrast_after": "мастера́",
+      "char_index_before": 25,
+      "char_index_after": 25
+    },
+    {
+      "utt_id": "homo_437",
+      "lexeme_before": "ма́стера",
+      "lexeme_after": "ма́стера",
+      "contrast_before": "маст́ера",
+      "contrast_after": "мастера́",
+      "char_index_before": 9,
+      "char_index_after": 9
+    },
+    {
+      "utt_id": "homo_438",
+      "lexeme_before": "ма́стера",
+      "lexeme_after": "ма́стера",
+      "contrast_before": "маст́ера",
+      "contrast_after": "мастера́",
+      "char_index_before": 7,
+      "char_index_after": 7
+    },
+    {
+      "utt_id": "homo_439",
+      "lexeme_before": "ма́стера",
+      "lexeme_after": "ма́стера",
+      "contrast_before": "маст́ера",
+      "contrast_after": "мастера́",
+      "char_index_before": 6,
+      "char_index_after": 6
+    },
+    {
+      "utt_id": "homo_440",
+      "lexeme_before": "ма́стера",
+      "lexeme_after": "ма́стера",
+      "contrast_before": "маст́ера",
+      "contrast_after": "мастера́",
+      "char_index_before": 7,
+      "char_index_after": 7
+    },
+    {
+      "utt_id": "homo_441",
+      "lexeme_before": "ма́стера",
+      "lexeme_after": "ма́стера",
+      "contrast_before": "маст́ера",
+      "contrast_after": "мастера́",
+      "char_index_before": 7,
+      "char_index_after": 7
+    },
+    {
+      "utt_id": "homo_442",
+      "lexeme_before": "ма́стера",
+      "lexeme_after": "ма́стера",
+      "contrast_before": "маст́ера",
+      "contrast_after": "мастера́",
+      "char_index_before": 25,
+      "char_index_after": 25
+    },
+    {
+      "utt_id": "homo_443",
+      "lexeme_before": "ма́стера",
+      "lexeme_after": "ма́стера",
+      "contrast_before": "маст́ера",
+      "contrast_after": "мастера́",
+      "char_index_before": 28,
+      "char_index_after": 28
+    },
+    {
+      "utt_id": "homo_444",
+      "lexeme_before": "ма́стера",
+      "lexeme_after": "ма́стера",
+      "contrast_before": "маст́ера",
+      "contrast_after": "мастера́",
+      "char_index_before": 7,
+      "char_index_after": 7
+    },
+    {
+      "utt_id": "homo_445",
+      "lexeme_before": "ма́стера",
+      "lexeme_after": "ма́стера",
+      "contrast_before": "маст́ера",
+      "contrast_after": "мастера́",
+      "char_index_before": 22,
+      "char_index_after": 22
+    },
+    {
+      "utt_id": "homo_446",
+      "lexeme_before": "маст́ера",
+      "lexeme_after": "мастера́",
+      "contrast_before": "ма́стера",
+      "contrast_after": "ма́стера",
+      "char_index_before": 33,
+      "char_index_after": 36
+    },
+    {
+      "utt_id": "homo_447",
+      "lexeme_before": "маст́ера",
+      "lexeme_after": "мастера́",
+      "contrast_before": "ма́стера",
+      "contrast_after": "ма́стера",
+      "char_index_before": 19,
+      "char_index_after": 22
+    },
+    {
+      "utt_id": "homo_448",
+      "lexeme_before": "маст́ера",
+      "lexeme_after": "мастера́",
+      "contrast_before": "ма́стера",
+      "contrast_after": "ма́стера",
+      "char_index_before": 28,
+      "char_index_after": 31
+    },
+    {
+      "utt_id": "homo_449",
+      "lexeme_before": "маст́ера",
+      "lexeme_after": "мастера́",
+      "contrast_before": "ма́стера",
+      "contrast_after": "ма́стера",
+      "char_index_before": 25,
+      "char_index_after": 28
+    },
+    {
+      "utt_id": "homo_450",
+      "lexeme_before": "маст́ера",
+      "lexeme_after": "мастера́",
+      "contrast_before": "ма́стера",
+      "contrast_after": "ма́стера",
+      "char_index_before": 34,
+      "char_index_after": 37
+    },
+    {
+      "utt_id": "homo_451",
+      "lexeme_before": "маст́ера",
+      "lexeme_after": "мастера́",
+      "contrast_before": "ма́стера",
+      "contrast_after": "ма́стера",
+      "char_index_before": 30,
+      "char_index_after": 33
+    },
+    {
+      "utt_id": "homo_452",
+      "lexeme_before": "маст́ера",
+      "lexeme_after": "мастера́",
+      "contrast_before": "ма́стера",
+      "contrast_after": "ма́стера",
+      "char_index_before": 27,
+      "char_index_after": 30
+    },
+    {
+      "utt_id": "homo_453",
+      "lexeme_before": "маст́ера",
+      "lexeme_after": "мастера́",
+      "contrast_before": "ма́стера",
+      "contrast_after": "ма́стера",
+      "char_index_before": 24,
+      "char_index_after": 27
+    },
+    {
+      "utt_id": "homo_454",
+      "lexeme_before": "маст́ера",
+      "lexeme_after": "мастера́",
+      "contrast_before": "ма́стера",
+      "contrast_after": "ма́стера",
+      "char_index_before": 30,
+      "char_index_after": 33
+    },
+    {
+      "utt_id": "homo_455",
+      "lexeme_before": "маст́ера",
+      "lexeme_after": "мастера́",
+      "contrast_before": "ма́стера",
+      "contrast_after": "ма́стера",
+      "char_index_before": 36,
+      "char_index_after": 39
+    },
+    {
+      "utt_id": "homo_456",
+      "lexeme_before": "маст́ера",
+      "lexeme_after": "мастера́",
+      "contrast_before": "ма́стера",
+      "contrast_after": "ма́стера",
+      "char_index_before": 29,
+      "char_index_after": 32
+    },
+    {
+      "utt_id": "homo_457",
+      "lexeme_before": "маст́ера",
+      "lexeme_after": "мастера́",
+      "contrast_before": "ма́стера",
+      "contrast_after": "ма́стера",
+      "char_index_before": 31,
+      "char_index_after": 34
+    },
+    {
+      "utt_id": "homo_458",
+      "lexeme_before": "маст́ера",
+      "lexeme_after": "мастера́",
+      "contrast_before": "ма́стера",
+      "contrast_after": "ма́стера",
+      "char_index_before": 31,
+      "char_index_after": 34
+    },
+    {
+      "utt_id": "homo_459",
+      "lexeme_before": "маст́ера",
+      "lexeme_after": "мастера́",
+      "contrast_before": "ма́стера",
+      "contrast_after": "ма́стера",
+      "char_index_before": 36,
+      "char_index_after": 39
+    },
+    {
+      "utt_id": "homo_460",
+      "lexeme_before": "маст́ера",
+      "lexeme_after": "мастера́",
+      "contrast_before": "ма́стера",
+      "contrast_after": "ма́стера",
+      "char_index_before": 37,
+      "char_index_after": 40
+    },
+    {
+      "utt_id": "homo_461",
+      "lexeme_before": "уч́ителя",
+      "lexeme_after": "учи́теля",
+      "contrast_before": "учите́ля",
+      "contrast_after": "учителя́",
+      "char_index_before": 7,
+      "char_index_after": 8
+    },
+    {
+      "utt_id": "homo_462",
+      "lexeme_before": "уч́ителя",
+      "lexeme_after": "учи́теля",
+      "contrast_before": "учите́ля",
+      "contrast_after": "учителя́",
+      "char_index_before": 17,
+      "char_index_after": 18
+    },
+    {
+      "utt_id": "homo_463",
+      "lexeme_before": "уч́ителя",
+      "lexeme_after": "учи́теля",
+      "contrast_before": "учите́ля",
+      "contrast_after": "учителя́",
+      "char_index_before": 7,
+      "char_index_after": 8
+    },
+    {
+      "utt_id": "homo_464",
+      "lexeme_before": "уч́ителя",
+      "lexeme_after": "учи́теля",
+      "contrast_before": "учите́ля",
+      "contrast_after": "учителя́",
+      "char_index_before": 6,
+      "char_index_after": 7
+    },
+    {
+      "utt_id": "homo_465",
+      "lexeme_before": "уч́ителя",
+      "lexeme_after": "учи́теля",
+      "contrast_before": "учите́ля",
+      "contrast_after": "учителя́",
+      "char_index_before": 8,
+      "char_index_after": 9
+    },
+    {
+      "utt_id": "homo_466",
+      "lexeme_before": "уч́ителя",
+      "lexeme_after": "учи́теля",
+      "contrast_before": "учите́ля",
+      "contrast_after": "учителя́",
+      "char_index_before": 7,
+      "char_index_after": 8
+    },
+    {
+      "utt_id": "homo_467",
+      "lexeme_before": "уч́ителя",
+      "lexeme_after": "учи́теля",
+      "contrast_before": "учите́ля",
+      "contrast_after": "учителя́",
+      "char_index_before": 9,
+      "char_index_after": 10
+    },
+    {
+      "utt_id": "homo_468",
+      "lexeme_before": "уч́ителя",
+      "lexeme_after": "учи́теля",
+      "contrast_before": "учите́ля",
+      "contrast_after": "учителя́",
+      "char_index_before": 7,
+      "char_index_after": 8
+    },
+    {
+      "utt_id": "homo_469",
+      "lexeme_before": "уч́ителя",
+      "lexeme_after": "учи́теля",
+      "contrast_before": "учите́ля",
+      "contrast_after": "учителя́",
+      "char_index_before": 16,
+      "char_index_after": 17
+    },
+    {
+      "utt_id": "homo_470",
+      "lexeme_before": "уч́ителя",
+      "lexeme_after": "учи́теля",
+      "contrast_before": "учите́ля",
+      "contrast_after": "учителя́",
+      "char_index_before": 9,
+      "char_index_after": 10
+    },
+    {
+      "utt_id": "homo_471",
+      "lexeme_before": "уч́ителя",
+      "lexeme_after": "учи́теля",
+      "contrast_before": "учите́ля",
+      "contrast_after": "учителя́",
+      "char_index_before": 6,
+      "char_index_after": 7
+    },
+    {
+      "utt_id": "homo_472",
+      "lexeme_before": "уч́ителя",
+      "lexeme_after": "учи́теля",
+      "contrast_before": "учите́ля",
+      "contrast_after": "учителя́",
+      "char_index_before": 24,
+      "char_index_after": 25
+    },
+    {
+      "utt_id": "homo_473",
+      "lexeme_before": "уч́ителя",
+      "lexeme_after": "учи́теля",
+      "contrast_before": "учите́ля",
+      "contrast_after": "учителя́",
+      "char_index_before": 11,
+      "char_index_after": 12
+    },
+    {
+      "utt_id": "homo_474",
+      "lexeme_before": "уч́ителя",
+      "lexeme_after": "учи́теля",
+      "contrast_before": "учите́ля",
+      "contrast_after": "учителя́",
+      "char_index_before": 9,
+      "char_index_after": 10
+    },
+    {
+      "utt_id": "homo_475",
+      "lexeme_before": "уч́ителя",
+      "lexeme_after": "учи́теля",
+      "contrast_before": "учите́ля",
+      "contrast_after": "учителя́",
+      "char_index_before": 28,
+      "char_index_after": 29
+    },
+    {
+      "utt_id": "homo_476",
+      "lexeme_before": "учите́ля",
+      "lexeme_after": "учителя́",
+      "contrast_before": "уч́ителя",
+      "contrast_after": "учи́теля",
+      "char_index_before": 31,
+      "char_index_after": 33
+    },
+    {
+      "utt_id": "homo_477",
+      "lexeme_before": "учите́ля",
+      "lexeme_after": "учителя́",
+      "contrast_before": "уч́ителя",
+      "contrast_after": "учи́теля",
+      "char_index_before": 29,
+      "char_index_after": 31
+    },
+    {
+      "utt_id": "homo_478",
+      "lexeme_before": "учите́ля",
+      "lexeme_after": "учителя́",
+      "contrast_before": "уч́ителя",
+      "contrast_after": "учи́теля",
+      "char_index_before": 12,
+      "char_index_after": 14
+    },
+    {
+      "utt_id": "homo_479",
+      "lexeme_before": "учите́ля",
+      "lexeme_after": "учителя́",
+      "contrast_before": "уч́ителя",
+      "contrast_after": "учи́теля",
+      "char_index_before": 40,
+      "char_index_after": 42
+    },
+    {
+      "utt_id": "homo_480",
+      "lexeme_before": "учите́ля",
+      "lexeme_after": "учителя́",
+      "contrast_before": "уч́ителя",
+      "contrast_after": "учи́теля",
+      "char_index_before": 31,
+      "char_index_after": 33
+    },
+    {
+      "utt_id": "homo_481",
+      "lexeme_before": "учите́ля",
+      "lexeme_after": "учителя́",
+      "contrast_before": "уч́ителя",
+      "contrast_after": "учи́теля",
+      "char_index_before": 21,
+      "char_index_after": 23
+    },
+    {
+      "utt_id": "homo_482",
+      "lexeme_before": "учите́ля",
+      "lexeme_after": "учителя́",
+      "contrast_before": "уч́ителя",
+      "contrast_after": "учи́теля",
+      "char_index_before": 28,
+      "char_index_after": 30
+    },
+    {
+      "utt_id": "homo_483",
+      "lexeme_before": "учите́ля",
+      "lexeme_after": "учителя́",
+      "contrast_before": "уч́ителя",
+      "contrast_after": "учи́теля",
+      "char_index_before": 32,
+      "char_index_after": 34
+    },
+    {
+      "utt_id": "homo_484",
+      "lexeme_before": "учите́ля",
+      "lexeme_after": "учителя́",
+      "contrast_before": "уч́ителя",
+      "contrast_after": "учи́теля",
+      "char_index_before": 29,
+      "char_index_after": 31
+    },
+    {
+      "utt_id": "homo_485",
+      "lexeme_before": "учите́ля",
+      "lexeme_after": "учителя́",
+      "contrast_before": "уч́ителя",
+      "contrast_after": "учи́теля",
+      "char_index_before": 29,
+      "char_index_after": 31
+    },
+    {
+      "utt_id": "homo_486",
+      "lexeme_before": "учите́ля",
+      "lexeme_after": "учителя́",
+      "contrast_before": "уч́ителя",
+      "contrast_after": "учи́теля",
+      "char_index_before": 27,
+      "char_index_after": 29
+    },
+    {
+      "utt_id": "homo_487",
+      "lexeme_before": "учите́ля",
+      "lexeme_after": "учителя́",
+      "contrast_before": "уч́ителя",
+      "contrast_after": "учи́теля",
+      "char_index_before": 33,
+      "char_index_after": 35
+    },
+    {
+      "utt_id": "homo_488",
+      "lexeme_before": "учите́ля",
+      "lexeme_after": "учителя́",
+      "contrast_before": "уч́ителя",
+      "contrast_after": "учи́теля",
+      "char_index_before": 27,
+      "char_index_after": 29
+    },
+    {
+      "utt_id": "homo_489",
+      "lexeme_before": "учите́ля",
+      "lexeme_after": "учителя́",
+      "contrast_before": "уч́ителя",
+      "contrast_after": "учи́теля",
+      "char_index_before": 25,
+      "char_index_after": 27
+    },
+    {
+      "utt_id": "homo_490",
+      "lexeme_before": "учите́ля",
+      "lexeme_after": "учителя́",
+      "contrast_before": "уч́ителя",
+      "contrast_after": "учи́теля",
+      "char_index_before": 23,
+      "char_index_after": 25
+    },
+    {
+      "utt_id": "homo_491",
+      "lexeme_before": "ст́оит",
+      "lexeme_after": "сто́ит",
+      "contrast_before": "стои́т",
+      "contrast_after": "стои́т",
+      "char_index_before": 7,
+      "char_index_after": 8
+    },
+    {
+      "utt_id": "homo_492",
+      "lexeme_before": "ст́оит",
+      "lexeme_after": "сто́ит",
+      "contrast_before": "стои́т",
+      "contrast_after": "стои́т",
+      "char_index_before": 19,
+      "char_index_after": 20
+    },
+    {
+      "utt_id": "homo_493",
+      "lexeme_before": "ст́оит",
+      "lexeme_after": "сто́ит",
+      "contrast_before": "стои́т",
+      "contrast_after": "стои́т",
+      "char_index_before": 8,
+      "char_index_after": 9
+    },
+    {
+      "utt_id": "homo_494",
+      "lexeme_before": "ст́оит",
+      "lexeme_after": "сто́ит",
+      "contrast_before": "стои́т",
+      "contrast_after": "стои́т",
+      "char_index_before": 8,
+      "char_index_after": 9
+    },
+    {
+      "utt_id": "homo_495",
+      "lexeme_before": "ст́оит",
+      "lexeme_after": "сто́ит",
+      "contrast_before": "стои́т",
+      "contrast_after": "стои́т",
+      "char_index_before": 8,
+      "char_index_after": 9
+    },
+    {
+      "utt_id": "homo_496",
+      "lexeme_before": "ст́оит",
+      "lexeme_after": "сто́ит",
+      "contrast_before": "стои́т",
+      "contrast_after": "стои́т",
+      "char_index_before": 9,
+      "char_index_after": 10
+    },
+    {
+      "utt_id": "homo_497",
+      "lexeme_before": "ст́оит",
+      "lexeme_after": "сто́ит",
+      "contrast_before": "стои́т",
+      "contrast_after": "стои́т",
+      "char_index_before": 8,
+      "char_index_after": 9
+    },
+    {
+      "utt_id": "homo_498",
+      "lexeme_before": "ст́оит",
+      "lexeme_after": "сто́ит",
+      "contrast_before": "стои́т",
+      "contrast_after": "стои́т",
+      "char_index_before": 9,
+      "char_index_after": 10
+    },
+    {
+      "utt_id": "homo_499",
+      "lexeme_before": "ст́оит",
+      "lexeme_after": "сто́ит",
+      "contrast_before": "стои́т",
+      "contrast_after": "стои́т",
+      "char_index_before": 7,
+      "char_index_after": 8
+    },
+    {
+      "utt_id": "homo_500",
+      "lexeme_before": "ст́оит",
+      "lexeme_after": "сто́ит",
+      "contrast_before": "стои́т",
+      "contrast_after": "стои́т",
+      "char_index_before": 9,
+      "char_index_after": 10
+    },
+    {
+      "utt_id": "homo_501",
+      "lexeme_before": "ст́оит",
+      "lexeme_after": "сто́ит",
+      "contrast_before": "стои́т",
+      "contrast_after": "стои́т",
+      "char_index_before": 7,
+      "char_index_after": 8
+    },
+    {
+      "utt_id": "homo_502",
+      "lexeme_before": "ст́оит",
+      "lexeme_after": "сто́ит",
+      "contrast_before": "стои́т",
+      "contrast_after": "стои́т",
+      "char_index_before": 8,
+      "char_index_after": 9
+    },
+    {
+      "utt_id": "homo_503",
+      "lexeme_before": "ст́оит",
+      "lexeme_after": "сто́ит",
+      "contrast_before": "стои́т",
+      "contrast_after": "стои́т",
+      "char_index_before": 8,
+      "char_index_after": 9
+    },
+    {
+      "utt_id": "homo_504",
+      "lexeme_before": "ст́оит",
+      "lexeme_after": "сто́ит",
+      "contrast_before": "стои́т",
+      "contrast_after": "стои́т",
+      "char_index_before": 9,
+      "char_index_after": 10
+    },
+    {
+      "utt_id": "homo_505",
+      "lexeme_before": "ст́оит",
+      "lexeme_after": "сто́ит",
+      "contrast_before": "стои́т",
+      "contrast_after": "стои́т",
+      "char_index_before": 9,
+      "char_index_after": 10
+    },
+    {
+      "utt_id": "homo_506",
+      "lexeme_before": "стои́т",
+      "lexeme_after": "стои́т",
+      "contrast_before": "ст́оит",
+      "contrast_after": "сто́ит",
+      "char_index_before": 7,
+      "char_index_after": 7
+    },
+    {
+      "utt_id": "homo_507",
+      "lexeme_before": "стои́т",
+      "lexeme_after": "стои́т",
+      "contrast_before": "ст́оит",
+      "contrast_after": "сто́ит",
+      "char_index_before": 11,
+      "char_index_after": 11
+    },
+    {
+      "utt_id": "homo_508",
+      "lexeme_before": "стои́т",
+      "lexeme_after": "стои́т",
+      "contrast_before": "ст́оит",
+      "contrast_after": "сто́ит",
+      "char_index_before": 8,
+      "char_index_after": 8
+    },
+    {
+      "utt_id": "homo_509",
+      "lexeme_before": "стои́т",
+      "lexeme_after": "стои́т",
+      "contrast_before": "ст́оит",
+      "contrast_after": "сто́ит",
+      "char_index_before": 11,
+      "char_index_after": 11
+    },
+    {
+      "utt_id": "homo_510",
+      "lexeme_before": "стои́т",
+      "lexeme_after": "стои́т",
+      "contrast_before": "ст́оит",
+      "contrast_after": "сто́ит",
+      "char_index_before": 12,
+      "char_index_after": 12
+    },
+    {
+      "utt_id": "homo_511",
+      "lexeme_before": "стои́т",
+      "lexeme_after": "стои́т",
+      "contrast_before": "ст́оит",
+      "contrast_after": "сто́ит",
+      "char_index_before": 8,
+      "char_index_after": 8
+    },
+    {
+      "utt_id": "homo_512",
+      "lexeme_before": "стои́т",
+      "lexeme_after": "стои́т",
+      "contrast_before": "ст́оит",
+      "contrast_after": "сто́ит",
+      "char_index_before": 6,
+      "char_index_after": 6
+    },
+    {
+      "utt_id": "homo_513",
+      "lexeme_before": "стои́т",
+      "lexeme_after": "стои́т",
+      "contrast_before": "ст́оит",
+      "contrast_after": "сто́ит",
+      "char_index_before": 10,
+      "char_index_after": 10
+    },
+    {
+      "utt_id": "homo_514",
+      "lexeme_before": "стои́т",
+      "lexeme_after": "стои́т",
+      "contrast_before": "ст́оит",
+      "contrast_after": "сто́ит",
+      "char_index_before": 10,
+      "char_index_after": 10
+    },
+    {
+      "utt_id": "homo_515",
+      "lexeme_before": "стои́т",
+      "lexeme_after": "стои́т",
+      "contrast_before": "ст́оит",
+      "contrast_after": "сто́ит",
+      "char_index_before": 10,
+      "char_index_after": 10
+    },
+    {
+      "utt_id": "homo_516",
+      "lexeme_before": "стои́т",
+      "lexeme_after": "стои́т",
+      "contrast_before": "ст́оит",
+      "contrast_after": "сто́ит",
+      "char_index_before": 9,
+      "char_index_after": 9
+    },
+    {
+      "utt_id": "homo_517",
+      "lexeme_before": "стои́т",
+      "lexeme_after": "стои́т",
+      "contrast_before": "ст́оит",
+      "contrast_after": "сто́ит",
+      "char_index_before": 11,
+      "char_index_after": 11
+    },
+    {
+      "utt_id": "homo_518",
+      "lexeme_before": "стои́т",
+      "lexeme_after": "стои́т",
+      "contrast_before": "ст́оит",
+      "contrast_after": "сто́ит",
+      "char_index_before": 11,
+      "char_index_after": 11
+    },
+    {
+      "utt_id": "homo_519",
+      "lexeme_before": "стои́т",
+      "lexeme_after": "стои́т",
+      "contrast_before": "ст́оит",
+      "contrast_after": "сто́ит",
+      "char_index_before": 8,
+      "char_index_after": 8
+    },
+    {
+      "utt_id": "homo_520",
+      "lexeme_before": "стои́т",
+      "lexeme_after": "стои́т",
+      "contrast_before": "ст́оит",
+      "contrast_after": "сто́ит",
+      "char_index_before": 8,
+      "char_index_after": 8
+    },
+    {
+      "utt_id": "homo_602",
+      "lexeme_before": "на́чала",
+      "lexeme_after": "на́чала",
+      "contrast_before": "начал́а",
+      "contrast_after": "начала́",
+      "char_index_before": 3,
+      "char_index_after": 3
+    },
+    {
+      "utt_id": "homo_603",
+      "lexeme_before": "на́чала",
+      "lexeme_after": "на́чала",
+      "contrast_before": "начал́а",
+      "contrast_after": "начала́",
+      "char_index_before": 4,
+      "char_index_after": 4
+    },
+    {
+      "utt_id": "homo_604",
+      "lexeme_before": "на́чала",
+      "lexeme_after": "на́чала",
+      "contrast_before": "начал́а",
+      "contrast_after": "начала́",
+      "char_index_before": 3,
+      "char_index_after": 3
+    },
+    {
+      "utt_id": "homo_605",
+      "lexeme_before": "на́чала",
+      "lexeme_after": "на́чала",
+      "contrast_before": "начал́а",
+      "contrast_after": "начала́",
+      "char_index_before": 3,
+      "char_index_after": 3
+    },
+    {
+      "utt_id": "homo_606",
+      "lexeme_before": "на́чала",
+      "lexeme_after": "на́чала",
+      "contrast_before": "начал́а",
+      "contrast_after": "начала́",
+      "char_index_before": 3,
+      "char_index_after": 3
+    },
+    {
+      "utt_id": "homo_607",
+      "lexeme_before": "на́чала",
+      "lexeme_after": "на́чала",
+      "contrast_before": "начал́а",
+      "contrast_after": "начала́",
+      "char_index_before": 4,
+      "char_index_after": 4
+    },
+    {
+      "utt_id": "homo_608",
+      "lexeme_before": "на́чала",
+      "lexeme_after": "на́чала",
+      "contrast_before": "начал́а",
+      "contrast_after": "начала́",
+      "char_index_before": 3,
+      "char_index_after": 3
+    },
+    {
+      "utt_id": "homo_609",
+      "lexeme_before": "на́чала",
+      "lexeme_after": "на́чала",
+      "contrast_before": "начал́а",
+      "contrast_after": "начала́",
+      "char_index_before": 3,
+      "char_index_after": 3
+    },
+    {
+      "utt_id": "homo_610",
+      "lexeme_before": "на́чала",
+      "lexeme_after": "на́чала",
+      "contrast_before": "начал́а",
+      "contrast_after": "начала́",
+      "char_index_before": 4,
+      "char_index_after": 4
+    },
+    {
+      "utt_id": "homo_611",
+      "lexeme_before": "на́чала",
+      "lexeme_after": "на́чала",
+      "contrast_before": "начал́а",
+      "contrast_after": "начала́",
+      "char_index_before": 3,
+      "char_index_after": 3
+    },
+    {
+      "utt_id": "homo_612",
+      "lexeme_before": "начал́а",
+      "lexeme_after": "начала́",
+      "contrast_before": "на́чала",
+      "contrast_after": "на́чала",
+      "char_index_before": 8,
+      "char_index_after": 9
+    },
+    {
+      "utt_id": "homo_613",
+      "lexeme_before": "начал́а",
+      "lexeme_after": "начала́",
+      "contrast_before": "на́чала",
+      "contrast_after": "на́чала",
+      "char_index_before": 16,
+      "char_index_after": 17
+    },
+    {
+      "utt_id": "homo_614",
+      "lexeme_before": "начал́а",
+      "lexeme_after": "начала́",
+      "contrast_before": "на́чала",
+      "contrast_after": "на́чала",
+      "char_index_before": 12,
+      "char_index_after": 13
+    },
+    {
+      "utt_id": "homo_615",
+      "lexeme_before": "начал́а",
+      "lexeme_after": "начала́",
+      "contrast_before": "на́чала",
+      "contrast_after": "на́чала",
+      "char_index_before": 8,
+      "char_index_after": 9
+    },
+    {
+      "utt_id": "homo_616",
+      "lexeme_before": "начал́а",
+      "lexeme_after": "начала́",
+      "contrast_before": "на́чала",
+      "contrast_after": "на́чала",
+      "char_index_before": 11,
+      "char_index_after": 12
+    },
+    {
+      "utt_id": "homo_617",
+      "lexeme_before": "начал́а",
+      "lexeme_after": "начала́",
+      "contrast_before": "на́чала",
+      "contrast_after": "на́чала",
+      "char_index_before": 8,
+      "char_index_after": 9
+    },
+    {
+      "utt_id": "homo_618",
+      "lexeme_before": "начал́а",
+      "lexeme_after": "начала́",
+      "contrast_before": "на́чала",
+      "contrast_after": "на́чала",
+      "char_index_before": 11,
+      "char_index_after": 12
+    },
+    {
+      "utt_id": "homo_619",
+      "lexeme_before": "начал́а",
+      "lexeme_after": "начала́",
+      "contrast_before": "на́чала",
+      "contrast_after": "на́чала",
+      "char_index_before": 8,
+      "char_index_after": 9
+    },
+    {
+      "utt_id": "homo_620",
+      "lexeme_before": "начал́а",
+      "lexeme_after": "начала́",
+      "contrast_before": "на́чала",
+      "contrast_after": "на́чала",
+      "char_index_before": 10,
+      "char_index_after": 11
+    },
+    {
+      "utt_id": "homo_621",
+      "lexeme_before": "начал́а",
+      "lexeme_after": "начала́",
+      "contrast_before": "на́чала",
+      "contrast_after": "на́чала",
+      "char_index_before": 8,
+      "char_index_after": 9
+    },
+    {
+      "utt_id": "homo_632",
+      "lexeme_before": "пали́",
+      "lexeme_after": "Пали́",
+      "contrast_before": "па́ли",
+      "contrast_after": "Па́ли",
+      "char_index_before": 12,
+      "char_index_after": 25
+    },
+    {
+      "utt_id": "homo_633",
+      "lexeme_before": "пали́",
+      "lexeme_after": "Пали́",
+      "contrast_before": "па́ли",
+      "contrast_after": "Па́ли",
+      "char_index_before": 11,
+      "char_index_after": 23
+    },
+    {
+      "utt_id": "homo_634",
+      "lexeme_before": "пали́",
+      "lexeme_after": "Пали́",
+      "contrast_before": "па́ли",
+      "contrast_after": "Па́ли",
+      "char_index_before": 12,
+      "char_index_after": 24
+    },
+    {
+      "utt_id": "homo_635",
+      "lexeme_before": "пали́",
+      "lexeme_after": "Пали́",
+      "contrast_before": "па́ли",
+      "contrast_after": "Па́ли",
+      "char_index_before": 16,
+      "char_index_after": 21
+    },
+    {
+      "utt_id": "homo_636",
+      "lexeme_before": "пали́",
+      "lexeme_after": "Пали́",
+      "contrast_before": "па́ли",
+      "contrast_after": "Па́ли",
+      "char_index_before": 11,
+      "char_index_after": 33
+    },
+    {
+      "utt_id": "homo_637",
+      "lexeme_before": "пали́",
+      "lexeme_after": "Пали́",
+      "contrast_before": "па́ли",
+      "contrast_after": "Па́ли",
+      "char_index_before": 13,
+      "char_index_after": 20
+    },
+    {
+      "utt_id": "homo_638",
+      "lexeme_before": "пали́",
+      "lexeme_after": "Пали́",
+      "contrast_before": "па́ли",
+      "contrast_after": "Па́ли",
+      "char_index_before": 10,
+      "char_index_after": 32
+    },
+    {
+      "utt_id": "homo_639",
+      "lexeme_before": "пали́",
+      "lexeme_after": "Пали́",
+      "contrast_before": "па́ли",
+      "contrast_after": "Па́ли",
+      "char_index_before": 10,
+      "char_index_after": 32
+    },
+    {
+      "utt_id": "homo_640",
+      "lexeme_before": "пали́",
+      "lexeme_after": "Пали́",
+      "contrast_before": "па́ли",
+      "contrast_after": "Па́ли",
+      "char_index_before": 7,
+      "char_index_after": 21
+    },
+    {
+      "utt_id": "homo_641",
+      "lexeme_before": "пали́",
+      "lexeme_after": "Пали́",
+      "contrast_before": "па́ли",
+      "contrast_after": "Па́ли",
+      "char_index_before": 11,
+      "char_index_after": 28
+    },
+    {
+      "utt_id": "homo_796",
+      "lexeme_before": "ср́еды",
+      "lexeme_after": "сре́ды",
+      "contrast_before": "среды́",
+      "contrast_after": "среды́",
+      "char_index_before": 26,
+      "char_index_after": 27
+    },
+    {
+      "utt_id": "homo_797",
+      "lexeme_before": "ср́еды",
+      "lexeme_after": "сре́ды",
+      "contrast_before": "среды́",
+      "contrast_after": "среды́",
+      "char_index_before": 32,
+      "char_index_after": 33
+    },
+    {
+      "utt_id": "homo_798",
+      "lexeme_before": "ср́еды",
+      "lexeme_after": "сре́ды",
+      "contrast_before": "среды́",
+      "contrast_after": "среды́",
+      "char_index_before": 8,
+      "char_index_after": 9
+    },
+    {
+      "utt_id": "homo_799",
+      "lexeme_before": "ср́еды",
+      "lexeme_after": "сре́ды",
+      "contrast_before": "среды́",
+      "contrast_after": "среды́",
+      "char_index_before": 16,
+      "char_index_after": 17
+    },
+    {
+      "utt_id": "homo_800",
+      "lexeme_before": "ср́еды",
+      "lexeme_after": "сре́ды",
+      "contrast_before": "среды́",
+      "contrast_after": "среды́",
+      "char_index_before": 11,
+      "char_index_after": 12
+    },
+    {
+      "utt_id": "homo_801",
+      "lexeme_before": "ср́еды",
+      "lexeme_after": "сре́ды",
+      "contrast_before": "среды́",
+      "contrast_after": "среды́",
+      "char_index_before": 4,
+      "char_index_after": 5
+    },
+    {
+      "utt_id": "homo_802",
+      "lexeme_before": "ср́еды",
+      "lexeme_after": "сре́ды",
+      "contrast_before": "среды́",
+      "contrast_after": "среды́",
+      "char_index_before": 4,
+      "char_index_after": 5
+    },
+    {
+      "utt_id": "homo_803",
+      "lexeme_before": "ср́еды",
+      "lexeme_after": "сре́ды",
+      "contrast_before": "среды́",
+      "contrast_after": "среды́",
+      "char_index_before": 3,
+      "char_index_after": 4
+    },
+    {
+      "utt_id": "homo_804",
+      "lexeme_before": "ср́еды",
+      "lexeme_after": "сре́ды",
+      "contrast_before": "среды́",
+      "contrast_after": "среды́",
+      "char_index_before": 4,
+      "char_index_after": 5
+    },
+    {
+      "utt_id": "homo_805",
+      "lexeme_before": "ср́еды",
+      "lexeme_after": "сре́ды",
+      "contrast_before": "среды́",
+      "contrast_after": "среды́",
+      "char_index_before": 13,
+      "char_index_after": 14
+    },
+    {
+      "utt_id": "homo_806",
+      "lexeme_before": "ср́еды",
+      "lexeme_after": "сре́ды",
+      "contrast_before": "среды́",
+      "contrast_after": "среды́",
+      "char_index_before": 24,
+      "char_index_after": 25
+    },
+    {
+      "utt_id": "homo_807",
+      "lexeme_before": "ср́еды",
+      "lexeme_after": "сре́ды",
+      "contrast_before": "среды́",
+      "contrast_after": "среды́",
+      "char_index_before": 18,
+      "char_index_after": 19
+    },
+    {
+      "utt_id": "homo_808",
+      "lexeme_before": "ср́еды",
+      "lexeme_after": "сре́ды",
+      "contrast_before": "среды́",
+      "contrast_after": "среды́",
+      "char_index_before": 30,
+      "char_index_after": 31
+    },
+    {
+      "utt_id": "homo_809",
+      "lexeme_before": "ср́еды",
+      "lexeme_after": "сре́ды",
+      "contrast_before": "среды́",
+      "contrast_after": "среды́",
+      "char_index_before": 22,
+      "char_index_after": 23
+    },
+    {
+      "utt_id": "homo_810",
+      "lexeme_before": "ср́еды",
+      "lexeme_after": "сре́ды",
+      "contrast_before": "среды́",
+      "contrast_after": "среды́",
+      "char_index_before": 24,
+      "char_index_after": 25
+    },
+    {
+      "utt_id": "homo_811",
+      "lexeme_before": "среды́",
+      "lexeme_after": "среды́",
+      "contrast_before": "ср́еды",
+      "contrast_after": "сре́ды",
+      "char_index_before": 33,
+      "char_index_after": 33
+    },
+    {
+      "utt_id": "homo_812",
+      "lexeme_before": "среды́",
+      "lexeme_after": "среды́",
+      "contrast_before": "ср́еды",
+      "contrast_after": "сре́ды",
+      "char_index_before": 33,
+      "char_index_after": 33
+    },
+    {
+      "utt_id": "homo_813",
+      "lexeme_before": "среды́",
+      "lexeme_after": "среды́",
+      "contrast_before": "ср́еды",
+      "contrast_after": "сре́ды",
+      "char_index_before": 40,
+      "char_index_after": 40
+    },
+    {
+      "utt_id": "homo_814",
+      "lexeme_before": "среды́",
+      "lexeme_after": "среды́",
+      "contrast_before": "ср́еды",
+      "contrast_after": "сре́ды",
+      "char_index_before": 30,
+      "char_index_after": 30
+    },
+    {
+      "utt_id": "homo_815",
+      "lexeme_before": "среды́",
+      "lexeme_after": "среды́",
+      "contrast_before": "ср́еды",
+      "contrast_after": "сре́ды",
+      "char_index_before": 26,
+      "char_index_after": 26
+    },
+    {
+      "utt_id": "homo_816",
+      "lexeme_before": "среды́",
+      "lexeme_after": "среды́",
+      "contrast_before": "ср́еды",
+      "contrast_after": "сре́ды",
+      "char_index_before": 36,
+      "char_index_after": 36
+    },
+    {
+      "utt_id": "homo_817",
+      "lexeme_before": "среды́",
+      "lexeme_after": "среды́",
+      "contrast_before": "ср́еды",
+      "contrast_after": "сре́ды",
+      "char_index_before": 35,
+      "char_index_after": 35
+    },
+    {
+      "utt_id": "homo_818",
+      "lexeme_before": "среды́",
+      "lexeme_after": "среды́",
+      "contrast_before": "ср́еды",
+      "contrast_after": "сре́ды",
+      "char_index_before": 16,
+      "char_index_after": 16
+    },
+    {
+      "utt_id": "homo_819",
+      "lexeme_before": "среды́",
+      "lexeme_after": "среды́",
+      "contrast_before": "ср́еды",
+      "contrast_after": "сре́ды",
+      "char_index_before": 13,
+      "char_index_after": 13
+    },
+    {
+      "utt_id": "homo_820",
+      "lexeme_before": "среды́",
+      "lexeme_after": "среды́",
+      "contrast_before": "ср́еды",
+      "contrast_after": "сре́ды",
+      "char_index_before": 31,
+      "char_index_after": 31
+    },
+    {
+      "utt_id": "homo_821",
+      "lexeme_before": "среды́",
+      "lexeme_after": "среды́",
+      "contrast_before": "ср́еды",
+      "contrast_after": "сре́ды",
+      "char_index_before": 37,
+      "char_index_after": 37
+    },
+    {
+      "utt_id": "homo_822",
+      "lexeme_before": "среды́",
+      "lexeme_after": "среды́",
+      "contrast_before": "ср́еды",
+      "contrast_after": "сре́ды",
+      "char_index_before": 28,
+      "char_index_after": 28
+    },
+    {
+      "utt_id": "homo_823",
+      "lexeme_before": "среды́",
+      "lexeme_after": "среды́",
+      "contrast_before": "ср́еды",
+      "contrast_after": "сре́ды",
+      "char_index_before": 24,
+      "char_index_after": 24
+    },
+    {
+      "utt_id": "homo_824",
+      "lexeme_before": "среды́",
+      "lexeme_after": "среды́",
+      "contrast_before": "ср́еды",
+      "contrast_after": "сре́ды",
+      "char_index_before": 30,
+      "char_index_after": 30
+    },
+    {
+      "utt_id": "homo_825",
+      "lexeme_before": "среды́",
+      "lexeme_after": "среды́",
+      "contrast_before": "ср́еды",
+      "contrast_after": "сре́ды",
+      "char_index_before": 32,
+      "char_index_after": 32
+    },
+    {
+      "utt_id": "homo_876",
+      "lexeme_before": "хл́опок",
+      "lexeme_after": "хло́пок",
+      "contrast_before": "хлопо́к",
+      "contrast_after": "хлопо́к",
+      "char_index_before": 32,
+      "char_index_after": 33
+    },
+    {
+      "utt_id": "homo_877",
+      "lexeme_before": "хл́опок",
+      "lexeme_after": "хло́пок",
+      "contrast_before": "хлопо́к",
+      "contrast_after": "хлопо́к",
+      "char_index_before": 7,
+      "char_index_after": 8
+    },
+    {
+      "utt_id": "homo_878",
+      "lexeme_before": "хл́опок",
+      "lexeme_after": "хло́пок",
+      "contrast_before": "хлопо́к",
+      "contrast_after": "хлопо́к",
+      "char_index_before": 23,
+      "char_index_after": 24
+    },
+    {
+      "utt_id": "homo_879",
+      "lexeme_before": "хл́опок",
+      "lexeme_after": "хло́пок",
+      "contrast_before": "хлопо́к",
+      "contrast_after": "хлопо́к",
+      "char_index_before": 6,
+      "char_index_after": 7
+    },
+    {
+      "utt_id": "homo_880",
+      "lexeme_before": "хл́опок",
+      "lexeme_after": "хло́пок",
+      "contrast_before": "хлопо́к",
+      "contrast_after": "хлопо́к",
+      "char_index_before": 10,
+      "char_index_after": 11
+    },
+    {
+      "utt_id": "homo_881",
+      "lexeme_before": "хл́опок",
+      "lexeme_after": "хло́пок",
+      "contrast_before": "хлопо́к",
+      "contrast_after": "хлопо́к",
+      "char_index_before": 34,
+      "char_index_after": 35
+    },
+    {
+      "utt_id": "homo_882",
+      "lexeme_before": "хл́опок",
+      "lexeme_after": "хло́пок",
+      "contrast_before": "хлопо́к",
+      "contrast_after": "хлопо́к",
+      "char_index_before": 30,
+      "char_index_after": 31
+    },
+    {
+      "utt_id": "homo_883",
+      "lexeme_before": "хл́опок",
+      "lexeme_after": "хло́пок",
+      "contrast_before": "хлопо́к",
+      "contrast_after": "хлопо́к",
+      "char_index_before": 16,
+      "char_index_after": 17
+    },
+    {
+      "utt_id": "homo_884",
+      "lexeme_before": "хл́опок",
+      "lexeme_after": "хло́пок",
+      "contrast_before": "хлопо́к",
+      "contrast_after": "хлопо́к",
+      "char_index_before": 31,
+      "char_index_after": 32
+    },
+    {
+      "utt_id": "homo_885",
+      "lexeme_before": "хл́опок",
+      "lexeme_after": "хло́пок",
+      "contrast_before": "хлопо́к",
+      "contrast_after": "хлопо́к",
+      "char_index_before": 25,
+      "char_index_after": 26
+    },
+    {
+      "utt_id": "homo_886",
+      "lexeme_before": "хлопо́к",
+      "lexeme_after": "хлопо́к",
+      "contrast_before": "хл́опок",
+      "contrast_after": "хло́пок",
+      "char_index_before": 21,
+      "char_index_after": 21
+    },
+    {
+      "utt_id": "homo_887",
+      "lexeme_before": "хлопо́к",
+      "lexeme_after": "хлопо́к",
+      "contrast_before": "хл́опок",
+      "contrast_after": "хло́пок",
+      "char_index_before": 24,
+      "char_index_after": 24
+    },
+    {
+      "utt_id": "homo_888",
+      "lexeme_before": "хлопо́к",
+      "lexeme_after": "хлопо́к",
+      "contrast_before": "хл́опок",
+      "contrast_after": "хло́пок",
+      "char_index_before": 19,
+      "char_index_after": 19
+    },
+    {
+      "utt_id": "homo_889",
+      "lexeme_before": "хлопо́к",
+      "lexeme_after": "хлопо́к",
+      "contrast_before": "хл́опок",
+      "contrast_after": "хло́пок",
+      "char_index_before": 32,
+      "char_index_after": 32
+    },
+    {
+      "utt_id": "homo_890",
+      "lexeme_before": "хлопо́к",
+      "lexeme_after": "хлопо́к",
+      "contrast_before": "хл́опок",
+      "contrast_after": "хло́пок",
+      "char_index_before": 22,
+      "char_index_after": 22
+    },
+    {
+      "utt_id": "homo_891",
+      "lexeme_before": "хлопо́к",
+      "lexeme_after": "хлопо́к",
+      "contrast_before": "хл́опок",
+      "contrast_after": "хло́пок",
+      "char_index_before": 13,
+      "char_index_after": 13
+    },
+    {
+      "utt_id": "homo_892",
+      "lexeme_before": "хлопо́к",
+      "lexeme_after": "хлопо́к",
+      "contrast_before": "хл́опок",
+      "contrast_after": "хло́пок",
+      "char_index_before": 11,
+      "char_index_after": 11
+    },
+    {
+      "utt_id": "homo_893",
+      "lexeme_before": "хлопо́к",
+      "lexeme_after": "хлопо́к",
+      "contrast_before": "хл́опок",
+      "contrast_after": "хло́пок",
+      "char_index_before": 25,
+      "char_index_after": 25
+    },
+    {
+      "utt_id": "homo_894",
+      "lexeme_before": "хлопо́к",
+      "lexeme_after": "хлопо́к",
+      "contrast_before": "хл́опок",
+      "contrast_after": "хло́пок",
+      "char_index_before": 32,
+      "char_index_after": 32
+    },
+    {
+      "utt_id": "homo_895",
+      "lexeme_before": "хлопо́к",
+      "lexeme_after": "хлопо́к",
+      "contrast_before": "хл́опок",
+      "contrast_after": "хло́пок",
+      "char_index_before": 35,
+      "char_index_after": 35
+    }
+  ],
+  "invalid_pair_removals": [
+    {
+      "utt_id": "homo_191",
+      "base": "языки",
+      "lexeme": "яз́ыки",
+      "contrast": "языќи",
+      "reason": "the proposed meanings do not form a normative stress contrast"
+    },
+    {
+      "utt_id": "homo_192",
+      "base": "языки",
+      "lexeme": "яз́ыки",
+      "contrast": "языќи",
+      "reason": "the proposed meanings do not form a normative stress contrast"
+    },
+    {
+      "utt_id": "homo_193",
+      "base": "языки",
+      "lexeme": "яз́ыки",
+      "contrast": "языќи",
+      "reason": "the proposed meanings do not form a normative stress contrast"
+    },
+    {
+      "utt_id": "homo_194",
+      "base": "языки",
+      "lexeme": "яз́ыки",
+      "contrast": "языќи",
+      "reason": "the proposed meanings do not form a normative stress contrast"
+    },
+    {
+      "utt_id": "homo_195",
+      "base": "языки",
+      "lexeme": "яз́ыки",
+      "contrast": "языќи",
+      "reason": "the proposed meanings do not form a normative stress contrast"
+    },
+    {
+      "utt_id": "homo_196",
+      "base": "языки",
+      "lexeme": "яз́ыки",
+      "contrast": "языќи",
+      "reason": "the proposed meanings do not form a normative stress contrast"
+    },
+    {
+      "utt_id": "homo_197",
+      "base": "языки",
+      "lexeme": "яз́ыки",
+      "contrast": "языќи",
+      "reason": "the proposed meanings do not form a normative stress contrast"
+    },
+    {
+      "utt_id": "homo_198",
+      "base": "языки",
+      "lexeme": "яз́ыки",
+      "contrast": "языќи",
+      "reason": "the proposed meanings do not form a normative stress contrast"
+    },
+    {
+      "utt_id": "homo_199",
+      "base": "языки",
+      "lexeme": "яз́ыки",
+      "contrast": "языќи",
+      "reason": "the proposed meanings do not form a normative stress contrast"
+    },
+    {
+      "utt_id": "homo_200",
+      "base": "языки",
+      "lexeme": "яз́ыки",
+      "contrast": "языќи",
+      "reason": "the proposed meanings do not form a normative stress contrast"
+    },
+    {
+      "utt_id": "homo_201",
+      "base": "языки",
+      "lexeme": "языќи",
+      "contrast": "яз́ыки",
+      "reason": "the proposed meanings do not form a normative stress contrast"
+    },
+    {
+      "utt_id": "homo_202",
+      "base": "языки",
+      "lexeme": "языќи",
+      "contrast": "яз́ыки",
+      "reason": "the proposed meanings do not form a normative stress contrast"
+    },
+    {
+      "utt_id": "homo_203",
+      "base": "языки",
+      "lexeme": "языќи",
+      "contrast": "яз́ыки",
+      "reason": "the proposed meanings do not form a normative stress contrast"
+    },
+    {
+      "utt_id": "homo_204",
+      "base": "языки",
+      "lexeme": "языќи",
+      "contrast": "яз́ыки",
+      "reason": "the proposed meanings do not form a normative stress contrast"
+    },
+    {
+      "utt_id": "homo_205",
+      "base": "языки",
+      "lexeme": "языќи",
+      "contrast": "яз́ыки",
+      "reason": "the proposed meanings do not form a normative stress contrast"
+    },
+    {
+      "utt_id": "homo_206",
+      "base": "языки",
+      "lexeme": "языќи",
+      "contrast": "яз́ыки",
+      "reason": "the proposed meanings do not form a normative stress contrast"
+    },
+    {
+      "utt_id": "homo_207",
+      "base": "языки",
+      "lexeme": "языќи",
+      "contrast": "яз́ыки",
+      "reason": "the proposed meanings do not form a normative stress contrast"
+    },
+    {
+      "utt_id": "homo_208",
+      "base": "языки",
+      "lexeme": "языќи",
+      "contrast": "яз́ыки",
+      "reason": "the proposed meanings do not form a normative stress contrast"
+    },
+    {
+      "utt_id": "homo_209",
+      "base": "языки",
+      "lexeme": "языќи",
+      "contrast": "яз́ыки",
+      "reason": "the proposed meanings do not form a normative stress contrast"
+    },
+    {
+      "utt_id": "homo_210",
+      "base": "языки",
+      "lexeme": "языќи",
+      "contrast": "яз́ыки",
+      "reason": "the proposed meanings do not form a normative stress contrast"
+    },
+    {
+      "utt_id": "homo_532",
+      "base": "берег",
+      "lexeme": "бе́рег",
+      "contrast": "бере́г",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_533",
+      "base": "берег",
+      "lexeme": "бе́рег",
+      "contrast": "бере́г",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_534",
+      "base": "берег",
+      "lexeme": "бе́рег",
+      "contrast": "бере́г",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_535",
+      "base": "берег",
+      "lexeme": "бе́рег",
+      "contrast": "бере́г",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_536",
+      "base": "берег",
+      "lexeme": "бе́рег",
+      "contrast": "бере́г",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_537",
+      "base": "берег",
+      "lexeme": "бе́рег",
+      "contrast": "бере́г",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_538",
+      "base": "берег",
+      "lexeme": "бе́рег",
+      "contrast": "бере́г",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_539",
+      "base": "берег",
+      "lexeme": "бе́рег",
+      "contrast": "бере́г",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_540",
+      "base": "берег",
+      "lexeme": "бе́рег",
+      "contrast": "бере́г",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_541",
+      "base": "берег",
+      "lexeme": "бе́рег",
+      "contrast": "бере́г",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_542",
+      "base": "берег",
+      "lexeme": "бе́рег",
+      "contrast": "бере́г",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_543",
+      "base": "берег",
+      "lexeme": "бе́рег",
+      "contrast": "бере́г",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_544",
+      "base": "берег",
+      "lexeme": "бе́рег",
+      "contrast": "бере́г",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_545",
+      "base": "берег",
+      "lexeme": "бе́рег",
+      "contrast": "бере́г",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_546",
+      "base": "берег",
+      "lexeme": "бе́рег",
+      "contrast": "бере́г",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_547",
+      "base": "берег",
+      "lexeme": "бере́г",
+      "contrast": "бе́рег",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_548",
+      "base": "берег",
+      "lexeme": "бере́г",
+      "contrast": "бе́рег",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_549",
+      "base": "берег",
+      "lexeme": "бере́г",
+      "contrast": "бе́рег",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_550",
+      "base": "берег",
+      "lexeme": "бере́г",
+      "contrast": "бе́рег",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_551",
+      "base": "берег",
+      "lexeme": "бере́г",
+      "contrast": "бе́рег",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_552",
+      "base": "берег",
+      "lexeme": "бере́г",
+      "contrast": "бе́рег",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_553",
+      "base": "берег",
+      "lexeme": "бере́г",
+      "contrast": "бе́рег",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_554",
+      "base": "берег",
+      "lexeme": "бере́г",
+      "contrast": "бе́рег",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_555",
+      "base": "берег",
+      "lexeme": "бере́г",
+      "contrast": "бе́рег",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_556",
+      "base": "берег",
+      "lexeme": "бере́г",
+      "contrast": "бе́рег",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_557",
+      "base": "берег",
+      "lexeme": "бере́г",
+      "contrast": "бе́рег",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_558",
+      "base": "берег",
+      "lexeme": "бере́г",
+      "contrast": "бе́рег",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_559",
+      "base": "берег",
+      "lexeme": "бере́г",
+      "contrast": "бе́рег",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_560",
+      "base": "берег",
+      "lexeme": "бере́г",
+      "contrast": "бе́рег",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_561",
+      "base": "берег",
+      "lexeme": "бере́г",
+      "contrast": "бе́рег",
+      "reason": "the past tense requires ё (берёг), so it is not a stress-only contrast under explicit Russian orthography"
+    },
+    {
+      "utt_id": "homo_691",
+      "base": "волосы",
+      "lexeme": "во́лосы",
+      "contrast": "воло́сы",
+      "reason": "no normative stress contrast for the same written form"
+    },
+    {
+      "utt_id": "homo_692",
+      "base": "волосы",
+      "lexeme": "во́лосы",
+      "contrast": "воло́сы",
+      "reason": "no normative stress contrast for the same written form"
+    },
+    {
+      "utt_id": "homo_693",
+      "base": "волосы",
+      "lexeme": "во́лосы",
+      "contrast": "воло́сы",
+      "reason": "no normative stress contrast for the same written form"
+    },
+    {
+      "utt_id": "homo_694",
+      "base": "волосы",
+      "lexeme": "во́лосы",
+      "contrast": "воло́сы",
+      "reason": "no normative stress contrast for the same written form"
+    },
+    {
+      "utt_id": "homo_695",
+      "base": "волосы",
+      "lexeme": "во́лосы",
+      "contrast": "воло́сы",
+      "reason": "no normative stress contrast for the same written form"
+    },
+    {
+      "utt_id": "homo_696",
+      "base": "волосы",
+      "lexeme": "во́лосы",
+      "contrast": "воло́сы",
+      "reason": "no normative stress contrast for the same written form"
+    },
+    {
+      "utt_id": "homo_697",
+      "base": "волосы",
+      "lexeme": "во́лосы",
+      "contrast": "воло́сы",
+      "reason": "no normative stress contrast for the same written form"
+    },
+    {
+      "utt_id": "homo_698",
+      "base": "волосы",
+      "lexeme": "во́лосы",
+      "contrast": "воло́сы",
+      "reason": "no normative stress contrast for the same written form"
+    },
+    {
+      "utt_id": "homo_699",
+      "base": "волосы",
+      "lexeme": "во́лосы",
+      "contrast": "воло́сы",
+      "reason": "no normative stress contrast for the same written form"
+    },
+    {
+      "utt_id": "homo_700",
+      "base": "волосы",
+      "lexeme": "во́лосы",
+      "contrast": "воло́сы",
+      "reason": "no normative stress contrast for the same written form"
+    },
+    {
+      "utt_id": "homo_701",
+      "base": "волосы",
+      "lexeme": "во́лосы",
+      "contrast": "воло́сы",
+      "reason": "no normative stress contrast for the same written form"
+    },
+    {
+      "utt_id": "homo_702",
+      "base": "волосы",
+      "lexeme": "во́лосы",
+      "contrast": "воло́сы",
+      "reason": "no normative stress contrast for the same written form"
+    },
+    {
+      "utt_id": "homo_703",
+      "base": "волосы",
+      "lexeme": "во́лосы",
+      "contrast": "воло́сы",
+      "reason": "no normative stress contrast for the same written form"
+    },
+    {
+      "utt_id": "homo_704",
+      "base": "волосы",
+      "lexeme": "во́лосы",
+      "contrast": "воло́сы",
+      "reason": "no normative stress contrast for the same written form"
+    },
+    {
+      "utt_id": "homo_705",
+      "base": "волосы",
+      "lexeme": "во́лосы",
+      "contrast": "воло́сы",
+      "reason": "no normative stress contrast for the same written form"
+    },
+    {
+      "utt_id": "homo_706",
+      "base": "зубы",
+      "lexeme": "зу́бы",
+      "contrast": "зубы́",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_707",
+      "base": "зубы",
+      "lexeme": "зу́бы",
+      "contrast": "зубы́",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_708",
+      "base": "зубы",
+      "lexeme": "зу́бы",
+      "contrast": "зубы́",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_709",
+      "base": "зубы",
+      "lexeme": "зу́бы",
+      "contrast": "зубы́",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_710",
+      "base": "зубы",
+      "lexeme": "зу́бы",
+      "contrast": "зубы́",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_711",
+      "base": "зубы",
+      "lexeme": "зу́бы",
+      "contrast": "зубы́",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_712",
+      "base": "зубы",
+      "lexeme": "зу́бы",
+      "contrast": "зубы́",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_713",
+      "base": "зубы",
+      "lexeme": "зу́бы",
+      "contrast": "зубы́",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_714",
+      "base": "зубы",
+      "lexeme": "зу́бы",
+      "contrast": "зубы́",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_715",
+      "base": "зубы",
+      "lexeme": "зу́бы",
+      "contrast": "зубы́",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_716",
+      "base": "зубы",
+      "lexeme": "зу́бы",
+      "contrast": "зубы́",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_717",
+      "base": "зубы",
+      "lexeme": "зу́бы",
+      "contrast": "зубы́",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_718",
+      "base": "зубы",
+      "lexeme": "зу́бы",
+      "contrast": "зубы́",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_719",
+      "base": "зубы",
+      "lexeme": "зу́бы",
+      "contrast": "зубы́",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_720",
+      "base": "зубы",
+      "lexeme": "зу́бы",
+      "contrast": "зубы́",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_721",
+      "base": "зубы",
+      "lexeme": "зубы́",
+      "contrast": "зу́бы",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_722",
+      "base": "зубы",
+      "lexeme": "зубы́",
+      "contrast": "зу́бы",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_723",
+      "base": "зубы",
+      "lexeme": "зубы́",
+      "contrast": "зу́бы",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_724",
+      "base": "зубы",
+      "lexeme": "зубы́",
+      "contrast": "зу́бы",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_725",
+      "base": "зубы",
+      "lexeme": "зубы́",
+      "contrast": "зу́бы",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_726",
+      "base": "зубы",
+      "lexeme": "зубы́",
+      "contrast": "зу́бы",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_727",
+      "base": "зубы",
+      "lexeme": "зубы́",
+      "contrast": "зу́бы",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_728",
+      "base": "зубы",
+      "lexeme": "зубы́",
+      "contrast": "зу́бы",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_729",
+      "base": "зубы",
+      "lexeme": "зубы́",
+      "contrast": "зу́бы",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_730",
+      "base": "зубы",
+      "lexeme": "зубы́",
+      "contrast": "зу́бы",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_731",
+      "base": "зубы",
+      "lexeme": "зубы́",
+      "contrast": "зу́бы",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_732",
+      "base": "зубы",
+      "lexeme": "зубы́",
+      "contrast": "зу́бы",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_733",
+      "base": "зубы",
+      "lexeme": "зубы́",
+      "contrast": "зу́бы",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_734",
+      "base": "зубы",
+      "lexeme": "зубы́",
+      "contrast": "зу́бы",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_735",
+      "base": "зубы",
+      "lexeme": "зубы́",
+      "contrast": "зу́бы",
+      "reason": "technical plural requires зубья, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_736",
+      "base": "листья",
+      "lexeme": "ли́стья",
+      "contrast": "листь́я",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_737",
+      "base": "листья",
+      "lexeme": "ли́стья",
+      "contrast": "листь́я",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_738",
+      "base": "листья",
+      "lexeme": "ли́стья",
+      "contrast": "листь́я",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_739",
+      "base": "листья",
+      "lexeme": "ли́стья",
+      "contrast": "листь́я",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_740",
+      "base": "листья",
+      "lexeme": "ли́стья",
+      "contrast": "листь́я",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_741",
+      "base": "листья",
+      "lexeme": "ли́стья",
+      "contrast": "листь́я",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_742",
+      "base": "листья",
+      "lexeme": "ли́стья",
+      "contrast": "листь́я",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_743",
+      "base": "листья",
+      "lexeme": "ли́стья",
+      "contrast": "листь́я",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_744",
+      "base": "листья",
+      "lexeme": "ли́стья",
+      "contrast": "листь́я",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_745",
+      "base": "листья",
+      "lexeme": "ли́стья",
+      "contrast": "листь́я",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_746",
+      "base": "листья",
+      "lexeme": "ли́стья",
+      "contrast": "листь́я",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_747",
+      "base": "листья",
+      "lexeme": "ли́стья",
+      "contrast": "листь́я",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_748",
+      "base": "листья",
+      "lexeme": "ли́стья",
+      "contrast": "листь́я",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_749",
+      "base": "листья",
+      "lexeme": "ли́стья",
+      "contrast": "листь́я",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_750",
+      "base": "листья",
+      "lexeme": "ли́стья",
+      "contrast": "листь́я",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_751",
+      "base": "листья",
+      "lexeme": "листь́я",
+      "contrast": "ли́стья",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_752",
+      "base": "листья",
+      "lexeme": "листь́я",
+      "contrast": "ли́стья",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_753",
+      "base": "листья",
+      "lexeme": "листь́я",
+      "contrast": "ли́стья",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_754",
+      "base": "листья",
+      "lexeme": "листь́я",
+      "contrast": "ли́стья",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_755",
+      "base": "листья",
+      "lexeme": "листь́я",
+      "contrast": "ли́стья",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_756",
+      "base": "листья",
+      "lexeme": "листь́я",
+      "contrast": "ли́стья",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_757",
+      "base": "листья",
+      "lexeme": "листь́я",
+      "contrast": "ли́стья",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_758",
+      "base": "листья",
+      "lexeme": "листь́я",
+      "contrast": "ли́стья",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_759",
+      "base": "листья",
+      "lexeme": "листь́я",
+      "contrast": "ли́стья",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_760",
+      "base": "листья",
+      "lexeme": "листь́я",
+      "contrast": "ли́стья",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_761",
+      "base": "листья",
+      "lexeme": "листь́я",
+      "contrast": "ли́стья",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_762",
+      "base": "листья",
+      "lexeme": "листь́я",
+      "contrast": "ли́стья",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_763",
+      "base": "листья",
+      "lexeme": "листь́я",
+      "contrast": "ли́стья",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_764",
+      "base": "листья",
+      "lexeme": "листь́я",
+      "contrast": "ли́стья",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_765",
+      "base": "листья",
+      "lexeme": "листь́я",
+      "contrast": "ли́стья",
+      "reason": "paper sheets are листы, not a stress-only contrast"
+    },
+    {
+      "utt_id": "homo_766",
+      "base": "цветы",
+      "lexeme": "цв́еты",
+      "contrast": "цвет́ы",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_767",
+      "base": "цветы",
+      "lexeme": "цв́еты",
+      "contrast": "цвет́ы",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_768",
+      "base": "цветы",
+      "lexeme": "цв́еты",
+      "contrast": "цвет́ы",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_769",
+      "base": "цветы",
+      "lexeme": "цв́еты",
+      "contrast": "цвет́ы",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_770",
+      "base": "цветы",
+      "lexeme": "цв́еты",
+      "contrast": "цвет́ы",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_771",
+      "base": "цветы",
+      "lexeme": "цв́еты",
+      "contrast": "цвет́ы",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_772",
+      "base": "цветы",
+      "lexeme": "цв́еты",
+      "contrast": "цвет́ы",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_773",
+      "base": "цветы",
+      "lexeme": "цв́еты",
+      "contrast": "цвет́ы",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_774",
+      "base": "цветы",
+      "lexeme": "цв́еты",
+      "contrast": "цвет́ы",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_775",
+      "base": "цветы",
+      "lexeme": "цв́еты",
+      "contrast": "цвет́ы",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_776",
+      "base": "цветы",
+      "lexeme": "цв́еты",
+      "contrast": "цвет́ы",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_777",
+      "base": "цветы",
+      "lexeme": "цв́еты",
+      "contrast": "цвет́ы",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_778",
+      "base": "цветы",
+      "lexeme": "цв́еты",
+      "contrast": "цвет́ы",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_779",
+      "base": "цветы",
+      "lexeme": "цв́еты",
+      "contrast": "цвет́ы",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_780",
+      "base": "цветы",
+      "lexeme": "цв́еты",
+      "contrast": "цвет́ы",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_781",
+      "base": "цветы",
+      "lexeme": "цвет́ы",
+      "contrast": "цв́еты",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_782",
+      "base": "цветы",
+      "lexeme": "цвет́ы",
+      "contrast": "цв́еты",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_783",
+      "base": "цветы",
+      "lexeme": "цвет́ы",
+      "contrast": "цв́еты",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_784",
+      "base": "цветы",
+      "lexeme": "цвет́ы",
+      "contrast": "цв́еты",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_785",
+      "base": "цветы",
+      "lexeme": "цвет́ы",
+      "contrast": "цв́еты",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_786",
+      "base": "цветы",
+      "lexeme": "цвет́ы",
+      "contrast": "цв́еты",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_787",
+      "base": "цветы",
+      "lexeme": "цвет́ы",
+      "contrast": "цв́еты",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_788",
+      "base": "цветы",
+      "lexeme": "цвет́ы",
+      "contrast": "цв́еты",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_789",
+      "base": "цветы",
+      "lexeme": "цвет́ы",
+      "contrast": "цв́еты",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_790",
+      "base": "цветы",
+      "lexeme": "цвет́ы",
+      "contrast": "цв́еты",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_791",
+      "base": "цветы",
+      "lexeme": "цвет́ы",
+      "contrast": "цв́еты",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_792",
+      "base": "цветы",
+      "lexeme": "цвет́ы",
+      "contrast": "цв́еты",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_793",
+      "base": "цветы",
+      "lexeme": "цвет́ы",
+      "contrast": "цв́еты",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_794",
+      "base": "цветы",
+      "lexeme": "цвет́ы",
+      "contrast": "цв́еты",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    },
+    {
+      "utt_id": "homo_795",
+      "base": "цветы",
+      "lexeme": "цвет́ы",
+      "contrast": "цв́еты",
+      "reason": "colours are цвета; flowers and the proposed contrast are not homographs"
+    }
+  ],
+  "structural_errors": [],
+  "pair_counts": {
+    "Па́ли / Пали́": 10,
+    "а́дреса / адреса́": 30,
+    "а́тлас / атла́с": 30,
+    "бе́лки / белки́": 30,
+    "бе́лок / бело́к": 20,
+    "го́рода / горо́да": 30,
+    "до́ма / дома́": 30,
+    "ду́хи / духи́": 20,
+    "жи́ла / жила́": 20,
+    "за́мок / замо́к": 30,
+    "и́рис / ири́с": 20,
+    "кру́жки / кружки́": 20,
+    "ле́са / леса́": 30,
+    "ма́стера / мастера́": 30,
+    "му́ка / мука́": 30,
+    "на́чала / начала́": 20,
+    "о́рган / орга́н": 30,
+    "о́строва / острова́": 30,
+    "па́ли / пали́": 10,
+    "пи́ли / пили́": 30,
+    "по́лки / полки́": 20,
+    "по́том / пото́м": 25,
+    "про́пасть / пропа́сть": 20,
+    "се́ла / села́": 20,
+    "сре́ды / среды́": 30,
+    "сто́ит / стои́т": 30,
+    "стре́лки / стрелки́": 20,
+    "у́же / уже́": 25,
+    "учи́теля / учителя́": 30,
+    "хло́пок / хлопо́к": 20
+  },
+  "manual_sample": [
+    {
+      "utt_id": "homo_632",
+      "text": "Инструктор приказал: «Пали́ по мишени!»",
+      "lexeme": "Пали́",
+      "contrast": "Па́ли",
+      "type": "pos",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_401",
+      "text": "Проверьте правильность а́дреса доставки.",
+      "lexeme": "а́дреса",
+      "contrast": "адреса́",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_031",
+      "text": "На уроке географии открыли а́тлас мира.",
+      "lexeme": "а́тлас",
+      "contrast": "атла́с",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_661",
+      "text": "В парке прыгают рыжие бе́лки.",
+      "lexeme": "бе́лки",
+      "contrast": "белки́",
+      "type": "number",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_231",
+      "text": "В яйце много полезного бело́к.",
+      "lexeme": "бело́к",
+      "contrast": "бе́лок",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_341",
+      "text": "История древнего го́рода насчитывает века.",
+      "lexeme": "го́рода",
+      "contrast": "горо́да",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_281",
+      "text": "Вечером все сидели до́ма у камина.",
+      "lexeme": "до́ма",
+      "contrast": "дома́",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_131",
+      "text": "Она нанесла дорогие духи́ перед выходом.",
+      "lexeme": "духи́",
+      "contrast": "ду́хи",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_562",
+      "text": "На шее вздулась синяя жи́ла.",
+      "lexeme": "жи́ла",
+      "contrast": "жила́",
+      "type": "pos",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_001",
+      "text": "Туристы осмотрели средневековый за́мок на холме.",
+      "lexeme": "за́мок",
+      "contrast": "замо́к",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_091",
+      "text": "На клумбе расцвёл синий и́рис.",
+      "lexeme": "и́рис",
+      "contrast": "ири́с",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_151",
+      "text": "На полке стоят керамические кру́жки.",
+      "lexeme": "кру́жки",
+      "contrast": "кружки́",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_311",
+      "text": "Грибники ушли в густые леса́.",
+      "lexeme": "леса́",
+      "contrast": "ле́са",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_431",
+      "text": "Ученик перенял приём у опытного ма́стера.",
+      "lexeme": "ма́стера",
+      "contrast": "мастера́",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_251",
+      "text": "Его му́ка длилась долгие годы.",
+      "lexeme": "му́ка",
+      "contrast": "мука́",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_602",
+      "text": "С на́чала урока прошло десять минут.",
+      "lexeme": "на́чала",
+      "contrast": "начала́",
+      "type": "pos",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_061",
+      "text": "Парламент — высший законодательный о́рган страны.",
+      "lexeme": "о́рган",
+      "contrast": "орга́н",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_371",
+      "text": "Экспедиция достигла берега о́строва.",
+      "lexeme": "о́строва",
+      "contrast": "острова́",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_622",
+      "text": "Солдаты па́ли в неравном бою.",
+      "lexeme": "па́ли",
+      "contrast": "пали́",
+      "type": "pos",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_521",
+      "text": "Гости пи́ли чай до полуночи.",
+      "lexeme": "пи́ли",
+      "contrast": "пили́",
+      "type": "pos",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_211",
+      "text": "Книги расставили по деревянным по́лки.",
+      "lexeme": "по́лки",
+      "contrast": "полки́",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_851",
+      "text": "Рубашка промокла по́том после бега.",
+      "lexeme": "по́том",
+      "contrast": "пото́м",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_111",
+      "text": "Тропа обрывается у глубокой про́пасть.",
+      "lexeme": "про́пасть",
+      "contrast": "пропа́сть",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_582",
+      "text": "Птица се́ла на ветку у окна.",
+      "lexeme": "се́ла",
+      "contrast": "села́",
+      "type": "pos",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_796",
+      "text": "Занятия перенесли на эту сре́ды.",
+      "lexeme": "сре́ды",
+      "contrast": "среды́",
+      "type": "number",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_491",
+      "text": "Билет сто́ит тысячу рублей.",
+      "lexeme": "сто́ит",
+      "contrast": "стои́т",
+      "type": "pos",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_171",
+      "text": "Часовые стре́лки показывают полдень.",
+      "lexeme": "стре́лки",
+      "contrast": "стрелки́",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_826",
+      "text": "Эта улица у́же, чем соседняя.",
+      "lexeme": "у́же",
+      "contrast": "уже́",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_461",
+      "text": "Совет учи́теля помог выбрать профессию.",
+      "lexeme": "учи́теля",
+      "contrast": "учителя́",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_876",
+      "text": "Футболка сшита из натурального хло́пок.",
+      "lexeme": "хло́пок",
+      "contrast": "хлопо́к",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_002",
+      "text": "Экскурсия ведёт к древнему за́мок у реки.",
+      "lexeme": "за́мок",
+      "contrast": "замо́к",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_012",
+      "text": "В подземельях за́мок хранили сокровища.",
+      "lexeme": "за́мок",
+      "contrast": "замо́к",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_023",
+      "text": "Без ключа открыть замо́к невозможно.",
+      "lexeme": "замо́к",
+      "contrast": "за́мок",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_034",
+      "text": "Картограф составил новый а́тлас регионов.",
+      "lexeme": "а́тлас",
+      "contrast": "атла́с",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_044",
+      "text": "В а́тлас не хватает карты Антарктиды.",
+      "lexeme": "а́тлас",
+      "contrast": "атла́с",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_054",
+      "text": "Модельер предпочитает чёрный атла́с.",
+      "lexeme": "атла́с",
+      "contrast": "а́тлас",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_066",
+      "text": "Контрольный о́рган проверил отчётность.",
+      "lexeme": "о́рган",
+      "contrast": "орга́н",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_076",
+      "text": "В соборе зазвучал огромный орга́н.",
+      "lexeme": "орга́н",
+      "contrast": "о́рган",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_086",
+      "text": "Педаль орга́н управляет басовыми трубами.",
+      "lexeme": "орга́н",
+      "contrast": "о́рган",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_097",
+      "text": "Натюрморт с и́рис висел в галерее.",
+      "lexeme": "и́рис",
+      "contrast": "ири́с",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_108",
+      "text": "Я купил килограмм ири́с к чаю.",
+      "lexeme": "ири́с",
+      "contrast": "и́рис",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_119",
+      "text": "Легенда говорит о сокровищах на дне про́пасть.",
+      "lexeme": "про́пасть",
+      "contrast": "пропа́сть",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_129",
+      "text": "Шанс победы может пропа́сть из-за ошибки.",
+      "lexeme": "пропа́сть",
+      "contrast": "про́пасть",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_141",
+      "text": "В сказке злые ду́хи живут в лесу.",
+      "lexeme": "ду́хи",
+      "contrast": "духи́",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_152",
+      "text": "Налей чай в чистые кру́жки.",
+      "lexeme": "кру́жки",
+      "contrast": "кружки́",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_162",
+      "text": "В школе открыли новые творческие кружки́.",
+      "lexeme": "кружки́",
+      "contrast": "кру́жки",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_173",
+      "text": "На циферблате золотые стре́лки.",
+      "lexeme": "стре́лки",
+      "contrast": "стрелки́",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_184",
+      "text": "Меткие стрелки́ прикрывали отряд.",
+      "lexeme": "стрелки́",
+      "contrast": "стре́лки",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_215",
+      "text": "Вазы стоят на стеклянных по́лки.",
+      "lexeme": "по́лки",
+      "contrast": "полки́",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_225",
+      "text": "Командир обошёл полки́ на рассвете.",
+      "lexeme": "полки́",
+      "contrast": "по́лки",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_237",
+      "text": "Недостаток бело́к влияет на мышцы.",
+      "lexeme": "бело́к",
+      "contrast": "бе́лок",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_247",
+      "text": "Охотник увидел бе́лок на опушке.",
+      "lexeme": "бе́лок",
+      "contrast": "бело́к",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_258",
+      "text": "Свидетели помнят му́ка осаждённых.",
+      "lexeme": "му́ка",
+      "contrast": "мука́",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_268",
+      "text": "В мешке осталось мало мука́.",
+      "lexeme": "мука́",
+      "contrast": "му́ка",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_279",
+      "text": "Хозяйка добавила мука́ в соус.",
+      "lexeme": "мука́",
+      "contrast": "му́ка",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_290",
+      "text": "В выходные остаёмся до́ма.",
+      "lexeme": "до́ма",
+      "contrast": "дома́",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_300",
+      "text": "Туристы фотографировали старые дома́.",
+      "lexeme": "дома́",
+      "contrast": "до́ма",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_310",
+      "text": "Вид на дома́ открывается с холма.",
+      "lexeme": "дома́",
+      "contrast": "до́ма",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_322",
+      "text": "Ветер шумит в верхушках леса́.",
+      "lexeme": "леса́",
+      "contrast": "ле́са",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_332",
+      "text": "Животные прячутся в глубине ле́са.",
+      "lexeme": "ле́са",
+      "contrast": "леса́",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_343",
+      "text": "Жители го́рода голосуют завтра.",
+      "lexeme": "го́рода",
+      "contrast": "горо́да",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_354",
+      "text": "Новости го́рода публикуют ежедневно.",
+      "lexeme": "го́рода",
+      "contrast": "горо́да",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_364",
+      "text": "В прибрежных горо́да пахнет морем.",
+      "lexeme": "горо́да",
+      "contrast": "го́рода",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_375",
+      "text": "Порт о́строва принимает паромы.",
+      "lexeme": "о́строва",
+      "contrast": "острова́",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_385",
+      "text": "Маяк о́строва виден издалека.",
+      "lexeme": "о́строва",
+      "contrast": "острова́",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_396",
+      "text": "Коралловые острова́ привлекают дайверов.",
+      "lexeme": "острова́",
+      "contrast": "о́строва",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_407",
+      "text": "На визитке напечатан рабочий а́дреса.",
+      "lexeme": "а́дреса",
+      "contrast": "адреса́",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_417",
+      "text": "Рассылка ушла по старым адреса́.",
+      "lexeme": "адреса́",
+      "contrast": "а́дреса",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_427",
+      "text": "Сверка адреса́ заняла весь день.",
+      "lexeme": "адреса́",
+      "contrast": "а́дреса",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_439",
+      "text": "Урок ма́стера запомнился надолго.",
+      "lexeme": "ма́стера",
+      "contrast": "мастера́",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_449",
+      "text": "Конкурс выиграли юные мастера́.",
+      "lexeme": "мастера́",
+      "contrast": "ма́стера",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_459",
+      "text": "Каталог представляет современных мастера́.",
+      "lexeme": "мастера́",
+      "contrast": "ма́стера",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_471",
+      "text": "Опыт учи́теля передают молодым.",
+      "lexeme": "учи́теля",
+      "contrast": "учителя́",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_481",
+      "text": "Летние курсы для учителя́ открыты.",
+      "lexeme": "учителя́",
+      "contrast": "учи́теля",
+      "type": "case",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_492",
+      "text": "Этот телефон того сто́ит.",
+      "lexeme": "сто́ит",
+      "contrast": "стои́т",
+      "type": "pos",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_502",
+      "text": "Момент сто́ит того, чтобы подождать.",
+      "lexeme": "сто́ит",
+      "contrast": "стои́т",
+      "type": "pos",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_513",
+      "text": "Машина стои́т под запрещающим знаком.",
+      "lexeme": "стои́т",
+      "contrast": "сто́ит",
+      "type": "pos",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_524",
+      "text": "Дети пи́ли компот после обеда.",
+      "lexeme": "пи́ли",
+      "contrast": "пили́",
+      "type": "pos",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_565",
+      "text": "На виске билась тонкая жи́ла.",
+      "lexeme": "жи́ла",
+      "contrast": "жила́",
+      "type": "pos",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_575",
+      "text": "Кошка жила́ у соседей всё лето.",
+      "lexeme": "жила́",
+      "contrast": "жи́ла",
+      "type": "pos",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_587",
+      "text": "Усталость се́ла на плечи.",
+      "lexeme": "се́ла",
+      "contrast": "села́",
+      "type": "pos",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_597",
+      "text": "В музее история этого села́.",
+      "lexeme": "села́",
+      "contrast": "се́ла",
+      "type": "pos",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_608",
+      "text": "С на́чала сезона команда лидирует.",
+      "lexeme": "на́чала",
+      "contrast": "начала́",
+      "type": "pos",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_619",
+      "text": "Она начала́ читать вслух детям.",
+      "lexeme": "начала́",
+      "contrast": "на́чала",
+      "type": "pos",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_630",
+      "text": "Занавеси па́ли, скрыв сцену.",
+      "lexeme": "па́ли",
+      "contrast": "пали́",
+      "type": "pos",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_641",
+      "text": "Часовой услышал приказ: «Пали́ при тревоге!»",
+      "lexeme": "Пали́",
+      "contrast": "Па́ли",
+      "type": "pos",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_651",
+      "text": "Мастера пили́ толстый брус.",
+      "lexeme": "пили́",
+      "contrast": "пи́ли",
+      "type": "pos",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_663",
+      "text": "Зимой бе́лки ищут спрятанные орехи.",
+      "lexeme": "бе́лки",
+      "contrast": "белки́",
+      "type": "number",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_673",
+      "text": "Учёные кольцуют местных бе́лки.",
+      "lexeme": "бе́лки",
+      "contrast": "белки́",
+      "type": "number",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_683",
+      "text": "Окулист проверил состояние белки́.",
+      "lexeme": "белки́",
+      "contrast": "бе́лки",
+      "type": "number",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_800",
+      "text": "В прошлую сре́ды шёл дождь.",
+      "lexeme": "сре́ды",
+      "contrast": "среды́",
+      "type": "number",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_810",
+      "text": "Тренировка проходит по сре́ды.",
+      "lexeme": "сре́ды",
+      "contrast": "среды́",
+      "type": "number",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_820",
+      "text": "Раствор охладили в ледяной среды́.",
+      "lexeme": "среды́",
+      "contrast": "сре́ды",
+      "type": "number",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_831",
+      "text": "Коридор здесь заметно у́же.",
+      "lexeme": "у́же",
+      "contrast": "уже́",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_842",
+      "text": "Дети уже́ спят.",
+      "lexeme": "уже́",
+      "contrast": "у́же",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_853",
+      "text": "Он вытер лоб, мокрый по́том.",
+      "lexeme": "по́том",
+      "contrast": "пото́м",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_863",
+      "text": "Позвоните мне пото́м, после обеда.",
+      "lexeme": "пото́м",
+      "contrast": "по́том",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_873",
+      "text": "Сначала теория, пото́м задачи.",
+      "lexeme": "пото́м",
+      "contrast": "по́том",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_885",
+      "text": "Импортёр закупил партию хло́пок.",
+      "lexeme": "хло́пок",
+      "contrast": "хлопо́к",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    },
+    {
+      "utt_id": "homo_895",
+      "text": "Молния ударила с оглушительным хлопо́к.",
+      "lexeme": "хлопо́к",
+      "contrast": "хло́пок",
+      "type": "meaning",
+      "pair_exists": true,
+      "context_resolves": true,
+      "review_status": "checked"
+    }
+  ]
+}

@@ -2,9 +2,10 @@
 name: checkpoint-listen
 description: >-
   After any new MiniSpeech-RU checkpoint (Talker, mel, variance, vocoder,
-  tokenizer), run listen-demo inference and write wavs under out/*_listen_demo.
-  Use when training finishes, a best.pt/last.pt appears, promoting a stage,
-  vocoder FT completes, or the user asks to hear / synthesize a new run.
+  tokenizer), run listen-demo inference and write wavs under
+  out/<plan_slug>/... when a plan is active, else out/*_listen_demo. Use when
+  training finishes, a best.pt/last.pt appears, promoting a stage, vocoder FT
+  completes, or the user asks to hear / synthesize a new run.
 ---
 
 # Checkpoint listen-demo (mandatory after new ckpt)
@@ -16,20 +17,25 @@ Trigger whenever any of these is true:
 - Train/FT job wrote `runs/*/best.pt` or `last.pt`
 - User asks “что слушать”, “синтезируй”, “демо”, “hear the new model”
 - Comparing systems (duration modes, vocoders, stages)
+- **Any** inference / external baseline synth (always persist wavs)
 
 Do **not** treat val loss / CER alone as completion of a train task.
 
 ## Defaults
 
+Plan slug = plan filename without `.plan.md` (e.g. `p1_data_execution`).
+
 | Kind | Infer entry | Default out |
 |------|-------------|-------------|
-| Mel Talker / stress / variance | `scripts/28_infer_mel.py --demo` | `out/<run_name>_listen_demo/` |
-| Latent Talker (legacy) | `scripts/08_infer.py` | `out/<run_name>_listen_demo/` |
-| Vocoder only | same mel infer + `--vocoder-ckpt` | `out/<run>_listen_demo/{stock,ft}/` |
+| Mel Talker / stress / variance | `scripts/28_infer_mel.py --demo` | `out/<plan_slug>/<run>_listen_demo/` or `out/<run>_listen_demo/` |
+| Latent Talker (legacy) | `scripts/08_infer.py` | same pattern |
+| Vocoder only | same mel infer + `--vocoder-ckpt` | `.../{stock,ft}/` |
+| External (Silero, …) | `scripts/39_external_baseline_eval.py` | `out/<plan_slug>/silero/` |
 
 - GPU: WSL `~/projects/tts-self`, `source .venv/bin/activate`, `HF_HOME=~/hf_cache`
 - After WSL jobs: copy wavs to `C:\projects\tts-self\out\...` for Cursor playback
-- Write `listen_index.json` with ckpt paths and file pairs
+- Write `.cursor/results/<plan_slug>/listen_index.json` (and/or local
+  `listen_index.json`) with ckpt paths and file pairs
 
 ## Mel Talker recipe
 
@@ -38,19 +44,22 @@ cd ~/projects/tts-self && source .venv/bin/activate
 export HF_HOME=$HOME/hf_cache
 
 RUN=mel_stress_v01_s4   # or the new run dir name
+PLAN=p1_data_execution  # active plan slug, if any
+OUT="out/${PLAN}/${RUN}_listen_demo"
+# no active plan: OUT="out/${RUN}_listen_demo"
 python scripts/28_infer_mel.py \
   --ckpt "runs/${RUN}/best.pt" \
   --demo \
   --duration-mode mean_stats \
   --gap-mode expand_neighbor \
-  --out "out/${RUN}_listen_demo"
+  --out "$OUT"
 ```
 
 Optional duration A/B (same ckpt):
 
 ```bash
 python scripts/28_infer_mel.py --ckpt "runs/${RUN}/best.pt" --demo \
-  --duration-mode pred --out "out/${RUN}_listen_demo_pred"
+  --duration-mode pred --out "out/${PLAN}/${RUN}_listen_demo_pred"
 ```
 
 ## Vocoder FT recipe

@@ -1,0 +1,121 @@
+[
+  {
+    "utt": "bank_159",
+    "cat": "accounts",
+    "expected": [
+      "четыре семь четыре два два восемь один ноль"
+    ]
+  },
+  {
+    "utt": "bank_161",
+    "cat": "accounts",
+    "expected": [
+      "четыре два один ноль шесть восемь один ноль"
+    ]
+  },
+  {
+    "utt": "bank_212",
+    "cat": "lat_abbr",
+    "expected": [
+      "тэ-тэ-эс"
+    ]
+  },
+  {
+    "utt": "bank_214",
+    "cat": "lat_abbr",
+    "expected": [
+      "эс-эм-эс"
+    ]
+  },
+  {
+    "utt": "bank_215",
+    "cat": "lat_abbr",
+    "expected": [
+      "ку-эр"
+    ]
+  },
+  {
+    "utt": "bank_220",
+    "cat": "lat_abbr",
+    "expected": [
+      "а-пи-ай"
+    ]
+  },
+  {
+    "utt": "bank_222",
+    "cat": "lat_abbr",
+    "expected": [
+      "эйч-ар"
+    ]
+  },
+  {
+    "utt": "bank_223",
+    "cat": "lat_abbr",
+    "expected": [
+      "кэ-пи-ай"
+    ]
+  },
+  {
+    "utt": "bank_224",
+    "cat": "lat_abbr",
+    "expected": [
+      "си-ар-эм"
+    ]
+  },
+  {
+    "utt": "bank_227",
+    "cat": "lat_abbr",
+    "expected": [
+      "эй-ти-эм"
+    ]
+  },
+  {
+    "utt": "bank_229",
+    "cat": "lat_abbr",
+    "expected": [
+      "ви-пи-эн"
+    ]
+  },
+  {
+    "utt": "bank_230",
+    "cat": "lat_abbr",
+    "expected": [
+      "пи-ди-эф"
+    ]
+  },
+  {
+    "utt": "bank_231",
+    "cat": "lat_abbr",
+    "expected": [
+      "ю-ар-эл"
+    ]
+  },
+  {
+    "utt": "bank_236",
+    "cat": "loanwords",
+    "expected": [
+      "вотсап"
+    ]
+  },
+  {
+    "utt": "bank_272",
+    "cat": "units",
+    "expected": [
+      "четырнадцать дней"
+    ]
+  },
+  {
+    "utt": "bank_273",
+    "cat": "units",
+    "expected": [
+      "триста шестьдесят пять суток"
+    ]
+  },
+  {
+    "utt": "bank_274",
+    "cat": "units",
+    "expected": [
+      "двенадцать месяцев"
+    ]
+  }
+]

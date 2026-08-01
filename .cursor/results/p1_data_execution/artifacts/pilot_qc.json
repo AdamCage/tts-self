@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "manifest": "/home/adam/datasets/tts/common_voice_ru17/manifest.jsonl",
+  "thresholds": {
+    "clean_max_cer": 0.15,
+    "review_max_cer": 0.25,
+    "exclude_above_cer": 0.25
+  },
+  "n": 46783,
+  "hours": 69.10033731481552,
+  "speakers": 2671,
+  "speaker_overlap": [],
+  "qc_tags": {
+    "clean": {
+      "n": 45476,
+      "hours": 67.50207112268451
+    },
+    "exclude": {
+      "n": 673,
+      "hours": 0.7685620370370368
+    },
+    "review": {
+      "n": 634,
+      "hours": 0.8297041550925929
+    }
+  },
+  "clean_hours": 67.50207112268451,
+  "clean_hours_gate_50": true,
+  "duration_seconds": {
+    "p0": 0.9972916666666667,
+    "p25": 3.8955,
+    "p50": 5.165625,
+    "p75": 6.5955,
+    "p90": 7.829625,
+    "p95": 8.5395,
+    "p99": 9.7275,
+    "p100": 11.4915
+  },
+  "qc_sidecar": {
+    "path": "/home/adam/datasets/tts/common_voice_ru17/corpus_qc.jsonl",
+    "n": 46783,
+    "n_errors": 0
+  }
+}

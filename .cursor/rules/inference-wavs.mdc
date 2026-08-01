@@ -1,0 +1,33 @@
+---
+description: Every inference must write wavs under out/<plan_slug>/ (or out/<run>_listen_demo when no plan)
+alwaysApply: true
+---
+
+# Inference → always save wavs
+
+Whenever any synthesis / inference / external baseline / listen-demo runs:
+
+1. **Always write `.wav` files** (never metrics-only completion for an infer job).
+2. Name the output directory from the **current working plan slug**:
+
+```text
+out/<plan_slug>/
+  <system_or_run>/
+    *.wav
+```
+
+Examples:
+
+- Plan `p1_data_execution.plan.md` → `out/p1_data_execution/silero_demo5/`
+- Same plan, Track A listen → `out/p1_data_execution/track_a_listen_demo/`
+
+3. If there is **no** active plan, fall back to `out/<run>_listen_demo/`
+   (checkpoint-listen skill).
+4. After WSL jobs, mirror wavs to Windows `C:\projects\tts-self\out\...` for
+   Cursor playback. Prefer **ASCII filenames** on the Windows mirror (Cyrillic
+   names often corrupt across `/mnt/c`); keep originals in the Linux FS if needed.
+5. Record relative play paths in
+   `.cursor/results/<plan_slug>/listen_index.json` when a plan is active.
+6. Tell the user the **exact paths** to play.
+
+Skip only if the user explicitly says not to synthesize.

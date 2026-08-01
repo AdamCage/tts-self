@@ -43,3 +43,8 @@ Need ASR ΔWER ≤ 4 pp (do not rely on `--skip-asr` for go-to-scale).
 ## Reporting
 
 Write JSON next to the checkpoint (`eval_*.json`) and mention `run_manifest.json` git sha + config hash in any summary to the user.
+
+If the eval includes synthesis, also write wavs under `out/<plan_slug>/`
+and, after a plan closes, fold metrics + paths into
+`.cursor/results/<plan_slug>/RESULTS.md` (`plan-results` skill).
+Do not edit `.cursor/methodology/` while implementing a plan.

@@ -10,12 +10,15 @@ description: >-
 
 ## Batch infer
 
+Always persist wavs. Prefer `out/<plan_slug>/...` when a plan is active
+(see `.cursor/rules/inference-wavs.mdc`).
+
 ```bash
 python scripts/08_infer.py \
   --text "Привет, это тест." \
   --ckpt runs/v01_regression_direct/best.pt \
   --config configs/infer.yaml \
-  --out out/synth.wav
+  --out out/<plan_slug>/synth.wav
 ```
 
 Stress: accentuator via `frontend/stress.py` before Qwen (train/infer parity).

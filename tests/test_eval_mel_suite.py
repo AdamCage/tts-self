@@ -5,6 +5,9 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import numpy as np
+import torch
+
 from minispeech.eval.optional_metrics import run_optional_metrics, score_gigaam_ctc
 from minispeech.eval.test_sets import (
     aggregate_cer_wer,
@@ -12,7 +15,6 @@ from minispeech.eval.test_sets import (
     load_suite_test_sets,
     load_test_set,
 )
-
 
 REPO = Path(__file__).resolve().parents[1]
 
@@ -31,7 +33,10 @@ def test_load_homograph_and_bank():
     b = load_test_set(REPO / "configs/eval_sets/bank_entity.json")
     assert h.n >= 6
     assert b.n >= 6
-    assert any("\u0301" in it.text or "руб" in it.text.lower() for it in list(h.items) + list(b.items))
+    assert any(
+        "\u0301" in item.text or "руб" in item.text.lower()
+        for item in (*h.items, *b.items)
+    )
 
 
 def test_load_val100_utt_ids():
@@ -72,8 +77,6 @@ def test_aggregate_empty():
 
 
 def test_optional_metrics_skip_missing():
-    import numpy as np
-
     wav = np.zeros(22050, dtype=np.float32)
     out = run_optional_metrics(
         ["gigaam_ctc", "utmos_v2", "nisqa", "unknown_metric"],
@@ -100,8 +103,6 @@ def test_optional_metrics_skip_missing():
 
 def test_hifigan_speechbrain_key_remap():
     from minispeech.infer.hifigan import remap_speechbrain_hifigan_keys
-
-    import torch
 
     raw = {
         "conv_pre.conv.weight_g": torch.zeros(1),

@@ -106,7 +106,17 @@ Frontend order for Track A: **TN (`normalize`/`verbalize`) → stress (`accentua
 | [AGENTS.md](AGENTS.md) | This file |
 | [.cursor/rules/](.cursor/rules/) | Always-on + scoped coding rules |
 | [.cursor/skills/](.cursor/skills/) | Workflow skills (see below) |
+| [.cursor/methodology/](.cursor/methodology/) | Track N methodology (**read during implementation; edit only when planning a new stage**) |
+| [.cursor/plans/](.cursor/plans/) | Execution plans (`<slug>.plan.md`) |
+| [.cursor/results/](.cursor/results/) | Per-plan `RESULTS.md` + `logs/` (`<slug>/`) |
 | [.cursor/hooks.json](.cursor/hooks.json) | sessionStart context + shell guard |
+
+### Plan slug, wavs, results
+
+- Plan file `p1_data_execution.plan.md` → slug `p1_data_execution`.
+- **Any inference** must write wavs under `out/<plan_slug>/...` (fallback `out/<run>_listen_demo/` if no plan).
+- After plan implementation: `.cursor/results/<plan_slug>/RESULTS.md` + `logs/` + `listen_index.json`.
+- Do **not** edit `.cursor/methodology/**` while executing a plan.
 
 ### Skills
 
@@ -117,7 +127,8 @@ Frontend order for Track A: **TN (`normalize`/`verbalize`) → stress (`accentua
 | `train-ladder` | S1→S4 regression & flow |
 | `text-usage-gate` | Shuffle/mask/prefix failures |
 | `streaming-infer` | Synth + TTFB streaming |
-| `checkpoint-listen` | **Mandatory** listen-demo after any new `best.pt` / FT ckpt |
+| `checkpoint-listen` | **Mandatory** listen-demo after any new `best.pt` / FT ckpt / infer |
+| `plan-results` | **Mandatory** detailed results pack after a plan finishes |
 | `wsl-env` | Venv / CUDA / HF_HOME |
 | `eval-gates` | pytest, smoke, WER, promote checks |
 

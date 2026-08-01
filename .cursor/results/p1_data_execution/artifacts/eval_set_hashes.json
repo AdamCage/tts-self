@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "hash_contract": {
+    "items_sha256": "sha256(canonical JSON of items; utt_ids array for kind=utt_ids)",
+    "file_sha256": "sha256(exact UTF-8 file bytes)"
+  },
+  "sets": {
+    "bank_entity": {
+      "version": "2.0.0",
+      "path": "/mnt/c/projects/tts-self/configs/eval_sets/bank_entity.json",
+      "n": 315,
+      "items_sha256": "02be6b39f2c37c00ec8ffe5d5f00677856133e3a64d5c4745f76e0ed4890b1b6",
+      "file_sha256": "b91f49189aaa1d1df9bb07e64b782ebd0722a025bc910202ed98bcc98b8a7d57"
+    },
+    "demo5": {
+      "version": "1.0.0",
+      "path": "/mnt/c/projects/tts-self/configs/eval_sets/demo5.json",
+      "n": 5,
+      "items_sha256": "72b43f9d2107133ce8192c0c96be27869e0c865edd1639b6d3a2aafd7a31b70e",
+      "file_sha256": "8d7d53e243c4b08aefbabe73cd09a0e873feb4217e29fd4fb2d5919af19a3bee"
+    },
+    "homograph": {
+      "version": "2.0.0",
+      "path": "/mnt/c/projects/tts-self/configs/eval_sets/homograph.json",
+      "n": 740,
+      "items_sha256": "ffafa4db14ff585a949939ed13638559934f2a2816c51e7731e130b2c4b936f6",
+      "file_sha256": "319575e56ef873014fdcba69a4ec5b1012059a3994c174e31bdc435ce4e14a19"
+    },
+    "latin": {
+      "version": "1.0.0",
+      "path": "/mnt/c/projects/tts-self/configs/eval_sets/latin.json",
+      "n": 117,
+      "items_sha256": "3120970f696edb30d05e5d3ee21f04762a81f2c68d5d900aa1507b9a6d1d7ce0",
+      "file_sha256": "3d1da42093072df688851d0953044ec2ba8dda4548246369af2910ab147268db"
+    },
+    "telephony": {
+      "version": "1.0.0",
+      "path": "/mnt/c/projects/tts-self/configs/eval_sets/telephony.json",
+      "n": 30,
+      "items_sha256": "ee0ad46e1a6fea4b22e18e02d013d761af883aaa73cf9bb0201d342a02a732b4",
+      "file_sha256": "510d92abbba9c717d0c25965f89bf858cfa621cc9e31c5c760ca5692482e596d"
+    },
+    "trackn_test": {
+      "version": "1.0.0",
+      "path": "/mnt/c/projects/tts-self/configs/eval_sets/trackn_test.json",
+      "n": 3458,
+      "items_sha256": "fc00d40f81d7949b28ba4ccfac9c58646eeb69b5b7a2372de9a8bbff4094d85c",
+      "file_sha256": "11efb5b01a2cb54a4d60e49fca4463e0e6af278bef14a1ebbcc3a586c77addc4"
+    },
+    "trackn_train": {
+      "version": "1.0.0",
+      "path": "/mnt/c/projects/tts-self/configs/eval_sets/trackn_train.json",
+      "n": 61866,
+      "items_sha256": "bdb057ffee7cf8f50f06815cff991e84d0fa8a7aa61c82fc5230f3a33d1b2dc9",
+      "file_sha256": "98e2e25835fe760ff78ff6b14c78d35b95013c14f03eb023021d78799cf00c7c"
+    },
+    "val100": {
+      "version": "1.0.0",
+      "path": "/mnt/c/projects/tts-self/configs/eval_sets/val100.json",
+      "n": 100,
+      "items_sha256": "49762248caa03e945fff343716d9e4a267e713263abf5f344511cfe8520ac556",
+      "file_sha256": "35853c892e2ada16d9fbe56ed48ae3a4a674fa59c6defc2a152f6c59e5883047"
+    }
+  }
+}

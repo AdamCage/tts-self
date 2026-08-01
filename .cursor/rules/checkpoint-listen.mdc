@@ -9,12 +9,14 @@ When training, fine-tuning, or promoting produces a **new** `best.pt` / `last.pt
 (Talker, mel baseline, variance, vocoder, tokenizer decode, or similar):
 
 1. **Do not stop at train metrics alone.** Immediately run a listen-demo infer
-   and leave wavs under `out/<run>_listen_demo/` (mirror to Windows `out/` when
-   the job ran in WSL).
-2. Read and follow `.cursor/skills/checkpoint-listen/SKILL.md`.
-3. Tell the user the **exact paths** to play (stock vs new side-by-side when
+   and leave wavs on disk (mirror to Windows `out/` when the job ran in WSL).
+2. Prefer plan-named dirs when a working plan is active:
+   `out/<plan_slug>/<run>_listen_demo/` (see `inference-wavs.mdc`).
+   Otherwise: `out/<run>_listen_demo/`.
+3. Read and follow `.cursor/skills/checkpoint-listen/SKILL.md`.
+4. Tell the user the **exact paths** to play (stock vs new side-by-side when
    comparing vocoders or duration modes).
-4. Skip only if the user explicitly says not to synthesize.
+5. Skip only if the user explicitly says not to synthesize.
 
 Default mel Talker demo:
 
@@ -24,7 +26,7 @@ python scripts/28_infer_mel.py \
   --demo \
   --duration-mode mean_stats \
   --gap-mode expand_neighbor \
-  --out out/<run>_listen_demo
+  --out out/<plan_slug_or_run>_listen_demo
 ```
 
 Vocoder FT: pass `--vocoder-ckpt runs/<vocoder_run>/best.pt` and also keep a

@@ -1,0 +1,63 @@
+{
+  "plan_slug": "p1_data_execution",
+  "plan": ".cursor/plans/p1_data_execution.plan.md",
+  "systems": {
+    "silero": {
+      "model_id": "v4_ru",
+      "voice": "xenia",
+      "sample_rate": 24000,
+      "wav_dir": "out/p1_data_execution/silero",
+      "metrics_json": "out/p1_data_execution/silero_listen_demo5_latin.json",
+      "full_suite_metrics_json": "out/external_baseline_silero_v2.json"
+    },
+    "track_a": {
+      "ckpt": "runs/mel_stress_v01_s4/best.pt",
+      "wav_dir": "out/p1_data_execution/track_a_listen_demo",
+      "note": "Existing production checkpoint; P1 did not train a new model. Windows copies use ASCII names 01_demo_01.wav … 05_demo_05.wav."
+    }
+  },
+  "demo5_side_by_side": [
+    {
+      "index": 1,
+      "utt_id": "demo_01",
+      "text": "привет! Я полностью самостоятельно обученная TTS-модель",
+      "silero": "out/p1_data_execution/silero/demo5/0001_demo_01.wav",
+      "track_a": "out/p1_data_execution/track_a_listen_demo/01_demo_01.wav",
+      "silero_cer": 0.15254237288135594
+    },
+    {
+      "index": 2,
+      "utt_id": "demo_02",
+      "text": "как у вас дела? Чем вам помочь?",
+      "silero": "out/p1_data_execution/silero/demo5/0002_demo_02.wav",
+      "track_a": "out/p1_data_execution/track_a_listen_demo/02_demo_02.wav",
+      "silero_cer": 0.0
+    },
+    {
+      "index": 3,
+      "utt_id": "demo_03",
+      "text": "Сегодня хорошая погода, можно пройтись пешком.",
+      "silero": "out/p1_data_execution/silero/demo5/0003_demo_03.wav",
+      "track_a": "out/p1_data_execution/track_a_listen_demo/03_demo_03.wav",
+      "silero_cer": 0.0
+    },
+    {
+      "index": 4,
+      "utt_id": "demo_04",
+      "text": "Пожалуйста, повторите ещё раз чуть медленнее.",
+      "silero": "out/p1_data_execution/silero/demo5/0004_demo_04.wav",
+      "track_a": "out/p1_data_execution/track_a_listen_demo/04_demo_04.wav",
+      "silero_cer": 0.0
+    },
+    {
+      "index": 5,
+      "utt_id": "demo_05",
+      "text": "Спасибо за внимание, до скорой встречи!",
+      "silero": "out/p1_data_execution/silero/demo5/0005_demo_05.wav",
+      "track_a": "out/p1_data_execution/track_a_listen_demo/05_demo_05.wav",
+      "silero_cer": 0.0
+    }
+  ],
+  "silero_latin_wav_dir": "out/p1_data_execution/silero/latin",
+  "n_silero_latin_wavs": 117
+}
