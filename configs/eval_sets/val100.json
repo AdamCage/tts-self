@@ -1,5 +1,6 @@
 {
   "id": "val100",
+  "version": "1.0.0",
   "description": "First 100 contiguous val utts with forced+mel (from S4 Gate-style eval)",
   "kind": "utt_ids",
   "n": 100,

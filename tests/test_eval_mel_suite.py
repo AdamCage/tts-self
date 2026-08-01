@@ -82,7 +82,18 @@ def test_optional_metrics_skip_missing():
         text="привет",
     )
     assert len(out) == 4
-    assert all(r.get("skipped") for r in out)
+    assert [r["metric"] for r in out] == [
+        "gigaam_ctc",
+        "utmos_v2",
+        "nisqa",
+        "unknown_metric",
+    ]
+    by_metric = {r["metric"]: r for r in out}
+    assert by_metric["gigaam_ctc"]["skipped"] is True
+    assert by_metric["nisqa"]["skipped"] is True
+    assert by_metric["unknown_metric"]["skipped"] is True
+    utmos = by_metric["utmos_v2"]
+    assert utmos["skipped"] is True or np.isfinite(float(utmos["value"]))
     g = score_gigaam_ctc(wav, 22050, text="x")
     assert g["skipped"] is True
 

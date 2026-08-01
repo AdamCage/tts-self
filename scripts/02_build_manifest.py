@@ -14,7 +14,16 @@ import soundfile as sf
 from tqdm import tqdm
 
 from minispeech.constants import SR, n_frames_from_samples
-from minispeech.data.manifest import Utterance, contiguous_split, write_manifest
+from minispeech.data.manifest import (
+    Utterance,
+    apply_utterance_defaults,
+    assert_no_speaker_leak,
+    contiguous_split,
+    deduplicate_utterances,
+    populate_integrity_fields,
+    speaker_split,
+    write_manifest,
+)
 from minispeech.frontend.normalize import normalize_text
 from minispeech.frontend.stress import to_canonical_stress
 from minispeech.utils import expand, load_yaml
@@ -85,7 +94,18 @@ def main() -> int:
     ap.add_argument("--config", default="configs/data_ruslan.yaml")
     ap.add_argument("--ruslan-dir", default=None)
     args = ap.parse_args()
-    cfg = load_yaml(args.config)["data"]
+    loaded = load_yaml(args.config)
+    if "ingest" in loaded:
+        from minispeech.data.ingest import build_manifest_from_config
+
+        try:
+            result = build_manifest_from_config(args.config)
+        except (FileNotFoundError, RuntimeError, ValueError) as exc:
+            print(f"Failed to build manifest: {exc}")
+            return 1
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0
+    cfg = loaded["data"]
     root = expand(args.ruslan_dir or cfg["ruslan_dir"])
     pairs = find_pairs(root)
 
@@ -94,12 +114,13 @@ def main() -> int:
         "dropped_dur": 0,
         "dropped_unreadable": 0,
         "dropped_dup_text": 0,
+        "dropped_dup_audio": 0,
         "dropped_utt_id_collision": 0,
     }
 
     if not pairs:
         try:
-            from datasets import load_from_disk, load_dataset
+            from datasets import load_dataset, load_from_disk
 
             try:
                 ds = load_from_disk(str(root))
@@ -131,18 +152,25 @@ def main() -> int:
                     counters["dropped_utt_id_collision"] += 1
                     raise ValueError(f"utt_id collision: {uid}")
                 seen_ids.add(uid)
-                rows.append(
-                    Utterance(
-                        utt_id=uid,
-                        wav=str(wav_path),
-                        text_raw=normalize_text(text_raw),
-                        text_stressed=to_canonical_stress(text),
-                        speaker=cfg.get("speaker", "ruslan"),
-                        n_samples_24k=n_24,
-                        n_frames=n_frames_from_samples(n_24),
-                        dur_s=dur,
-                    )
+                row = Utterance(
+                    utt_id=uid,
+                    wav=str(wav_path),
+                    text_raw=normalize_text(text_raw),
+                    text_stressed=to_canonical_stress(text),
+                    speaker=cfg.get("speaker", "ruslan"),
+                    corpus="ruslan",
+                    speaker_id=cfg.get("speaker", "ruslan"),
+                    channel="studio",
+                    sample_rate=sr,
+                    source_id=str(ex.get("id") or ex.get("path") or i),
+                    container_id=str(ex.get("container_id") or "ruslan:root"),
+                    n_samples_24k=n_24,
+                    n_frames=n_frames_from_samples(n_24),
+                    dur_s=dur,
                 )
+                apply_utterance_defaults(row)
+                populate_integrity_fields(row)
+                rows.append(row.materialize_defaults())
         except Exception as e:
             print(f"Failed to build manifest: {e}")
             return 1
@@ -173,35 +201,58 @@ def main() -> int:
                 counters["dropped_utt_id_collision"] += 1
                 raise ValueError(f"utt_id collision: {uid}")
             seen_ids.add(uid)
-            rows.append(
-                Utterance(
-                    utt_id=uid,
-                    wav=str(wp.resolve()),
-                    text_raw=normalize_text(text_raw),
-                    text_stressed=to_canonical_stress(text_st),
-                    speaker=cfg.get("speaker", "ruslan"),
-                    n_samples_24k=n_24,
-                    n_frames=n_frames_from_samples(n_24),
-                    dur_s=dur,
-                )
+            row = Utterance(
+                utt_id=uid,
+                wav=str(wp.resolve()),
+                text_raw=normalize_text(text_raw),
+                text_stressed=to_canonical_stress(text_st),
+                speaker=cfg.get("speaker", "ruslan"),
+                corpus="ruslan",
+                speaker_id=cfg.get("speaker", "ruslan"),
+                channel="studio",
+                sample_rate=info.samplerate,
+                source_id=wp.relative_to(root).as_posix(),
+                container_id=(
+                    f"ruslan:{wp.parent.relative_to(root).as_posix()}"
+                    if wp.parent != root
+                    else "ruslan:root"
+                ),
+                n_samples_24k=n_24,
+                n_frames=n_frames_from_samples(n_24),
+                dur_s=dur,
             )
+            apply_utterance_defaults(row)
+            populate_integrity_fields(row)
+            rows.append(row.materialize_defaults())
 
-    seen = set()
-    deduped = []
-    for r in rows:
-        key = r.text_raw.lower()
-        if key in seen:
-            counters["dropped_dup_text"] += 1
-            continue
-        seen.add(key)
-        deduped.append(r)
-    split_cfg = cfg.get("split", {})
-    rows = contiguous_split(
-        deduped,
-        train=float(split_cfg.get("train", 0.9)),
-        val=float(split_cfg.get("val", 0.05)),
-        test=float(split_cfg.get("test", 0.05)),
+    deduped, dedup_stats = deduplicate_utterances(
+        rows,
+        by_text=True,
+        by_audio=True,
+        text_key_mode="literal_lower",
+        compute_missing_audio=False,
     )
+    counters["dropped_dup_text"] = dedup_stats.n_dropped_text
+    counters["dropped_dup_audio"] = dedup_stats.n_dropped_audio
+    split_cfg = cfg.get("split", {})
+    split_kwargs = {
+        "train": float(split_cfg.get("train", 0.9)),
+        "val": float(split_cfg.get("val", 0.05)),
+        "test": float(split_cfg.get("test", 0.05)),
+    }
+    split_strategy = str(split_cfg.get("strategy", "contiguous_ranges"))
+    if split_strategy == "contiguous_ranges":
+        rows = contiguous_split(deduped, **split_kwargs)
+    elif split_strategy == "speaker_holdout":
+        rows = speaker_split(deduped, **split_kwargs)
+        if len({row.effective_speaker_id() for row in rows}) >= 2:
+            assert_no_speaker_leak(rows)
+    else:
+        print(
+            "Failed to build manifest: unknown split.strategy "
+            f"{split_strategy!r}; expected 'contiguous_ranges' or 'speaker_holdout'"
+        )
+        return 1
     pick_challenge(rows, cfg.get("challenge_set_size", 180))
 
     out = expand(cfg["manifest"])
@@ -221,6 +272,14 @@ def main() -> int:
         "hours_by_split": hours_by_split,
         "test_set_sha256": h,
         "filter_counters": counters,
+        "dedup": {
+            "n_in": dedup_stats.n_in,
+            "n_out": dedup_stats.n_out,
+            "text_duplicates_dropped": dedup_stats.n_dropped_text,
+            "audio_duplicates_dropped": dedup_stats.n_dropped_audio,
+            "text_key_mode": "literal_lower",
+        },
+        "split_strategy": split_strategy,
         "utt_id_scheme": "ruslan_{stem}",
     }
     out.with_suffix(".meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")

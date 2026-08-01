@@ -1,0 +1,158 @@
+{
+  "id": "telephony",
+  "version": "1.0.0",
+  "kind": "phrases",
+  "description": "IVR-like Russian phrases for wideband, G.711 and Opus channel evaluation.",
+  "items": [
+    {
+      "utt_id": "tel_001",
+      "text": "Здравствуйте! Вы позвонили в службу поддержки банка.",
+      "category": "ivr"
+    },
+    {
+      "utt_id": "tel_002",
+      "text": "Для проверки баланса нажмите один.",
+      "category": "ivr"
+    },
+    {
+      "utt_id": "tel_003",
+      "text": "Для связи с оператором нажмите ноль.",
+      "category": "ivr"
+    },
+    {
+      "utt_id": "tel_004",
+      "text": "Введите последние четыре цифры номера карты.",
+      "category": "ivr"
+    },
+    {
+      "utt_id": "tel_005",
+      "text": "Повторите код после звукового сигнала.",
+      "category": "ivr"
+    },
+    {
+      "utt_id": "tel_006",
+      "text": "Сумма операции составляет 12 450 рублей 30 копеек.",
+      "category": "money"
+    },
+    {
+      "utt_id": "tel_007",
+      "text": "Комиссия за перевод составит 1,5 процента.",
+      "category": "percent"
+    },
+    {
+      "utt_id": "tel_008",
+      "text": "На вашем счёте осталось 92 рубля.",
+      "category": "money"
+    },
+    {
+      "utt_id": "tel_009",
+      "text": "Платёж на сумму 5000 рублей принят.",
+      "category": "money"
+    },
+    {
+      "utt_id": "tel_010",
+      "text": "Минимальная сумма перевода — 100 рублей.",
+      "category": "money"
+    },
+    {
+      "utt_id": "tel_011",
+      "text": "Код подтверждения: 042917.",
+      "category": "codes"
+    },
+    {
+      "utt_id": "tel_012",
+      "text": "Ваш одноразовый пароль: 805132.",
+      "category": "codes"
+    },
+    {
+      "utt_id": "tel_013",
+      "text": "БИК банка 044525225.",
+      "category": "codes"
+    },
+    {
+      "utt_id": "tel_014",
+      "text": "ИНН организации 7707083893.",
+      "category": "codes"
+    },
+    {
+      "utt_id": "tel_015",
+      "text": "СНИЛС клиента 123-456-789 00.",
+      "category": "codes"
+    },
+    {
+      "utt_id": "tel_016",
+      "text": "Номер счёта 40817810099910004312.",
+      "category": "accounts"
+    },
+    {
+      "utt_id": "tel_017",
+      "text": "Номер карты 2202 2002 1234 5678.",
+      "category": "accounts"
+    },
+    {
+      "utt_id": "tel_018",
+      "text": "Позвоните по номеру +7 900 123-45-67.",
+      "category": "phones"
+    },
+    {
+      "utt_id": "tel_019",
+      "text": "Бесплатный номер 8 800 555-35-35.",
+      "category": "phones"
+    },
+    {
+      "utt_id": "tel_020",
+      "text": "Обратный звонок поступит с 9 до 18 часов.",
+      "category": "ranges"
+    },
+    {
+      "utt_id": "tel_021",
+      "text": "Заявка будет рассмотрена в течение 10–15 дней.",
+      "category": "ranges"
+    },
+    {
+      "utt_id": "tel_022",
+      "text": "Операция выполнена 23 июля 2026 года.",
+      "category": "dates"
+    },
+    {
+      "utt_id": "tel_023",
+      "text": "Следующий платёж запланирован на 01.08.2026.",
+      "category": "dates"
+    },
+    {
+      "utt_id": "tel_024",
+      "text": "Отделение работает с 09:00 до 20:00.",
+      "category": "time"
+    },
+    {
+      "utt_id": "tel_025",
+      "text": "Ожидаемое время ответа — 30 минут.",
+      "category": "units"
+    },
+    {
+      "utt_id": "tel_026",
+      "text": "Перевод через СБП временно недоступен.",
+      "category": "ru_abbr"
+    },
+    {
+      "utt_id": "tel_027",
+      "text": "Подтвердите согласие на получение SMS.",
+      "category": "lat_abbr"
+    },
+    {
+      "utt_id": "tel_028",
+      "text": "Оплата через Google Pay недоступна.",
+      "category": "loanwords"
+    },
+    {
+      "utt_id": "tel_029",
+      "text": "Это ваш третий и последний шанс ввода кода.",
+      "category": "ordinals"
+    },
+    {
+      "utt_id": "tel_030",
+      "text": "Спасибо за звонок. До свидания!",
+      "category": "ivr"
+    }
+  ]
+}

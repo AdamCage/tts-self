@@ -111,7 +111,10 @@ class Trainer:
             ds = getattr(train_loader, "dataset", None)
             rows = getattr(ds, "rows", None)
             if rows:
-                mean_frames = float(sum(r.n_frames or r.dur_s * 7.5 for r in rows) / max(len(rows), 1))
+                mean_frames = float(
+                    sum(r.n_frames or r.dur_s * 7.5 for r in rows)
+                    / max(len(rows), 1)
+                )
         except Exception:
             pass
         self.stop_pos_weight = resolve_stop_pos_weight(cfg, mean_frames)
@@ -127,7 +130,11 @@ class Trainer:
         cer_cfg = tcfg.get("cer_checkpoint", {})
         self.cer_every = int(cer_cfg.get("every", 0) or 0)
         self.cer_select = bool(cer_cfg.get("enabled", False))
-        stop_infer = cfg.get("infer", {}).get("stop", {}) if isinstance(cfg.get("infer"), dict) else {}
+        stop_infer = (
+            cfg.get("infer", {}).get("stop", {})
+            if isinstance(cfg.get("infer"), dict)
+            else {}
+        )
         self.fr_stop = {
             "threshold": float(stop_infer.get("threshold", 0.45)),
             "consecutive": int(stop_infer.get("consecutive", 3)),
@@ -147,7 +154,8 @@ class Trainer:
                     print(
                         f"[fr-best] restored prior key from {fr_best_path.name} "
                         f"step={prior.get('step')} "
-                        f"duration_in_band={prior.get('stability', {}).get('duration_in_band_rate')}"
+                        "duration_in_band="
+                        f"{prior.get('stability', {}).get('duration_in_band_rate')}"
                     )
             except Exception as exc:  # noqa: BLE001 — best-effort resume
                 print(f"[fr-best] could not restore prior key: {exc}")
@@ -203,7 +211,13 @@ class Trainer:
     def _noise_sigma(self, step: int, total: int) -> float:
         return self.input_noise_max * min(1.0, step / max(total * 0.5, 1))
 
-    def _ckpt_payload(self, stage: str, step: int | None = None, *, fr_metrics: dict | None = None) -> dict:
+    def _ckpt_payload(
+        self,
+        stage: str,
+        step: int | None = None,
+        *,
+        fr_metrics: dict | None = None,
+    ) -> dict:
         payload = {
             "model": self.model.state_dict(),
             "ema": self.ema.state_dict(),
@@ -215,7 +229,14 @@ class Trainer:
             payload["fr_metrics"] = fr_metrics
         return payload
 
-    def _save_ckpt(self, stage: str, step: int | None = None, *, promote_best: bool = False, fr_metrics: dict | None = None) -> None:
+    def _save_ckpt(
+        self,
+        stage: str,
+        step: int | None = None,
+        *,
+        promote_best: bool = False,
+        fr_metrics: dict | None = None,
+    ) -> None:
         ckpt = self._ckpt_payload(stage, step, fr_metrics=fr_metrics)
         # Rolling last always; avoid N×165MB step dumps.
         torch.save(ckpt, self.run_dir / f"{stage}_last.pt")
@@ -243,7 +264,11 @@ class Trainer:
     def _maybe_promote_fr_best(self, stage: str, step: int) -> dict[str, Any] | None:
         if not self.fr_select_best and not self.cer_select:
             return None
-        report = self._eval_free_running() if self.fr_select_best or self.val_loader is not None else {}
+        report = (
+            self._eval_free_running()
+            if self.fr_select_best or self.val_loader is not None
+            else {}
+        )
         stab = report.get("stability", {}) if report else {}
         cer_val = None
         if self.cer_select and self.cer_eval_fn is not None:
@@ -263,7 +288,9 @@ class Trainer:
             "step": step,
             "improved": improved,
             "selection_key": list(key),
-            "prev_selection_key": list(self._best_fr_key) if self._best_fr_key is not None else None,
+            "prev_selection_key": (
+                list(self._best_fr_key) if self._best_fr_key is not None else None
+            ),
             "stability": stab,
             "cer": cer_val,
             "n": report.get("n") if report else None,
@@ -343,9 +370,16 @@ class Trainer:
                 )
                 if self.model.mode == "regression":
                     guided = None
-                    if out.cross_attn is not None and batch.get("align_prior") is not None and gw > 0:
+                    if (
+                        out.cross_attn is not None
+                        and batch.get("align_prior") is not None
+                        and gw > 0
+                    ):
                         guided = guided_attention_loss(
-                            out.cross_attn, batch["align_prior"], batch["frame_mask"], batch["text_mask"]
+                            out.cross_attn,
+                            batch["align_prior"],
+                            batch["frame_mask"],
+                            batch["text_mask"],
                         )
                     losses = total_regression_loss(
                         out.z_pred,
@@ -451,7 +485,7 @@ def make_loaders(
         text_hidden_dir=data_cfg["text_hidden_dir"],
         align_dir=data_cfg.get("align_dir"),
         preload=preload,
-        exclude_tags=tuple(data_cfg.get("exclude_tags", ("exclude",))),
+        exclude_tags=tuple(data_cfg.get("exclude_tags", ("exclude", "duplicate"))),
         review_weight=data_cfg.get("review_weight", 0.5),
     )
     train_ds = MiniSpeechDataset(

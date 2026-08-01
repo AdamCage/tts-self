@@ -28,7 +28,6 @@ from minispeech.train.distributed import (
     device_for_rank,
     get_dist_info,
     init_distributed,
-    is_distributed,
     is_main_process,
     unwrap_model,
     wrap_ddp,
@@ -335,7 +334,10 @@ class MelTrainer:
         total, n = 0.0, 0
         with torch.no_grad():
             for batch in self.val_loader:
-                batch = {k: v.to(self.device) if torch.is_tensor(v) else v for k, v in batch.items()}
+                batch = {
+                    k: v.to(self.device) if torch.is_tensor(v) else v
+                    for k, v in batch.items()
+                }
                 with self._autocast():
                     out = self.ema.shadow(
                         batch["phone_ids"],
@@ -510,8 +512,16 @@ class MelTrainer:
                 pbar.set_postfix(loss=f"{last['total']:.4f}", lr=f"{last['lr']:.2e}")
                 with open(self.run_dir / "train_log.jsonl", "a", encoding="utf-8") as f:
                     f.write(json.dumps({"step": step, "stage": stage, **last}) + "\n")
-            do_save = save_every > 0 and self.global_step > 0 and self.global_step % save_every == 0
-            do_cer = self.cer_every > 0 and self.global_step > 0 and self.global_step % self.cer_every == 0
+            do_save = (
+                save_every > 0
+                and self.global_step > 0
+                and self.global_step % save_every == 0
+            )
+            do_cer = (
+                self.cer_every > 0
+                and self.global_step > 0
+                and self.global_step % self.cer_every == 0
+            )
             if do_cer or do_save:
                 self._maybe_promote(stage, step=self.global_step)
 
@@ -564,7 +574,7 @@ def make_mel_loaders(
         mel_dir=mel_dir,
         forced_path=forced,
         vocab=vocab,
-        exclude_tags=tuple(data_cfg.get("exclude_tags", ("exclude",))),
+        exclude_tags=tuple(data_cfg.get("exclude_tags", ("exclude", "duplicate"))),
         review_weight=data_cfg.get("review_weight", 0.5),
         target=mel_cfg.get("target", "mel80"),
         upsample=upsample,

@@ -1,0 +1,19 @@
+# Copy to configs/data_<corpus>.yaml and replace values. The corpus must exist
+# in src/minispeech/data/corpus_registry.py; rights/channel/source are read
+# from that registry rather than duplicated here.
+ingest:
+  corpus: common_voice_ru_17_hf_mirror
+  format: directory
+  root: ~/datasets/tts/example/source
+  audio_glob: "**/*.wav"
+  transcript_template: "{relative_no_suffix}.txt"
+  speaker_from: topdir
+  container_from: relative_parent
+  manifest: ~/datasets/tts/example/manifest.jsonl
+  min_dur_s: 0.5
+  max_dur_s: 15.0
+  split:
+    strategy: speaker_holdout
+    train: 0.90
+    val: 0.05
+    test: 0.05

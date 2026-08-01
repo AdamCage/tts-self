@@ -15,7 +15,7 @@ from torch import nn
 from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
 
-from minispeech.constants import TargetSpec, get_target
+from minispeech.constants import get_target
 from minispeech.data.manifest import filter_split, read_manifest
 from minispeech.data.mel import MelCacheReader, extract_mel_file, load_wav_mono
 from minispeech.infer.hifigan import (
@@ -75,7 +75,7 @@ class VocoderPairDataset(Dataset[dict[str, Any]]):
         mel_dir: str | Path | None = None,
         max_utterances: int | None = None,
         max_hours: float | None = None,
-        exclude_tags: tuple[str, ...] = ("exclude",),
+        exclude_tags: tuple[str, ...] = ("exclude", "duplicate"),
     ):
         self.spec = get_target(target)
         if self.spec.kind != "mel":
@@ -116,7 +116,10 @@ class VocoderPairDataset(Dataset[dict[str, Any]]):
             else extract_mel_file(row.wav, target=self.spec)
         )
         if mel.ndim != 2 or mel.shape[1] != self.spec.dim:
-            raise ValueError(f"{row.utt_id}: expected [T, {self.spec.dim}] mel, got {tuple(mel.shape)}")
+            raise ValueError(
+                f"{row.utt_id}: expected [T, {self.spec.dim}] mel, "
+                f"got {tuple(mel.shape)}"
+            )
         wav_np, _ = load_wav_mono(row.wav, target_sr=self.spec.sample_rate)
         wav = torch.from_numpy(wav_np).float()
         target_samples = int(mel.shape[0]) * self.spec.samples_per_frame
@@ -418,7 +421,7 @@ def make_vocoder_loaders(
         "manifest_path": data_cfg["manifest"],
         "target": target_name,
         "mel_dir": mel_dir,
-        "exclude_tags": tuple(data_cfg.get("exclude_tags", ("exclude",))),
+        "exclude_tags": tuple(data_cfg.get("exclude_tags", ("exclude", "duplicate"))),
     }
     train_dataset = VocoderPairDataset(
         split="train",

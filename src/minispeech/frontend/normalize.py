@@ -43,12 +43,30 @@ _ABBR = {
     "ул.": "улица",
     "пр.": "проспект",
     "обл.": "область",
-    "г.": "год",  # ambiguous with "город"; verbalize year patterns first
     # Bank / entity letterisms (spoken letter-by-letter)
     "ИНН": "и эн эн",
     "КПП": "ка пэ пэ",
     "БИК": "бик",
     "ОГРН": "о гэ эр эн",
+    "СНИЛС": "снилс",
+    "ОКВЭД": "о ка вэ э дэ",
+    "ОКПО": "о ка пэ о",
+    "ОКТМО": "о ка тэ эм о",
+    "МФО": "эм эф о",
+    "НКО": "эн ка о",
+    "ФНС": "эф эн эс",
+    "НДС": "эн дэ эс",
+    "СБП": "эс бэ пэ",
+    "КБК": "ка бэ ка",
+    "УИН": "у и эн",
+    "ОАО": "о а о",
+    "ООО": "о о о",
+    "ПАО": "пэ а о",
+    "АО": "а о",
+    "ИП": "и пэ",
+    "УК": "у ка",
+    "ЦБ": "цэ бэ",
+    "РФ": "эр эф",
 }
 
 
@@ -59,7 +77,18 @@ def expand_abbreviations(text: str) -> str:
     t = text
     # Sort by length descending so multi-char abbreviations match first.
     for a, b in sorted(_ABBR.items(), key=lambda kv: len(kv[0]), reverse=True):
-        t = re.sub(re.escape(a), b, t, flags=re.IGNORECASE)
+        pattern = rf"(?<!\w){re.escape(a)}(?!\w)"
+        if a == "см.":
+            t = re.sub(
+                pattern,
+                lambda m: m.group(0)
+                if re.search(r"\d\s*$", t[: m.start()])
+                else b,
+                t,
+                flags=re.IGNORECASE,
+            )
+        else:
+            t = re.sub(pattern, b, t, flags=re.IGNORECASE)
     return t
 
 

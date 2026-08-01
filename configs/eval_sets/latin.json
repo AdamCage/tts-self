@@ -1,5 +1,6 @@
 {
   "id": "latin",
+  "version": "1.0.0",
   "description": "Latin abbreviations and loanwords for frontend transliteration (D2); expected_spoken is fully Cyrillic spoken form",
   "kind": "phrases",
   "n": 117,

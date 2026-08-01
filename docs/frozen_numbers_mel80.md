@@ -75,13 +75,26 @@ Do **not** push the tag without an explicit user request.
 
 ### Eval-set hashes (sha256)
 
-| Set | n | sha256 |
-|-----|--:|--------|
-| `bank_entity.json` | 315 | `34671d57adddce5f6fbea30aedf51bfa23afb64961b6aacb84935464c44480ab` |
-| `homograph.json` | 895 | `60067ae03bc288e9325ebe438554b3aa495958458f9ffa9077dc830adec9bbc6` |
-| `latin.json` | 117 | `5cec49347f3f49551436e5a907f6d6c85cc89f96240081fe56a49782727cec21` |
+Контракт P1 разделяет хеш содержимого и хеш файла. `items_sha256` считается по
+каноническому JSON массива `items` (для `kind: utt_ids` — массива `utt_ids`) и
+не зависит от метаданных. `file_sha256` изменился при добавлении
+`version`; сами элементы неизменённых наборов не менялись.
 
-Также: `out/n10_eval_set_hashes.txt`.
+| Set | version | n | items_sha256 | file_sha256 |
+|-----|---------|--:|--------------|-------------|
+| `bank_entity.json` | 2.0.0 | 315 | `02be6b39f2c37c00ec8ffe5d5f00677856133e3a64d5c4745f76e0ed4890b1b6` | `b91f49189aaa1d1df9bb07e64b782ebd0722a025bc910202ed98bcc98b8a7d57` |
+| `demo5.json` | 1.0.0 | 5 | `72b43f9d2107133ce8192c0c96be27869e0c865edd1639b6d3a2aafd7a31b70e` | `8d7d53e243c4b08aefbabe73cd09a0e873feb4217e29fd4fb2d5919af19a3bee` |
+| `homograph.json` | 2.0.0 | 740 | `ffafa4db14ff585a949939ed13638559934f2a2816c51e7731e130b2c4b936f6` | `319575e56ef873014fdcba69a4ec5b1012059a3994c174e31bdc435ce4e14a19` |
+| `latin.json` | 1.0.0 | 117 | `3120970f696edb30d05e5d3ee21f04762a81f2c68d5d900aa1507b9a6d1d7ce0` | `3d1da42093072df688851d0953044ec2ba8dda4548246369af2910ab147268db` |
+| `telephony.json` | 1.0.0 | 30 | `ee0ad46e1a6fea4b22e18e02d013d761af883aaa73cf9bb0201d342a02a732b4` | `510d92abbba9c717d0c25965f89bf858cfa621cc9e31c5c760ca5692482e596d` |
+| `trackn_test.json` | 1.0.0 | 3458 | `fc00d40f81d7949b28ba4ccfac9c58646eeb69b5b7a2372de9a8bbff4094d85c` | `11efb5b01a2cb54a4d60e49fca4463e0e6af278bef14a1ebbcc3a586c77addc4` |
+| `trackn_train.json` | 1.0.0 | 61866 | `bdb057ffee7cf8f50f06815cff991e84d0fa8a7aa61c82fc5230f3a33d1b2dc9` | `98e2e25835fe760ff78ff6b14c78d35b95013c14f03eb023021d78799cf00c7c` |
+| `val100.json` | 1.0.0 | 100 | `49762248caa03e945fff343716d9e4a267e713263abf5f344511cfe8520ac556` | `35853c892e2ada16d9fbe56ed48ae3a4a674fa59c6defc2a152f6c59e5883047` |
+
+Реестр: `out/eval_set_hashes.json`. V1-хеши до аудита:
+`bank_entity items=80b21ec8… file=074ebb64…`,
+`homograph items=c80eb2a6… file=d57fdf75…`. Старые `file_sha256` до добавления
+метаданных для трёх исходных наборов сохранены в `out/n10_eval_set_hashes.txt`.
 
 ### Free synth (neural)
 
@@ -150,3 +163,48 @@ Duration A/B ballot: `out/m09_pref_dur/` (mean_stats vs pred_dur from M02).
 Trap sanity (auto): `trap_same_rate=1.0`. Human votes not yet collected —
 `significant_vs_half` requires listener responses; coin-flip simulation stays
 inside CI around 0.5 as expected.
+
+## P1 full baselines: v1 and v2 — 2026-08-01
+
+Оба прогона используют один и тот же checkpoint
+`runs/mel_stress_v01_s4/best.pt`, neural HiFi-GAN, полный набор без
+`--max-utts`, акустический SA и copy-synth topline. Артефакты:
+`out/baseline_p1_v1_full.json` и `out/baseline_p1_v2_full.json`.
+
+### V1, до аудита
+
+| Set | n | mean CER | median CER | CER CI95 | DER | EER | SA |
+|-----|--:|---------:|-----------:|----------|----:|----:|---:|
+| demo5 | 5 | 0.0935 | 0.1163 | [0.0233, 0.1662] | — | — | — |
+| val100 | 100 | 0.0310 | 0.0195 | [0.0241, 0.0381] | — | — | — |
+| bank_entity v1 | 315 | 0.1616 | 0.0938 | [0.1412, 0.1839] | 0.4729 | 0.5270 | — |
+| homograph v1 | 895 | 0.0916 | 0.0625 | [0.0848, 0.0986] | — | — | 0.4922 |
+| latin | 117 | 0.2408 | 0.1304 | [0.1241, 0.4543] | — | — | — |
+
+### V2, после аудита
+
+| Set | n | mean CER | median CER | CER CI95 | DER | EER | SA |
+|-----|--:|---------:|-----------:|----------|----:|----:|---:|
+| demo5 | 5 | 0.0935 | 0.1163 | [0.0233, 0.1662] | — | — | — |
+| val100 | 100 | 0.0319 | 0.0224 | [0.0249, 0.0390] | — | — | — |
+| bank_entity v2 | 315 | 0.1907 | 0.0750 | [0.1321, 0.2700] | 0.6142 | 0.3651 | — |
+| homograph v2 | 740 | 0.0703 | 0.0318 | [0.0631, 0.0769] | — | — | 0.4614 |
+| latin | 117 | 0.2386 | 0.1304 | [0.1221, 0.4520] | — | — | — |
+
+**Прямое межверсионное сравнение недопустимо.** В `bank_entity` исправлены
+44 из 315 expected labels (13.97%), а текущий frontend меняет нормализованный
+вход синтеза. В `homograph` исправлены формы и удалены 155 невалидных пар, так
+что изменились и состав, и контексты набора.
+
+Чтобы отделить эффект разметки, гипотезы неизменного v1-прогона были повторно
+оценены по v2 labels (`out/bank_entity_v1_hyp_v2_labels.json`):
+
+- DER: `585/1237 = 0.4729` → `512/1226 = 0.4176`,
+  label-only delta **−0.0553** (73 меньше digit errors);
+- EER: `166/315 = 0.5270` → `169/315 = 0.5365`,
+  label-only delta **+0.0095** (3 больше span errors).
+
+В свежем v2-прогоне относительно v1 DER изменился на `+0.1413`, EER на
+`−0.1619`. Остаток нельзя приписывать label fixes: frontend и синтезируемый
+вход уже другие, а в bank v2 есть четыре выброса CER > 1. SA здесь остаётся
+диагностикой: калибровка M05 ниже порога валидности 0.90.

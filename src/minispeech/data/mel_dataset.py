@@ -15,7 +15,7 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 
-from minispeech.constants import MEL80, get_target
+from minispeech.constants import get_target
 from minispeech.data.forced_align import load_forced_json, text_to_ctc_char_labels
 from minispeech.data.frame_projection import (
     DEFAULT_GAP_MODE,
@@ -81,7 +81,7 @@ class MelSpeechDataset(Dataset):
         vocab: PhoneVocab | None = None,
         max_utterances: int | None = None,
         max_hours: float | None = None,
-        exclude_tags: Sequence[str] = ("exclude",),
+        exclude_tags: Sequence[str] = ("exclude", "duplicate"),
         review_weight: float | None = 0.5,
         target: str = "mel80",
         upsample: str = "hard",

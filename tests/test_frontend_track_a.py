@@ -5,6 +5,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from minispeech.data.alignment import word_level_prior
 from minispeech.data.forced_align import (
     pack_forced_entry,
@@ -118,6 +120,104 @@ def test_bank_letterisms_inn_kpp():
     assert "КПП" not in t
 
 
+@pytest.mark.parametrize(
+    ("raw", "expected"),
+    [
+        ("+7 900 123-45-67", "плюс семь девятьсот сто двадцать три сорок пять шестьдесят семь"),
+        ("+7 (495) 120-30-40", "плюс семь четыреста девяносто пять сто двадцать тридцать сорок"),
+        (
+            "8 916 777 88 99",
+            "восемь девятьсот шестнадцать семьсот семьдесят семь "
+            "восемьдесят восемь девяносто девять",
+        ),
+        (
+            "+7-901-005-01-02",
+            "плюс семь девятьсот один ноль ноль пять ноль один ноль два",
+        ),
+        ("8(800)555-35-35", "восемь восемьсот пятьсот пятьдесят пять тридцать пять тридцать пять"),
+    ],
+)
+def test_phone_verbalization_in_groups(raw: str, expected: str) -> None:
+    assert verbalize_text(raw) == expected
+
+
+@pytest.mark.parametrize(
+    ("raw", "expected"),
+    [
+        ("Срок 10–15 дней", "от десяти до пятнадцати"),
+        ("Ожидайте 5-7 дней", "от пяти до семи"),
+        ("Работаем с 9 до 18", "с девяти до восемнадцати"),
+        ("Возраст от 20 до 25", "от двадцати до двадцати пяти"),
+        ("Лимит 100—200", "от ста до двухсот"),
+    ],
+)
+def test_range_verbalization_uses_governing_prepositions(raw: str, expected: str) -> None:
+    assert expected in verbalize_text(raw)
+
+
+@pytest.mark.parametrize(
+    ("raw", "expected"),
+    [
+        ("Масса 2 кг.", "два килограмма"),
+        ("Масса 5 кг.", "пять килограммов"),
+        ("Скорость 60 км/ч.", "шестьдесят километров в час"),
+        ("Площадь 2 м².", "два квадратных метра"),
+        ("Навеска 100 г.", "сто граммов"),
+        ("Объём 1 л.", "один литр"),
+    ],
+)
+def test_unit_verbalization_agrees_with_number(raw: str, expected: str) -> None:
+    assert expected in verbalize_text(raw)
+
+
+@pytest.mark.parametrize(
+    ("raw", "digits"),
+    [
+        ("ИНН 7707083893", "7707083893"),
+        ("КПП 773601001", "773601001"),
+        ("БИК 044525225", "044525225"),
+        ("СНИЛС 123-456-789 00", "12345678900"),
+        ("ОГРН 1027700132195", "1027700132195"),
+        ("Счёт 40817810099910004312", "40817810099910004312"),
+        ("Карта 2202 2002 1234 5678", "2202200212345678"),
+    ],
+)
+def test_identifiers_are_spelled_digit_by_digit(raw: str, digits: str) -> None:
+    spoken = verbalize_digits(digits)
+    result = verbalize_text(raw)
+    assert spoken in result
+    assert not any(char.isdigit() for char in result)
+
+
+@pytest.mark.parametrize(
+    ("category", "raw", "expected"),
+    [
+        ("integers", "Лимит 42", "сорок два"),
+        ("decimals", "Ставка 2,5", "два точка пять"),
+        ("money", "Сумма 21 руб.", "двадцать один рубль"),
+        ("percent", "Комиссия 15%", "пятнадцать процентов"),
+        ("dates", "Дата 01.02.2020", "первый февраля"),
+        ("time", "Открытие в 09:05", "девять пять"),
+        ("phones", "Телефон +7 900 123-45-67", "плюс семь"),
+        ("accounts", "Номер счёта 4082", "четыре ноль восемь два"),
+        ("codes", "БИК 044525225", "ноль четыре четыре пять"),
+        ("ru_abbr", "СНИЛС и ОКВЭД", "снилс и о ка вэ э дэ"),
+        ("lat_abbr", "Установите TTS", "тэ-тэ-э́с"),
+        ("loanwords", "Оплата Google Pay", "гугл"),
+        ("units", "Масса 5 кг.", "пять килограммов"),
+        ("ordinals", "Это 3-й платёж", "третий"),
+        ("ranges", "Срок 10–15 дней", "от десяти до пятнадцати"),
+    ],
+)
+def test_bank_entity_category_matrix(
+    category: str,
+    raw: str,
+    expected: str,
+) -> None:
+    _ = category
+    assert expected in verbalize_text(raw)
+
+
 def test_asr_cer_normalizes_whisper_digit_hyps():
     """Whisper often emits digits; CER must compare spoken forms."""
     ref = "переведите тысячу двести тридцать четыре рубля пятьдесят копеек"
@@ -163,7 +263,11 @@ def test_uniform_spans_and_forced_pack(tmp_path: Path):
     assert spans_f[-1][1] == 23
     tw, tl = token_word_ids_from_words(words)
     assert tw == [0, 1, 2]
-    phones, _ = text_to_phones_for_align("раз два три", already_stressed=False, use_accentuator=False)
+    phones, _ = text_to_phones_for_align(
+        "раз два три",
+        already_stressed=False,
+        use_accentuator=False,
+    )
     entry = pack_forced_entry(
         words=words,
         dur_s=3.0,

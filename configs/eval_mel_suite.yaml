@@ -21,6 +21,8 @@ test_sets:
   val100: configs/eval_sets/val100.json
   homograph: configs/eval_sets/homograph.json
   bank_entity: configs/eval_sets/bank_entity.json
+  latin: configs/eval_sets/latin.json
+  telephony: configs/eval_sets/telephony.json
 
 infer_defaults:
   duration_mode: mean_stats

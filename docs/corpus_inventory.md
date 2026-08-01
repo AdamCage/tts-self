@@ -1,28 +1,57 @@
-# Инвентаризация русского аудио (зонд З3 / N03)
+# Инвентаризация русского аудио (P1 D03)
 
-Дата: 2026-07-31.  
-Метод: только веб-инвентаризация по первоисточникам; **корпуса не загружались**.  
-Машинный артефакт: [`out/probe_corpus_inventory.json`](../out/probe_corpus_inventory.json).
+Дата проверки: 2026-08-01. Метод: API/карточки первоисточников; **аудио в
+D03 не загружалось**. Машинный артефакт:
+[`out/corpus_probe_v2.json`](../out/corpus_probe_v2.json).
 
-Правило: каждое число со ссылкой на источник. Если в первоисточнике нет — `unknown` / «не установлено», без оценок.
+Правило: точный размер записан в байтах только когда источник его отдаёт.
+`—` означает отсутствие данных, а не оценку.
 
-## Сводная таблица кандидатов
+## Проверенные кандидаты
 
-| Корпус | Часы (источник) | Дикторы | SR / канал | Лицензия | Коммерч. обучение | Транскрипты | Загрузка | 8 кГц тел. |
-|--------|----------------:|--------:|------------|----------|-------------------|-------------|----------|------------|
-| RUSLAN | >31 ([homepage](https://ruslan-corpus.github.io/)); у нас clean ~15.4 ([methodology](../.cursor/methodology/README.md)) | 1 | 22050 в локальном конфиге (`configs/data_ruslan_local.yaml`); на homepage SR не указан | [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) | **нет** (NC) | да, TTS-аннотации | Google Drive, 7 Gb | нет |
-| Golos | 1240; train 1227.4 + test 12.6 ([GitHub](https://github.com/sberdevices/golos/)) | unknown (анонимизированы, [arXiv](https://arxiv.org/abs/2106.10161)) | **не указан** в README/статье; вторично HF 16 kHz | custom ShareAlike; [портал](https://developers.sber.ru/portal/products/golos) допускает research+commercial; PDF: [en](https://github.com/sberdevices/golos/blob/master/license/en_us.pdf) | **да** (по порталу; условия ShareAlike — в PDF) | ручная | opus 20.5 GB или wav-шарды | нет |
-| Common Voice ru v26 | 291.58 (validated 253.69) ([MDC](https://mozilladatacollective.com/datasets/cmqinj9g500vsnr07qf4hmr3j)) | 3744 | MP3; Hz на datasheet не указан | CC0-1.0 | **да** (CC0; запрет deanonymize / re-host) | scripted + votes | 6.58 GB MP3 | нет |
-| OpenSTT | 20108 ([GitHub](https://github.com/snakers4/open_stt/)) | unknown | mono 16 kHz int16 (нормализация) | CC BY-NC 4.0; commercial по соглашению | **нет** по умолчанию | смешанные (align/ASR/subs/manual val) | 356G opus / 2.3 TB wav | домен phone есть (~819.7 ч), **но SR=16 kHz** |
-| SOVA (RU части) | 298+101+17451 = **17850** ([GitHub](https://github.com/sovaai/sova-dataset)) | unknown | 16 kHz, mono, 16-bit | CC BY 4.0 | **да** | manual / ASR по частям | Yandex Disk; RuYoutube 1873 Gb | нет |
-| M-AILABS ru | 46h 47m ([mirror](https://github.com/i-celeste-aurora/m-ailabs-dataset)); 46.78 ([MFA](https://mfa-models.readthedocs.io/en/latest/corpus/Russian/M-AILABS%20Russian.html)) | 3 (MFA index) | wav mono 16 kHz | custom BSD-like, commercial OK | **да** | metadata.csv / normalized | ~3.6 GiB DL / 5.1 GiB | нет |
-| YODAS ru | **39622.289** (сумма шардов `ru000`…`ru106` в [HF README](https://huggingface.co/datasets/espnet/yodas)) | unknown | 16 kHz (пример в README); YODAS2 — 24 kHz | CC BY 3.0 | **да** (attribution) | YouTube captions (manual/auto) | HF streaming/shards | нет |
-| RuLS (доп.) | ~98 / 98.25 ([OpenSLR 96](https://www.openslr.org/96/), [arXiv](https://arxiv.org/abs/2104.04896)) | 13 | unknown на OpenSLR | Public Domain (USA) | **да** | да | 9.1G tar | нет |
-| Balalaika (доп.) | ~5078 ([arXiv](https://arxiv.org/abs/2507.13563)) | unknown | unknown | annotations CC BY-NC-ND 4.0 ([HF](https://huggingface.co/datasets/lab260/Balalaika)); аудио — лицензии источников | **нет** (NC) | rich ASR+stress+phones | HF + пайплайн | нет |
-| ESpeech-podcasts (доп.) | 3200 ([HF](https://huggingface.co/datasets/ESpeech/ESpeech-podcasts)) | unknown | 44.1 kHz MP3 | **не установлено** (gated) | unknown | metadata claimed | HF gated | нет |
-| ESpeech-webinars2 (доп.) | 850 ([HF](https://huggingface.co/datasets/ESpeech/ESpeech-webinars2)) | unknown | 44.1 kHz MP3 | card: Apache-2.0 / body: MIT — **конфликт** | вероятно да (permissive), проверить LICENSE-файл | metadata claimed | HF | нет |
+| Корпус / URL | Часы | Дикторы | Размер, байт | Gated | Лицензия источника | Допустимость обучения |
+|---|---:|---:|---:|:---:|---|---|
+| [RUSLAN](https://ruslan-corpus.github.io/) | 31.5486 | 1 | — (страница: 7 GB) | нет | CC BY-NC-SA 4.0 | research/NC; не pilot |
+| [Golos](https://github.com/salute-developers/golos) | 1240 | — | 30,575,316,100 (HF mirror) | нет | custom; mirror: CC BY-NC 4.0 | **ЮРИСТ**: конфликт |
+| [Common Voice 17 ru mirror](https://huggingface.co/datasets/fixie-ai/common_voice_17_0) | — для выбранных шардов; source validated 218 | 2858 (source index) | **1,734,268,016** | нет | CC0-1.0 | да; выбранный компромисс |
+| [Common Voice 25 ru](https://mozilladatacollective.com/datasets/cmn2h1dg201gro107lpynbbd6) | 290.51 / 251.94 validated | 3695 | — | **да** (MDC terms/API key) | CC0-1.0 | да, но доступ не подтверждён |
+| [OpenSTT](https://github.com/snakers4/open_stt) | 21852 | — | 10,606,970,778 (metadata mirror) | нет | CC BY-NC 4.0 | research/NC |
+| [SOVA RuDevices](https://huggingface.co/datasets/bond005/sova_rudevices) | 101 | —; `speaker_id` отсутствует | 46,754,947,325 | нет | CC BY 4.0 | да, но speaker holdout невозможен |
+| [M-AILABS ru](https://www.openslr.org/94/) | 46.78 | 3 | 2,719,813,273 (filtered mirror) | нет | M-AILABS; mirror: CC BY-NC-ND 4.0 | **ЮРИСТ**: конфликт |
+| [YODAS ru](https://huggingface.co/datasets/espnet/yodas) | 39622.289 | — | 36,567,268,396,871 (весь multilingual repo) | нет | CC BY 3.0 | **ЮРИСТ**: YouTube provenance |
+| [RuLS](https://www.openslr.org/96/) | 98 | — | — (страница: 9.1G) | нет | Public Domain in USA | да |
+| [Balalaika](https://huggingface.co/datasets/lab260/Balalaika) | 5078 | — | 0 (в Hub только metadata) | нет, но внешние ключи | CC BY-NC-ND 4.0 + source licenses | **ЮРИСТ** |
+| [ESpeech Podcasts](https://huggingface.co/datasets/ESpeech/ESpeech-podcasts) | — | — | 508,497,718,812 | **manual** | CC BY-NC 4.0 | доступ не подтверждён |
+| [ESpeech Webinars 2](https://huggingface.co/datasets/ESpeech/ESpeech-webinars2) | 850 | — | 152,310,745,995 | нет | Apache-2.0 в metadata / MIT в body | **ЮРИСТ**: конфликт |
 
-Числа **не аддитивны**: Balalaika агрегирует OpenSTT/Golos/ESpeech и др.; YouTube-домены SOVA/YODAS/ESpeech пересекаются с высокой вероятностью.
+Числа **не аддитивны**: Balalaika агрегирует OpenSTT/Golos/ESpeech и другие
+источники; YouTube-домены пересекаются.
+
+## Рекомендованный pilot
+
+Выбран `common_voice_ru_17_hf_mirror` как **лучший компромисс**, а не как
+строго прошедший все критерии:
+
+- download: 1,734,268,016 байт < 60 GB;
+- ingest скачанных шардов: **46,783 utts, 69.1003 ч, 2,671 диктор** по
+  `client_id`; speaker-disjoint split: train 62.1834 ч, val 3.4617 ч,
+  test 3.4552 ч;
+- полный ASR/DSP QC при зафиксированных порогах дал **67.5021 clean-ч**
+  (45,476 utts), 0.8297 review-ч (634 utts) и 0.7686 exclude-ч
+  (673 utts); ошибок QC: 0.
+
+Гейт T1 ≥ 50 clean-ч пройден без изменения порогов.
+
+## Проверка E6: CTC-переразметка exclude
+
+Локальная `wav2vec2-large-xlsr-53-russian` повторно проверила 200 из 673
+исключённых utterance (0.2357 ч). В `clean` вернулись 118, в `review` — 21:
+итого **139 utts / 0.1695 ч**, или **71.92 %** проверенных exclude-часов.
+
+Вывод: CTC-переразметку стоит применить ко всем 673 исключённым utterance,
+но как отдельный второй голос разметки, а не как автоматическую замену
+Whisper-QC: на коротких числовых фразах модели заметно расходятся.
+Машинный отчёт: [`out/e6_recheck.json`](../out/e6_recheck.json).
 
 ## Телефонный домен (8 кГц)
 
@@ -32,6 +61,12 @@
 | CALLFRIEND Russian LDC2023S08 | ~48 | **да** | LDC, платно/членство | [catalog](https://catalog.ldc.upenn.edu/LDC2023S08) |
 | Nexdata 93 h telephony | 93 | **да** (8 kHz a-law/u-law) | Commercial License | [product](https://www.nexdata.ai/datasets/speechrecog/1312) |
 
+На замороженных 30 IVR-фразах Track A получил mean CER **0.08231** в широкой
+полосе, **0.08561** после G.711 µ-law (дельта **+0.00330**) и **0.08332**
+после Opus narrowband (дельта **+0.00101**). Opus успешно выполнен через
+доступный codec backend. Полный отчёт:
+[`out/p1_telephony_channels.json`](../out/p1_telephony_channels.json).
+
 **Итог по телефонии:** свободного открытого русского корпуса с **сохранёнными** 8 кГц и ясной free/commercial лицензией **не найдено**. Критический пробел из [`07_data.md`](../.cursor/methodology/07_data.md) подтверждён: нужен собственный банковский материал + симуляция (N12).
 
 ## Достижимость ступеней T1 / T2 / T3
@@ -40,26 +75,29 @@
 
 | Ступень | Достижима? | Обоснование | Чего не хватает |
 |---------|:----------:|-------------|-----------------|
-| **T1 (50 ч)** | **да** | Golos 1240, CV 291.58, RuLS 98.25, M-AILABS ~47, SOVA/YODAS многократно больше; многодикторность есть у CV (3744) и RuLS (13) | Реестр лицензий и отбор multi-speaker под манифест; у Golos число дикторов неизвестно |
-| **T2 (500 ч)** | **да** | Одного Golos достаточно; коммерчески допустимые пути: Golos + CV + SOVA + YODAS + RuLS + M-AILABS | Разнообразие каналов, особенно телефония 8 кГц |
-| **T3 (тысячи ч)** | **да** | SOVA RU ~17850; YODAS RU ~39622; OpenSTT 20108 (NC) | Дедупликация YouTube-источников; юридическая проверка Golos PDF / YouTube CC; **native 8 kHz** для N-Lite; NC-корпуса (OpenSTT, RUSLAN, Balalaika annotations) не закрывают коммерческий путь без соглашений |
+| **T1 (50 ч)** | **да** | CV mirror дал 67.5021 clean-ч и 2671 диктора после полного QC | Для CV-пилота пробела нет; у SOVA по-прежнему нет speaker IDs |
+| **T2 (500 ч)** | **да для research; право продукта не закрыто** | Одного Golos 1240 ч физически достаточно, но его source/mirror license конфликтует | Юридическое решение по Golos; разнообразие каналов, особенно телефония 8 кГц |
+| **T3 (тысячи ч)** | **да для research; право продукта не закрыто** | YODAS RU 39622.289 ч; OpenSTT 21852 ч (NC) | Дедупликация YouTube-источников; юридическая проверка provenance; **native 8 kHz** для N-Lite; NC-корпуса не закрывают коммерческий путь без соглашений |
 
 ### Коммерчески более «чистые» открытые объёмы (по заявлениям источников)
 
 Без скачивания и без вычитания пересечений (верхняя оценка по каталогу, не рабочий бюджет):
 
-- Golos 1240 + CV ~292 + SOVA RU 17850 + YODAS RU ~39622 + RuLS ~98 + M-AILABS ~47 → **тысячи часов формально доступны**.
+- Golos 1240 + CV 25 290.51 + SOVA RuDevices 101 + YODAS RU 39622.289 +
+  RuLS 98 + M-AILABS 46.78 → **тысячи часов формально доступны**, но часть
+  источников заблокирована доступом или юридической проверкой.
 - Для продукта вычитать NC и проверять ShareAlike / provenance YouTube.
 
 ## Не установлено достоверно
 
 - Число дикторов: Golos, OpenSTT, SOVA, YODAS, Balalaika, ESpeech.
 - Sample rate Golos в первоисточнике (только вторичный HF).
-- Sample rate Common Voice ru v26 поклипово (datasheet молчит).
 - Sample rate RuLS на OpenSLR.
 - Лицензия ESpeech-podcasts (gated).
 - Точный статус commercial use для LDC CALLFRIEND без чтения соглашения LDC.
 
 ## Команды / воспроизведение
 
-Инвентаризация выполнена чтением публичных URL (GitHub raw, HF README, OpenSLR, Mozilla Data Collective, LDC, arXiv). Локальных загрузок аудио не было.
+Инвентаризация выполнена через `hf datasets info`, datasets-server, GitHub raw,
+OpenSLR, Mozilla Data Collective и карточки источников. Команды и поле evidence
+сохранены в `out/corpus_probe_v2.json`; локальных загрузок аудио в D03 не было.

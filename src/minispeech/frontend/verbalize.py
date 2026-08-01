@@ -59,6 +59,51 @@ _HUNDREDS = {
     8: "восемьсот",
     9: "девятьсот",
 }
+_GEN_UNITS = {
+    0: "нуля",
+    1: "одного",
+    2: "двух",
+    3: "трёх",
+    4: "четырёх",
+    5: "пяти",
+    6: "шести",
+    7: "семи",
+    8: "восьми",
+    9: "девяти",
+}
+_GEN_TEEN = {
+    10: "десяти",
+    11: "одиннадцати",
+    12: "двенадцати",
+    13: "тринадцати",
+    14: "четырнадцати",
+    15: "пятнадцати",
+    16: "шестнадцати",
+    17: "семнадцати",
+    18: "восемнадцати",
+    19: "девятнадцати",
+}
+_GEN_TENS = {
+    2: "двадцати",
+    3: "тридцати",
+    4: "сорока",
+    5: "пятидесяти",
+    6: "шестидесяти",
+    7: "семидесяти",
+    8: "восьмидесяти",
+    9: "девяноста",
+}
+_GEN_HUNDREDS = {
+    1: "ста",
+    2: "двухсот",
+    3: "трёхсот",
+    4: "четырёхсот",
+    5: "пятисот",
+    6: "шестисот",
+    7: "семисот",
+    8: "восьмисот",
+    9: "девятисот",
+}
 
 # Feminine forms used in money / some ordinals
 _DIGITS_F = {**_DIGITS, "1": "одна", "2": "две"}
@@ -99,6 +144,32 @@ _ORD_TENS = {
     8: "восьмидесятый",
     9: "девяностый",
 }
+_ORD_HUNDREDS = {
+    1: "сотый",
+    2: "двухсотый",
+    3: "трёхсотый",
+    4: "четырёхсотый",
+    5: "пятисотый",
+    6: "шестисотый",
+    7: "семисотый",
+    8: "восьмисотый",
+    9: "девятисотый",
+}
+_ORD_GEN_UNITS = {
+    1: "первого",
+    2: "второго",
+    3: "третьего",
+    4: "четвёртого",
+    5: "пятого",
+    6: "шестого",
+    7: "седьмого",
+    8: "восьмого",
+    9: "девятого",
+}
+_ORD_GEN_TEEN = {n: f"{word[:-2]}ого" for n, word in _ORD_TEEN.items()}
+_ORD_GEN_TEEN[13] = "тринадцатого"
+_ORD_GEN_TENS = {n: f"{word[:-2]}ого" for n, word in _ORD_TENS.items()}
+_ORD_GEN_HUNDREDS = {n: f"{word[:-2]}ого" for n, word in _ORD_HUNDREDS.items()}
 
 _MONTHS = {
     1: "января",
@@ -125,7 +196,7 @@ _DATE_MONTH_WORD = re.compile(
 _YEAR_RE = re.compile(r"\b(\d{4})\s*(?:г\.?|год[ауе]?)\b", flags=re.IGNORECASE)
 # Allow thin/regular spaces as thousand separators: "15 070 руб."
 _MONEY_RE = re.compile(
-    r"\b(\d{1,3}(?:[ \u00a0]\d{3})*(?:[.,]\d{1,2})?|\d+[.,]\d{1,2})\s*"
+    r"\b(\d{1,3}(?:[ \u00a0]\d{3})+(?:[.,]\d{1,2})?|\d+(?:[.,]\d{1,2})?)\s*"
     r"(?:₽|руб\.?|рублей|рубля|рубль)\b",
     flags=re.IGNORECASE,
 )
@@ -135,13 +206,39 @@ _MONEY_KOP_RE = re.compile(
 )
 _PCT_RE = re.compile(r"\b(\d{1,3}(?:[.,]\d+)?)\s*%")
 _TIME_RE = re.compile(r"\b(\d{1,2}):(\d{2})\b")
-# Whisper often writes clock times as "16.30" (dot); prefer time over decimal.
-_TIME_DOT_RE = re.compile(r"\b(\d{1,2})\.(\d{2})\b")
-_ORD_RE = re.compile(r"\b(\d{1,4})-(?:й|ый|ой|ая|ое|ые|е|го|му)\b", flags=re.IGNORECASE)
+# Dot clock times are ambiguous with decimals; require a time preposition.
+_TIME_DOT_RE = re.compile(
+    r"\b(в|к|до|после)\s+(\d{1,2})\.(\d{2})\b",
+    flags=re.IGNORECASE,
+)
+_ORD_RE = re.compile(
+    r"\b(\d{1,4})-(й|ый|ой|ая|ое|ые|е|го|му)\b",
+    flags=re.IGNORECASE,
+)
 _DECIMAL_RE = re.compile(r"\b(\d+)[.,](\d+)\b")
 _GROUPED_NUM_RE = re.compile(r"\b(\d{1,3}(?:[ \u00a0]\d{3})+)\b")
 _ACCOUNT_DIGITS_RE = re.compile(
     r"\b((?:номер\s+)?сч[её]та)\s+(\d{2,20})\b",
+    flags=re.IGNORECASE,
+)
+_PHONE_RE = re.compile(
+    r"(?<!\d)(\+7|8)[\s-]*\(?(\d{3})\)?[\s-]*(\d{3})[\s-]*(\d{2})[\s-]*(\d{2})(?!\d)"
+)
+_PHONE4_RE = re.compile(
+    r"(?<!\d)(\+7|8)[\s-]*\(?(\d{4})\)?[\s-]*(\d{2})[\s-]*(\d{2})[\s-]*(\d{2})(?!\d)"
+)
+_EXPLICIT_RANGE_RE = re.compile(
+    r"\b(с|от)\s+(\d{1,4})\s+до\s+(\d{1,4})\b",
+    flags=re.IGNORECASE,
+)
+_BARE_RANGE_RE = re.compile(r"(?<![\d-])(\d{1,4})\s*[–—-]\s*(\d{1,4})(?![\d-])")
+_LONG_CODE_RE = re.compile(r"(?<!\d)(\d(?:[ -]?\d){8,19})(?!\d)")
+_UNIT_RE = re.compile(
+    r"\b(\d{1,9})\s*"
+    r"(км/ч\.?|квт[·⋅*]?ч\.?|м[²2]\.?|кг\.?|км\.?|см\.?|мм\.?|"
+    r"гб\.?|мб\.?|тб\.?|гц\.?|мин\.?|мес\.?|сут\.?|дн\.?|ч\.?|"
+    r"г\.?|л\.?|м\.?|в\.?|°\s*си(?:\u0301)?\.?)"
+    r"(?=$|[\s,;:!?)}\]])",
     flags=re.IGNORECASE,
 )
 _NUM_RE = re.compile(r"\b(\d{1,9})\b")
@@ -201,7 +298,7 @@ def verbalize_int(n: int, *, feminine: bool = False) -> str:
 
 
 def verbalize_ordinal(n: int) -> str:
-    """Masculine ordinal (1-й → первый). Good enough for dates/list items."""
+    """Masculine nominative ordinal (``1-й`` → ``первый``)."""
     if n <= 0:
         return verbalize_int(n)
     if n < 10:
@@ -213,7 +310,40 @@ def verbalize_ordinal(n: int) -> str:
         if ones == 0:
             return _ORD_TENS[tens]
         return f"{_TENS[tens]} {_ORD_UNITS[ones]}"
-    # Fall back: cardinal + "-й" spoken as cardinal for large ordinals
+    if n < 1000:
+        hundreds, rest = divmod(n, 100)
+        if not rest:
+            return _ORD_HUNDREDS[hundreds]
+        return f"{_HUNDREDS[hundreds]} {verbalize_ordinal(rest)}"
+    if n < 1_000_000:
+        rest = n % 1000
+        if rest:
+            return f"{verbalize_int(n - rest)} {verbalize_ordinal(rest)}"
+    return verbalize_int(n)
+
+
+def verbalize_ordinal_genitive(n: int) -> str:
+    """Masculine genitive ordinal (``1-го`` → ``первого``)."""
+    if n <= 0:
+        return verbalize_int(n)
+    if n < 10:
+        return _ORD_GEN_UNITS[n]
+    if n < 20:
+        return _ORD_GEN_TEEN[n]
+    if n < 100:
+        tens, ones = divmod(n, 10)
+        if not ones:
+            return _ORD_GEN_TENS[tens]
+        return f"{_TENS[tens]} {_ORD_GEN_UNITS[ones]}"
+    if n < 1000:
+        hundreds, rest = divmod(n, 100)
+        if not rest:
+            return _ORD_GEN_HUNDREDS[hundreds]
+        return f"{_HUNDREDS[hundreds]} {verbalize_ordinal_genitive(rest)}"
+    if n < 1_000_000:
+        rest = n % 1000
+        if rest:
+            return f"{verbalize_int(n - rest)} {verbalize_ordinal_genitive(rest)}"
     return verbalize_int(n)
 
 
@@ -251,6 +381,103 @@ def verbalize_digits(n_str: str) -> str:
     return " ".join(_DIGITS[ch] for ch in n_str if ch.isdigit())
 
 
+def verbalize_genitive(n: int) -> str:
+    """Genitive cardinal used after Russian range prepositions."""
+    if n < 0:
+        return "минус " + verbalize_genitive(-n)
+    if n < 10:
+        return _GEN_UNITS[n]
+    if n < 20:
+        return _GEN_TEEN[n]
+    if n < 100:
+        tens, ones = divmod(n, 10)
+        return " ".join(
+            part for part in (_GEN_TENS[tens], _GEN_UNITS[ones] if ones else "") if part
+        )
+    if n < 1000:
+        hundreds, rest = divmod(n, 100)
+        return " ".join(
+            part
+            for part in (_GEN_HUNDREDS[hundreds], verbalize_genitive(rest) if rest else "")
+            if part
+        )
+    return verbalize_int(n)
+
+
+def _plural_form(n: int, forms: tuple[str, str, str]) -> str:
+    value = abs(n) % 100
+    if 11 <= value <= 14:
+        return forms[2]
+    last = value % 10
+    if last == 1:
+        return forms[0]
+    if 2 <= last <= 4:
+        return forms[1]
+    return forms[2]
+
+
+def _number_with_unit(
+    n: int,
+    forms: tuple[str, str, str],
+    *,
+    feminine: bool = False,
+) -> str:
+    return f"{verbalize_int(n, feminine=feminine)} {_plural_form(n, forms)}"
+
+
+def verbalize_phone(match: re.Match[str]) -> str:
+    """Speak Russian phone prefixes and the remaining number in groups."""
+    prefix = "плюс семь" if match.group(1) == "+7" else "восемь"
+    groups = []
+    for raw in match.groups()[1:]:
+        groups.append(
+            verbalize_digits(raw)
+            if len(raw) > 3 or (len(raw) > 1 and raw.startswith("0"))
+            else verbalize_int(int(raw))
+        )
+    return " ".join([prefix, *groups])
+
+
+def verbalize_unit(n: int, raw_unit: str) -> str:
+    unit = raw_unit.lower().replace(" ", "").rstrip(".")
+    if unit == "км/ч":
+        return f"{_number_with_unit(n, ('километр', 'километра', 'километров'))} в час"
+    if unit in {"м²", "м2"}:
+        noun = _plural_form(n, ("метр", "метра", "метров"))
+        adjective = "квадратный" if abs(n) % 10 == 1 and abs(n) % 100 != 11 else "квадратных"
+        return f"{verbalize_int(n)} {adjective} {noun}"
+    if unit.startswith("°си"):
+        return _number_with_unit(
+            n,
+            ("градус Цельсия", "градуса Цельсия", "градусов Цельсия"),
+        )
+    specs: dict[str, tuple[tuple[str, str, str], bool]] = {
+        "кг": (("килограмм", "килограмма", "килограммов"), False),
+        "км": (("километр", "километра", "километров"), False),
+        "г": (("грамм", "грамма", "граммов"), False),
+        "л": (("литр", "литра", "литров"), False),
+        "м": (("метр", "метра", "метров"), False),
+        "см": (("сантиметр", "сантиметра", "сантиметров"), False),
+        "мм": (("миллиметр", "миллиметра", "миллиметров"), False),
+        "в": (("вольт", "вольта", "вольт"), False),
+        "гц": (("герц", "герца", "герц"), False),
+        "гб": (("гигабайт", "гигабайта", "гигабайт"), False),
+        "мб": (("мегабайт", "мегабайта", "мегабайт"), False),
+        "тб": (("терабайт", "терабайта", "терабайт"), False),
+        "квт·ч": (("киловатт-час", "киловатт-часа", "киловатт-часов"), False),
+        "квт⋅ч": (("киловатт-час", "киловатт-часа", "киловатт-часов"), False),
+        "квт*ч": (("киловатт-час", "киловатт-часа", "киловатт-часов"), False),
+        "квтч": (("киловатт-час", "киловатт-часа", "киловатт-часов"), False),
+        "мин": (("минута", "минуты", "минут"), True),
+        "ч": (("час", "часа", "часов"), False),
+        "дн": (("день", "дня", "дней"), False),
+        "сут": (("сутки", "суток", "суток"), True),
+        "мес": (("месяц", "месяца", "месяцев"), False),
+    }
+    forms, feminine = specs[unit]
+    return _number_with_unit(n, forms, feminine=feminine)
+
+
 def verbalize_money(amount: str) -> str:
     amount = _parse_amount_number(amount)
     if "." in amount:
@@ -278,6 +505,8 @@ def verbalize_time(h: int, mi: int) -> str:
 def verbalize_text(text: str) -> str:
     """Apply abbreviation expansion + spoken-form number/date/money TN."""
     t = normalize_text(text)
+    t = _PHONE4_RE.sub(verbalize_phone, t)
+    t = _PHONE_RE.sub(verbalize_phone, t)
 
     t = _DATE_DMY.sub(
         lambda m: verbalize_date(int(m.group(1)), int(m.group(2)), int(m.group(3))), t
@@ -298,7 +527,7 @@ def verbalize_text(text: str) -> str:
     t = _MONEY_KOP_RE.sub(
         lambda m: (
             f"{verbalize_int(int(m.group(1)), feminine=True)} "
-            f"{'копейка' if int(m.group(1)) % 10 == 1 and int(m.group(1)) % 100 != 11 else 'копеек'}"
+            f"{_plural_form(int(m.group(1)), ('копейка', 'копейки', 'копеек'))}"
         ),
         t,
     )
@@ -306,15 +535,43 @@ def verbalize_text(text: str) -> str:
     t = _TIME_RE.sub(lambda m: verbalize_time(int(m.group(1)), int(m.group(2))), t)
 
     def _time_dot(m: re.Match[str]) -> str:
-        h, mi = int(m.group(1)), int(m.group(2))
+        h, mi = int(m.group(2)), int(m.group(3))
         if 0 <= h <= 23 and 0 <= mi <= 59:
-            return verbalize_time(h, mi)
+            return f"{m.group(1)} {verbalize_time(h, mi)}"
         return m.group(0)
 
     t = _TIME_DOT_RE.sub(_time_dot, t)
-    t = _ORD_RE.sub(lambda m: verbalize_ordinal(int(m.group(1))), t)
+    t = _EXPLICIT_RANGE_RE.sub(
+        lambda m: (
+            f"{m.group(1).lower()} {verbalize_genitive(int(m.group(2)))} "
+            f"до {verbalize_genitive(int(m.group(3)))}"
+        ),
+        t,
+    )
+    t = _BARE_RANGE_RE.sub(
+        lambda m: (
+            f"от {verbalize_genitive(int(m.group(1)))} "
+            f"до {verbalize_genitive(int(m.group(2)))}"
+        ),
+        t,
+    )
+    t = _UNIT_RE.sub(lambda m: verbalize_unit(int(m.group(1)), m.group(2)), t)
+    t = _LONG_CODE_RE.sub(lambda m: verbalize_digits(m.group(1)), t)
+    t = _ORD_RE.sub(
+        lambda m: (
+            verbalize_ordinal_genitive(int(m.group(1)))
+            if m.group(2).lower() == "го"
+            else verbalize_ordinal(int(m.group(1)))
+        ),
+        t,
+    )
     t = _DECIMAL_RE.sub(lambda m: verbalize_decimal(int(m.group(1)), m.group(2)), t)
-    t = _GROUPED_NUM_RE.sub(lambda m: verbalize_int(int(m.group(1).replace(" ", "").replace("\u00a0", ""))), t)
+    t = _GROUPED_NUM_RE.sub(
+        lambda m: verbalize_int(
+            int(m.group(1).replace(" ", "").replace("\u00a0", ""))
+        ),
+        t,
+    )
     t = _NUM_RE.sub(lambda m: verbalize_int(int(m.group(1))), t)
     return t
 

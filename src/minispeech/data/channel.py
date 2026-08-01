@@ -8,13 +8,15 @@ Pipeline applied to wideband audio:
 4. Optional distortions (additive noise, level jitter) — off by default
 5. Optionally upsample back to the original sample rate
 
-Opus requires ``opuslib`` (and system ``libopus``). If unavailable, G.711
-paths still work; requesting ``codec=\"opus\"`` raises
+Opus uses ``opuslib`` with system ``libopus`` when available, or PyAV's
+bundled FFmpeg/libopus implementation. If neither is available, G.711 paths
+still work; requesting ``codec=\"opus\"`` raises
 :class:`OpusUnavailableError`. See :func:`available_codecs`.
 """
 
 from __future__ import annotations
 
+import io
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal
@@ -35,11 +37,22 @@ class OpusUnavailableError(RuntimeError):
 
 
 def opus_available() -> bool:
-    """Return True if ``opuslib`` can be imported (system libopus present)."""
+    """Return True when opuslib or PyAV exposes a working Opus encoder."""
     try:
-        import opuslib  # noqa: F401
+        import opuslib
+
+        opuslib.Encoder(
+            TELEPHONY_SR,
+            1,
+            opuslib.APPLICATION_VOIP,
+        )
     except Exception:
-        return False
+        try:
+            import av
+
+            av.CodecContext.create("libopus", "w")
+        except Exception:
+            return False
     return True
 
 
@@ -318,12 +331,10 @@ def _alaw_roundtrip(wav: NDArray[np.float32]) -> NDArray[np.float32]:
 def _opus_roundtrip(wav: NDArray[np.float32], sr: int) -> NDArray[np.float32]:
     if not opus_available():
         raise OpusUnavailableError(
-            "Opus narrowband requires the 'opuslib' package and system libopus. "
-            "Install with: pip install opuslib  (and libopus via apt/brew). "
+            "Opus narrowband requires opuslib + system libopus, or PyAV with "
+            "the libopus encoder. "
             "Fall back to codec='mulaw' or codec='none' (band-limit + resample only)."
         )
-    import opuslib
-
     if sr != TELEPHONY_SR:
         raise ValueError(f"Opus path expects {TELEPHONY_SR} Hz, got {sr}")
 
@@ -337,9 +348,14 @@ def _opus_roundtrip(wav: NDArray[np.float32], sr: int) -> NDArray[np.float32]:
         wav_p = wav
 
     pcm = _float_to_pcm16(wav_p)
-    enc = opuslib.Encoder(sr, 1, opuslib.APPLICATION_VOIP)
-    enc.bitrate = 16000
-    dec = opuslib.Decoder(sr, 1)
+    try:
+        import opuslib
+
+        enc = opuslib.Encoder(sr, 1, opuslib.APPLICATION_VOIP)
+        enc.bitrate = 16000
+        dec = opuslib.Decoder(sr, 1)
+    except Exception:
+        return _pyav_opus_roundtrip(wav, sr)
 
     decoded_chunks: list[NDArray[np.int16]] = []
     for start in range(0, pcm.shape[0], frame_samples):
@@ -350,6 +366,56 @@ def _opus_roundtrip(wav: NDArray[np.float32], sr: int) -> NDArray[np.float32]:
 
     out_pcm = np.concatenate(decoded_chunks)[:n]
     return _pcm16_to_float(out_pcm)
+
+
+def _pyav_opus_roundtrip(
+    wav: NDArray[np.float32],
+    sr: int,
+) -> NDArray[np.float32]:
+    """Opus encode/decode through PyAV's bundled FFmpeg libraries."""
+    import av
+
+    pcm = _float_to_pcm16(wav)
+    encoded = io.BytesIO()
+    with av.open(encoded, mode="w", format="ogg") as container:
+        stream = container.add_stream("libopus", rate=sr)
+        stream.layout = "mono"
+        stream.bit_rate = 16_000
+        frame_samples = 160
+        pad = (-len(pcm)) % frame_samples
+        if pad:
+            pcm = np.pad(pcm, (0, pad))
+        for start in range(0, len(pcm), frame_samples):
+            frame = av.AudioFrame.from_ndarray(
+                pcm[start : start + frame_samples][None, :],
+                format="s16",
+                layout="mono",
+            )
+            frame.sample_rate = sr
+            for packet in stream.encode(frame):
+                container.mux(packet)
+        for packet in stream.encode(None):
+            container.mux(packet)
+
+    encoded.seek(0)
+    decoded: list[np.ndarray] = []
+    decoded_sr = sr
+    with av.open(encoded, mode="r", format="ogg") as container:
+        for frame in container.decode(audio=0):
+            samples = np.asarray(frame.to_ndarray()).reshape(-1)
+            if np.issubdtype(samples.dtype, np.floating):
+                decoded.append(samples.astype(np.float32, copy=False))
+            else:
+                decoded.append(
+                    _pcm16_to_float(samples.astype(np.int16, copy=False))
+                )
+            decoded_sr = int(frame.sample_rate)
+    if not decoded:
+        raise OpusUnavailableError("PyAV Opus decode returned no audio frames")
+    output = np.concatenate(decoded).astype(np.float32, copy=False)
+    if decoded_sr != sr:
+        output = _resample(output, decoded_sr, sr)
+    return _match_length(output, len(wav))
 
 
 def _apply_optional_distortions(

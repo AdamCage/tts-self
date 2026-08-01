@@ -1,0 +1,46 @@
+ingest:
+  corpus: common_voice_ru_17_hf_mirror
+  format: parquet
+  inputs:
+    train: ~/datasets/tts/common_voice_ru17/source/ru/train-*.parquet
+    validation: ~/datasets/tts/common_voice_ru17/source/ru/validation-*.parquet
+    test: ~/datasets/tts/common_voice_ru17/source/ru/test-*.parquet
+  manifest: ~/datasets/tts/common_voice_ru17/manifest.jsonl
+  audio_cache: ~/datasets/tts/common_voice_ru17/audio
+  field_map:
+    audio: audio
+    text: sentence
+    source_id: path
+    speaker_id: client_id
+    container_id: client_id
+  extra_fields:
+    - up_votes
+    - down_votes
+    - age
+    - gender
+    - accent
+    - locale
+    - segment
+    - variant
+    - continuation
+  min_dur_s: 0.5
+  max_dur_s: 15.0
+  split:
+    strategy: speaker
+    train: 0.90
+    val: 0.05
+    test: 0.05
+
+# Compatibility block for the existing ASR/DSP QC scripts (03 and 03b).
+data:
+  root: ~/datasets/tts
+  ruslan_dir: ~/datasets/tts/common_voice_ru17
+  manifest: ~/datasets/tts/common_voice_ru17/manifest.jsonl
+  min_dur_s: 0.5
+  max_dur_s: 15.0
+  asr_cer_reject: 0.25
+  split:
+    train: 0.90
+    val: 0.05
+    test: 0.05
+    strategy: speaker_holdout

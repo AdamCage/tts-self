@@ -23,7 +23,7 @@ class MiniSpeechDataset(Dataset):
         max_utterances: int | None = None,
         max_hours: float | None = None,
         preload: bool = True,
-        exclude_tags: Sequence[str] = ("exclude",),
+        exclude_tags: Sequence[str] = ("exclude", "duplicate"),
         review_weight: float | None = 0.5,
     ):
         rows = filter_split(read_manifest(manifest_path), split)
@@ -149,25 +149,25 @@ def collate_minispeech(
 
     for i, b in enumerate(batch):
         t = b["n_frames"]
-        l = b["text_len"]
+        text_len = b["text_len"]
         z = b["z_target"]
         z_target[i, :t] = z
         z_input[i, 0] = bos
         if t > 1:
             z_input[i, 1:t] = z[: t - 1]
         frame_mask[i, :t] = True
-        text_mask[i, :l] = True
+        text_mask[i, :text_len] = True
         stop_target[i] = make_stop_target(t, T, stop_window=stop_window, soft=soft_stop)
         durations[i] = float(t)
         sample_weight[i] = float(b.get("sample_weight", 1.0))
         th = b["text_hidden"]
         if multi_layer:
-            text_hidden[i, :, :l] = th[:, :l]
+            text_hidden[i, :, :text_len] = th[:, :text_len]
         else:
-            text_hidden[i, :l] = th[:l]
+            text_hidden[i, :text_len] = th[:text_len]
         if align is not None and "align_prior" in b:
             ap = b["align_prior"]
-            tt, ll = min(t, ap.shape[0]), min(l, ap.shape[1])
+            tt, ll = min(t, ap.shape[0]), min(text_len, ap.shape[1])
             align[i, :tt, :ll] = ap[:tt, :ll]
 
     out = {

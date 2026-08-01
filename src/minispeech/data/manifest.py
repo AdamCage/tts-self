@@ -10,7 +10,7 @@ import unicodedata
 from collections import defaultdict
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, Iterable, Iterator, Sequence
+from typing import Any, Iterable, Iterator, Literal, Sequence
 
 from minispeech.data.corpus_registry import (
     CHANNELS,
@@ -37,6 +37,10 @@ class Utterance:
     sample_rate: int | None = None
     license: str | None = None
     source_url: str | None = None
+    source_id: str | None = None
+    container_id: str | None = None
+    audio_sha256: str | None = None
+    text_sha256: str | None = None
     n_samples_24k: int = 0
     n_frames: int = 0
     dur_s: float = 0.0
@@ -72,6 +76,11 @@ class Utterance:
         }
         kwargs = {k: v for k, v in obj.items() if k in known}
         extra = {k: v for k, v in obj.items() if k not in known}
+        nested_extra = kwargs.pop("extra", {})
+        if isinstance(nested_extra, dict):
+            extra = {**nested_extra, **extra}
+        if kwargs.get("container_id") is None and extra.get("container_id") is not None:
+            kwargs["container_id"] = str(extra.pop("container_id"))
         u = cls(**kwargs)
         u.extra = extra
         if apply_defaults:
@@ -122,6 +131,14 @@ def apply_utterance_defaults(u: Utterance) -> Utterance:
     if u.source_url is None and info is not None:
         u.source_url = info.source_url
         defaulted.add("source_url")
+    if u.source_id is None:
+        u.source_id = u.utt_id
+        defaulted.add("source_id")
+    if u.text_sha256 is None:
+        key = text_dedup_key(u.text_raw or u.text_stressed or "")
+        if key:
+            u.text_sha256 = hashlib.sha256(key.encode("utf-8")).hexdigest()
+            defaulted.add("text_sha256")
     if u.channel is not None and u.channel not in CHANNELS:
         raise ValueError(
             f"utt {u.utt_id}: invalid channel {u.channel!r}; "
@@ -317,6 +334,35 @@ def text_dedup_key(text: str) -> str:
     return t.strip()
 
 
+def text_fingerprint(text: str) -> str:
+    """SHA-256 of the normalized cross-corpus text dedup key."""
+    key = text_dedup_key(text)
+    return hashlib.sha256(key.encode("utf-8")).hexdigest() if key else ""
+
+
+def utterance_text_fingerprint(
+    row: Utterance,
+    *,
+    mode: Literal["canonical", "literal_lower"] = "canonical",
+) -> str:
+    """Return the configured text key for within- or cross-corpus dedup.
+
+    ``literal_lower`` preserves the historical RUSLAN builder behavior so a
+    manifest rebuild does not silently change its membership. Cross-corpus
+    ingestion should use the default canonical key.
+    """
+    if mode == "canonical":
+        return row.text_sha256 or text_fingerprint(
+            row.text_raw or row.text_stressed or ""
+        )
+    if mode == "literal_lower":
+        key = (row.text_raw or row.text_stressed or "").lower()
+        # Hash the empty key too: the historical builder retained the first
+        # empty normalized transcript and dropped subsequent empty duplicates.
+        return hashlib.sha256(key.encode("utf-8")).hexdigest()
+    raise ValueError(f"unknown text dedup mode {mode!r}")
+
+
 def audio_fingerprint(
     wav_path: str | Path,
     *,
@@ -343,6 +389,28 @@ def audio_fingerprint_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def populate_integrity_fields(
+    row: Utterance,
+    *,
+    compute_audio: bool = True,
+) -> Utterance:
+    """Populate stable source/text/audio identity for a newly built row.
+
+    Audio hashing streams the source file and therefore stays opt-in for callers
+    that only have remote audio. Newly populated values are materialized in
+    ``to_json``; this helper is never called implicitly while reading legacy
+    manifests.
+    """
+    row.source_id = row.source_id or row.utt_id
+    row.text_sha256 = text_fingerprint(row.text_raw or row.text_stressed or "")
+    if compute_audio and row.audio_sha256 is None and row.wav:
+        row.audio_sha256 = audio_fingerprint(row.wav)
+    row._defaulted_fields.difference_update(
+        {"source_id", "audio_sha256", "text_sha256"}
+    )
+    return row
+
+
 @dataclass
 class DuplicateHit:
     key_type: str  # "text" | "audio"
@@ -365,6 +433,7 @@ def detect_duplicates(
     *,
     by_text: bool = True,
     by_audio: bool = True,
+    text_key_mode: Literal["canonical", "literal_lower"] = "canonical",
     audio_fps: dict[str, str] | None = None,
     compute_missing_audio: bool = False,
 ) -> list[DuplicateHit]:
@@ -379,11 +448,14 @@ def detect_duplicates(
 
     for r in rows:
         if by_text:
-            key = text_dedup_key(r.text_raw or r.text_stressed or "")
+            key = utterance_text_fingerprint(
+                r,
+                mode=text_key_mode,
+            )
             if key:
                 text_groups[key].append(r.utt_id)
         if by_audio:
-            fp = fps.get(r.utt_id)
+            fp = fps.get(r.utt_id) or r.audio_sha256
             if fp is None and compute_missing_audio and r.wav:
                 try:
                     fp = audio_fingerprint(r.wav)
@@ -410,6 +482,7 @@ def deduplicate_utterances(
     *,
     by_text: bool = True,
     by_audio: bool = True,
+    text_key_mode: Literal["canonical", "literal_lower"] = "canonical",
     audio_fps: dict[str, str] | None = None,
     compute_missing_audio: bool = False,
 ) -> tuple[list[Utterance], DedupStats]:
@@ -428,7 +501,10 @@ def deduplicate_utterances(
         stats.n_in += 1
         drop = False
         if by_text:
-            tkey = text_dedup_key(r.text_raw or r.text_stressed or "")
+            tkey = utterance_text_fingerprint(
+                r,
+                mode=text_key_mode,
+            )
             if tkey:
                 if tkey in seen_text:
                     stats.n_dropped_text += 1
@@ -436,7 +512,7 @@ def deduplicate_utterances(
                 else:
                     seen_text.add(tkey)
         if not drop and by_audio:
-            fp = fps.get(r.utt_id)
+            fp = fps.get(r.utt_id) or r.audio_sha256
             if fp is None and compute_missing_audio and r.wav:
                 try:
                     fp = audio_fingerprint(r.wav)
@@ -471,14 +547,16 @@ def iter_deduped_manifests(
     seen_audio: set[str] = set()
     for r in iter_manifests(paths):
         if by_text:
-            tkey = text_dedup_key(r.text_raw or r.text_stressed or "")
+            tkey = r.text_sha256 or text_fingerprint(
+                r.text_raw or r.text_stressed or ""
+            )
             if tkey and tkey in seen_text:
                 continue
             if tkey:
                 seen_text.add(tkey)
         if by_audio:
-            fp: str | None = None
-            if compute_missing_audio and r.wav:
+            fp: str | None = r.audio_sha256
+            if fp is None and compute_missing_audio and r.wav:
                 try:
                     fp = audio_fingerprint(r.wav)
                 except OSError:

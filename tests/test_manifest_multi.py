@@ -20,9 +20,11 @@ from minispeech.data.manifest import (
     filter_split_iter,
     iter_deduped_manifests,
     iter_manifest,
+    populate_integrity_fields,
     read_manifest,
     speakers_by_split,
     text_dedup_key,
+    text_fingerprint,
     write_manifest,
     write_manifest_iter,
 )
@@ -107,10 +109,34 @@ def test_legacy_roundtrip_without_forcing_migration(tmp_path: Path):
     out = tmp_path / "manifest_out.jsonl"
     write_manifest(out, rows)
     written = json.loads(out.read_text(encoding="utf-8").splitlines()[0])
-    for k in ("corpus", "speaker_id", "channel", "sample_rate", "license", "source_url"):
+    for k in (
+        "corpus",
+        "speaker_id",
+        "channel",
+        "sample_rate",
+        "license",
+        "source_url",
+        "source_id",
+        "container_id",
+        "text_sha256",
+    ):
         assert k not in written, f"legacy writeback migrated field {k}"
     assert written["utt_id"] == "ruslan_1"
     assert written["speaker"] == "ruslan"
+
+
+def test_container_id_reads_legacy_nested_extra() -> None:
+    row = Utterance.from_json(
+        {
+            "utt_id": "legacy_1",
+            "wav": "a.wav",
+            "text_raw": "текст",
+            "text_stressed": "те́кст",
+            "extra": {"container_id": "book-7", "legacy_flag": True},
+        }
+    )
+    assert row.container_id == "book-7"
+    assert row.extra == {"legacy_flag": True}
 
 
 def test_text_dedup_normalization():
@@ -136,6 +162,32 @@ def test_detect_and_deduplicate_by_text():
     assert stats.n_in == 3
     assert stats.n_out == 2
     assert stats.n_dropped_text == 1
+
+
+def test_literal_lower_dedup_preserves_legacy_ruslan_membership():
+    rows = [
+        _utt("a", "Один и тот же текст"),
+        _utt("b", "один и тот же текст!"),
+        _utt("empty_1", ""),
+        _utt("empty_2", ""),
+    ]
+    for row in rows:
+        populate_integrity_fields(row, compute_audio=False)
+
+    canonical, canonical_stats = deduplicate_utterances(
+        rows,
+        by_audio=False,
+    )
+    literal, literal_stats = deduplicate_utterances(
+        rows,
+        by_audio=False,
+        text_key_mode="literal_lower",
+    )
+
+    assert [row.utt_id for row in canonical] == ["a", "empty_1", "empty_2"]
+    assert canonical_stats.n_dropped_text == 1
+    assert [row.utt_id for row in literal] == ["a", "b", "empty_1"]
+    assert literal_stats.n_dropped_text == 1
 
 
 def test_audio_fingerprint_and_dedup(tmp_path: Path):
@@ -169,6 +221,57 @@ def test_audio_fingerprint_and_dedup(tmp_path: Path):
     assert stats.n_dropped_audio == 1
 
 
+def test_new_row_materializes_source_and_integrity_fields(tmp_path: Path):
+    wav = tmp_path / "sample.wav"
+    wav.write_bytes(b"stable audio bytes")
+    row = _utt(
+        "pilot_0001",
+        "За́мок!",
+        wav=str(wav),
+        corpus="common_voice_ru_17_hf_mirror",
+        source_id="train/client/clip.mp3",
+        sample_rate=48000,
+        channel="crowd",
+        license="CC0-1.0",
+        source_url="https://example.com/source",
+    )
+    populate_integrity_fields(row)
+    payload = row.to_json()
+    assert payload["source_id"] == "train/client/clip.mp3"
+    assert payload["text_sha256"] == text_fingerprint("замок")
+    assert payload["audio_sha256"] == audio_fingerprint(wav)
+    assert len(payload["text_sha256"]) == 64
+    assert len(payload["audio_sha256"]) == 64
+
+
+def test_embedded_hashes_drive_cross_corpus_dedup_without_audio_files():
+    text_hash = text_fingerprint("одинаковый текст")
+    audio_hash = audio_fingerprint_bytes(b"same")
+    rows = [
+        _utt(
+            "a",
+            "разный текст а",
+            wav="/missing/a.wav",
+            text_sha256=text_hash,
+            audio_sha256=audio_hash,
+        ),
+        _utt(
+            "b",
+            "разный текст б",
+            wav="/missing/b.wav",
+            text_sha256=text_hash,
+            audio_sha256=audio_hash,
+        ),
+    ]
+    hits = detect_duplicates(
+        rows,
+        by_text=True,
+        by_audio=True,
+        compute_missing_audio=False,
+    )
+    assert {hit.key_type for hit in hits} == {"text", "audio"}
+
+
 def test_speaker_split_no_leak():
     rows = []
     for i, spk in enumerate(["spk_a", "spk_b", "spk_c", "spk_d", "spk_e"]):
@@ -195,7 +298,15 @@ def test_speaker_split_no_leak():
 
 def test_single_speaker_falls_back_to_contiguous():
     """RUSLAN-like: one speaker → book-range contiguous split (not speaker hold-out)."""
-    rows = [_utt(f"ruslan_{i:04d}", f"фраза {i}", speaker="ruslan", speaker_id="ruslan") for i in range(20)]
+    rows = [
+        _utt(
+            f"ruslan_{i:04d}",
+            f"фраза {i}",
+            speaker="ruslan",
+            speaker_id="ruslan",
+        )
+        for i in range(20)
+    ]
     container_speaker_split(rows, train=0.8, val=0.1, test=0.1)
     assert rows[0].split == "train"
     assert rows[15].split == "train"
