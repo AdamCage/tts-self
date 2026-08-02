@@ -78,6 +78,63 @@ def git_sha(cwd: Path | None = None) -> str:
         return "unknown"
 
 
+def git_is_dirty(cwd: Path | None = None) -> bool:
+    """Return True if the git worktree has tracked or untracked changes.
+
+    Ignored paths (``runs/``, ``out/``, datasets, caches) do not count.
+    Missing git / non-repo → treated as dirty (unknown provenance).
+    """
+    root = _find_git_root(cwd)
+    if root is None:
+        return True
+    try:
+        out = subprocess.check_output(
+            ["git", "status", "--porcelain", "--untracked-files=normal"],
+            cwd=str(root),
+            stderr=subprocess.DEVNULL,
+            text=True,
+        )
+        return bool(out.strip())
+    except Exception:
+        return True
+
+
+def allow_dirty_tree() -> bool:
+    """Escape hatch: ``MINISPEECH_ALLOW_DIRTY=1`` permits a dirty-tree run."""
+    return os.environ.get("MINISPEECH_ALLOW_DIRTY", "").strip().lower() in {
+        "1",
+        "true",
+        "yes",
+        "on",
+    }
+
+
+def enforce_clean_git_tree(*, cwd: Path | None = None) -> bool:
+    """Refuse dirty-tree training unless ``MINISPEECH_ALLOW_DIRTY`` is set.
+
+    Returns ``git_is_dirty()``. Raises ``RuntimeError`` when dirty and the
+    escape hatch is unset. See ``docs/reproducibility.md``.
+    """
+    dirty = git_is_dirty(cwd)
+    if not dirty:
+        return False
+    if allow_dirty_tree():
+        print(
+            "WARNING: git worktree is dirty; continuing because "
+            "MINISPEECH_ALLOW_DIRTY is set. run_manifest will have "
+            "git_dirty=true.",
+            flush=True,
+        )
+        return True
+    raise RuntimeError(
+        "Refusing to start: git worktree is dirty (git status --porcelain "
+        "non-empty). Commit or stash, sync WSL via git pull (never "
+        "copy-instead-of-pull), then retry. Emergency override: "
+        "MINISPEECH_ALLOW_DIRTY=1 (manifest will record git_dirty=true). "
+        "See docs/reproducibility.md."
+    )
+
+
 def config_hash(cfg: dict[str, Any]) -> str:
     blob = json.dumps(cfg, sort_keys=True, default=str).encode("utf-8")
     return hashlib.sha256(blob).hexdigest()[:16]
@@ -88,12 +145,25 @@ def write_run_manifest(
     cfg: dict[str, Any],
     *,
     extra: dict[str, Any] | None = None,
+    enforce_clean: bool = True,
 ) -> Path:
+    """Write ``run_manifest.json`` (+ config snapshot).
+
+    Always records ``git_sha`` and ``git_dirty``. By default refuses to write
+    when the tree is dirty unless ``MINISPEECH_ALLOW_DIRTY=1``. Pass
+    ``enforce_clean=False`` only for unit tests / non-training callers.
+    """
+    dirty = (
+        enforce_clean_git_tree()
+        if enforce_clean
+        else git_is_dirty()
+    )
     run_dir = expand(run_dir)
     run_dir.mkdir(parents=True, exist_ok=True)
     info: dict[str, Any] = {
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "git_sha": git_sha(),
+        "git_dirty": bool(dirty),
         "config_hash": config_hash(cfg),
         "platform": platform.platform(),
         "python": platform.python_version(),
