@@ -17,7 +17,7 @@
       "path": "configs/eval_sets/demo5.json",
       "n": 5,
       "items_sha256": "72b43f9d2107133ce8192c0c96be27869e0c865edd1639b6d3a2aafd7a31b70e",
-      "file_sha256": "8d7d53e243c4b08aefbabe73cd09a0e873feb4217e29fd4fb2d5919af19a3bee"
+      "file_sha256": "61ed6c3fed4442950646033dfaf103bafd4cc9635bb8f5f34ad4148ea35a8c47"
     },
     "homograph": {
       "version": "3.0.0",
@@ -31,7 +31,7 @@
       "path": "configs/eval_sets/latin.json",
       "n": 117,
       "items_sha256": "3120970f696edb30d05e5d3ee21f04762a81f2c68d5d900aa1507b9a6d1d7ce0",
-      "file_sha256": "3d1da42093072df688851d0953044ec2ba8dda4548246369af2910ab147268db"
+      "file_sha256": "1e561431c22b0e748f0a409faf3790e451c6d120a083cde06c0f3489f04d4600"
     },
     "telephony": {
       "version": "1.0.1",
@@ -73,7 +73,7 @@
       "path": "configs/eval_sets/val100.json",
       "n": 100,
       "items_sha256": "49762248caa03e945fff343716d9e4a267e713263abf5f344511cfe8520ac556",
-      "file_sha256": "35853c892e2ada16d9fbe56ed48ae3a4a674fa59c6defc2a152f6c59e5883047"
+      "file_sha256": "a077f15ea104bd20b654336b92a1e89524b6889ccf2dca4dcc45f6a837f63130"
     }
   }
 }
