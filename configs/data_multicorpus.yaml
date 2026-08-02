@@ -1,0 +1,29 @@
+# Track N multicorpus (RUSLAN + Common Voice RU17) — C4 dataset / sampling.
+# Latent + text_hidden caches are per-corpus; inventory is Track N frozen sets.
+data:
+  root: ~/datasets/tts
+  manifest: ~/datasets/tts/multicorpus/manifest.jsonl
+  shard_size: 2000
+  exclude_tags: [exclude, duplicate]
+  review_weight: 0.5
+  trackn_sets:
+    train: configs/eval_sets/trackn_train.json
+    val: configs/eval_sets/trackn_val.json
+    test: configs/eval_sets/trackn_test.json
+    review: configs/eval_sets/trackn_review.json
+  corpora:
+    ruslan:
+      latent_dir: ~/datasets/tts/ruslan/latents
+      text_hidden_dir: ~/datasets/tts/ruslan/text_hidden
+      align_dir: ~/datasets/tts/ruslan/align
+      stats_path: ~/datasets/tts/ruslan/stats.safetensors
+    common_voice_ru_17_hf_mirror:
+      latent_dir: ~/datasets/tts/common_voice_ru17/latents
+      text_hidden_dir: ~/datasets/tts/common_voice_ru17/text_hidden
+      align_dir: ~/datasets/tts/common_voice_ru17/align
+      stats_path: ~/datasets/tts/common_voice_ru17/stats.safetensors
+  # Mixture stats (C1 step 4) — fill after both corpora are encoded.
+  stats_path: ~/datasets/tts/multicorpus/stats.safetensors
+  sampling:
+    # Cap RUSLAN share so one studio speaker does not dominate ~2.6k CV speakers.
+    max_ruslan_batch_fraction: 0.25

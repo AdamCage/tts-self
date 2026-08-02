@@ -1,5 +1,11 @@
 from minispeech.data.alignment import AlignLevel, monotonic_gaussian_prior
-from minispeech.data.dataset import MiniSpeechDataset, collate_minispeech, make_stop_target
+from minispeech.data.dataset import (
+    MultiCorpusDataset,
+    MiniSpeechDataset,
+    RuslanCappedBatchSampler,
+    collate_minispeech,
+    make_stop_target,
+)
 from minispeech.data.manifest import (
     Utterance,
     iter_manifest,
@@ -7,7 +13,7 @@ from minispeech.data.manifest import (
     write_manifest,
 )
 from minispeech.data.mel import MelCacheReader, MelCacheWriter, waveform_to_logmel
-from minispeech.data.shards import ShardReader, ShardWriter
+from minispeech.data.shards import MultiRootShardReader, ShardReader, ShardWriter
 
 __all__ = [
     "AlignLevel",
@@ -15,6 +21,9 @@ __all__ = [
     "MelCacheWriter",
     "MelSpeechDataset",
     "MiniSpeechDataset",
+    "MultiCorpusDataset",
+    "MultiRootShardReader",
+    "RuslanCappedBatchSampler",
     "ShardReader",
     "ShardWriter",
     "Utterance",

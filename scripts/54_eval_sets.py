@@ -14,7 +14,8 @@ from typing import Any, Sequence
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SETS_DIR = ROOT / "configs" / "eval_sets"
-DEFAULT_HASH_FILE = ROOT / "out" / "eval_set_hashes.json"
+# Version-controlled registry (was gitignored out/eval_set_hashes.json).
+DEFAULT_HASH_FILE = ROOT / "configs" / "eval_set_hashes.json"
 SEMVER_RE = re.compile(r"^\d+\.\d+\.\d+$")
 
 

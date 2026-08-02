@@ -146,15 +146,30 @@ def _synth_one(
     return wav
 
 
+def _prepare_model_input(text: str, *, input_mode: str) -> str:
+    """Build Silero input text for ``raw`` or shared ``frontend`` conditions."""
+    if input_mode == "frontend":
+        return _silero_text(normalize_for_tts(text))
+    if input_mode == "raw":
+        return _silero_text(text)
+    raise ValueError(f"unsupported input_mode={input_mode!r}; use raw|frontend")
+
+
 def _synth_with_frontend_fallback(
     model: Any,
     text: str,
     *,
     voice: str,
     sample_rate: int,
+    input_mode: str = "raw",
 ) -> tuple[np.ndarray, str, str | None]:
-    """Retry unsupported native input with the shared deterministic frontend."""
-    primary_text = _silero_text(text)
+    """Synthesize with explicit input mode.
+
+    ``frontend`` always applies the shared TN+verbalize path used by Track A.
+    ``raw`` feeds the original text (Silero accent markup only); on ValueError
+    it may retry once with the frontend path and records that fallback.
+    """
+    primary_text = _prepare_model_input(text, input_mode=input_mode)
     try:
         return (
             _synth_one(
@@ -167,7 +182,9 @@ def _synth_with_frontend_fallback(
             None,
         )
     except ValueError as exc:
-        fallback_text = _silero_text(normalize_for_tts(text))
+        if input_mode == "frontend":
+            raise
+        fallback_text = _prepare_model_input(text, input_mode="frontend")
         if fallback_text == primary_text:
             raise
         wav = _synth_one(
@@ -230,6 +247,15 @@ def main() -> int:
     ap.add_argument("--local-repo", default=None)
     ap.add_argument("--out", default="out/external_baseline_silero_v2.json")
     ap.add_argument("--wav-dir", default="out/external_baseline_silero_v2_wavs")
+    ap.add_argument(
+        "--input-mode",
+        choices=("raw", "frontend"),
+        default="raw",
+        help=(
+            "raw: feed source text (legacy unequal baseline); "
+            "frontend: apply shared TN+verbalize before Silero (fair system compare)"
+        ),
+    )
     ap.add_argument("--max-utts", type=int, default=None, help="Debug cap per set")
     ap.add_argument(
         "--allow-download",
@@ -264,6 +290,7 @@ def main() -> int:
         "allow_download": args.allow_download,
         "disk_free_gb_before": round(free, 2),
         "asr_config": args.asr_config,
+        "input_mode": args.input_mode,
         "sets": {},
     }
 
@@ -338,6 +365,7 @@ def main() -> int:
                     item.text,
                     voice=args.voice,
                     sample_rate=args.sample_rate,
+                    input_mode=args.input_mode,
                 )
                 sf.write(str(wav_path), wav, args.sample_rate)
                 hyp_raw = asr.transcribe(wav, sr=args.sample_rate) or ""

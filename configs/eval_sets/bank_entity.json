@@ -1,7 +1,7 @@
 {
   "id": "bank_entity",
-  "version": "2.0.0",
-  "description": "Bank/entity phrases for RU-Critical: numbers, money, dates, time, phones, accounts, codes, abbreviations, loanwords, units, ordinals, ranges; critical_spans for DER/EER; CER uses normalize_verbalized_for_asr",
+  "version": "3.0.0",
+  "description": "Bank/entity phrases for RU-Critical: numbers, money, dates, time, phones, accounts, codes, abbreviations, loanwords, units, ordinals, ranges; critical_spans.expected_spoken is independent Russian-norm gold (v3); frontend_spoken_at_v3 snapshots verbalize_text at release; CER uses normalize_verbalized_for_asr",
   "kind": "phrases",
   "n": 315,
   "items": [
@@ -15,7 +15,8 @@
           "start": 18,
           "end": 19,
           "type": "number",
-          "expected_spoken": "семь"
+          "expected_spoken": "семь",
+          "frontend_spoken_at_v3": "семь"
         }
       ]
     },
@@ -29,7 +30,8 @@
           "start": 10,
           "end": 12,
           "type": "number",
-          "expected_spoken": "двенадцать"
+          "expected_spoken": "двенадцать",
+          "frontend_spoken_at_v3": "двенадцать"
         }
       ]
     },
@@ -43,7 +45,8 @@
           "start": 9,
           "end": 11,
           "type": "number",
-          "expected_spoken": "тридцать пять"
+          "expected_spoken": "тридцать пять",
+          "frontend_spoken_at_v3": "тридцать пять"
         }
       ]
     },
@@ -57,7 +60,8 @@
           "start": 6,
           "end": 9,
           "type": "number",
-          "expected_spoken": "сто"
+          "expected_spoken": "сто",
+          "frontend_spoken_at_v3": "сто"
         }
       ]
     },
@@ -71,7 +75,8 @@
           "start": 18,
           "end": 21,
           "type": "number",
-          "expected_spoken": "двести пятьдесят шесть"
+          "expected_spoken": "двести пятьдесят шесть",
+          "frontend_spoken_at_v3": "двести пятьдесят шесть"
         }
       ]
     },
@@ -85,7 +90,8 @@
           "start": 9,
           "end": 12,
           "type": "number",
-          "expected_spoken": "девятьсот девяносто девять"
+          "expected_spoken": "девятьсот девяносто девять",
+          "frontend_spoken_at_v3": "девятьсот девяносто девять"
         }
       ]
     },
@@ -99,7 +105,8 @@
           "start": 11,
           "end": 15,
           "type": "number",
-          "expected_spoken": "одна тысяча"
+          "expected_spoken": "одна тысяча",
+          "frontend_spoken_at_v3": "одна тысяча"
         }
       ]
     },
@@ -113,7 +120,8 @@
           "start": 15,
           "end": 19,
           "type": "number",
-          "expected_spoken": "одна тысяча двести тридцать четыре"
+          "expected_spoken": "одна тысяча двести тридцать четыре",
+          "frontend_spoken_at_v3": "одна тысяча двести тридцать четыре"
         }
       ]
     },
@@ -127,7 +135,8 @@
           "start": 19,
           "end": 23,
           "type": "number",
-          "expected_spoken": "две тысячи пятьсот"
+          "expected_spoken": "две тысячи пятьсот",
+          "frontend_spoken_at_v3": "две тысячи пятьсот"
         }
       ]
     },
@@ -141,7 +150,8 @@
           "start": 13,
           "end": 18,
           "type": "number",
-          "expected_spoken": "пятнадцать тысяч семьсот"
+          "expected_spoken": "пятнадцать тысяч семьсот",
+          "frontend_spoken_at_v3": "пятнадцать тысяч семьсот"
         }
       ]
     },
@@ -155,7 +165,8 @@
           "start": 10,
           "end": 15,
           "type": "number",
-          "expected_spoken": "сорок восемь тысяч"
+          "expected_spoken": "сорок восемь тысяч",
+          "frontend_spoken_at_v3": "сорок восемь тысяч"
         }
       ]
     },
@@ -169,7 +180,8 @@
           "start": 16,
           "end": 22,
           "type": "number",
-          "expected_spoken": "сто тысяч"
+          "expected_spoken": "сто тысяч",
+          "frontend_spoken_at_v3": "сто тысяч"
         }
       ]
     },
@@ -183,7 +195,8 @@
           "start": 12,
           "end": 18,
           "type": "number",
-          "expected_spoken": "двести пятьдесят тысяч"
+          "expected_spoken": "двести пятьдесят тысяч",
+          "frontend_spoken_at_v3": "двести пятьдесят тысяч"
         }
       ]
     },
@@ -197,7 +210,8 @@
           "start": 16,
           "end": 23,
           "type": "number",
-          "expected_spoken": "один миллион"
+          "expected_spoken": "один миллион",
+          "frontend_spoken_at_v3": "один миллион"
         }
       ]
     },
@@ -211,7 +225,8 @@
           "start": 11,
           "end": 18,
           "type": "number",
-          "expected_spoken": "два миллиона пятьсот тысяч"
+          "expected_spoken": "два миллиона пятьсот тысяч",
+          "frontend_spoken_at_v3": "два миллиона пятьсот тысяч"
         }
       ]
     },
@@ -225,7 +240,8 @@
           "start": 9,
           "end": 10,
           "type": "number",
-          "expected_spoken": "три"
+          "expected_spoken": "три",
+          "frontend_spoken_at_v3": "три"
         }
       ]
     },
@@ -239,7 +255,8 @@
           "start": 6,
           "end": 8,
           "type": "number",
-          "expected_spoken": "двадцать один"
+          "expected_spoken": "двадцать один",
+          "frontend_spoken_at_v3": "двадцать один"
         }
       ]
     },
@@ -253,7 +270,8 @@
           "start": 10,
           "end": 12,
           "type": "number",
-          "expected_spoken": "сорок два"
+          "expected_spoken": "сорок два",
+          "frontend_spoken_at_v3": "сорок два"
         }
       ]
     },
@@ -267,7 +285,8 @@
           "start": 10,
           "end": 12,
           "type": "number",
-          "expected_spoken": "семьдесят семь"
+          "expected_spoken": "семьдесят семь",
+          "frontend_spoken_at_v3": "семьдесят семь"
         }
       ]
     },
@@ -281,7 +300,8 @@
           "start": 7,
           "end": 10,
           "type": "number",
-          "expected_spoken": "четыреста четыре"
+          "expected_spoken": "четыреста четыре",
+          "frontend_spoken_at_v3": "четыреста четыре"
         }
       ]
     },
@@ -295,7 +315,8 @@
           "start": 3,
           "end": 7,
           "type": "number",
-          "expected_spoken": "две тысячи двадцать четыре"
+          "expected_spoken": "две тысячи двадцать четыре",
+          "frontend_spoken_at_v3": "две тысячи двадцать четыре"
         }
       ]
     },
@@ -309,7 +330,8 @@
           "start": 10,
           "end": 15,
           "type": "number",
-          "expected_spoken": "пятьдесят тысяч"
+          "expected_spoken": "пятьдесят тысяч",
+          "frontend_spoken_at_v3": "пятьдесят тысяч"
         }
       ]
     },
@@ -323,7 +345,8 @@
           "start": 14,
           "end": 17,
           "type": "number",
-          "expected_spoken": "ноль точка пять"
+          "expected_spoken": "ноль целых пять десятых",
+          "frontend_spoken_at_v3": "ноль целых пять десятых"
         }
       ]
     },
@@ -337,7 +360,8 @@
           "start": 18,
           "end": 22,
           "type": "number",
-          "expected_spoken": "ноль точка два пять"
+          "expected_spoken": "ноль целых двадцать пять сотых",
+          "frontend_spoken_at_v3": "ноль целых двадцать пять сотых"
         }
       ]
     },
@@ -351,7 +375,8 @@
           "start": 18,
           "end": 21,
           "type": "number",
-          "expected_spoken": "один точка пять"
+          "expected_spoken": "одна целая пять десятых",
+          "frontend_spoken_at_v3": "одна целая пять десятых"
         }
       ]
     },
@@ -365,7 +390,8 @@
           "start": 13,
           "end": 17,
           "type": "number",
-          "expected_spoken": "один точка два пять"
+          "expected_spoken": "одна целая двадцать пять сотых",
+          "frontend_spoken_at_v3": "одна целая двадцать пять сотых"
         }
       ]
     },
@@ -379,7 +405,8 @@
           "start": 17,
           "end": 21,
           "type": "number",
-          "expected_spoken": "два точка семь пять"
+          "expected_spoken": "два целых семьдесят пять сотых",
+          "frontend_spoken_at_v3": "два целых семьдесят пять сотых"
         }
       ]
     },
@@ -393,7 +420,8 @@
           "start": 22,
           "end": 26,
           "type": "number",
-          "expected_spoken": "три точка один четыре"
+          "expected_spoken": "три целых четырнадцать сотых",
+          "frontend_spoken_at_v3": "три целых четырнадцать сотых"
         }
       ]
     },
@@ -407,7 +435,8 @@
           "start": 12,
           "end": 16,
           "type": "number",
-          "expected_spoken": "десять точка пять"
+          "expected_spoken": "десять целых пять десятых",
+          "frontend_spoken_at_v3": "десять целых пять десятых"
         }
       ]
     },
@@ -421,7 +450,8 @@
           "start": 11,
           "end": 15,
           "type": "number",
-          "expected_spoken": "двенадцать точка восемь"
+          "expected_spoken": "двенадцать целых восемь десятых",
+          "frontend_spoken_at_v3": "двенадцать целых восемь десятых"
         }
       ]
     },
@@ -435,7 +465,8 @@
           "start": 14,
           "end": 18,
           "type": "number",
-          "expected_spoken": "ноль точка ноль один"
+          "expected_spoken": "ноль целых одна сотая",
+          "frontend_spoken_at_v3": "ноль целых одна сотая"
         }
       ]
     },
@@ -449,7 +480,8 @@
           "start": 18,
           "end": 22,
           "type": "number",
-          "expected_spoken": "ноль точка ноль пять"
+          "expected_spoken": "ноль целых пять сотых",
+          "frontend_spoken_at_v3": "ноль целых пять сотых"
         }
       ]
     },
@@ -463,7 +495,8 @@
           "start": 17,
           "end": 21,
           "type": "number",
-          "expected_spoken": "семь точка два пять"
+          "expected_spoken": "семь целых двадцать пять сотых",
+          "frontend_spoken_at_v3": "семь целых двадцать пять сотых"
         }
       ]
     },
@@ -477,7 +510,8 @@
           "start": 20,
           "end": 24,
           "type": "number",
-          "expected_spoken": "девять точка девять девять"
+          "expected_spoken": "девять целых девяносто девять сотых",
+          "frontend_spoken_at_v3": "девять целых девяносто девять сотых"
         }
       ]
     },
@@ -491,7 +525,8 @@
           "start": 12,
           "end": 17,
           "type": "number",
-          "expected_spoken": "пятнадцать точка семь пять"
+          "expected_spoken": "пятнадцать целых семьдесят пять сотых",
+          "frontend_spoken_at_v3": "пятнадцать целых семьдесят пять сотых"
         }
       ]
     },
@@ -505,7 +540,8 @@
           "start": 10,
           "end": 15,
           "type": "number",
-          "expected_spoken": "сто точка пять"
+          "expected_spoken": "сто целых пять десятых",
+          "frontend_spoken_at_v3": "сто целых пять десятых"
         }
       ]
     },
@@ -519,7 +555,8 @@
           "start": 15,
           "end": 20,
           "type": "number",
-          "expected_spoken": "двести пятьдесят точка пять"
+          "expected_spoken": "двести пятьдесят целых пять десятых",
+          "frontend_spoken_at_v3": "двести пятьдесят целых пять десятых"
         }
       ]
     },
@@ -533,7 +570,8 @@
           "start": 15,
           "end": 19,
           "type": "number",
-          "expected_spoken": "ноль точка три три"
+          "expected_spoken": "ноль целых тридцать три сотых",
+          "frontend_spoken_at_v3": "ноль целых тридцать три сотых"
         }
       ]
     },
@@ -547,7 +585,8 @@
           "start": 16,
           "end": 19,
           "type": "number",
-          "expected_spoken": "четыре точка пять"
+          "expected_spoken": "четыре целых пять десятых",
+          "frontend_spoken_at_v3": "четыре целых пять десятых"
         }
       ]
     },
@@ -561,7 +600,8 @@
           "start": 11,
           "end": 14,
           "type": "number",
-          "expected_spoken": "шесть точка ноль"
+          "expected_spoken": "шесть",
+          "frontend_spoken_at_v3": "шесть"
         }
       ]
     },
@@ -575,7 +615,8 @@
           "start": 6,
           "end": 10,
           "type": "number",
-          "expected_spoken": "восемь точка семь пять"
+          "expected_spoken": "восемь целых семьдесят пять сотых",
+          "frontend_spoken_at_v3": "восемь целых семьдесят пять сотых"
         }
       ]
     },
@@ -589,7 +630,8 @@
           "start": 21,
           "end": 26,
           "type": "number",
-          "expected_spoken": "одиннадцать точка один один"
+          "expected_spoken": "одиннадцать целых одиннадцать сотых",
+          "frontend_spoken_at_v3": "одиннадцать целых одиннадцать сотых"
         }
       ]
     },
@@ -603,7 +645,8 @@
           "start": 15,
           "end": 20,
           "type": "number",
-          "expected_spoken": "двадцать точка два пять"
+          "expected_spoken": "двадцать целых двадцать пять сотых",
+          "frontend_spoken_at_v3": "двадцать целых двадцать пять сотых"
         }
       ]
     },
@@ -617,7 +660,8 @@
           "start": 11,
           "end": 28,
           "type": "money",
-          "expected_spoken": "одна тысяча двести тридцать четыре рубля пятьдесят копеек"
+          "expected_spoken": "одна тысяча двести тридцать четыре рубля пятьдесят копеек",
+          "frontend_spoken_at_v3": "одна тысяча двести тридцать четыре рубля пятьдесят копеек"
         }
       ]
     },
@@ -631,7 +675,8 @@
           "start": 15,
           "end": 25,
           "type": "money",
-          "expected_spoken": "пятнадцать тысяч семьсот рублей"
+          "expected_spoken": "пятнадцать тысяч семьсот рублей",
+          "frontend_spoken_at_v3": "пятнадцать тысяч семьсот рублей"
         }
       ]
     },
@@ -645,7 +690,8 @@
           "start": 21,
           "end": 36,
           "type": "money",
-          "expected_spoken": "девяносто два рубля тринадцать копеек"
+          "expected_spoken": "девяносто два рубля тринадцать копеек",
+          "frontend_spoken_at_v3": "девяносто два рубля тринадцать копеек"
         }
       ]
     },
@@ -659,7 +705,8 @@
           "start": 9,
           "end": 17,
           "type": "money",
-          "expected_spoken": "сто рублей"
+          "expected_spoken": "сто рублей",
+          "frontend_spoken_at_v3": "сто рублей"
         }
       ]
     },
@@ -673,7 +720,8 @@
           "start": 18,
           "end": 32,
           "type": "money",
-          "expected_spoken": "один рубль одна копейка"
+          "expected_spoken": "один рубль одна копейка",
+          "frontend_spoken_at_v3": "один рубль одна копейка"
         }
       ]
     },
@@ -687,7 +735,8 @@
           "start": 16,
           "end": 32,
           "type": "money",
-          "expected_spoken": "девятьсот девяносто девять рублей девяносто девять копеек"
+          "expected_spoken": "девятьсот девяносто девять рублей девяносто девять копеек",
+          "frontend_spoken_at_v3": "девятьсот девяносто девять рублей девяносто девять копеек"
         }
       ]
     },
@@ -701,7 +750,8 @@
           "start": 11,
           "end": 20,
           "type": "money",
-          "expected_spoken": "две тысячи пятьсот рублей"
+          "expected_spoken": "две тысячи пятьсот рублей",
+          "frontend_spoken_at_v3": "две тысячи пятьсот рублей"
         }
       ]
     },
@@ -715,7 +765,8 @@
           "start": 15,
           "end": 32,
           "type": "money",
-          "expected_spoken": "четыре тысячи восемьсот рублей двадцать копеек"
+          "expected_spoken": "четыре тысячи восемьсот рублей двадцать копеек",
+          "frontend_spoken_at_v3": "четыре тысячи восемьсот рублей двадцать копеек"
         }
       ]
     },
@@ -729,7 +780,8 @@
           "start": 17,
           "end": 28,
           "type": "money",
-          "expected_spoken": "десять тысяч пятьсот рублей"
+          "expected_spoken": "десять тысяч пятьсот рублей",
+          "frontend_spoken_at_v3": "десять тысяч пятьсот рублей"
         }
       ]
     },
@@ -743,7 +795,8 @@
           "start": 15,
           "end": 26,
           "type": "money",
-          "expected_spoken": "семьдесят пять тысяч рублей"
+          "expected_spoken": "семьдесят пять тысяч рублей",
+          "frontend_spoken_at_v3": "семьдесят пять тысяч рублей"
         }
       ]
     },
@@ -757,7 +810,8 @@
           "start": 10,
           "end": 30,
           "type": "money",
-          "expected_spoken": "сто двадцать тысяч рублей пятьдесят копеек"
+          "expected_spoken": "сто двадцать тысяч рублей пятьдесят копеек",
+          "frontend_spoken_at_v3": "сто двадцать тысяч рублей пятьдесят копеек"
         }
       ]
     },
@@ -771,7 +825,8 @@
           "start": 8,
           "end": 22,
           "type": "money",
-          "expected_spoken": "один миллион рублей"
+          "expected_spoken": "один миллион рублей",
+          "frontend_spoken_at_v3": "один миллион рублей"
         }
       ]
     },
@@ -785,7 +840,8 @@
           "start": 15,
           "end": 22,
           "type": "money",
-          "expected_spoken": "тридцать пять рублей"
+          "expected_spoken": "тридцать пять рублей",
+          "frontend_spoken_at_v3": "тридцать пять рублей"
         }
       ]
     },
@@ -799,7 +855,8 @@
           "start": 14,
           "end": 28,
           "type": "money",
-          "expected_spoken": "семь рублей пятьдесят копеек"
+          "expected_spoken": "семь рублей пятьдесят копеек",
+          "frontend_spoken_at_v3": "семь рублей пятьдесят копеек"
         }
       ]
     },
@@ -813,7 +870,8 @@
           "start": 18,
           "end": 34,
           "type": "money",
-          "expected_spoken": "пятьсот рублей ноль копеек"
+          "expected_spoken": "пятьсот рублей ноль копеек",
+          "frontend_spoken_at_v3": "пятьсот рублей ноль копеек"
         }
       ]
     },
@@ -827,7 +885,8 @@
           "start": 6,
           "end": 22,
           "type": "money",
-          "expected_spoken": "двести пятьдесят рублей семьдесят пять копеек"
+          "expected_spoken": "двести пятьдесят рублей семьдесят пять копеек",
+          "frontend_spoken_at_v3": "двести пятьдесят рублей семьдесят пять копеек"
         }
       ]
     },
@@ -841,7 +900,8 @@
           "start": 8,
           "end": 17,
           "type": "money",
-          "expected_spoken": "три тысячи триста тридцать три рубля"
+          "expected_spoken": "три тысячи триста тридцать три рубля",
+          "frontend_spoken_at_v3": "три тысячи триста тридцать три рубля"
         }
       ]
     },
@@ -855,7 +915,8 @@
           "start": 8,
           "end": 24,
           "type": "money",
-          "expected_spoken": "восемьсот восемьдесят восемь рублей восемь копеек"
+          "expected_spoken": "восемьсот восемьдесят восемь рублей восемь копеек",
+          "frontend_spoken_at_v3": "восемьсот восемьдесят восемь рублей восемь копеек"
         }
       ]
     },
@@ -869,7 +930,8 @@
           "start": 10,
           "end": 25,
           "type": "money",
-          "expected_spoken": "сорок два рубля сорок две копейки"
+          "expected_spoken": "сорок два рубля сорок две копейки",
+          "frontend_spoken_at_v3": "сорок два рубля сорок две копейки"
         }
       ]
     },
@@ -883,7 +945,8 @@
           "start": 10,
           "end": 21,
           "type": "money",
-          "expected_spoken": "пятнадцать тысяч семьдесят рублей"
+          "expected_spoken": "пятнадцать тысяч семьдесят рублей",
+          "frontend_spoken_at_v3": "пятнадцать тысяч семьдесят рублей"
         }
       ]
     },
@@ -897,7 +960,8 @@
           "start": 8,
           "end": 26,
           "type": "money",
-          "expected_spoken": "две тысячи триста сорок пять рублей шестьдесят семь копеек"
+          "expected_spoken": "две тысячи триста сорок пять рублей шестьдесят семь копеек",
+          "frontend_spoken_at_v3": "две тысячи триста сорок пять рублей шестьдесят семь копеек"
         }
       ]
     },
@@ -911,7 +975,8 @@
           "start": 18,
           "end": 22,
           "type": "percent",
-          "expected_spoken": "ноль точка пять процентов"
+          "expected_spoken": "ноль целых пять десятых процента",
+          "frontend_spoken_at_v3": "ноль целых пять десятых процентов"
         }
       ]
     },
@@ -925,7 +990,8 @@
           "start": 18,
           "end": 21,
           "type": "percent",
-          "expected_spoken": "пятнадцать процентов"
+          "expected_spoken": "пятнадцать процентов",
+          "frontend_spoken_at_v3": "пятнадцать процентов"
         }
       ]
     },
@@ -939,7 +1005,8 @@
           "start": 7,
           "end": 9,
           "type": "percent",
-          "expected_spoken": "один процентов"
+          "expected_spoken": "один процент",
+          "frontend_spoken_at_v3": "один процентов"
         }
       ]
     },
@@ -953,7 +1020,8 @@
           "start": 18,
           "end": 22,
           "type": "percent",
-          "expected_spoken": "три точка пять процентов"
+          "expected_spoken": "три целых пять десятых процента",
+          "frontend_spoken_at_v3": "три целых пять десятых процентов"
         }
       ]
     },
@@ -967,7 +1035,8 @@
           "start": 16,
           "end": 18,
           "type": "percent",
-          "expected_spoken": "семь процентов"
+          "expected_spoken": "семь процентов",
+          "frontend_spoken_at_v3": "семь процентов"
         }
       ]
     },
@@ -981,7 +1050,8 @@
           "start": 20,
           "end": 24,
           "type": "percent",
-          "expected_spoken": "ноль точка один процентов"
+          "expected_spoken": "ноль целых одна десятая процента",
+          "frontend_spoken_at_v3": "ноль целых одна десятая процентов"
         }
       ]
     },
@@ -995,7 +1065,8 @@
           "start": 15,
           "end": 18,
           "type": "percent",
-          "expected_spoken": "двенадцать процентов"
+          "expected_spoken": "двенадцать процентов",
+          "frontend_spoken_at_v3": "двенадцать процентов"
         }
       ]
     },
@@ -1009,7 +1080,8 @@
           "start": 6,
           "end": 9,
           "type": "percent",
-          "expected_spoken": "двадцать процентов"
+          "expected_spoken": "двадцать процентов",
+          "frontend_spoken_at_v3": "двадцать процентов"
         }
       ]
     },
@@ -1023,7 +1095,8 @@
           "start": 13,
           "end": 16,
           "type": "percent",
-          "expected_spoken": "двадцать пять процентов"
+          "expected_spoken": "двадцать пять процентов",
+          "frontend_spoken_at_v3": "двадцать пять процентов"
         }
       ]
     },
@@ -1037,7 +1110,8 @@
           "start": 10,
           "end": 13,
           "type": "percent",
-          "expected_spoken": "пятьдесят процентов"
+          "expected_spoken": "пятидесяти процентов",
+          "frontend_spoken_at_v3": "пятьдесят процентов"
         }
       ]
     },
@@ -1051,7 +1125,8 @@
           "start": 18,
           "end": 22,
           "type": "percent",
-          "expected_spoken": "сто процентов"
+          "expected_spoken": "сто процентов",
+          "frontend_spoken_at_v3": "сто процентов"
         }
       ]
     },
@@ -1065,7 +1140,8 @@
           "start": 25,
           "end": 27,
           "type": "percent",
-          "expected_spoken": "ноль процентов"
+          "expected_spoken": "ноль процентов",
+          "frontend_spoken_at_v3": "ноль процентов"
         }
       ]
     },
@@ -1079,7 +1155,8 @@
           "start": 18,
           "end": 22,
           "type": "percent",
-          "expected_spoken": "два точка пять процентов"
+          "expected_spoken": "два целых пять десятых процента",
+          "frontend_spoken_at_v3": "два целых пять десятых процентов"
         }
       ]
     },
@@ -1093,7 +1170,8 @@
           "start": 20,
           "end": 24,
           "type": "percent",
-          "expected_spoken": "девять точка девять процентов"
+          "expected_spoken": "девяти целых девяти десятых процента",
+          "frontend_spoken_at_v3": "девять целых девять десятых процентов"
         }
       ]
     },
@@ -1107,7 +1185,8 @@
           "start": 15,
           "end": 18,
           "type": "percent",
-          "expected_spoken": "тринадцать процентов"
+          "expected_spoken": "тринадцать процентов",
+          "frontend_spoken_at_v3": "тринадцать процентов"
         }
       ]
     },
@@ -1121,7 +1200,8 @@
           "start": 19,
           "end": 22,
           "type": "percent",
-          "expected_spoken": "восемнадцать процентов"
+          "expected_spoken": "восемнадцать процентов",
+          "frontend_spoken_at_v3": "восемнадцать процентов"
         }
       ]
     },
@@ -1135,7 +1215,8 @@
           "start": 16,
           "end": 18,
           "type": "percent",
-          "expected_spoken": "четыре процентов"
+          "expected_spoken": "четыре процента",
+          "frontend_spoken_at_v3": "четыре процентов"
         }
       ]
     },
@@ -1149,7 +1230,8 @@
           "start": 17,
           "end": 21,
           "type": "percent",
-          "expected_spoken": "шесть точка пять процентов"
+          "expected_spoken": "шесть целых пять десятых процента",
+          "frontend_spoken_at_v3": "шесть целых пять десятых процентов"
         }
       ]
     },
@@ -1163,7 +1245,8 @@
           "start": 13,
           "end": 15,
           "type": "percent",
-          "expected_spoken": "восемь процентов"
+          "expected_spoken": "восемь процентов",
+          "frontend_spoken_at_v3": "восемь процентов"
         }
       ]
     },
@@ -1177,7 +1260,8 @@
           "start": 36,
           "end": 39,
           "type": "percent",
-          "expected_spoken": "тридцать процентов"
+          "expected_spoken": "тридцати процентов",
+          "frontend_spoken_at_v3": "тридцать процентов"
         }
       ]
     },
@@ -1191,7 +1275,8 @@
           "start": 20,
           "end": 25,
           "type": "percent",
-          "expected_spoken": "ноль точка ноль один процентов"
+          "expected_spoken": "ноль целых одна сотая процента",
+          "frontend_spoken_at_v3": "ноль целых одна сотая процентов"
         }
       ]
     },
@@ -1205,7 +1290,8 @@
           "start": 15,
           "end": 25,
           "type": "date",
-          "expected_spoken": "двадцать третий июля две тысячи двадцать шесть года"
+          "expected_spoken": "двадцать третье июля две тысячи двадцать шестого года",
+          "frontend_spoken_at_v3": "двадцать третье июля две тысячи двадцать шестого года"
         }
       ]
     },
@@ -1219,7 +1305,8 @@
           "start": 20,
           "end": 30,
           "type": "date",
-          "expected_spoken": "первый января две тысячи двадцать пять года"
+          "expected_spoken": "первого января две тысячи двадцать пятого года",
+          "frontend_spoken_at_v3": "первого января две тысячи двадцать пятого года"
         }
       ]
     },
@@ -1233,7 +1320,8 @@
           "start": 14,
           "end": 24,
           "type": "date",
-          "expected_spoken": "тридцать первый декабря две тысячи двадцать шесть года"
+          "expected_spoken": "тридцать первого декабря две тысячи двадцать шестого года",
+          "frontend_spoken_at_v3": "тридцать первого декабря две тысячи двадцать шестого года"
         }
       ]
     },
@@ -1247,7 +1335,8 @@
           "start": 10,
           "end": 20,
           "type": "date",
-          "expected_spoken": "пятнадцатый марта две тысячи двадцать четыре года"
+          "expected_spoken": "пятнадцатого марта две тысячи двадцать четвёртого года",
+          "frontend_spoken_at_v3": "пятнадцатого марта две тысячи двадцать четвёртого года"
         }
       ]
     },
@@ -1261,7 +1350,8 @@
           "start": 21,
           "end": 31,
           "type": "date",
-          "expected_spoken": "восьмой августа две тысячи двадцать пять года"
+          "expected_spoken": "восьмое августа две тысячи двадцать пятого года",
+          "frontend_spoken_at_v3": "восьмое августа две тысячи двадцать пятого года"
         }
       ]
     },
@@ -1275,7 +1365,8 @@
           "start": 20,
           "end": 30,
           "type": "date",
-          "expected_spoken": "девятый мая две тысячи двадцать три года"
+          "expected_spoken": "девятое мая две тысячи двадцать третьего года",
+          "frontend_spoken_at_v3": "девятое мая две тысячи двадцать третьего года"
         }
       ]
     },
@@ -1289,7 +1380,8 @@
           "start": 19,
           "end": 29,
           "type": "date",
-          "expected_spoken": "двенадцатый ноября две тысячи двадцать шесть года"
+          "expected_spoken": "двенадцатое ноября две тысячи двадцать шестого года",
+          "frontend_spoken_at_v3": "двенадцатое ноября две тысячи двадцать шестого года"
         }
       ]
     },
@@ -1303,7 +1395,8 @@
           "start": 18,
           "end": 28,
           "type": "date",
-          "expected_spoken": "двадцать восьмой февраля две тысячи двадцать четыре года"
+          "expected_spoken": "двадцать восьмое февраля две тысячи двадцать четвёртого года",
+          "frontend_spoken_at_v3": "двадцать восьмое февраля две тысячи двадцать четвёртого года"
         }
       ]
     },
@@ -1317,7 +1410,8 @@
           "start": 15,
           "end": 25,
           "type": "date",
-          "expected_spoken": "седьмой апреля две тысячи двадцать шесть года"
+          "expected_spoken": "седьмое апреля две тысячи двадцать шестого года",
+          "frontend_spoken_at_v3": "седьмое апреля две тысячи двадцать шестого года"
         }
       ]
     },
@@ -1331,7 +1425,8 @@
           "start": 19,
           "end": 29,
           "type": "date",
-          "expected_spoken": "девятнадцатый сентября две тысячи двадцать пять года"
+          "expected_spoken": "девятнадцатого сентября две тысячи двадцать пятого года",
+          "frontend_spoken_at_v3": "девятнадцатого сентября две тысячи двадцать пятого года"
         }
       ]
     },
@@ -1345,7 +1440,8 @@
           "start": 15,
           "end": 25,
           "type": "date",
-          "expected_spoken": "третий июня две тысячи двадцать шесть года"
+          "expected_spoken": "третье июня две тысячи двадцать шестого года",
+          "frontend_spoken_at_v3": "третье июня две тысячи двадцать шестого года"
         }
       ]
     },
@@ -1359,7 +1455,8 @@
           "start": 14,
           "end": 24,
           "type": "date",
-          "expected_spoken": "двадцать пятый октября две тысячи двадцать четыре года"
+          "expected_spoken": "двадцать пятого октября две тысячи двадцать четвёртого года",
+          "frontend_spoken_at_v3": "двадцать пятого октября две тысячи двадцать четвёртого года"
         }
       ]
     },
@@ -1373,7 +1470,8 @@
           "start": 12,
           "end": 22,
           "type": "date",
-          "expected_spoken": "пятый января две тысячи двадцать шесть года"
+          "expected_spoken": "пятого января две тысячи двадцать шестого года",
+          "frontend_spoken_at_v3": "пятого января две тысячи двадцать шестого года"
         }
       ]
     },
@@ -1387,7 +1485,8 @@
           "start": 21,
           "end": 31,
           "type": "date",
-          "expected_spoken": "одиннадцатый февраля две тысячи двадцать шесть года"
+          "expected_spoken": "одиннадцатое февраля две тысячи двадцать шестого года",
+          "frontend_spoken_at_v3": "одиннадцатое февраля две тысячи двадцать шестого года"
         }
       ]
     },
@@ -1401,7 +1500,8 @@
           "start": 14,
           "end": 24,
           "type": "date",
-          "expected_spoken": "двадцать второй марта две тысячи двадцать пять года"
+          "expected_spoken": "двадцать второе марта две тысячи двадцать пятого года",
+          "frontend_spoken_at_v3": "двадцать второе марта две тысячи двадцать пятого года"
         }
       ]
     },
@@ -1415,7 +1515,8 @@
           "start": 24,
           "end": 34,
           "type": "date",
-          "expected_spoken": "тридцатый апреля две тысячи двадцать шесть года"
+          "expected_spoken": "тридцатого апреля две тысячи двадцать шестого года",
+          "frontend_spoken_at_v3": "тридцатого апреля две тысячи двадцать шестого года"
         }
       ]
     },
@@ -1429,7 +1530,8 @@
           "start": 17,
           "end": 27,
           "type": "date",
-          "expected_spoken": "шестнадцатый июня две тысячи двадцать четыре года"
+          "expected_spoken": "шестнадцатое июня две тысячи двадцать четвёртого года",
+          "frontend_spoken_at_v3": "шестнадцатое июня две тысячи двадцать четвёртого года"
         }
       ]
     },
@@ -1443,7 +1545,8 @@
           "start": 14,
           "end": 24,
           "type": "date",
-          "expected_spoken": "восемнадцатый июля две тысячи двадцать пять года"
+          "expected_spoken": "восемнадцатое июля две тысячи двадцать пятого года",
+          "frontend_spoken_at_v3": "восемнадцатое июля две тысячи двадцать пятого года"
         }
       ]
     },
@@ -1457,7 +1560,8 @@
           "start": 17,
           "end": 27,
           "type": "date",
-          "expected_spoken": "двадцать первый августа две тысячи двадцать шесть года"
+          "expected_spoken": "двадцать первое августа две тысячи двадцать шестого года",
+          "frontend_spoken_at_v3": "двадцать первое августа две тысячи двадцать шестого года"
         }
       ]
     },
@@ -1471,7 +1575,8 @@
           "start": 15,
           "end": 25,
           "type": "date",
-          "expected_spoken": "двадцать седьмой сентября две тысячи двадцать четыре года"
+          "expected_spoken": "двадцать седьмое сентября две тысячи двадцать четвёртого года",
+          "frontend_spoken_at_v3": "двадцать седьмое сентября две тысячи двадцать четвёртого года"
         }
       ]
     },
@@ -1485,7 +1590,8 @@
           "start": 17,
           "end": 27,
           "type": "date",
-          "expected_spoken": "четвёртый ноября две тысячи двадцать пять года"
+          "expected_spoken": "четвёртое ноября две тысячи двадцать пятого года",
+          "frontend_spoken_at_v3": "четвёртое ноября две тысячи двадцать пятого года"
         }
       ]
     },
@@ -1499,7 +1605,8 @@
           "start": 24,
           "end": 29,
           "type": "time",
-          "expected_spoken": "шестнадцать тридцать"
+          "expected_spoken": "шестнадцати тридцати",
+          "frontend_spoken_at_v3": "шестнадцати тридцати"
         }
       ]
     },
@@ -1513,7 +1620,8 @@
           "start": 24,
           "end": 29,
           "type": "time",
-          "expected_spoken": "девять пять"
+          "expected_spoken": "девять ноль пять",
+          "frontend_spoken_at_v3": "девять ноль пять"
         }
       ]
     },
@@ -1527,7 +1635,8 @@
           "start": 14,
           "end": 19,
           "type": "time",
-          "expected_spoken": "ноль ноль"
+          "expected_spoken": "ноль ноль ноль",
+          "frontend_spoken_at_v3": "ноль ноль ноль"
         }
       ]
     },
@@ -1541,7 +1650,8 @@
           "start": 10,
           "end": 15,
           "type": "time",
-          "expected_spoken": "двенадцать ноль"
+          "expected_spoken": "двенадцати ноль ноль",
+          "frontend_spoken_at_v3": "двенадцати ноль ноль"
         }
       ]
     },
@@ -1555,7 +1665,8 @@
           "start": 14,
           "end": 19,
           "type": "time",
-          "expected_spoken": "восемнадцать сорок пять"
+          "expected_spoken": "восемнадцати сорока пяти",
+          "frontend_spoken_at_v3": "восемнадцати сорока пяти"
         }
       ]
     },
@@ -1569,7 +1680,8 @@
           "start": 14,
           "end": 19,
           "type": "time",
-          "expected_spoken": "семь пятнадцать"
+          "expected_spoken": "семь пятнадцать",
+          "frontend_spoken_at_v3": "семь пятнадцать"
         }
       ]
     },
@@ -1583,7 +1695,8 @@
           "start": 20,
           "end": 25,
           "type": "time",
-          "expected_spoken": "двадцать три пятьдесят девять"
+          "expected_spoken": "двадцати трёх пятидесяти девяти",
+          "frontend_spoken_at_v3": "двадцати трёх пятидесяти девяти"
         }
       ]
     },
@@ -1597,7 +1710,8 @@
           "start": 18,
           "end": 23,
           "type": "time",
-          "expected_spoken": "десять десять"
+          "expected_spoken": "десять десять",
+          "frontend_spoken_at_v3": "десять десять"
         }
       ]
     },
@@ -1611,7 +1725,8 @@
           "start": 17,
           "end": 22,
           "type": "time",
-          "expected_spoken": "четырнадцать двадцать"
+          "expected_spoken": "четырнадцати двадцати",
+          "frontend_spoken_at_v3": "четырнадцать двадцать"
         }
       ]
     },
@@ -1625,7 +1740,8 @@
           "start": 16,
           "end": 21,
           "type": "time",
-          "expected_spoken": "восемь ноль"
+          "expected_spoken": "восемь ноль ноль",
+          "frontend_spoken_at_v3": "восемь ноль ноль"
         }
       ]
     },
@@ -1639,7 +1755,8 @@
           "start": 20,
           "end": 25,
           "type": "time",
-          "expected_spoken": "двадцать один тридцать"
+          "expected_spoken": "двадцать один тридцать",
+          "frontend_spoken_at_v3": "двадцать один тридцать"
         }
       ]
     },
@@ -1653,7 +1770,8 @@
           "start": 15,
           "end": 20,
           "type": "time",
-          "expected_spoken": "одиннадцать сорок пять"
+          "expected_spoken": "одиннадцать сорок пять",
+          "frontend_spoken_at_v3": "одиннадцать сорок пять"
         }
       ]
     },
@@ -1667,7 +1785,8 @@
           "start": 19,
           "end": 24,
           "type": "time",
-          "expected_spoken": "тринадцать пять"
+          "expected_spoken": "тринадцать ноль пять",
+          "frontend_spoken_at_v3": "тринадцать ноль пять"
         }
       ]
     },
@@ -1681,7 +1800,8 @@
           "start": 29,
           "end": 34,
           "type": "time",
-          "expected_spoken": "семнадцать ноль"
+          "expected_spoken": "семнадцать ноль ноль",
+          "frontend_spoken_at_v3": "семнадцать ноль ноль"
         }
       ]
     },
@@ -1695,7 +1815,8 @@
           "start": 13,
           "end": 18,
           "type": "time",
-          "expected_spoken": "шесть тридцать"
+          "expected_spoken": "шесть тридцать",
+          "frontend_spoken_at_v3": "шесть тридцать"
         }
       ]
     },
@@ -1709,7 +1830,8 @@
           "start": 20,
           "end": 25,
           "type": "time",
-          "expected_spoken": "девятнадцать девятнадцать"
+          "expected_spoken": "девятнадцать девятнадцать",
+          "frontend_spoken_at_v3": "девятнадцать девятнадцать"
         }
       ]
     },
@@ -1723,7 +1845,8 @@
           "start": 21,
           "end": 26,
           "type": "time",
-          "expected_spoken": "пятнадцать сорок"
+          "expected_spoken": "пятнадцати сорока",
+          "frontend_spoken_at_v3": "пятнадцати сорока"
         }
       ]
     },
@@ -1737,7 +1860,8 @@
           "start": 19,
           "end": 24,
           "type": "time",
-          "expected_spoken": "двадцать два десять"
+          "expected_spoken": "двадцать два десять",
+          "frontend_spoken_at_v3": "двадцать два десять"
         }
       ]
     },
@@ -1751,7 +1875,8 @@
           "start": 12,
           "end": 17,
           "type": "time",
-          "expected_spoken": "три три"
+          "expected_spoken": "трёх ноль трёх",
+          "frontend_spoken_at_v3": "трёх ноль трёх"
         }
       ]
     },
@@ -1765,7 +1890,8 @@
           "start": 8,
           "end": 13,
           "type": "time",
-          "expected_spoken": "двенадцать пятнадцать"
+          "expected_spoken": "двенадцати пятнадцати",
+          "frontend_spoken_at_v3": "двенадцати пятнадцати"
         }
       ]
     },
@@ -1779,7 +1905,8 @@
           "start": 24,
           "end": 29,
           "type": "time",
-          "expected_spoken": "двадцать ноль"
+          "expected_spoken": "двадцать ноль ноль",
+          "frontend_spoken_at_v3": "двадцать ноль ноль"
         }
       ]
     },
@@ -1793,7 +1920,8 @@
           "start": 20,
           "end": 36,
           "type": "account",
-          "expected_spoken": "плюс семь девятьсот сто двадцать три сорок пять шестьдесят семь"
+          "expected_spoken": "плюс семь девятьсот сто двадцать три сорок пять шестьдесят семь",
+          "frontend_spoken_at_v3": "плюс семь девятьсот сто двадцать три сорок пять шестьдесят семь"
         }
       ]
     },
@@ -1807,7 +1935,8 @@
           "start": 14,
           "end": 30,
           "type": "account",
-          "expected_spoken": "плюс семь девятьсот три пятьсот пятьдесят пять ноль один ноль два"
+          "expected_spoken": "плюс семь девятьсот три пятьсот пятьдесят пять ноль один ноль два",
+          "frontend_spoken_at_v3": "плюс семь девятьсот три пятьсот пятьдесят пять ноль один ноль два"
         }
       ]
     },
@@ -1821,7 +1950,8 @@
           "start": 16,
           "end": 32,
           "type": "account",
-          "expected_spoken": "плюс семь четыреста девяносто пять сто двадцать три сорок пять шестьдесят семь"
+          "expected_spoken": "плюс семь четыреста девяносто пять сто двадцать три сорок пять шестьдесят семь",
+          "frontend_spoken_at_v3": "плюс семь четыреста девяносто пять сто двадцать три сорок пять шестьдесят семь"
         }
       ]
     },
@@ -1835,7 +1965,8 @@
           "start": 16,
           "end": 32,
           "type": "account",
-          "expected_spoken": "плюс семь восемьсот двенадцать двести тридцать сорок"
+          "expected_spoken": "плюс семь восемьсот двенадцать двести тридцать сорок",
+          "frontend_spoken_at_v3": "плюс семь восемьсот двенадцать двести тридцать сорок"
         }
       ]
     },
@@ -1849,7 +1980,8 @@
           "start": 18,
           "end": 34,
           "type": "account",
-          "expected_spoken": "плюс семь девятьсот шестнадцать семьсот семьдесят семь восемьдесят восемь девяносто девять"
+          "expected_spoken": "плюс семь девятьсот шестнадцать семьсот семьдесят семь восемьдесят восемь девяносто девять",
+          "frontend_spoken_at_v3": "плюс семь девятьсот шестнадцать семьсот семьдесят семь восемьдесят восемь девяносто девять"
         }
       ]
     },
@@ -1863,7 +1995,8 @@
           "start": 18,
           "end": 34,
           "type": "account",
-          "expected_spoken": "плюс семь девятьсот девяносто девять сто одиннадцать двадцать два тридцать три"
+          "expected_spoken": "плюс семь девятьсот девяносто девять сто одиннадцать двадцать два тридцать три",
+          "frontend_spoken_at_v3": "плюс семь девятьсот девяносто девять сто одиннадцать двадцать два тридцать три"
         }
       ]
     },
@@ -1877,7 +2010,8 @@
           "start": 14,
           "end": 30,
           "type": "account",
-          "expected_spoken": "плюс семь девятьсот один двести тридцать четыре пятьдесят шесть семьдесят восемь"
+          "expected_spoken": "плюс семь девятьсот один двести тридцать четыре пятьдесят шесть семьдесят восемь",
+          "frontend_spoken_at_v3": "плюс семь девятьсот один двести тридцать четыре пятьдесят шесть семьдесят восемь"
         }
       ]
     },
@@ -1891,7 +2025,8 @@
           "start": 21,
           "end": 37,
           "type": "account",
-          "expected_spoken": "плюс семь девятьсот двадцать шесть ноль ноль ноль одиннадцать двадцать два"
+          "expected_spoken": "плюс семь девятьсот двадцать шесть ноль ноль ноль одиннадцать двадцать два",
+          "frontend_spoken_at_v3": "плюс семь девятьсот двадцать шесть ноль ноль ноль одиннадцать двадцать два"
         }
       ]
     },
@@ -1905,7 +2040,8 @@
           "start": 19,
           "end": 35,
           "type": "account",
-          "expected_spoken": "плюс семь девятьсот восемьдесят три четыреста сорок четыре пятьдесят пять шестьдесят шесть"
+          "expected_spoken": "плюс семь девятьсот восемьдесят три четыреста сорок четыре пятьдесят пять шестьдесят шесть",
+          "frontend_spoken_at_v3": "плюс семь девятьсот восемьдесят три четыреста сорок четыре пятьдесят пять шестьдесят шесть"
         }
       ]
     },
@@ -1919,7 +2055,8 @@
           "start": 17,
           "end": 33,
           "type": "account",
-          "expected_spoken": "плюс семь восемьсот пятьсот пятьдесят пять тридцать пять тридцать пять"
+          "expected_spoken": "плюс семь восемьсот пятьсот пятьдесят пять тридцать пять тридцать пять",
+          "frontend_spoken_at_v3": "плюс семь восемьсот пятьсот пятьдесят пять тридцать пять тридцать пять"
         }
       ]
     },
@@ -1933,7 +2070,8 @@
           "start": 15,
           "end": 31,
           "type": "account",
-          "expected_spoken": "плюс семь четыреста девяносто пять семьсот восемьдесят девять ноль ноль одиннадцать"
+          "expected_spoken": "плюс семь четыреста девяносто пять семьсот восемьдесят девять ноль ноль одиннадцать",
+          "frontend_spoken_at_v3": "плюс семь четыреста девяносто пять семьсот восемьдесят девять ноль ноль одиннадцать"
         }
       ]
     },
@@ -1947,7 +2085,8 @@
           "start": 13,
           "end": 29,
           "type": "account",
-          "expected_spoken": "плюс семь триста сорок три двести десять двадцать"
+          "expected_spoken": "плюс семь триста сорок три двести десять двадцать",
+          "frontend_spoken_at_v3": "плюс семь триста сорок три двести десять двадцать"
         }
       ]
     },
@@ -1961,7 +2100,8 @@
           "start": 12,
           "end": 28,
           "type": "account",
-          "expected_spoken": "плюс семь триста восемьдесят три триста сорок пятьдесят"
+          "expected_spoken": "плюс семь триста восемьдесят три триста сорок пятьдесят",
+          "frontend_spoken_at_v3": "плюс семь триста восемьдесят три триста сорок пятьдесят"
         }
       ]
     },
@@ -1975,7 +2115,8 @@
           "start": 7,
           "end": 23,
           "type": "account",
-          "expected_spoken": "плюс семь восемьсот сорок шесть сто одиннадцать двадцать два тридцать три"
+          "expected_spoken": "плюс семь восемьсот сорок шесть сто одиннадцать двадцать два тридцать три",
+          "frontend_spoken_at_v3": "плюс семь восемьсот сорок шесть сто одиннадцать двадцать два тридцать три"
         }
       ]
     },
@@ -1989,7 +2130,8 @@
           "start": 10,
           "end": 26,
           "type": "account",
-          "expected_spoken": "плюс семь восемьсот шестьдесят один пятьсот пятьдесят пять шестьдесят шесть семьдесят семь"
+          "expected_spoken": "плюс семь восемьсот шестьдесят один пятьсот пятьдесят пять шестьдесят шесть семьдесят семь",
+          "frontend_spoken_at_v3": "плюс семь восемьсот шестьдесят один пятьсот пятьдесят пять шестьдесят шесть семьдесят семь"
         }
       ]
     },
@@ -2003,7 +2145,8 @@
           "start": 10,
           "end": 26,
           "type": "account",
-          "expected_spoken": "плюс семь триста пятьдесят один двести двадцать два тридцать три сорок четыре"
+          "expected_spoken": "плюс семь триста пятьдесят один двести двадцать два тридцать три сорок четыре",
+          "frontend_spoken_at_v3": "плюс семь триста пятьдесят один двести двадцать два тридцать три сорок четыре"
         }
       ]
     },
@@ -2017,7 +2160,8 @@
           "start": 16,
           "end": 32,
           "type": "account",
-          "expected_spoken": "плюс семь восемьсот тридцать один сто двадцать тридцать"
+          "expected_spoken": "плюс семь восемьсот тридцать один сто двадцать тридцать",
+          "frontend_spoken_at_v3": "плюс семь восемьсот тридцать один сто двадцать тридцать"
         }
       ]
     },
@@ -2031,7 +2175,8 @@
           "start": 7,
           "end": 23,
           "type": "account",
-          "expected_spoken": "плюс семь восемьсот сорок три семьсот восемьдесят девяносто"
+          "expected_spoken": "плюс семь восемьсот сорок три семьсот восемьдесят девяносто",
+          "frontend_spoken_at_v3": "плюс семь восемьсот сорок три семьсот восемьдесят девяносто"
         }
       ]
     },
@@ -2045,7 +2190,8 @@
           "start": 10,
           "end": 26,
           "type": "account",
-          "expected_spoken": "плюс семь четыре два один два двенадцать тридцать четыре пятьдесят шесть"
+          "expected_spoken": "плюс семь четыре два один два двенадцать тридцать четыре пятьдесят шесть",
+          "frontend_spoken_at_v3": "плюс семь четыре два один два двенадцать тридцать четыре пятьдесят шесть"
         }
       ]
     },
@@ -2059,7 +2205,8 @@
           "start": 8,
           "end": 24,
           "type": "account",
-          "expected_spoken": "плюс семь три девять пять два шестьдесят семьдесят восемьдесят"
+          "expected_spoken": "плюс семь три девять пять два шестьдесят семьдесят восемьдесят",
+          "frontend_spoken_at_v3": "плюс семь три девять пять два шестьдесят семьдесят восемьдесят"
         }
       ]
     },
@@ -2073,7 +2220,8 @@
           "start": 22,
           "end": 37,
           "type": "account",
-          "expected_spoken": "восемь девятьсот сто двадцать три сорок пять шестьдесят семь"
+          "expected_spoken": "восемь девятьсот сто двадцать три сорок пять шестьдесят семь",
+          "frontend_spoken_at_v3": "восемь девятьсот сто двадцать три сорок пять шестьдесят семь"
         }
       ]
     },
@@ -2087,7 +2235,8 @@
           "start": 12,
           "end": 32,
           "type": "account",
-          "expected_spoken": "четыре ноль восемь один семь восемь один ноль ноль ноль ноль ноль ноль ноль ноль ноль один два три четыре"
+          "expected_spoken": "четыре ноль восемь один семь восемь один ноль ноль ноль ноль ноль ноль ноль ноль ноль один два три четыре",
+          "frontend_spoken_at_v3": "четыре ноль восемь один семь восемь один ноль ноль ноль ноль ноль ноль ноль ноль ноль один два три четыре"
         }
       ]
     },
@@ -2101,7 +2250,8 @@
           "start": 15,
           "end": 35,
           "type": "account",
-          "expected_spoken": "четыре ноль восемь один семь восемь один ноль один два три четыре пять шесть семь восемь девять ноль один два"
+          "expected_spoken": "четыре ноль восемь один семь восемь один ноль один два три четыре пять шесть семь восемь девять ноль один два",
+          "frontend_spoken_at_v3": "четыре ноль восемь один семь восемь один ноль один два три четыре пять шесть семь восемь девять ноль один два"
         }
       ]
     },
@@ -2115,7 +2265,8 @@
           "start": 17,
           "end": 37,
           "type": "account",
-          "expected_spoken": "четыре ноль семь ноль два восемь один ноль девять ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль один"
+          "expected_spoken": "четыре ноль семь ноль два восемь один ноль девять ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль один",
+          "frontend_spoken_at_v3": "четыре ноль семь ноль два восемь один ноль девять ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль один"
         }
       ]
     },
@@ -2129,7 +2280,8 @@
           "start": 16,
           "end": 36,
           "type": "account",
-          "expected_spoken": "четыре два три ноль один восемь один ноль ноль ноль ноль ноль ноль один два три четыре пять шесть семь"
+          "expected_spoken": "четыре два три ноль один восемь один ноль ноль ноль ноль ноль ноль один два три четыре пять шесть семь",
+          "frontend_spoken_at_v3": "четыре два три ноль один восемь один ноль ноль ноль ноль ноль ноль один два три четыре пять шесть семь"
         }
       ]
     },
@@ -2143,7 +2295,8 @@
           "start": 11,
           "end": 31,
           "type": "account",
-          "expected_spoken": "три ноль один ноль один восемь один ноль четыре ноль ноль ноль ноль ноль ноль ноль ноль пять пять пять"
+          "expected_spoken": "три ноль один ноль один восемь один ноль четыре ноль ноль ноль ноль ноль ноль ноль ноль пять пять пять",
+          "frontend_spoken_at_v3": "три ноль один ноль один восемь один ноль четыре ноль ноль ноль ноль ноль ноль ноль ноль пять пять пять"
         }
       ]
     },
@@ -2157,7 +2310,8 @@
           "start": 6,
           "end": 25,
           "type": "account",
-          "expected_spoken": "два два ноль ноль один два три четыре пять шесть семь восемь девять ноль один ноль"
+          "expected_spoken": "два два ноль ноль один два три четыре пять шесть семь восемь девять ноль один ноль",
+          "frontend_spoken_at_v3": "два два ноль ноль один два три четыре пять шесть семь восемь девять ноль один ноль"
         }
       ]
     },
@@ -2171,7 +2325,8 @@
           "start": 12,
           "end": 31,
           "type": "account",
-          "expected_spoken": "четыре два семь шесть один два три четыре пять шесть семь восемь девять ноль один два"
+          "expected_spoken": "четыре два семь шесть один два три четыре пять шесть семь восемь девять ноль один два",
+          "frontend_spoken_at_v3": "четыре два семь шесть один два три четыре пять шесть семь восемь девять ноль один два"
         }
       ]
     },
@@ -2185,7 +2340,8 @@
           "start": 11,
           "end": 30,
           "type": "account",
-          "expected_spoken": "пять пять три шесть девять один ноль ноль ноль ноль один один два два три три"
+          "expected_spoken": "пять пять три шесть девять один ноль ноль ноль ноль один один два два три три",
+          "frontend_spoken_at_v3": "пять пять три шесть девять один ноль ноль ноль ноль один один два два три три"
         }
       ]
     },
@@ -2199,7 +2355,8 @@
           "start": 10,
           "end": 29,
           "type": "account",
-          "expected_spoken": "два два ноль два два ноль ноль ноль три ноль ноль ноль четыре ноль ноль ноль"
+          "expected_spoken": "два два ноль два два ноль ноль ноль три ноль ноль ноль четыре ноль ноль ноль",
+          "frontend_spoken_at_v3": "два два ноль два два ноль ноль ноль три ноль ноль ноль четыре ноль ноль ноль"
         }
       ]
     },
@@ -2213,7 +2370,8 @@
           "start": 12,
           "end": 16,
           "type": "account",
-          "expected_spoken": "четыре ноль восемь два"
+          "expected_spoken": "четыре ноль восемь два",
+          "frontend_spoken_at_v3": "четыре ноль восемь два"
         }
       ]
     },
@@ -2227,7 +2385,8 @@
           "start": 16,
           "end": 24,
           "type": "account",
-          "expected_spoken": "четыре семь четыре два два восемь один ноль"
+          "expected_spoken": "четыре семь четыре два два восемь один ноль",
+          "frontend_spoken_at_v3": "сорок семь миллионов четыреста двадцать два тысяч восемьсот десять"
         }
       ]
     },
@@ -2241,7 +2400,8 @@
           "start": 28,
           "end": 48,
           "type": "account",
-          "expected_spoken": "три ноль два три два восемь один ноль один ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль один"
+          "expected_spoken": "три ноль два три два восемь один ноль один ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль один",
+          "frontend_spoken_at_v3": "три ноль два три два восемь один ноль один ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль один"
         }
       ]
     },
@@ -2255,7 +2415,8 @@
           "start": 30,
           "end": 38,
           "type": "account",
-          "expected_spoken": "четыре два один ноль шесть восемь один ноль"
+          "expected_spoken": "четыре два один ноль шесть восемь один ноль",
+          "frontend_spoken_at_v3": "сорок два миллионов сто шесть тысяч восемьсот десять"
         }
       ]
     },
@@ -2269,7 +2430,8 @@
           "start": 5,
           "end": 24,
           "type": "account",
-          "expected_spoken": "четыре пять пять пять четыре четыре один два три четыре пять шесть семь восемь девять ноль"
+          "expected_spoken": "четыре пять пять пять четыре четыре один два три четыре пять шесть семь восемь девять ноль",
+          "frontend_spoken_at_v3": "четыре пять пять пять четыре четыре один два три четыре пять шесть семь восемь девять ноль"
         }
       ]
     },
@@ -2283,7 +2445,8 @@
           "start": 15,
           "end": 34,
           "type": "account",
-          "expected_spoken": "два два ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль один"
+          "expected_spoken": "два два ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль один",
+          "frontend_spoken_at_v3": "два два ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль один"
         }
       ]
     },
@@ -2297,7 +2460,8 @@
           "start": 13,
           "end": 33,
           "type": "account",
-          "expected_spoken": "четыре ноль восемь один семь восемь один ноль девять девять девять девять девять девять девять девять девять девять девять девять"
+          "expected_spoken": "четыре ноль восемь один семь восемь один ноль девять девять девять девять девять девять девять девять девять девять девять девять",
+          "frontend_spoken_at_v3": "четыре ноль восемь один семь восемь один ноль девять девять девять девять девять девять девять девять девять девять девять девять"
         }
       ]
     },
@@ -2311,7 +2475,8 @@
           "start": 14,
           "end": 34,
           "type": "account",
-          "expected_spoken": "четыре ноль пять ноль два восемь один ноль один один один один один один один один один один один один"
+          "expected_spoken": "четыре ноль пять ноль два восемь один ноль один один один один один один один один один один один один",
+          "frontend_spoken_at_v3": "четыре ноль пять ноль два восемь один ноль один один один один один один один один один один один один"
         }
       ]
     },
@@ -2325,7 +2490,8 @@
           "start": 20,
           "end": 39,
           "type": "account",
-          "expected_spoken": "четыре два шесть ноль девять восемь семь шесть пять четыре три два один ноль девять восемь"
+          "expected_spoken": "четыре два шесть ноль девять восемь семь шесть пять четыре три два один ноль девять восемь",
+          "frontend_spoken_at_v3": "четыре два шесть ноль девять восемь семь шесть пять четыре три два один ноль девять восемь"
         }
       ]
     },
@@ -2339,7 +2505,8 @@
           "start": 17,
           "end": 36,
           "type": "account",
-          "expected_spoken": "два два ноль один два три четыре пять шесть семь восемь девять ноль один два три"
+          "expected_spoken": "два два ноль один два три четыре пять шесть семь восемь девять ноль один два три",
+          "frontend_spoken_at_v3": "два два ноль один два три четыре пять шесть семь восемь девять ноль один два три"
         }
       ]
     },
@@ -2353,7 +2520,8 @@
           "start": 12,
           "end": 32,
           "type": "account",
-          "expected_spoken": "четыре ноль девять один четыре восемь один ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль пять"
+          "expected_spoken": "четыре ноль девять один четыре восемь один ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль пять",
+          "frontend_spoken_at_v3": "четыре ноль девять один четыре восемь один ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль ноль пять"
         }
       ]
     },
@@ -2367,7 +2535,8 @@
           "start": 19,
           "end": 24,
           "type": "account",
-          "expected_spoken": "три ноль два три три"
+          "expected_spoken": "три ноль два три три",
+          "frontend_spoken_at_v3": "три ноль два три три"
         }
       ]
     },
@@ -2381,7 +2550,8 @@
           "start": 16,
           "end": 26,
           "type": "code",
-          "expected_spoken": "семь семь ноль семь ноль восемь три восемь девять три"
+          "expected_spoken": "семь семь ноль семь ноль восемь три восемь девять три",
+          "frontend_spoken_at_v3": "семь семь ноль семь ноль восемь три восемь девять три"
         }
       ]
     },
@@ -2395,7 +2565,8 @@
           "start": 12,
           "end": 22,
           "type": "code",
-          "expected_spoken": "пять ноль два четыре ноль восемь восемь три шесть шесть"
+          "expected_spoken": "пять ноль два четыре ноль восемь восемь три шесть шесть",
+          "frontend_spoken_at_v3": "пять ноль два четыре ноль восемь восемь три шесть шесть"
         }
       ]
     },
@@ -2409,7 +2580,8 @@
           "start": 14,
           "end": 24,
           "type": "code",
-          "expected_spoken": "семь семь три шесть ноль пять ноль ноль ноль три"
+          "expected_spoken": "семь семь три шесть ноль пять ноль ноль ноль три",
+          "frontend_spoken_at_v3": "семь семь три шесть ноль пять ноль ноль ноль три"
         }
       ]
     },
@@ -2423,7 +2595,8 @@
           "start": 12,
           "end": 24,
           "type": "code",
-          "expected_spoken": "пять ноль ноль один ноль ноль семь три два два пять девять"
+          "expected_spoken": "пять ноль ноль один ноль ноль семь три два два пять девять",
+          "frontend_spoken_at_v3": "пять ноль ноль один ноль ноль семь три два два пять девять"
         }
       ]
     },
@@ -2437,7 +2610,8 @@
           "start": 22,
           "end": 34,
           "type": "code",
-          "expected_spoken": "семь семь один два три четыре пять шесть семь восемь девять ноль"
+          "expected_spoken": "семь семь один два три четыре пять шесть семь восемь девять ноль",
+          "frontend_spoken_at_v3": "семь семь один два три четыре пять шесть семь восемь девять ноль"
         }
       ]
     },
@@ -2451,7 +2625,8 @@
           "start": 4,
           "end": 13,
           "type": "code",
-          "expected_spoken": "семь семь три шесть ноль один ноль ноль один"
+          "expected_spoken": "семь семь три шесть ноль один ноль ноль один",
+          "frontend_spoken_at_v3": "семь семь три шесть ноль один ноль ноль один"
         }
       ]
     },
@@ -2465,7 +2640,8 @@
           "start": 12,
           "end": 21,
           "type": "code",
-          "expected_spoken": "пять ноль два четыре ноль один ноль ноль один"
+          "expected_spoken": "пять ноль два четыре ноль один ноль ноль один",
+          "frontend_spoken_at_v3": "пять ноль два четыре ноль один ноль ноль один"
         }
       ]
     },
@@ -2479,7 +2655,8 @@
           "start": 12,
           "end": 21,
           "type": "code",
-          "expected_spoken": "семь семь ноль два ноль один ноль ноль один"
+          "expected_spoken": "семь семь ноль два ноль один ноль ноль один",
+          "frontend_spoken_at_v3": "семь семь ноль два ноль один ноль ноль один"
         }
       ]
     },
@@ -2493,7 +2670,8 @@
           "start": 10,
           "end": 19,
           "type": "code",
-          "expected_spoken": "ноль четыре четыре пять два пять два два пять"
+          "expected_spoken": "ноль четыре четыре пять два пять два два пять",
+          "frontend_spoken_at_v3": "ноль четыре четыре пять два пять два два пять"
         }
       ]
     },
@@ -2507,7 +2685,8 @@
           "start": 15,
           "end": 24,
           "type": "code",
-          "expected_spoken": "ноль четыре четыре пять два пять пять девять три"
+          "expected_spoken": "ноль четыре четыре пять два пять пять девять три",
+          "frontend_spoken_at_v3": "ноль четыре четыре пять два пять пять девять три"
         }
       ]
     },
@@ -2521,7 +2700,8 @@
           "start": 14,
           "end": 23,
           "type": "code",
-          "expected_spoken": "ноль четыре ноль семь ноль два шесть один пять"
+          "expected_spoken": "ноль четыре ноль семь ноль два шесть один пять",
+          "frontend_spoken_at_v3": "ноль четыре ноль семь ноль два шесть один пять"
         }
       ]
     },
@@ -2535,7 +2715,8 @@
           "start": 6,
           "end": 20,
           "type": "code",
-          "expected_spoken": "один один два два три три четыре четыре пять девять пять"
+          "expected_spoken": "один один два два три три четыре четыре пять девять пять",
+          "frontend_spoken_at_v3": "один один два два три три четыре четыре пять девять пять"
         }
       ]
     },
@@ -2549,7 +2730,8 @@
           "start": 16,
           "end": 30,
           "type": "code",
-          "expected_spoken": "ноль ноль один два три четыре пять шесть семь восемь девять"
+          "expected_spoken": "ноль ноль один два три четыре пять шесть семь восемь девять",
+          "frontend_spoken_at_v3": "ноль ноль один два три четыре пять шесть семь восемь девять"
         }
       ]
     },
@@ -2563,7 +2745,8 @@
           "start": 16,
           "end": 30,
           "type": "code",
-          "expected_spoken": "один два три четыре пять шесть семь восемь девять ноль ноль"
+          "expected_spoken": "один два три четыре пять шесть семь восемь девять ноль ноль",
+          "frontend_spoken_at_v3": "один два три четыре пять шесть семь восемь девять ноль ноль"
         }
       ]
     },
@@ -2577,7 +2760,8 @@
           "start": 15,
           "end": 25,
           "type": "code",
-          "expected_spoken": "семь семь ноль семь ноль восемь три восемь девять три"
+          "expected_spoken": "семь семь ноль семь ноль восемь три восемь девять три",
+          "frontend_spoken_at_v3": "семь семь ноль семь ноль восемь три восемь девять три"
         }
       ]
     },
@@ -2591,7 +2775,8 @@
           "start": 34,
           "end": 43,
           "type": "code",
-          "expected_spoken": "девять девять семь девять пять ноль ноль ноль один"
+          "expected_spoken": "девять девять семь девять пять ноль ноль ноль один",
+          "frontend_spoken_at_v3": "девять девять семь девять пять ноль ноль ноль один"
         }
       ]
     },
@@ -2605,7 +2790,8 @@
           "start": 24,
           "end": 33,
           "type": "code",
-          "expected_spoken": "ноль четыре пять восемь ноль пять семь семь семь"
+          "expected_spoken": "ноль четыре пять восемь ноль пять семь семь семь",
+          "frontend_spoken_at_v3": "ноль четыре пять восемь ноль пять семь семь семь"
         }
       ]
     },
@@ -2619,7 +2805,8 @@
           "start": 17,
           "end": 31,
           "type": "code",
-          "expected_spoken": "девять восемь семь шесть пять четыре три два один ноль девять"
+          "expected_spoken": "девять восемь семь шесть пять четыре три два один ноль девять",
+          "frontend_spoken_at_v3": "девять восемь семь шесть пять четыре три два один ноль девять"
         }
       ]
     },
@@ -2633,7 +2820,8 @@
           "start": 16,
           "end": 26,
           "type": "code",
-          "expected_spoken": "три шесть шесть четыре ноль шесть девять три девять семь"
+          "expected_spoken": "три шесть шесть четыре ноль шесть девять три девять семь",
+          "frontend_spoken_at_v3": "три шесть шесть четыре ноль шесть девять три девять семь"
         }
       ]
     },
@@ -2647,7 +2835,8 @@
           "start": 25,
           "end": 34,
           "type": "code",
-          "expected_spoken": "пять четыре ноль шесть ноль один ноль ноль один"
+          "expected_spoken": "пять четыре ноль шесть ноль один ноль ноль один",
+          "frontend_spoken_at_v3": "пять четыре ноль шесть ноль один ноль ноль один"
         }
       ]
     },
@@ -2661,7 +2850,8 @@
           "start": 23,
           "end": 32,
           "type": "code",
-          "expected_spoken": "ноль четыре шесть ноль один пять два ноль семь"
+          "expected_spoken": "ноль четыре шесть ноль один пять два ноль семь",
+          "frontend_spoken_at_v3": "ноль четыре шесть ноль один пять два ноль семь"
         }
       ]
     },
@@ -2675,7 +2865,8 @@
           "start": 8,
           "end": 11,
           "type": "entity",
-          "expected_spoken": "и эн эн"
+          "expected_spoken": "и эн эн",
+          "frontend_spoken_at_v3": "и эн эн"
         }
       ]
     },
@@ -2689,7 +2880,8 @@
           "start": 5,
           "end": 8,
           "type": "entity",
-          "expected_spoken": "ка пэ пэ"
+          "expected_spoken": "ка пэ пэ",
+          "frontend_spoken_at_v3": "ка пэ пэ"
         }
       ]
     },
@@ -2703,7 +2895,8 @@
           "start": 8,
           "end": 11,
           "type": "entity",
-          "expected_spoken": "бик"
+          "expected_spoken": "бик",
+          "frontend_spoken_at_v3": "бик"
         }
       ]
     },
@@ -2717,7 +2910,8 @@
           "start": 15,
           "end": 18,
           "type": "entity",
-          "expected_spoken": "эн дэ эс"
+          "expected_spoken": "эн дэ эс",
+          "frontend_spoken_at_v3": "эн дэ эс"
         }
       ]
     },
@@ -2731,7 +2925,8 @@
           "start": 13,
           "end": 16,
           "type": "entity",
-          "expected_spoken": "о а о"
+          "expected_spoken": "о а о",
+          "frontend_spoken_at_v3": "о а о"
         }
       ]
     },
@@ -2745,7 +2940,8 @@
           "start": 11,
           "end": 14,
           "type": "entity",
-          "expected_spoken": "о о о"
+          "expected_spoken": "о о о",
+          "frontend_spoken_at_v3": "о о о"
         }
       ]
     },
@@ -2759,7 +2955,8 @@
           "start": 0,
           "end": 2,
           "type": "entity",
-          "expected_spoken": "а о"
+          "expected_spoken": "а о",
+          "frontend_spoken_at_v3": "а о"
         }
       ]
     },
@@ -2773,7 +2970,8 @@
           "start": 0,
           "end": 3,
           "type": "entity",
-          "expected_spoken": "пэ а о"
+          "expected_spoken": "пэ а о",
+          "frontend_spoken_at_v3": "пэ а о"
         }
       ]
     },
@@ -2787,7 +2985,8 @@
           "start": 15,
           "end": 17,
           "type": "entity",
-          "expected_spoken": "и пэ"
+          "expected_spoken": "и пэ",
+          "frontend_spoken_at_v3": "и пэ"
         }
       ]
     },
@@ -2801,7 +3000,8 @@
           "start": 0,
           "end": 2,
           "type": "entity",
-          "expected_spoken": "у ка"
+          "expected_spoken": "у ка",
+          "frontend_spoken_at_v3": "у ка"
         }
       ]
     },
@@ -2815,7 +3015,8 @@
           "start": 11,
           "end": 13,
           "type": "entity",
-          "expected_spoken": "цэ бэ"
+          "expected_spoken": "цэ бэ",
+          "frontend_spoken_at_v3": "цэ бэ"
         }
       ]
     },
@@ -2829,7 +3030,8 @@
           "start": 9,
           "end": 11,
           "type": "entity",
-          "expected_spoken": "эр эф"
+          "expected_spoken": "эр эф",
+          "frontend_spoken_at_v3": "эр эф"
         }
       ]
     },
@@ -2843,7 +3045,8 @@
           "start": 14,
           "end": 17,
           "type": "entity",
-          "expected_spoken": "эс бэ пэ"
+          "expected_spoken": "эс бэ пэ",
+          "frontend_spoken_at_v3": "эс бэ пэ"
         }
       ]
     },
@@ -2857,7 +3060,8 @@
           "start": 8,
           "end": 11,
           "type": "entity",
-          "expected_spoken": "ка бэ ка"
+          "expected_spoken": "ка бэ ка",
+          "frontend_spoken_at_v3": "ка бэ ка"
         }
       ]
     },
@@ -2871,7 +3075,8 @@
           "start": 10,
           "end": 14,
           "type": "entity",
-          "expected_spoken": "о гэ эр эн"
+          "expected_spoken": "о гэ эр эн",
+          "frontend_spoken_at_v3": "о гэ эр эн"
         }
       ]
     },
@@ -2885,7 +3090,8 @@
           "start": 4,
           "end": 8,
           "type": "entity",
-          "expected_spoken": "о ка пэ о"
+          "expected_spoken": "о ка пэ о",
+          "frontend_spoken_at_v3": "о ка пэ о"
         }
       ]
     },
@@ -2899,7 +3105,8 @@
           "start": 9,
           "end": 14,
           "type": "entity",
-          "expected_spoken": "о ка вэ э дэ"
+          "expected_spoken": "о ка вэ э дэ",
+          "frontend_spoken_at_v3": "о ка вэ э дэ"
         }
       ]
     },
@@ -2913,7 +3120,8 @@
           "start": 7,
           "end": 10,
           "type": "entity",
-          "expected_spoken": "эм эф о"
+          "expected_spoken": "эм эф о",
+          "frontend_spoken_at_v3": "эм эф о"
         }
       ]
     },
@@ -2927,7 +3135,8 @@
           "start": 13,
           "end": 16,
           "type": "entity",
-          "expected_spoken": "эн ка о"
+          "expected_spoken": "эн ка о",
+          "frontend_spoken_at_v3": "эн ка о"
         }
       ]
     },
@@ -2941,7 +3150,8 @@
           "start": 8,
           "end": 11,
           "type": "entity",
-          "expected_spoken": "эф эн эс"
+          "expected_spoken": "эф эн эс",
+          "frontend_spoken_at_v3": "эф эн эс"
         }
       ]
     },
@@ -2955,7 +3165,8 @@
           "start": 7,
           "end": 10,
           "type": "entity",
-          "expected_spoken": "эн дэ эс"
+          "expected_spoken": "эн дэ эс",
+          "frontend_spoken_at_v3": "эн дэ эс"
         }
       ]
     },
@@ -2969,7 +3180,8 @@
           "start": 11,
           "end": 14,
           "type": "latin",
-          "expected_spoken": "тэ-тэ-эс"
+          "expected_spoken": "тэ-тэ-эс",
+          "frontend_spoken_at_v3": "тэ-тэ-эс"
         }
       ]
     },
@@ -2983,7 +3195,8 @@
           "start": 19,
           "end": 21,
           "type": "latin",
-          "expected_spoken": "ай-ти"
+          "expected_spoken": "ай-ти",
+          "frontend_spoken_at_v3": "ай-ти"
         }
       ]
     },
@@ -2997,7 +3210,8 @@
           "start": 14,
           "end": 17,
           "type": "latin",
-          "expected_spoken": "эс-эм-эс"
+          "expected_spoken": "эс-эм-эс",
+          "frontend_spoken_at_v3": "эс-эм-эс"
         }
       ]
     },
@@ -3011,7 +3225,8 @@
           "start": 13,
           "end": 15,
           "type": "latin",
-          "expected_spoken": "ку-эр"
+          "expected_spoken": "ку-эр",
+          "frontend_spoken_at_v3": "ку-эр"
         }
       ]
     },
@@ -3025,7 +3240,8 @@
           "start": 8,
           "end": 11,
           "type": "latin",
-          "expected_spoken": "пин"
+          "expected_spoken": "пин",
+          "frontend_spoken_at_v3": "пин"
         }
       ]
     },
@@ -3039,7 +3255,8 @@
           "start": 8,
           "end": 11,
           "type": "latin",
-          "expected_spoken": "си-ви-ви"
+          "expected_spoken": "си-ви-ви",
+          "frontend_spoken_at_v3": "си-ви-ви"
         }
       ]
     },
@@ -3053,7 +3270,8 @@
           "start": 14,
           "end": 18,
           "type": "latin",
-          "expected_spoken": "ай-бан"
+          "expected_spoken": "ай-бан",
+          "frontend_spoken_at_v3": "ай-бан"
         }
       ]
     },
@@ -3067,7 +3285,8 @@
           "start": 4,
           "end": 9,
           "type": "latin",
-          "expected_spoken": "свифт"
+          "expected_spoken": "свифт",
+          "frontend_spoken_at_v3": "свифт"
         }
       ]
     },
@@ -3081,7 +3300,8 @@
           "start": 17,
           "end": 20,
           "type": "latin",
-          "expected_spoken": "а-пи-ай"
+          "expected_spoken": "а-пи-ай",
+          "frontend_spoken_at_v3": "эй-пи-ай"
         }
       ]
     },
@@ -3095,7 +3315,8 @@
           "start": 16,
           "end": 19,
           "type": "latin",
-          "expected_spoken": "эф-эй-кью"
+          "expected_spoken": "эф-эй-кью",
+          "frontend_spoken_at_v3": "эф-эй-кью"
         }
       ]
     },
@@ -3109,7 +3330,8 @@
           "start": 9,
           "end": 11,
           "type": "latin",
-          "expected_spoken": "эйч-ар"
+          "expected_spoken": "эйч-ар",
+          "frontend_spoken_at_v3": "эйч-ар"
         }
       ]
     },
@@ -3123,7 +3345,8 @@
           "start": 11,
           "end": 14,
           "type": "latin",
-          "expected_spoken": "кэ-пи-ай"
+          "expected_spoken": "кэ-пи-ай",
+          "frontend_spoken_at_v3": "кей-пи-ай"
         }
       ]
     },
@@ -3137,7 +3360,8 @@
           "start": 19,
           "end": 22,
           "type": "latin",
-          "expected_spoken": "си-ар-эм"
+          "expected_spoken": "си-ар-эм",
+          "frontend_spoken_at_v3": "си-ар-эм"
         }
       ]
     },
@@ -3151,7 +3375,8 @@
           "start": 12,
           "end": 15,
           "type": "latin",
-          "expected_spoken": "о-тэ-пэ"
+          "expected_spoken": "о-тэ-пэ",
+          "frontend_spoken_at_v3": "о-тэ-пэ"
         }
       ]
     },
@@ -3165,7 +3390,8 @@
           "start": 0,
           "end": 3,
           "type": "latin",
-          "expected_spoken": "пос"
+          "expected_spoken": "пос",
+          "frontend_spoken_at_v3": "пос"
         }
       ]
     },
@@ -3179,7 +3405,8 @@
           "start": 9,
           "end": 12,
           "type": "latin",
-          "expected_spoken": "эй-ти-эм"
+          "expected_spoken": "эй-ти-эм",
+          "frontend_spoken_at_v3": "эй-тэ-эм"
         }
       ]
     },
@@ -3193,7 +3420,8 @@
           "start": 8,
           "end": 11,
           "type": "latin",
-          "expected_spoken": "ю-эс-би"
+          "expected_spoken": "ю-эс-би",
+          "frontend_spoken_at_v3": "ю-эс-би"
         }
       ]
     },
@@ -3207,7 +3435,8 @@
           "start": 18,
           "end": 21,
           "type": "latin",
-          "expected_spoken": "ви-пи-эн"
+          "expected_spoken": "ви-пи-эн",
+          "frontend_spoken_at_v3": "ви-пи-эн"
         }
       ]
     },
@@ -3221,7 +3450,8 @@
           "start": 18,
           "end": 21,
           "type": "latin",
-          "expected_spoken": "пи-ди-эф"
+          "expected_spoken": "пи-ди-эф",
+          "frontend_spoken_at_v3": "пи-ди-эф"
         }
       ]
     },
@@ -3235,7 +3465,8 @@
           "start": 9,
           "end": 12,
           "type": "latin",
-          "expected_spoken": "ю-ар-эл"
+          "expected_spoken": "ю-ар-эл",
+          "frontend_spoken_at_v3": "ю-ар-эл"
         }
       ]
     },
@@ -3249,7 +3480,8 @@
           "start": 10,
           "end": 12,
           "type": "latin",
-          "expected_spoken": "ай-ти"
+          "expected_spoken": "ай-ти",
+          "frontend_spoken_at_v3": "ай-ти"
         }
       ]
     },
@@ -3263,7 +3495,8 @@
           "start": 13,
           "end": 19,
           "type": "latin",
-          "expected_spoken": "гугл"
+          "expected_spoken": "гугл",
+          "frontend_spoken_at_v3": "гугл"
         }
       ]
     },
@@ -3277,7 +3510,8 @@
           "start": 11,
           "end": 20,
           "type": "latin",
-          "expected_spoken": "эпл пэй"
+          "expected_spoken": "эпл пэй",
+          "frontend_spoken_at_v3": "эпл пэй"
         }
       ]
     },
@@ -3291,7 +3525,8 @@
           "start": 9,
           "end": 15,
           "type": "latin",
-          "expected_spoken": "пэйпал"
+          "expected_spoken": "пэйпал",
+          "frontend_spoken_at_v3": "пэйпал"
         }
       ]
     },
@@ -3305,7 +3540,8 @@
           "start": 15,
           "end": 23,
           "type": "latin",
-          "expected_spoken": "вотсап"
+          "expected_spoken": "ватсап",
+          "frontend_spoken_at_v3": "ватсап"
         }
       ]
     },
@@ -3319,7 +3555,8 @@
           "start": 12,
           "end": 20,
           "type": "latin",
-          "expected_spoken": "телеграм"
+          "expected_spoken": "телеграм",
+          "frontend_spoken_at_v3": "телеграм"
         }
       ]
     },
@@ -3333,7 +3570,8 @@
           "start": 6,
           "end": 16,
           "type": "latin",
-          "expected_spoken": "мастеркард"
+          "expected_spoken": "мастеркард",
+          "frontend_spoken_at_v3": "мастеркард"
         }
       ]
     },
@@ -3347,7 +3585,8 @@
           "start": 6,
           "end": 10,
           "type": "latin",
-          "expected_spoken": "виза"
+          "expected_spoken": "виза",
+          "frontend_spoken_at_v3": "виза"
         }
       ]
     },
@@ -3361,7 +3600,8 @@
           "start": 14,
           "end": 17,
           "type": "latin",
-          "expected_spoken": "мир"
+          "expected_spoken": "мир",
+          "frontend_spoken_at_v3": "мир"
         }
       ]
     },
@@ -3375,7 +3615,8 @@
           "start": 15,
           "end": 21,
           "type": "latin",
-          "expected_spoken": "айфон"
+          "expected_spoken": "айфон",
+          "frontend_spoken_at_v3": "айфон"
         }
       ]
     },
@@ -3389,7 +3630,8 @@
           "start": 11,
           "end": 18,
           "type": "latin",
-          "expected_spoken": "андроид"
+          "expected_spoken": "андроид",
+          "frontend_spoken_at_v3": "андроид"
         }
       ]
     },
@@ -3403,7 +3645,8 @@
           "start": 11,
           "end": 18,
           "type": "latin",
-          "expected_spoken": "виндоус"
+          "expected_spoken": "виндоус",
+          "frontend_spoken_at_v3": "виндоус"
         }
       ]
     },
@@ -3417,7 +3660,8 @@
           "start": 11,
           "end": 16,
           "type": "latin",
-          "expected_spoken": "эксель"
+          "expected_spoken": "эксель",
+          "frontend_spoken_at_v3": "эксель"
         }
       ]
     },
@@ -3431,7 +3675,8 @@
           "start": 10,
           "end": 14,
           "type": "latin",
-          "expected_spoken": "зум"
+          "expected_spoken": "зум",
+          "frontend_spoken_at_v3": "зум"
         }
       ]
     },
@@ -3445,7 +3690,8 @@
           "start": 14,
           "end": 19,
           "type": "latin",
-          "expected_spoken": "слак"
+          "expected_spoken": "слак",
+          "frontend_spoken_at_v3": "слак"
         }
       ]
     },
@@ -3459,7 +3705,8 @@
           "start": 10,
           "end": 17,
           "type": "latin",
-          "expected_spoken": "твиттер"
+          "expected_spoken": "твиттер",
+          "frontend_spoken_at_v3": "твиттер"
         }
       ]
     },
@@ -3473,7 +3720,8 @@
           "start": 17,
           "end": 25,
           "type": "latin",
-          "expected_spoken": "фейсбук"
+          "expected_spoken": "фейсбук",
+          "frontend_spoken_at_v3": "фейсбук"
         }
       ]
     },
@@ -3487,7 +3735,8 @@
           "start": 14,
           "end": 21,
           "type": "latin",
-          "expected_spoken": "ютуб"
+          "expected_spoken": "ютуб",
+          "frontend_spoken_at_v3": "ютуб"
         }
       ]
     },
@@ -3501,7 +3750,8 @@
           "start": 9,
           "end": 16,
           "type": "latin",
-          "expected_spoken": "нетфликс"
+          "expected_spoken": "нетфликс",
+          "frontend_spoken_at_v3": "нетфликс"
         }
       ]
     },
@@ -3515,7 +3765,8 @@
           "start": 10,
           "end": 14,
           "type": "latin",
-          "expected_spoken": "убер"
+          "expected_spoken": "убер",
+          "frontend_spoken_at_v3": "убер"
         }
       ]
     },
@@ -3529,7 +3780,8 @@
           "start": 13,
           "end": 18,
           "type": "latin",
-          "expected_spoken": "эпл"
+          "expected_spoken": "эпл",
+          "frontend_spoken_at_v3": "эпл"
         }
       ]
     },
@@ -3543,7 +3795,8 @@
           "start": 19,
           "end": 25,
           "type": "latin",
-          "expected_spoken": "гугл"
+          "expected_spoken": "гугл",
+          "frontend_spoken_at_v3": "гугл"
         }
       ]
     },
@@ -3557,7 +3810,8 @@
           "start": 14,
           "end": 18,
           "type": "number",
-          "expected_spoken": "пять килограммов"
+          "expected_spoken": "пять килограммов",
+          "frontend_spoken_at_v3": "пять килограммов"
         }
       ]
     },
@@ -3571,7 +3825,8 @@
           "start": 20,
           "end": 25,
           "type": "number",
-          "expected_spoken": "десять километров"
+          "expected_spoken": "десять километров",
+          "frontend_spoken_at_v3": "десять километров"
         }
       ]
     },
@@ -3585,7 +3840,8 @@
           "start": 15,
           "end": 22,
           "type": "number",
-          "expected_spoken": "шестьдесят километров в час"
+          "expected_spoken": "шестьдесят километров в час",
+          "frontend_spoken_at_v3": "шестьдесят километров в час"
         }
       ]
     },
@@ -3599,7 +3855,8 @@
           "start": 24,
           "end": 28,
           "type": "number",
-          "expected_spoken": "два квадратных метра"
+          "expected_spoken": "два квадратных метра",
+          "frontend_spoken_at_v3": "два квадратных метра"
         }
       ]
     },
@@ -3613,7 +3870,8 @@
           "start": 8,
           "end": 13,
           "type": "number",
-          "expected_spoken": "сто граммов"
+          "expected_spoken": "сто граммов",
+          "frontend_spoken_at_v3": "сто граммов"
         }
       ]
     },
@@ -3627,7 +3885,8 @@
           "start": 6,
           "end": 9,
           "type": "number",
-          "expected_spoken": "один литр"
+          "expected_spoken": "один литр",
+          "frontend_spoken_at_v3": "один литр"
         }
       ]
     },
@@ -3641,7 +3900,8 @@
           "start": 6,
           "end": 9,
           "type": "number",
-          "expected_spoken": "три метра"
+          "expected_spoken": "три метра",
+          "frontend_spoken_at_v3": "три метра"
         }
       ]
     },
@@ -3655,7 +3915,8 @@
           "start": 7,
           "end": 12,
           "type": "number",
-          "expected_spoken": "пятнадцать сантиметров"
+          "expected_spoken": "пятнадцать сантиметров",
+          "frontend_spoken_at_v3": "пятнадцать сантиметров"
         }
       ]
     },
@@ -3669,7 +3930,8 @@
           "start": 8,
           "end": 12,
           "type": "number",
-          "expected_spoken": "семь миллиметров"
+          "expected_spoken": "семь миллиметров",
+          "frontend_spoken_at_v3": "семь миллиметров"
         }
       ]
     },
@@ -3683,7 +3945,8 @@
           "start": 19,
           "end": 24,
           "type": "number",
-          "expected_spoken": "двадцать пять градусов Цельсия"
+          "expected_spoken": "двадцать пять градусов Цельсия",
+          "frontend_spoken_at_v3": "двадцать пять градусов Цельсия"
         }
       ]
     },
@@ -3697,7 +3960,8 @@
           "start": 11,
           "end": 16,
           "type": "number",
-          "expected_spoken": "двести двадцать вольт"
+          "expected_spoken": "двести двадцать вольт",
+          "frontend_spoken_at_v3": "двести двадцать вольт"
         }
       ]
     },
@@ -3711,7 +3975,8 @@
           "start": 13,
           "end": 18,
           "type": "number",
-          "expected_spoken": "пятьдесят герц"
+          "expected_spoken": "пятьдесят герц",
+          "frontend_spoken_at_v3": "пятьдесят герц"
         }
       ]
     },
@@ -3725,7 +3990,8 @@
           "start": 13,
           "end": 17,
           "type": "number",
-          "expected_spoken": "восемь гигабайт"
+          "expected_spoken": "восемь гигабайт",
+          "frontend_spoken_at_v3": "восемь гигабайт"
         }
       ]
     },
@@ -3739,7 +4005,8 @@
           "start": 14,
           "end": 20,
           "type": "number",
-          "expected_spoken": "двести пятьдесят шесть мегабайт"
+          "expected_spoken": "двести пятьдесят шесть мегабайт",
+          "frontend_spoken_at_v3": "двести пятьдесят шесть мегабайт"
         }
       ]
     },
@@ -3753,7 +4020,8 @@
           "start": 6,
           "end": 10,
           "type": "number",
-          "expected_spoken": "один терабайт"
+          "expected_spoken": "один терабайт",
+          "frontend_spoken_at_v3": "один терабайт"
         }
       ]
     },
@@ -3767,7 +4035,8 @@
           "start": 12,
           "end": 20,
           "type": "number",
-          "expected_spoken": "девяносто киловатт-часов"
+          "expected_spoken": "девяносто киловатт-часов",
+          "frontend_spoken_at_v3": "девяносто киловатт-часов"
         }
       ]
     },
@@ -3781,7 +4050,8 @@
           "start": 12,
           "end": 18,
           "type": "number",
-          "expected_spoken": "тридцать минут"
+          "expected_spoken": "тридцать минут",
+          "frontend_spoken_at_v3": "тридцать минут"
         }
       ]
     },
@@ -3795,7 +4065,8 @@
           "start": 15,
           "end": 18,
           "type": "number",
-          "expected_spoken": "два часа"
+          "expected_spoken": "два часа",
+          "frontend_spoken_at_v3": "два часа"
         }
       ]
     },
@@ -3809,7 +4080,8 @@
           "start": 16,
           "end": 22,
           "type": "number",
-          "expected_spoken": "четырнадцать дней"
+          "expected_spoken": "четырнадцать дней",
+          "frontend_spoken_at_v3": "четырнадцать дней"
         }
       ]
     },
@@ -3823,7 +4095,8 @@
           "start": 12,
           "end": 20,
           "type": "number",
-          "expected_spoken": "триста шестьдесят пять суток"
+          "expected_spoken": "триста шестьдесят пять суток",
+          "frontend_spoken_at_v3": "триста шестьдесят пять суток"
         }
       ]
     },
@@ -3837,7 +4110,8 @@
           "start": 13,
           "end": 20,
           "type": "number",
-          "expected_spoken": "двенадцать месяцев"
+          "expected_spoken": "двенадцать месяцев",
+          "frontend_spoken_at_v3": "двенадцать месяцев"
         }
       ]
     },
@@ -3851,7 +4125,8 @@
           "start": 8,
           "end": 11,
           "type": "number",
-          "expected_spoken": "первый"
+          "expected_spoken": "первый",
+          "frontend_spoken_at_v3": "первый"
         }
       ]
     },
@@ -3865,7 +4140,8 @@
           "start": 9,
           "end": 12,
           "type": "number",
-          "expected_spoken": "второй"
+          "expected_spoken": "второй",
+          "frontend_spoken_at_v3": "второй"
         }
       ]
     },
@@ -3879,7 +4155,8 @@
           "start": 0,
           "end": 3,
           "type": "number",
-          "expected_spoken": "третий"
+          "expected_spoken": "третий",
+          "frontend_spoken_at_v3": "третий"
         }
       ]
     },
@@ -3893,7 +4170,8 @@
           "start": 0,
           "end": 3,
           "type": "number",
-          "expected_spoken": "пятый"
+          "expected_spoken": "пятый",
+          "frontend_spoken_at_v3": "пятый"
         }
       ]
     },
@@ -3907,7 +4185,8 @@
           "start": 0,
           "end": 4,
           "type": "number",
-          "expected_spoken": "десятый"
+          "expected_spoken": "десятый",
+          "frontend_spoken_at_v3": "десятый"
         }
       ]
     },
@@ -3921,7 +4200,8 @@
           "start": 0,
           "end": 4,
           "type": "number",
-          "expected_spoken": "пятнадцатый"
+          "expected_spoken": "пятнадцатый",
+          "frontend_spoken_at_v3": "пятнадцатый"
         }
       ]
     },
@@ -3935,7 +4215,8 @@
           "start": 4,
           "end": 8,
           "type": "number",
-          "expected_spoken": "двадцать первый"
+          "expected_spoken": "двадцать первый",
+          "frontend_spoken_at_v3": "двадцать первый"
         }
       ]
     },
@@ -3949,7 +4230,8 @@
           "start": 0,
           "end": 4,
           "type": "number",
-          "expected_spoken": "тридцатый"
+          "expected_spoken": "тридцатый",
+          "frontend_spoken_at_v3": "тридцатый"
         }
       ]
     },
@@ -3963,7 +4245,8 @@
           "start": 0,
           "end": 4,
           "type": "number",
-          "expected_spoken": "тридцать первый"
+          "expected_spoken": "тридцать первый",
+          "frontend_spoken_at_v3": "тридцать первый"
         }
       ]
     },
@@ -3977,7 +4260,8 @@
           "start": 15,
           "end": 20,
           "type": "number",
-          "expected_spoken": "сотый"
+          "expected_spoken": "сотым",
+          "frontend_spoken_at_v3": "сотый"
         }
       ]
     },
@@ -3991,7 +4275,8 @@
           "start": 6,
           "end": 13,
           "type": "number",
-          "expected_spoken": "две тысячи двадцать шестого"
+          "expected_spoken": "две тысячи двадцать шестого",
+          "frontend_spoken_at_v3": "две тысячи двадцать шестого"
         }
       ]
     },
@@ -4005,7 +4290,8 @@
           "start": 2,
           "end": 6,
           "type": "number",
-          "expected_spoken": "первого"
+          "expected_spoken": "первого",
+          "frontend_spoken_at_v3": "первого"
         }
       ]
     },
@@ -4019,7 +4305,8 @@
           "start": 3,
           "end": 7,
           "type": "number",
-          "expected_spoken": "второго"
+          "expected_spoken": "второго",
+          "frontend_spoken_at_v3": "второго"
         }
       ]
     },
@@ -4033,7 +4320,8 @@
           "start": 0,
           "end": 3,
           "type": "number",
-          "expected_spoken": "седьмой"
+          "expected_spoken": "седьмой",
+          "frontend_spoken_at_v3": "седьмой"
         }
       ]
     },
@@ -4047,7 +4335,8 @@
           "start": 0,
           "end": 4,
           "type": "number",
-          "expected_spoken": "двенадцатый"
+          "expected_spoken": "двенадцатый",
+          "frontend_spoken_at_v3": "двенадцатый"
         }
       ]
     },
@@ -4061,7 +4350,8 @@
           "start": 0,
           "end": 4,
           "type": "number",
-          "expected_spoken": "двадцатый"
+          "expected_spoken": "двадцатый",
+          "frontend_spoken_at_v3": "двадцатый"
         }
       ]
     },
@@ -4075,7 +4365,8 @@
           "start": 0,
           "end": 3,
           "type": "number",
-          "expected_spoken": "четвёртый"
+          "expected_spoken": "четвёртый",
+          "frontend_spoken_at_v3": "четвёртый"
         }
       ]
     },
@@ -4089,7 +4380,8 @@
           "start": 0,
           "end": 3,
           "type": "number",
-          "expected_spoken": "восьмой"
+          "expected_spoken": "восьмой",
+          "frontend_spoken_at_v3": "восьмой"
         }
       ]
     },
@@ -4103,7 +4395,8 @@
           "start": 0,
           "end": 3,
           "type": "number",
-          "expected_spoken": "девятый"
+          "expected_spoken": "девятый",
+          "frontend_spoken_at_v3": "девятый"
         }
       ]
     },
@@ -4117,7 +4410,8 @@
           "start": 0,
           "end": 4,
           "type": "number",
-          "expected_spoken": "одиннадцатый"
+          "expected_spoken": "одиннадцатый",
+          "frontend_spoken_at_v3": "одиннадцатый"
         }
       ]
     },
@@ -4131,7 +4425,8 @@
           "start": 18,
           "end": 23,
           "type": "number",
-          "expected_spoken": "от десяти до пятнадцати"
+          "expected_spoken": "от десяти до пятнадцати",
+          "frontend_spoken_at_v3": "от десяти до пятнадцати"
         }
       ]
     },
@@ -4145,7 +4440,8 @@
           "start": 25,
           "end": 28,
           "type": "number",
-          "expected_spoken": "от пяти до семи"
+          "expected_spoken": "от пяти до семи",
+          "frontend_spoken_at_v3": "от пяти до семи"
         }
       ]
     },
@@ -4159,7 +4455,8 @@
           "start": 19,
           "end": 28,
           "type": "number",
-          "expected_spoken": "с девяти до восемнадцати"
+          "expected_spoken": "с девяти до восемнадцати",
+          "frontend_spoken_at_v3": "с девяти до восемнадцати"
         }
       ]
     },
@@ -4173,7 +4470,8 @@
           "start": 11,
           "end": 21,
           "type": "number",
-          "expected_spoken": "с десяти до девятнадцати"
+          "expected_spoken": "с десяти до девятнадцати",
+          "frontend_spoken_at_v3": "с десяти до девятнадцати"
         }
       ]
     },
@@ -4187,7 +4485,8 @@
           "start": 10,
           "end": 13,
           "type": "number",
-          "expected_spoken": "от одного до трёх"
+          "expected_spoken": "от одного до трёх",
+          "frontend_spoken_at_v3": "от одного до трёх"
         }
       ]
     },
@@ -4201,7 +4500,8 @@
           "start": 18,
           "end": 25,
           "type": "number",
-          "expected_spoken": "от ста до двухсот"
+          "expected_spoken": "от ста до двухсот",
+          "frontend_spoken_at_v3": "от ста до двухсот"
         }
       ]
     },
@@ -4215,7 +4515,8 @@
           "start": 12,
           "end": 15,
           "type": "number",
-          "expected_spoken": "от двух до пяти"
+          "expected_spoken": "от двух до пяти",
+          "frontend_spoken_at_v3": "от двух до пяти"
         }
       ]
     },
@@ -4229,7 +4530,8 @@
           "start": 22,
           "end": 31,
           "type": "number",
-          "expected_spoken": "с восьми до двадцати"
+          "expected_spoken": "с восьми до двадцати",
+          "frontend_spoken_at_v3": "с восьми до двадцати"
         }
       ]
     },
@@ -4243,7 +4545,8 @@
           "start": 8,
           "end": 13,
           "type": "number",
-          "expected_spoken": "от пятнадцати до двадцати"
+          "expected_spoken": "от пятнадцати до двадцати",
+          "frontend_spoken_at_v3": "от пятнадцати до двадцати"
         }
       ]
     },
@@ -4257,7 +4560,8 @@
           "start": 15,
           "end": 20,
           "type": "number",
-          "expected_spoken": "от тридцати до сорока пяти"
+          "expected_spoken": "от тридцати до сорока пяти",
+          "frontend_spoken_at_v3": "от тридцати до сорока пяти"
         }
       ]
     },
@@ -4271,7 +4575,8 @@
           "start": 18,
           "end": 27,
           "type": "number",
-          "expected_spoken": "с одного до десяти"
+          "expected_spoken": "с одного до десяти",
+          "frontend_spoken_at_v3": "с одного до десяти"
         }
       ]
     },
@@ -4285,7 +4590,8 @@
           "start": 18,
           "end": 23,
           "type": "number",
-          "expected_spoken": "от пятидесяти до семидесяти"
+          "expected_spoken": "от пятидесяти до семидесяти",
+          "frontend_spoken_at_v3": "от пятидесяти до семидесяти"
         }
       ]
     },
@@ -4299,7 +4605,8 @@
           "start": 10,
           "end": 13,
           "type": "number",
-          "expected_spoken": "от трёх до шести"
+          "expected_spoken": "от трёх до шести",
+          "frontend_spoken_at_v3": "от трёх до шести"
         }
       ]
     },
@@ -4313,7 +4620,8 @@
           "start": 13,
           "end": 18,
           "type": "number",
-          "expected_spoken": "от двенадцати до двадцати четырёх"
+          "expected_spoken": "от двенадцати до двадцати четырёх",
+          "frontend_spoken_at_v3": "от двенадцати до двадцати четырёх"
         }
       ]
     },
@@ -4327,7 +4635,8 @@
           "start": 14,
           "end": 24,
           "type": "number",
-          "expected_spoken": "с четырнадцати до шестнадцати"
+          "expected_spoken": "с четырнадцати до шестнадцати",
+          "frontend_spoken_at_v3": "с четырнадцати до шестнадцати"
         }
       ]
     },
@@ -4341,7 +4650,8 @@
           "start": 11,
           "end": 15,
           "type": "number",
-          "expected_spoken": "от семи до четырнадцати"
+          "expected_spoken": "от семи до четырнадцати",
+          "frontend_spoken_at_v3": "от семи до четырнадцати"
         }
       ]
     },
@@ -4355,7 +4665,8 @@
           "start": 16,
           "end": 21,
           "type": "number",
-          "expected_spoken": "от двадцати до двадцати пяти"
+          "expected_spoken": "от двадцати до двадцати пяти",
+          "frontend_spoken_at_v3": "от двадцати до двадцати пяти"
         }
       ]
     },
@@ -4369,7 +4680,8 @@
           "start": 12,
           "end": 22,
           "type": "number",
-          "expected_spoken": "с нуля до ста"
+          "expected_spoken": "с нуля до ста",
+          "frontend_spoken_at_v3": "с нуля до ста"
         }
       ]
     },
@@ -4383,7 +4695,8 @@
           "start": 15,
           "end": 18,
           "type": "number",
-          "expected_spoken": "от четырёх до восьми"
+          "expected_spoken": "от четырёх до восьми",
+          "frontend_spoken_at_v3": "от четырёх до восьми"
         }
       ]
     },
@@ -4397,7 +4710,8 @@
           "start": 10,
           "end": 16,
           "type": "number",
-          "expected_spoken": "от девяноста до ста восьмидесяти"
+          "expected_spoken": "от девяноста до ста восьмидесяти",
+          "frontend_spoken_at_v3": "от девяноста до ста восьмидесяти"
         }
       ]
     },
@@ -4411,7 +4725,8 @@
           "start": 7,
           "end": 22,
           "type": "time",
-          "expected_spoken": "с девять ноль до восемнадцать ноль"
+          "expected_spoken": "с девяти ноль ноль до восемнадцати ноль ноль",
+          "frontend_spoken_at_v3": "с девяти ноль ноль до восемнадцати ноль ноль"
         }
       ]
     }
