@@ -141,3 +141,56 @@ class ShardReader:
 
     def preload_all(self) -> dict[str, torch.Tensor]:
         return {utt_id: self.get(utt_id) for utt_id in self.index}
+
+    def __contains__(self, utt_id: str) -> bool:
+        return utt_id in self.index
+
+
+class MultiRootShardReader:
+    """Route ``get(utt_id)`` across per-corpus shard roots.
+
+    Built from a ``utt_id → corpus`` map (from the multicorpus manifest) and a
+    ``corpus → directory`` map. Indexes are loaded once; tensors stay lazy via
+    underlying :class:`ShardReader` instances (``lazy=True`` by default).
+    """
+
+    def __init__(
+        self,
+        corpus_dirs: dict[str, str | Path],
+        prefix: str,
+        utt_to_corpus: dict[str, str],
+        *,
+        lru_shards: int = 3,
+        lazy: bool = True,
+    ):
+        self.prefix = prefix
+        self.utt_to_corpus = dict(utt_to_corpus)
+        self._readers: dict[str, ShardReader] = {}
+        for corpus, directory in corpus_dirs.items():
+            path = expand(directory)
+            idx = path / f"{prefix}_index.json"
+            if not idx.exists():
+                # Allow constructing the dataset before a corpus cache exists;
+                # access to missing corpora raises on get().
+                continue
+            self._readers[corpus] = ShardReader(
+                path, prefix, lru_shards=lru_shards, lazy=lazy
+            )
+
+    def __contains__(self, utt_id: str) -> bool:
+        corpus = self.utt_to_corpus.get(utt_id)
+        if corpus is None:
+            return False
+        reader = self._readers.get(corpus)
+        return reader is not None and utt_id in reader.index
+
+    def get(self, utt_id: str) -> torch.Tensor:
+        corpus = self.utt_to_corpus.get(utt_id)
+        if corpus is None:
+            raise KeyError(f"utt_id {utt_id!r} missing from utt_to_corpus map")
+        reader = self._readers.get(corpus)
+        if reader is None:
+            raise KeyError(
+                f"no {self.prefix!r} shard root for corpus {corpus!r} (utt_id={utt_id!r})"
+            )
+        return reader.get(utt_id)
