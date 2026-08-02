@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "hash_contract": {
+    "items_sha256": "sha256(canonical JSON of items; utt_ids array for kind=utt_ids)",
+    "file_sha256": "sha256(exact UTF-8 file bytes)"
+  },
+  "sets": {
+    "bank_entity": {
+      "version": "3.0.0",
+      "path": "configs/eval_sets/bank_entity.json",
+      "n": 315,
+      "items_sha256": "7fc26e615a1676895019396461534e178f69dfe796ff6abd95cda3cc93b71da3",
+      "file_sha256": "4e00718911d1af241cb3cb9e54704fc813ae037ea39fe7fc44dbd47ae1404456"
+    },
+    "demo5": {
+      "version": "1.0.0",
+      "path": "configs/eval_sets/demo5.json",
+      "n": 5,
+      "items_sha256": "72b43f9d2107133ce8192c0c96be27869e0c865edd1639b6d3a2aafd7a31b70e",
+      "file_sha256": "8d7d53e243c4b08aefbabe73cd09a0e873feb4217e29fd4fb2d5919af19a3bee"
+    },
+    "homograph": {
+      "version": "3.0.0",
+      "path": "configs/eval_sets/homograph.json",
+      "n": 719,
+      "items_sha256": "97ca7a828659303f7b6969ab00ebc5d0f82c64ea3225ebb548a4139cae78137d",
+      "file_sha256": "a9741899630652c524eb051d3c156b2b90c1d94b05502429a7d2ed3a6e9c2841"
+    },
+    "latin": {
+      "version": "1.0.0",
+      "path": "configs/eval_sets/latin.json",
+      "n": 117,
+      "items_sha256": "3120970f696edb30d05e5d3ee21f04762a81f2c68d5d900aa1507b9a6d1d7ce0",
+      "file_sha256": "3d1da42093072df688851d0953044ec2ba8dda4548246369af2910ab147268db"
+    },
+    "telephony": {
+      "version": "1.0.1",
+      "path": "configs/eval_sets/telephony.json",
+      "n": 30,
+      "items_sha256": "ee0ad46e1a6fea4b22e18e02d013d761af883aaa73cf9bb0201d342a02a732b4",
+      "file_sha256": "04e8a3f510cdca119994f0b6696248b1b83db6419a1764be6ca366838ffc4502"
+    },
+    "trackn_review": {
+      "version": "2.0.0",
+      "path": "configs/eval_sets/trackn_review.json",
+      "n": 2430,
+      "items_sha256": "9e042217566e04be66779d42c1edf4b7bcdf6d904c8c566de58be085f8b7b7ba",
+      "file_sha256": "843a86affab456e7777698ad395ab0d5cd228f6a3c264f3a9de872bcc9721af9"
+    },
+    "trackn_test": {
+      "version": "2.0.0",
+      "path": "configs/eval_sets/trackn_test.json",
+      "n": 3276,
+      "items_sha256": "e18adbdaaffa0744e073e52211849ace6ce9d2575effc34b2d35d14966626778",
+      "file_sha256": "03b933131867e386e67f860cd7b3d8abd230a6ca41ac4a5e8f12ab6bdf031c29"
+    },
+    "trackn_train": {
+      "version": "2.0.0",
+      "path": "configs/eval_sets/trackn_train.json",
+      "n": 51234,
+      "items_sha256": "4cdfe65dc87e2f389874fa1fa58690515c19b3a841d1e1d626795a1fc2edd25f",
+      "file_sha256": "c6834bce34686735fa3b979f774bbd9d29200f19febe602704072a2a96465f46"
+    },
+    "trackn_val": {
+      "version": "2.0.0",
+      "path": "configs/eval_sets/trackn_val.json",
+      "n": 2961,
+      "items_sha256": "6675239d9e082b837d6d3f296f0c82466e36844a163a073e7edb8c03b86dbcc3",
+      "file_sha256": "51f0c7ca20f2a5a55e5bc76c80adf30ef0222852a1f2fcf9820146fee6cacf55"
+    },
+    "val100": {
+      "version": "1.0.0",
+      "path": "configs/eval_sets/val100.json",
+      "n": 100,
+      "items_sha256": "49762248caa03e945fff343716d9e4a267e713263abf5f344511cfe8520ac556",
+      "file_sha256": "35853c892e2ada16d9fbe56ed48ae3a4a674fa59c6defc2a152f6c59e5883047"
+    }
+  }
+}

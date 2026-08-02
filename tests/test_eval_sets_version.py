@@ -13,8 +13,8 @@ REQUIRED = {"demo5", "val100", "bank_entity", "homograph", "latin"}
 EXPECTED_VERSIONS = {
     "demo5": "1.0.0",
     "val100": "1.0.0",
-    "bank_entity": "2.0.0",
-    "homograph": "2.0.0",
+    "bank_entity": "3.0.0",
+    "homograph": "3.0.0",
     "latin": "1.0.0",
 }
 

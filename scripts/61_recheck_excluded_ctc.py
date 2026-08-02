@@ -91,6 +91,100 @@ def main(argv: Sequence[str] | None = None) -> int:
     original_hours = sum(row.dur_s for row in selected) / 3600.0
     recovered = [item for item in items if item["ctc_tag"] in {"clean", "review"}]
     recovered_hours = sum(float(item["dur_s"]) for item in recovered) / 3600.0
+    still_exclude = [item for item in items if item["ctc_tag"] == "exclude"]
+    tag_counts = {
+        "clean": sum(item["ctc_tag"] == "clean" for item in items),
+        "review": sum(item["ctc_tag"] == "review" for item in items),
+        "exclude": sum(item["ctc_tag"] == "exclude" for item in items),
+        "error": sum(item["ctc_tag"] == "error" for item in items),
+    }
+    # Disagreement buckets vs Whisper exclude: where CTC agrees/disagrees,
+    # plus short-numeric heuristic (ref ≤ 4 words and ≥1 digit word).
+    digit_words = {
+        "ноль",
+        "один",
+        "одна",
+        "два",
+        "две",
+        "три",
+        "четыре",
+        "пять",
+        "шесть",
+        "семь",
+        "восемь",
+        "девять",
+        "десять",
+        "одиннадцать",
+        "двенадцать",
+        "тринадцать",
+        "четырнадцать",
+        "пятнадцать",
+        "шестнадцать",
+        "семнадцать",
+        "восемнадцать",
+        "девятнадцать",
+        "двадцать",
+        "тридцать",
+        "сорок",
+        "пятьдесят",
+        "шестьдесят",
+        "семьдесят",
+        "восемьдесят",
+        "девяносто",
+        "сто",
+        "двести",
+        "триста",
+        "четыреста",
+        "пятьсот",
+        "шестьсот",
+        "семьсот",
+        "восемьсот",
+        "девятьсот",
+        "тысяча",
+        "тысячи",
+        "тысяч",
+    }
+
+    def _is_short_numeric(ref: str) -> bool:
+        words = [w for w in ref.split() if w]
+        return len(words) <= 4 and any(w in digit_words for w in words)
+
+    def _bucket(item: dict[str, Any]) -> str:
+        tag = item["ctc_tag"]
+        if tag == "error":
+            return "ctc_error"
+        ref = str(item.get("ref", ""))
+        short_num = _is_short_numeric(ref)
+        if tag == "clean":
+            return "whisper_exclude_ctc_clean_short_numeric" if short_num else "whisper_exclude_ctc_clean"
+        if tag == "review":
+            return (
+                "whisper_exclude_ctc_review_short_numeric"
+                if short_num
+                else "whisper_exclude_ctc_review"
+            )
+        # CTC also exclude: split whether CTC is worse/better than Whisper CER.
+        w = item.get("whisper_cer")
+        c = item.get("ctc_cer")
+        if w is None or c is None:
+            return "both_exclude_unknown"
+        if short_num:
+            return "both_exclude_short_numeric"
+        if float(c) + 1e-9 < float(w):
+            return "both_exclude_ctc_lower_cer"
+        if float(c) > float(w) + 1e-9:
+            return "both_exclude_ctc_higher_cer"
+        return "both_exclude_equal_cer"
+
+    disagreement_counts: dict[str, int] = {}
+    disagreement_hours: dict[str, float] = {}
+    for item in items:
+        key = _bucket(item)
+        disagreement_counts[key] = disagreement_counts.get(key, 0) + 1
+        disagreement_hours[key] = disagreement_hours.get(key, 0.0) + float(
+            item["dur_s"]
+        ) / 3600.0
+
     report = {
         "schema_version": 1,
         "experiment": "E6 CTC relabel recheck",
@@ -102,15 +196,20 @@ def main(argv: Sequence[str] | None = None) -> int:
         },
         "n_exclude_available": len(excluded),
         "n_checked": len(items),
-        "n_errors": sum(item["ctc_tag"] == "error" for item in items),
+        "n_errors": tag_counts["error"],
         "original_exclude_hours_checked": original_hours,
         "returned_n": len(recovered),
         "returned_hours": recovered_hours,
         "returned_fraction": (
             recovered_hours / original_hours if original_hours > 0.0 else 0.0
         ),
-        "returned_to_clean_n": sum(item["ctc_tag"] == "clean" for item in items),
-        "returned_to_review_n": sum(item["ctc_tag"] == "review" for item in items),
+        "returned_to_clean_n": tag_counts["clean"],
+        "returned_to_review_n": tag_counts["review"],
+        "still_exclude_n": len(still_exclude),
+        "ctc_tag_counts": tag_counts,
+        "disagreement_n": disagreement_counts,
+        "disagreement_hours": disagreement_hours,
+        "sample_p1_returned_fraction": 0.7192015750037493,
         "items": items,
     }
     output = expand(args.out)

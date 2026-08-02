@@ -209,31 +209,116 @@ inside CI around 0.5 as expected.
 вход уже другие, а в bank v2 есть четыре выброса CER > 1. SA здесь остаётся
 диагностикой: калибровка M05 ниже порога валидности 0.90.
 
-### Track A против внешнего Silero v4_ru
+**Оговорка `ref_norm` (v1→v2):** дельты CER на `val100` и `latin` несравнимы
+как чистый эффект модели/разметки. Между `out/baseline_p1_v1_full.json` и
+`out/baseline_p1_v2_full.json` изменился `ref_norm` у **2 / 100** строк
+`val100` и **6 / 117** строк `latin` (нормализация ссылки ASR), поэтому
+опубликованные Δ CER на этих наборах смешивают смену эталона с прочим.
 
-Silero измерен на тех же полных наборах, тем же Whisper и теми же функциями
-CER/DER/EER/SA. Артефакт: `out/external_baseline_silero_v2.json`; статус `ok`,
-ошибок синтеза 0. Для двух строк (`bank_156`, `bank_162`) нативный вход Silero
-вернул `ValueError`, поэтому скрипт детерминированно повторил их после
-`normalize_for_tts`; fallback записан в самих строках JSON. Модель и лицензия
-зарегистрированы как Silero `v4_ru`, CC BY-NC 4.0.
+### Track A против внешнего Silero v4_ru (v2, unequal — historical)
+
+Таблица ниже — исторический прогон P1 на наборах v2. У **1 275 / 1 277** строк
+Silero `model_input_text == text` (сырой текст с цифрами), тогда как Track A
+получал TN+verbalize. Это **не** сравнение систем. Артефакт:
+`out/external_baseline_silero_v2.json`.
 
 | Set | System | n | mean CER | median CER | CER CI95 | DER | EER | SA |
 |-----|--------|--:|---------:|-----------:|----------|----:|----:|---:|
 | demo5 | Track A | 5 | 0.0935 | 0.1163 | [0.0233, 0.1662] | — | — | — |
-| demo5 | Silero | 5 | **0.0305** | **0.0000** | [0.0000, 0.0915] | — | — | — |
+| demo5 | Silero raw | 5 | 0.0305 | 0.0000 | [0.0000, 0.0915] | — | — | — |
 | val100 | Track A | 100 | 0.0319 | 0.0224 | [0.0249, 0.0390] | — | — | — |
-| val100 | Silero | 100 | **0.0078** | **0.0000** | [0.0040, 0.0131] | — | — | — |
-| bank_entity v2 | Track A | 315 | **0.1907** | **0.0750** | [0.1321, 0.2700] | **0.6142** | **0.3651** | — |
-| bank_entity v2 | Silero | 315 | 0.5654 | 0.5758 | [0.5428, 0.5875] | 0.9739 | 0.9937 | — |
+| val100 | Silero raw | 100 | 0.0078 | 0.0000 | [0.0040, 0.0131] | — | — | — |
+| bank_entity v2 | Track A | 315 | 0.1907 | 0.0750 | [0.1321, 0.2700] | 0.6142 | 0.3651 | — |
+| bank_entity v2 | Silero raw | 315 | 0.5654 | 0.5758 | [0.5428, 0.5875] | 0.9739 | 0.9937 | — |
 | homograph v2 | Track A | 740 | 0.0703 | 0.0318 | [0.0631, 0.0769] | — | — | 0.4614 |
-| homograph v2 | Silero | 740 | **0.0094** | **0.0000** | [0.0074, 0.0115] | — | — | 0.5210 |
-| latin | Track A | 117 | **0.2386** | **0.1304** | [0.1221, 0.4520] | — | — | — |
-| latin | Silero | 117 | 0.3338 | 0.3226 | [0.3154, 0.3533] | — | — | — |
+| homograph v2 | Silero raw | 740 | 0.0094 | 0.0000 | [0.0074, 0.0115] | — | — | 0.5210 |
+| latin | Track A | 117 | 0.2386 | 0.1304 | [0.1221, 0.4520] | — | — | — |
+| latin | Silero raw | 117 | 0.3338 | 0.3226 | [0.3154, 0.3533] | — | — | — |
 
-Жирным отмечено меньшее значение ошибки внутри пары. SA приведена только как
-диагностика: даже новый супервизный измеритель B05 получил
-`0.8257 [0.7883, 0.8577]` на 459 held-out словах, ниже фиксированного порога
-0.90. Поэтому N5 остаётся неизмеримым; сравнивать 0.4614 и 0.5210 как
-валидную точность ударения нельзя. Артефакт B05:
-`out/stress_classifier_eval.json`.
+### Fair three-condition Silero (v3 sets) — N2 / R2
+
+Три условия на одних позициях v3 (`demo5`, `val100`, `bank_entity` 3.0.0,
+`homograph` 3.0.0, `latin`), одном ASR `configs/asr.yaml`, одном ckpt Track A
+`runs/mel_stress_v01_s4/best.pt`, одних функциях CER/DER/EER/SA.
+
+| Condition | Role | JSON | wav |
+|-----------|------|------|-----|
+| Silero raw (`--input-mode raw`) | вклад фронтенда (legacy unequal) | `out/external_baseline_silero_v3_raw.json` | `out/n2_first_execution/silero_raw/` |
+| Silero + frontend (`--input-mode frontend`) | **сравнение систем** (общий TN+verbalize) | `out/external_baseline_silero_v3_frontend.json` | `out/n2_first_execution/silero_frontend/` |
+| Track A | **сравнение систем** | `out/external_baseline_track_a_v3.json` | `out/n2_first_execution/track_a/` |
+
+Сводка: `out/external_baseline_silero_v3.json`. Статусы Silero: `ok`, `n_errors=0`.
+Silero raw: 2 fallback-а на `normalize_for_tts` (`bank_156`, `bank_162`).
+Silero+frontend: fallback-ов 0.
+
+| Set | System | n | mean CER | median CER | CER CI95 | DER | EER | SA |
+|-----|--------|--:|---------:|-----------:|----------|----:|----:|---:|
+| demo5 | Track A | 5 | 0.0935 | 0.1163 | [0.0233, 0.1662] | — | — | — |
+| demo5 | Silero raw | 5 | 0.0305 | 0.0000 | [0.0000, 0.0915] | — | — | — |
+| demo5 | Silero+frontend | 5 | **0.0169** | **0.0000** | [0.0000, 0.0508] | — | — | — |
+| val100 | Track A | 100 | 0.0319 | 0.0224 | [0.0249, 0.0390] | — | — | — |
+| val100 | Silero raw | 100 | **0.0078** | **0.0000** | [0.0040, 0.0131] | — | — | — |
+| val100 | Silero+frontend | 100 | **0.0078** | **0.0000** | [0.0040, 0.0131] | — | — | — |
+| bank_entity v3 | Track A | 315 | 0.1818 | 0.0676 | [0.1233, 0.2600] | 0.6238 | 0.3397 | — |
+| bank_entity v3 | Silero raw | 315 | 0.5730 | 0.5938 | [0.5500, 0.5951] | 0.9734 | 0.9937 | — |
+| bank_entity v3 | Silero+frontend | 315 | **0.0488** | **0.0000** | [0.0381, 0.0608] | **0.1030** | **0.1556** | — |
+| homograph v3 | Track A | 719 | 0.0655 | 0.0256 | [0.0587, 0.0727] | — | — | 0.4437 |
+| homograph v3 | Silero raw | 719 | **0.0068** | **0.0000** | [0.0050, 0.0089] | — | — | 0.5146 |
+| homograph v3 | Silero+frontend | 719 | **0.0068** | **0.0000** | [0.0050, 0.0089] | — | — | 0.5146 |
+| latin | Track A | 117 | 0.2386 | 0.1304 | [0.1221, 0.4520] | — | — | — |
+| latin | Silero raw | 117 | 0.3338 | 0.3226 | [0.3154, 0.3533] | — | — | — |
+| latin | Silero+frontend | 117 | **0.0418** | **0.0000** | [0.0312, 0.0527] | — | — | — |
+
+**Сравнение систем** = Silero+frontend vs Track A (общий фронтенд). На
+`bank_entity` v3 Silero+frontend **лучше** Track A: DER 0.1030 против 0.6238,
+mean CER 0.0488 против 0.1818. На `latin` то же: 0.0418 против 0.2386. Нельзя
+утверждать победу Track A без указания условия.
+
+**Вклад фронтенда** = Silero raw vs Silero+frontend на `bank_entity` v3:
+DER 0.9734 → 0.1030, Δ DER = **−0.8704** (наш TN+verbalize).
+
+Жирным — меньшая ошибка внутри тройки на строке набора. SA только диагностика
+(порог валидности 0.90 не достигнут; см. B05 `out/stress_classifier_eval.json`).
+
+Listen demo5 (Windows mirror):
+`C:\projects\tts-self\out\n2_first_execution\{silero_raw,silero_frontend,track_a}\demo5\`.
+
+### Bank DER/EER delta 2×2 (labels × frontend) — N2 / R6
+
+Один ckpt `runs/mel_stress_v01_s4/best.pt`. Ячейки:
+
+| Frontend | Labels | Hyps source | Role |
+|----------|--------|-------------|------|
+| after R3 (current verbalize) | v3 | R2 Track A `out/external_baseline_track_a_v3.json` | re-score / live |
+| after R3 | v2 (`git show 2c4c4bd:…/bank_entity.json`) | same R2 hyps | label-only re-score |
+| before R3 (P1-era synth) | v2 | `out/baseline_p1_v2_full.json` | label-only re-score |
+| before R3 | v3 | same P1 hyps | label-only re-score |
+
+Артефакт: `out/bank_delta_2x2.json`. Все четыре ячейки прогнаны **одним** текущим
+`critical_spans` scorer (внутренне согласованы). Абсолютный DER для
+P1 hyps+v2 labels при пересчёте (0.6566) отличается от агрегата, записанного в
+`baseline_p1_v2_full.json` (0.6142); в разложении ниже используются только
+числа одного scorer. CI95 — utterance-cluster bootstrap (2000), DER как
+edit-distance ratio может иметь верхнюю границу > 1.
+
+| Cell | n | DER [CI95] | EER [CI95] | mean CER |
+|------|--:|------------|------------|---------:|
+| frontend_before × labels_v2 | 315 | 0.6566 [0.2209, 1.4163] | 0.4222 [0.3683, 0.4762] | 0.1907 |
+| frontend_before × labels_v3 | 315 | 0.6370 [0.1919, 1.4079] | 0.4730 [0.4159, 0.5270] | 0.1907 |
+| frontend_after × labels_v2 | 315 | 0.6493 [0.2135, 1.4118] | 0.3937 [0.3397, 0.4476] | 0.1818 |
+| frontend_after × labels_v3 | 315 | 0.6238 [0.1776, 1.3958] | 0.3397 [0.2857, 0.3905] | 0.1818 |
+
+**Наблюдаемая дельта** (before×v2 → after×v3):
+
+| Metric | Observed Δ | Label @ before | Label @ after | Frontend @ v2 | Frontend @ v3 | Path check | Unexplained remainder |
+|--------|-----------:|---------------:|--------------:|--------------:|--------------:|-----------:|----------------------:|
+| DER | −0.0329 | −0.0196 | −0.0255 | −0.0073 | −0.0133 | −0.0329 | **0.0** |
+| EER | −0.0825 | +0.0508 | −0.0540 | −0.0286 | −0.1333 | −0.0825 | **0.0** |
+
+Label avg (DER) −0.0225; frontend avg −0.0103; interaction −0.0059.
+Сумма вкладов по пути `label_before + frontend_v3` совпадает с observed;
+необъяснённый остаток = 0.
+
+`val100` / `latin`: между P1 v2 и R2 Track A `ref_norm` не менялся (0/100 и
+0/117). Несравнимость CER относится к историческому шагу **v1→v2** (см. оговорку
+выше), не к этому 2×2.
