@@ -2,7 +2,9 @@
 
 **Status:** internal notes only — not submission LaTeX.  
 **Project:** MiniSpeech-RU (Russian TTS research prototype).  
-**Evidence date:** 2026-07-30. Sources: [part1_diagnosis.md](part1_diagnosis.md), frozen JSON under `out/`.
+**Evidence date:** 2026-07-30; figures + preference protocol updated S4 2026-08-01.  
+**Sources:** [part1_diagnosis.md](part1_diagnosis.md), frozen JSON under `out/`, figures in [paper1_figures.md](paper1_figures.md).  
+**MOS:** **unmeasured**. Pairwise preferences: **BLOCKED** (0 listeners) — [paper1_preference_status.md](paper1_preference_status.md).
 
 ---
 
@@ -186,18 +188,31 @@ Legacy FR metrics → **diagnostics only**. New ladder ([experiment_protocol.md]
 
 ---
 
-## 6. Figures to produce later
+## 6. Figures (S4 — measured)
 
-1. **Trap schematic** — three-layer diagram: FR gates ✓ / TF L1 misleading / CER ✗.
-2. **Gate 0 panel** — bar: constant MAE vs model TF L1; inset \(R^2\), var_ratio, hf_power_ratio.
-3. **E0 baseline table** — four trivial predictors vs legacy gate checklist (all pass).
-4. **E1 calibration curves** — CER vs \(\sigma\), CER vs \(\alpha\), CER vs smooth kernel (three subplots).
-5. **E2 vs E4 gap** — paired bar: GT latent CER 0.073 vs S3 synth 0.889.
-6. **E5 attention heatmaps** — 2–3 utterances: learned weights vs chance diagonal (optional if plots regenerated).
-7. **Waveform + spec** — one S3 demo: audible but wrong ASR hyp (qualitative).
-8. **Gate ladder** — old vs new promotion criteria flowchart.
+Rendered under `out/paper1_figures/` from on-disk JSON only (see
+[paper1_figures.md](paper1_figures.md)). Index:
 
-Audio supplementary: `out/demo_s3_calibrated_20260730/` vs GT copy for same phrases.
+| # | Figure | Path | Source |
+|---|--------|------|--------|
+| 1 | E1 CER(σ)/CER(α)/smooth | `out/paper1_figures/fig01_cer_sigma_alpha.png` | `out/latent_error_calibration.json` |
+| 2 | R2 three systems CER + bank DER | `out/paper1_figures/fig02_r2_three_systems.png` | `out/external_baseline_silero_v3.json` |
+| 3 | bank_entity 2×2 delta | `out/paper1_figures/fig03_bank_delta_2x2.png` | `out/bank_delta_2x2.json` |
+| 4 | Gate 0 + E0 trivial pass | `out/paper1_figures/fig04_gate0_panel.png` | `out/head_diagnostics_v01_best.json`, `out/trivial_baselines.json` |
+| 5 | E2 vs E4 CER gap | `out/paper1_figures/fig05_e2_vs_e4_gap.png` | `out/latent_error_calibration.json`, `out/intelligibility_S3.json` |
+| 6 | E5 diagonality vs chance | `out/paper1_figures/fig06_diagonality.png` | `out/align_audit.json` |
+| 7 | Telephony channels + paired Δ | `out/paper1_figures/fig07_telephony_channels.png` | `out/p1_telephony_channels.json` |
+| 8 | Track A ladder (counterpoint) | `out/paper1_figures/fig08_track_a_ladder.png` | mel suite + `out/gate_v4_v5_summary.json` |
+
+Still optional for camera-ready: trap schematic flowchart; per-utterance attention
+heatmaps; waveform/spec of one wrong-hyp demo.
+
+**Human naturalness:** pairwise preference protocol is prepared
+([paper1_preference_status.md](paper1_preference_status.md)) but the study is
+**BLOCKED** (listener_count = 0). **MOS is unmeasured** — do not substitute UTMOS.
+
+Audio supplementary: `out/demo_s3_calibrated_20260730/` vs GT copy for same phrases;
+R2/N2 demo wavs under `out/n2_first_execution/`.
 
 ---
 
