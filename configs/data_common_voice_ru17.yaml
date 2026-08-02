@@ -31,11 +31,20 @@ ingest:
     val: 0.05
     test: 0.05
 
-# Compatibility block for the existing ASR/DSP QC scripts (03 and 03b).
+# Compatibility block for the existing ASR/DSP QC scripts (03 and 03b)
+# plus Track N offline caches (C1/C2/C3) — paths mirror data_ruslan_local.yaml.
 data:
   root: ~/datasets/tts
   ruslan_dir: ~/datasets/tts/common_voice_ru17
   manifest: ~/datasets/tts/common_voice_ru17/manifest.jsonl
+  latent_dir: ~/datasets/tts/common_voice_ru17/latents
+  text_hidden_dir: ~/datasets/tts/common_voice_ru17/text_hidden
+  stats_path: ~/datasets/tts/common_voice_ru17/stats.safetensors
+  align_dir: ~/datasets/tts/common_voice_ru17/align
+  forced_path: ~/datasets/tts/common_voice_ru17/align/forced.json
+  speaker: common_voice_ru_17_hf_mirror
+  sample_rate_tgt: 24000
+  shard_size: 2000
   min_dur_s: 0.5
   max_dur_s: 15.0
   asr_cer_reject: 0.25
@@ -44,3 +53,8 @@ data:
     val: 0.05
     test: 0.05
     strategy: speaker_holdout
+  # C1: encode only Track N inventory after R1 (not the full corpus):
+  #   python scripts/04_encode_latents.py \
+  #     --config configs/data_common_voice_ru17.yaml \
+  #     --trackn-encode-union
+  # Equivalent: --eval-set configs/eval_sets/trackn_{train,val,test,review}.json
