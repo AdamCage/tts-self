@@ -105,7 +105,8 @@ def test_bank_like_money_date_time_tn():
     t_dot = verbalize_text("до 16.30")
     assert "точка" not in t_dot.lower()
     assert "шестнадцат" in t_dot.lower()
-    assert "тридцать" in t_dot.lower()
+    # Stem covers nominative «тридцать» and genitive «тридцати» after «до».
+    assert "тридцат" in t_dot.lower()
 
     pct = verbalize_text("комиссия 0.5%")
     assert "%" not in pct
@@ -189,33 +190,168 @@ def test_identifiers_are_spelled_digit_by_digit(raw: str, digits: str) -> None:
     assert not any(char.isdigit() for char in result)
 
 
+_BANK_ENTITY_EVAL_SET = (
+    Path(__file__).resolve().parents[1] / "configs" / "eval_sets" / "bank_entity.json"
+)
+
+# Exact full-string expectations for verbalize_text (verbalizer under test).
+# Category keys must match `category` values in bank_entity.json.
+BANK_ENTITY_CATEGORY_MATRIX: dict[str, list[tuple[str, str]]] = {
+    "integers": [
+        ("Лимит 42", "Лимит сорок два"),
+        ("Поступило 12 платежей.", "Поступило двенадцать платежей."),
+        ("Одобрено 35 заявок.", "Одобрено тридцать пять заявок."),
+    ],
+    "decimals": [
+        ("Ставка 2,5", "Ставка два целых пять десятых"),
+        ("Курс 0.25", "Курс ноль целых двадцать пять сотых"),
+        (
+            "Коэффициент риска 0,25",
+            "Коэффициент риска ноль целых двадцать пять сотых",
+        ),
+    ],
+    "money": [
+        ("Сумма 21 руб.", "Сумма двадцать один рубль"),
+        (
+            "Переведите 1234 руб. 50 коп.",
+            "Переведите одна тысяча двести тридцать четыре рубля пятьдесят копеек",
+        ),
+        ("Комиссия 100 руб.", "Комиссия сто рублей"),
+    ],
+    "percent": [
+        ("Комиссия 15%", "Комиссия пятнадцать процентов"),
+        ("Ставка 0.5%", "Ставка ноль целых пять десятых процентов"),
+        ("Ключевая ставка 7%", "Ключевая ставка семь процентов"),
+    ],
+    "dates": [
+        (
+            "Дата 01.02.2020",
+            "Дата первое февраля две тысячи двадцатого года",
+        ),
+        (
+            "Срок до 31.12.2026",
+            "Срок до тридцать первого декабря две тысячи двадцать шестого года",
+        ),
+        (
+            "операция 23 июля 2026",
+            "операция двадцать третье июля две тысячи двадцать шестого года",
+        ),
+    ],
+    "time": [
+        ("Открытие в 09:05", "Открытие в девять ноль пять"),
+        ("до 16:30", "до шестнадцати тридцати"),
+        ("Оплата в 14:00", "Оплата в четырнадцать ноль ноль"),
+    ],
+    "phones": [
+        (
+            "Телефон +7 900 123-45-67",
+            "Телефон плюс семь девятьсот сто двадцать три сорок пять шестьдесят семь",
+        ),
+        (
+            "+7 (495) 120-30-40",
+            "плюс семь четыреста девяносто пять сто двадцать тридцать сорок",
+        ),
+        (
+            "8 916 777 88 99",
+            "восемь девятьсот шестнадцать семьсот семьдесят семь "
+            "восемьдесят восемь девяносто девять",
+        ),
+    ],
+    "accounts": [
+        ("Номер счёта 4082", "Номер счёта четыре ноль восемь два"),
+        (
+            "Карта 2202 2002 1234 5678",
+            "Карта два два ноль два два ноль ноль два один два три четыре "
+            "пять шесть семь восемь",
+        ),
+        (
+            "Счёт 40817810099910004312",
+            "Счёт четыре ноль восемь один семь восемь один ноль ноль девять "
+            "девять девять один ноль ноль ноль четыре три один два",
+        ),
+    ],
+    "codes": [
+        (
+            "БИК 044525225",
+            "бик ноль четыре четыре пять два пять два два пять",
+        ),
+        (
+            "ИНН 7707083893",
+            "и эн эн семь семь ноль семь ноль восемь три восемь девять три",
+        ),
+        (
+            "КПП 773601001",
+            "ка пэ пэ семь семь три шесть ноль один ноль ноль один",
+        ),
+    ],
+    "ru_abbr": [
+        ("СНИЛС и ОКВЭД", "снилс и о ка вэ э дэ"),
+        ("ИНН и КПП организации", "и эн эн и ка пэ пэ организации"),
+        ("ОГРН указан в заявлении", "о гэ эр эн указан в заявлении"),
+    ],
+    "lat_abbr": [
+        ("Установите TTS", "Установите тэ-тэ-э\u0301с"),
+        ("пришло SMS", "пришло эс-эм-э\u0301с"),
+        ("Введите PIN", "Введите пин"),
+    ],
+    "loanwords": [
+        ("Оплата Google Pay", "Оплата гугл пэй"),
+        ("Apple Pay доступен", "эпл пэй доступен"),
+        ("через Wi-Fi", "через вайфай"),
+    ],
+    "units": [
+        ("Масса 5 кг.", "Масса пять килограммов"),
+        ("Масса 2 кг.", "Масса два килограмма"),
+        ("Скорость 60 км/ч.", "Скорость шестьдесят километров в час"),
+    ],
+    "ordinals": [
+        ("Это 3-й платёж", "Это третий платёж"),
+        ("1-й день", "первый день"),
+        ("Откройте 2-й раздел.", "Откройте второй раздел."),
+    ],
+    "ranges": [
+        ("Срок 10–15 дней", "Срок от десяти до пятнадцати дней"),
+        ("Ожидайте 5-7 дней", "Ожидайте от пяти до семи дней"),
+        ("Лимит 100—200", "Лимит от ста до двухсот"),
+    ],
+}
+
+
+def _bank_entity_category_matrix_cases() -> list[tuple[str, str, str]]:
+    rows: list[tuple[str, str, str]] = []
+    for category, examples in BANK_ENTITY_CATEGORY_MATRIX.items():
+        for raw, expected in examples:
+            rows.append((category, raw, expected))
+    return rows
+
+
 @pytest.mark.parametrize(
     ("category", "raw", "expected"),
-    [
-        ("integers", "Лимит 42", "сорок два"),
-        ("decimals", "Ставка 2,5", "два точка пять"),
-        ("money", "Сумма 21 руб.", "двадцать один рубль"),
-        ("percent", "Комиссия 15%", "пятнадцать процентов"),
-        ("dates", "Дата 01.02.2020", "первый февраля"),
-        ("time", "Открытие в 09:05", "девять пять"),
-        ("phones", "Телефон +7 900 123-45-67", "плюс семь"),
-        ("accounts", "Номер счёта 4082", "четыре ноль восемь два"),
-        ("codes", "БИК 044525225", "ноль четыре четыре пять"),
-        ("ru_abbr", "СНИЛС и ОКВЭД", "снилс и о ка вэ э дэ"),
-        ("lat_abbr", "Установите TTS", "тэ-тэ-э́с"),
-        ("loanwords", "Оплата Google Pay", "гугл"),
-        ("units", "Масса 5 кг.", "пять килограммов"),
-        ("ordinals", "Это 3-й платёж", "третий"),
-        ("ranges", "Срок 10–15 дней", "от десяти до пятнадцати"),
-    ],
+    _bank_entity_category_matrix_cases(),
 )
 def test_bank_entity_category_matrix(
     category: str,
     raw: str,
     expected: str,
 ) -> None:
-    _ = category
-    assert expected in verbalize_text(raw)
+    assert category in BANK_ENTITY_CATEGORY_MATRIX
+    assert verbalize_text(raw) == expected
+
+
+def test_bank_entity_category_matrix_covers_eval_set() -> None:
+    """Fail if bank_entity.json adds a category absent from the matrix."""
+    data = json.loads(_BANK_ENTITY_EVAL_SET.read_text(encoding="utf-8"))
+    set_categories = {item["category"] for item in data["items"]}
+    matrix_categories = set(BANK_ENTITY_CATEGORY_MATRIX)
+    missing = sorted(set_categories - matrix_categories)
+    assert not missing, (
+        "bank_entity.json categories missing from BANK_ENTITY_CATEGORY_MATRIX: "
+        f"{missing}"
+    )
+    for category, examples in BANK_ENTITY_CATEGORY_MATRIX.items():
+        assert len(examples) >= 3, (
+            f"category {category!r} needs ≥3 exact examples, got {len(examples)}"
+        )
 
 
 def test_asr_cer_normalizes_whisper_digit_hyps():
