@@ -1,6 +1,16 @@
 """Russian text normalization (spoken form) for TTS / QC references.
 
 Covers common numbers, ordinals, money, dates, percentages, and time.
+
+Date / time / decimal conventions (R3):
+- Dates: neuter nominative day by default (``первое февраля``); genitive day
+  after ``с``/``до``/``от``/``по``; year as genitive ordinal (``… двадцатого года``).
+- Time: digit-style clock (no ``час(ов)/минут``); leading zero minutes keep
+  ``ноль``; ``HH:00`` → ``ноль ноль``; genitive after the same range prepositions.
+- Decimals: ``целых/десятых/сотых`` with agreement. Comma or bare numeric dot
+  uses that reading; ``точка`` only after version-like context
+  (``версия``/``python``/``build``/…). Sentence periods are not matched.
+
 ASR-side cleanup stays in ``normalize.normalize_for_asr`` — do not mix.
 Banking-grade TN (cards, accounts) is a later Track D extension.
 """
@@ -205,17 +215,35 @@ _MONEY_KOP_RE = re.compile(
     flags=re.IGNORECASE,
 )
 _PCT_RE = re.compile(r"\b(\d{1,3}(?:[.,]\d+)?)\s*%")
+_TIME_RANGE_RE = re.compile(
+    r"\b(с|от)\s+(\d{1,2}):(\d{2})\s+до\s+(\d{1,2}):(\d{2})\b",
+    flags=re.IGNORECASE,
+)
+_TIME_RANGE_DOT_RE = re.compile(
+    r"\b(с|от)\s+(\d{1,2})\.(\d{2})\s+до\s+(\d{1,2})\.(\d{2})\b",
+    flags=re.IGNORECASE,
+)
+# Preposition + clock; genitive after с/до/от/по, nominative after в/к/после.
+_TIME_PREP_RE = re.compile(
+    r"\b(в|к|до|после|с|от|по)\s+(\d{1,2}):(\d{2})\b",
+    flags=re.IGNORECASE,
+)
 _TIME_RE = re.compile(r"\b(\d{1,2}):(\d{2})\b")
 # Dot clock times are ambiguous with decimals; require a time preposition.
 _TIME_DOT_RE = re.compile(
-    r"\b(в|к|до|после)\s+(\d{1,2})\.(\d{2})\b",
+    r"\b(в|к|до|после|с|от|по)\s+(\d{1,2})\.(\d{2})\b",
     flags=re.IGNORECASE,
 )
 _ORD_RE = re.compile(
     r"\b(\d{1,4})-(й|ый|ой|ая|ое|ые|е|го|му)\b",
     flags=re.IGNORECASE,
 )
-_DECIMAL_RE = re.compile(r"\b(\d+)[.,](\d+)\b")
+# Decimal comma/dot between digits. Sentence periods stay outside ``\b...\b``.
+# Soft/version "точка" reading is selected by preceding context (see ``_VERSION_CTX_RE``).
+_DECIMAL_RE = re.compile(r"\b(\d+)([.,])(\d+)\b")
+_VERSION_CTX_RE = re.compile(
+    r"(?i)\b(верси[яиейю]|version|python|windows|android|ios|linux|build|v)\s*$"
+)
 _GROUPED_NUM_RE = re.compile(r"\b(\d{1,3}(?:[ \u00a0]\d{3})+)\b")
 _ACCOUNT_DIGITS_RE = re.compile(
     r"\b((?:номер\s+)?сч[её]та)\s+(\d{2,20})\b",
@@ -243,6 +271,14 @@ _UNIT_RE = re.compile(
 )
 _NUM_RE = re.compile(r"\b(\d{1,9})\b")
 _MONTH_NAME_TO_NUM = {v: k for k, v in _MONTHS.items()}
+_DATE_GENITIVE_PREPS = frozenset({"с", "до", "от", "по"})
+_TIME_GENITIVE_PREPS = frozenset({"с", "до", "от", "по"})
+_FRAC_SCALE = {
+    1: ("десятая", "десятых", "десятых"),
+    2: ("сотая", "сотых", "сотых"),
+    3: ("тысячная", "тысячных", "тысячных"),
+    4: ("десятитысячная", "десятитысячных", "десятитысячных"),
+}
 
 
 def _under_100(n: int, *, feminine: bool = False) -> str:
@@ -347,7 +383,77 @@ def verbalize_ordinal_genitive(n: int) -> str:
     return verbalize_int(n)
 
 
+def _to_neuter_nominative_ordinal(masc: str) -> str:
+    """Masculine nominative ordinal word → neuter (``первый`` → ``первое``)."""
+    if masc.endswith("ий"):
+        return masc[:-2] + "ье"
+    if masc.endswith(("ый", "ой")):
+        return masc[:-2] + "ое"
+    return masc
+
+
+def verbalize_ordinal_neuter(n: int) -> str:
+    """Neuter nominative ordinal for calendar days (``1`` → ``первое``)."""
+    words = verbalize_ordinal(n).split()
+    if not words:
+        return verbalize_ordinal(n)
+    words[-1] = _to_neuter_nominative_ordinal(words[-1])
+    return " ".join(words)
+
+
+def verbalize_year_genitive(y: int) -> str:
+    """Year as genitive ordinal (``2020`` → ``две тысячи двадцатого``)."""
+    return verbalize_ordinal_genitive(y)
+
+
+def _case_before(prefix: str, preps: frozenset[str]) -> str:
+    """Return ``genitive`` if ``prefix`` ends with a governing preposition."""
+    m = re.search(r"([А-Яа-яЁёA-Za-z]+)\s*$", prefix)
+    if m and m.group(1).lower() in preps:
+        return "genitive"
+    return "nominative"
+
+
+def _plural_adj_forms(n: int, forms: tuple[str, str, str]) -> str:
+    """1 / 2–4 / 5+ adjective agreement (целая/целых, десятая/десятых)."""
+    return _plural_form(n, forms)
+
+
+def _verbalize_decimal_whole(n: int) -> str:
+    """Whole part before «целая/целых»: 1→одна, else masculine cardinal."""
+    if n == 1:
+        return "одна"
+    return verbalize_int(n, feminine=False)
+
+
 def verbalize_decimal(whole: int, frac: str) -> str:
+    """Russian decimal fraction: ``0,25`` → ``ноль целых двадцать пять сотых``.
+
+    Uses written fractional length for the scale (1→десятых, 2→сотых, …).
+    Trailing zeros in the fraction are stripped (``2,50`` → десятых).
+    Software/version contexts keep digit-style ``точка`` via ``verbalize_text``.
+    """
+    frac_digits = "".join(ch for ch in frac if ch.isdigit())
+    if not frac_digits or set(frac_digits) <= {"0"}:
+        return _verbalize_decimal_whole(whole)
+
+    frac_digits = frac_digits.rstrip("0") or frac_digits
+    places = len(frac_digits)
+    if places not in _FRAC_SCALE:
+        # Longer fractions: fall back to digit-by-digit after «точка».
+        frac_words = " ".join(_DIGITS[ch] for ch in frac_digits)
+        return f"{verbalize_int(whole)} точка {frac_words}"
+
+    numer = int(frac_digits)
+    whole_words = _verbalize_decimal_whole(whole)
+    whole_unit = _plural_adj_forms(whole, ("целая", "целых", "целых"))
+    frac_words = verbalize_int(numer, feminine=True)
+    frac_unit = _plural_adj_forms(numer, _FRAC_SCALE[places])
+    return f"{whole_words} {whole_unit} {frac_words} {frac_unit}"
+
+
+def verbalize_decimal_point(whole: int, frac: str) -> str:
+    """Software/version reading: ``2.5`` → ``два точка пять`` (digit frac)."""
     frac_words = " ".join(_DIGITS[ch] for ch in frac if ch.isdigit())
     return f"{verbalize_int(whole)} точка {frac_words}"
 
@@ -493,13 +599,46 @@ def verbalize_money(amount: str) -> str:
     return f"{verbalize_int(whole)} {_ruble_form(whole)}"
 
 
-def verbalize_date(d: int, m: int, y: int) -> str:
+def verbalize_date(d: int, m: int, y: int, *, case: str = "nominative") -> str:
+    """Calendar date in spoken Russian.
+
+    Default day is neuter nominative (``первое февраля``). After prepositions
+    ``с``/``до``/``от``/``по`` the day is genitive (``тридцать первого``).
+    The year is always a genitive ordinal (``две тысячи двадцатого года``).
+    """
     month = _MONTHS.get(m, verbalize_int(m))
-    return f"{verbalize_ordinal(d)} {month} {verbalize_int(y)} года"
+    day = (
+        verbalize_ordinal_genitive(d)
+        if case == "genitive"
+        else verbalize_ordinal_neuter(d)
+    )
+    return f"{day} {month} {verbalize_year_genitive(y)} года"
 
 
-def verbalize_time(h: int, mi: int) -> str:
-    return f"{verbalize_int(h)} {verbalize_int(mi, feminine=True)}"
+def _verbalize_clock_minutes(mi: int, *, case: str = "nominative") -> str:
+    """Minutes for digit-style clock reading (leading zero kept as ``ноль``)."""
+    if mi == 0:
+        return "ноль ноль"
+    if mi < 10:
+        # Digit-style uses masculine ones (``ноль один``, not ``ноль одна``).
+        ones = verbalize_genitive(mi) if case == "genitive" else verbalize_int(mi)
+        return f"ноль {ones}"
+    if case == "genitive":
+        return verbalize_genitive(mi)
+    return verbalize_int(mi)
+
+
+def verbalize_time(h: int, mi: int, *, case: str = "nominative") -> str:
+    """Digit-style clock reading (canonical form for TTS).
+
+    Examples: ``09:05`` → ``девять ноль пять``; ``14:00`` → ``четырнадцать ноль ноль``.
+    Does **not** insert ``час(ов)`` / ``минут`` — those are a separate style.
+    After range prepositions ``с``/``до``/``от``/``по``, both hour and minute
+    parts use genitive (``с девяти ноль пяти``); the leading ``ноль`` stays
+    undeclined.
+    """
+    hour = verbalize_genitive(h) if case == "genitive" else verbalize_int(h)
+    return f"{hour} {_verbalize_clock_minutes(mi, case=case)}"
 
 
 def verbalize_text(text: str) -> str:
@@ -508,15 +647,18 @@ def verbalize_text(text: str) -> str:
     t = _PHONE4_RE.sub(verbalize_phone, t)
     t = _PHONE_RE.sub(verbalize_phone, t)
 
-    t = _DATE_DMY.sub(
-        lambda m: verbalize_date(int(m.group(1)), int(m.group(2)), int(m.group(3))), t
-    )
+    def _date_dmy(m: re.Match[str]) -> str:
+        case = _case_before(t[: m.start()], _DATE_GENITIVE_PREPS)
+        return verbalize_date(int(m.group(1)), int(m.group(2)), int(m.group(3)), case=case)
+
+    t = _DATE_DMY.sub(_date_dmy, t)
 
     def _date_month_word(m: re.Match[str]) -> str:
         month_num = _MONTH_NAME_TO_NUM.get(m.group(2).lower())
         if month_num is None:
             return m.group(0)
-        return verbalize_date(int(m.group(1)), month_num, int(m.group(3)))
+        case = _case_before(t[: m.start()], _DATE_GENITIVE_PREPS)
+        return verbalize_date(int(m.group(1)), month_num, int(m.group(3)), case=case)
 
     t = _DATE_MONTH_WORD.sub(_date_month_word, t)
     t = _YEAR_RE.sub(lambda m: f"{verbalize_int(int(m.group(1)))} год", t)
@@ -532,15 +674,28 @@ def verbalize_text(text: str) -> str:
         t,
     )
     t = _PCT_RE.sub(lambda m: f"{_pct(m.group(1))} процентов", t)
-    t = _TIME_RE.sub(lambda m: verbalize_time(int(m.group(1)), int(m.group(2))), t)
 
-    def _time_dot(m: re.Match[str]) -> str:
+    def _time_range(m: re.Match[str]) -> str:
+        return (
+            f"{m.group(1).lower()} "
+            f"{verbalize_time(int(m.group(2)), int(m.group(3)), case='genitive')} "
+            f"до {verbalize_time(int(m.group(4)), int(m.group(5)), case='genitive')}"
+        )
+
+    t = _TIME_RANGE_RE.sub(_time_range, t)
+    t = _TIME_RANGE_DOT_RE.sub(_time_range, t)
+
+    def _time_prep(m: re.Match[str]) -> str:
+        prep = m.group(1).lower()
         h, mi = int(m.group(2)), int(m.group(3))
-        if 0 <= h <= 23 and 0 <= mi <= 59:
-            return f"{m.group(1)} {verbalize_time(h, mi)}"
-        return m.group(0)
+        if not (0 <= h <= 23 and 0 <= mi <= 59):
+            return m.group(0)
+        case = "genitive" if prep in _TIME_GENITIVE_PREPS else "nominative"
+        return f"{prep} {verbalize_time(h, mi, case=case)}"
 
-    t = _TIME_DOT_RE.sub(_time_dot, t)
+    t = _TIME_PREP_RE.sub(_time_prep, t)
+    t = _TIME_RE.sub(lambda m: verbalize_time(int(m.group(1)), int(m.group(2))), t)
+    t = _TIME_DOT_RE.sub(_time_prep, t)
     t = _EXPLICIT_RANGE_RE.sub(
         lambda m: (
             f"{m.group(1).lower()} {verbalize_genitive(int(m.group(2)))} "
@@ -565,7 +720,16 @@ def verbalize_text(text: str) -> str:
         ),
         t,
     )
-    t = _DECIMAL_RE.sub(lambda m: verbalize_decimal(int(m.group(1)), m.group(2)), t)
+
+    def _decimal(m: re.Match[str]) -> str:
+        whole, _sep, frac = int(m.group(1)), m.group(2), m.group(3)
+        prefix = t[: m.start()]
+        # Soft/version contexts keep «точка»; numeric decimals use целых/десятых.
+        if _VERSION_CTX_RE.search(prefix):
+            return verbalize_decimal_point(whole, frac)
+        return verbalize_decimal(whole, frac)
+
+    t = _DECIMAL_RE.sub(_decimal, t)
     t = _GROUPED_NUM_RE.sub(
         lambda m: verbalize_int(
             int(m.group(1).replace(" ", "").replace("\u00a0", ""))
