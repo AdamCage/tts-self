@@ -1,6 +1,6 @@
 {
   "id": "telephony",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "kind": "phrases",
   "description": "IVR-like Russian phrases for wideband, G.711 and Opus channel evaluation.",
   "items": [
@@ -154,5 +154,6 @@
       "text": "Спасибо за звонок. До свидания!",
       "category": "ivr"
     }
-  ]
+  ],
+  "n": 30
 }

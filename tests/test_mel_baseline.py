@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import numpy as np
@@ -179,10 +180,16 @@ def test_git_sha_and_run_manifest(tmp_path: Path):
     assert isinstance(sha, str) and len(sha) >= 7
     # Should not be unknown inside this repo
     assert sha != "unknown"
-    p = write_run_manifest(tmp_path / "run", {"train": {"lr": 1e-4}})
-    data = p.read_text(encoding="utf-8")
-    assert "git_sha" in data
-    assert sha[:7] in data or sha in data
+    # Unit tests may run on a dirty author tree; skip refuse policy here.
+    p = write_run_manifest(
+        tmp_path / "run",
+        {"train": {"lr": 1e-4}},
+        enforce_clean=False,
+    )
+    payload = json.loads(p.read_text(encoding="utf-8"))
+    assert payload["git_sha"] == sha or payload["git_sha"].startswith(sha[:7])
+    assert "git_dirty" in payload
+    assert isinstance(payload["git_dirty"], bool)
 
 
 def test_vocoder_save_mel_and_status(tmp_path: Path):

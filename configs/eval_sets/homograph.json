@@ -1,9 +1,9 @@
 {
   "id": "homograph",
-  "version": "2.0.0",
-  "description": "Russian stress/homograph challenge: context disambiguates stress; combining acute U+0301; stress_target for SA metric",
+  "version": "3.0.0",
+  "description": "Russian stress/homograph challenge: context disambiguates stress; combining acute U+0301; stress_target for SA metric; v3 requires case/number agreement of lexeme with context",
   "kind": "phrases",
-  "n": 740,
+  "n": 719,
   "items": [
     {
       "utt_id": "homo_001",
@@ -18,23 +18,23 @@
     },
     {
       "utt_id": "homo_002",
-      "text": "Экскурсия ведёт к древнему за́мок у реки.",
-      "note": "meaning: за́мок vs замо́к",
+      "text": "Экскурсия ведёт к древнему за́мку у реки.",
+      "note": "meaning: за́мку vs замку́",
       "stress_target": {
         "char_index": 28,
-        "lexeme": "за́мок",
-        "contrast": "замо́к",
+        "lexeme": "за́мку",
+        "contrast": "замку́",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_003",
-      "text": "В музее показали макет королевского за́мок.",
-      "note": "meaning: за́мок vs замо́к",
+      "text": "В музее показали макет королевского за́мка.",
+      "note": "meaning: за́мка vs замка́",
       "stress_target": {
         "char_index": 37,
-        "lexeme": "за́мок",
-        "contrast": "замо́к",
+        "lexeme": "за́мка",
+        "contrast": "замка́",
         "type": "meaning"
       }
     },
@@ -51,23 +51,23 @@
     },
     {
       "utt_id": "homo_005",
-      "text": "Мы поднялись к развалинам старого за́мок.",
-      "note": "meaning: за́мок vs замо́к",
+      "text": "Мы поднялись к развалинам старого за́мка.",
+      "note": "meaning: за́мка vs замка́",
       "stress_target": {
         "char_index": 35,
-        "lexeme": "за́мок",
-        "contrast": "замо́к",
+        "lexeme": "за́мка",
+        "contrast": "замка́",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_006",
-      "text": "Фотограф снял силуэт за́мок на закате.",
-      "note": "meaning: за́мок vs замо́к",
+      "text": "Фотограф снял силуэт за́мка на закате.",
+      "note": "meaning: за́мка vs замка́",
       "stress_target": {
         "char_index": 22,
-        "lexeme": "за́мок",
-        "contrast": "замо́к",
+        "lexeme": "за́мка",
+        "contrast": "замка́",
         "type": "meaning"
       }
     },
@@ -84,12 +84,12 @@
     },
     {
       "utt_id": "homo_008",
-      "text": "Историк описал осаду за́мок в пятнадцатом веке.",
-      "note": "meaning: за́мок vs замо́к",
+      "text": "Историк описал осаду за́мка в пятнадцатом веке.",
+      "note": "meaning: за́мка vs замка́",
       "stress_target": {
         "char_index": 22,
-        "lexeme": "за́мок",
-        "contrast": "замо́к",
+        "lexeme": "за́мка",
+        "contrast": "замка́",
         "type": "meaning"
       }
     },
@@ -117,45 +117,45 @@
     },
     {
       "utt_id": "homo_011",
-      "text": "Стража охраняла ворота за́мок круглые сутки.",
-      "note": "meaning: за́мок vs замо́к",
+      "text": "Стража охраняла ворота за́мка круглые сутки.",
+      "note": "meaning: за́мка vs замка́",
       "stress_target": {
         "char_index": 24,
-        "lexeme": "за́мок",
-        "contrast": "замо́к",
+        "lexeme": "за́мка",
+        "contrast": "замка́",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_012",
-      "text": "В подземельях за́мок хранили сокровища.",
-      "note": "meaning: за́мок vs замо́к",
+      "text": "В подземельях за́мка хранили сокровища.",
+      "note": "meaning: за́мка vs замка́",
       "stress_target": {
         "char_index": 15,
-        "lexeme": "за́мок",
-        "contrast": "замо́к",
+        "lexeme": "за́мка",
+        "contrast": "замка́",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_013",
-      "text": "Туман скрыл очертания за́мок.",
-      "note": "meaning: за́мок vs замо́к",
+      "text": "Туман скрыл очертания за́мка.",
+      "note": "meaning: за́мка vs замка́",
       "stress_target": {
         "char_index": 23,
-        "lexeme": "за́мок",
-        "contrast": "замо́к",
+        "lexeme": "за́мка",
+        "contrast": "замка́",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_014",
-      "text": "Книга начинается с описания за́мок на скале.",
-      "note": "meaning: за́мок vs замо́к",
+      "text": "Книга начинается с описания за́мка на скале.",
+      "note": "meaning: за́мка vs замка́",
       "stress_target": {
         "char_index": 29,
-        "lexeme": "за́мок",
-        "contrast": "замо́к",
+        "lexeme": "за́мка",
+        "contrast": "замка́",
         "type": "meaning"
       }
     },
@@ -183,12 +183,12 @@
     },
     {
       "utt_id": "homo_017",
-      "text": "Ключ не подходит к этому замо́к.",
-      "note": "meaning: замо́к vs за́мок",
+      "text": "Ключ не подходит к этому замку́.",
+      "note": "meaning: замку́ vs за́мку",
       "stress_target": {
-        "char_index": 28,
-        "lexeme": "замо́к",
-        "contrast": "за́мок",
+        "char_index": 29,
+        "lexeme": "замку́",
+        "contrast": "за́мку",
         "type": "meaning"
       }
     },
@@ -304,12 +304,12 @@
     },
     {
       "utt_id": "homo_028",
-      "text": "Я забыл комбинацию от замо́к.",
-      "note": "meaning: замо́к vs за́мок",
+      "text": "Я забыл комбинацию от замка́.",
+      "note": "meaning: замка́ vs за́мка",
       "stress_target": {
-        "char_index": 25,
-        "lexeme": "замо́к",
-        "contrast": "за́мок",
+        "char_index": 26,
+        "lexeme": "замка́",
+        "contrast": "за́мка",
         "type": "meaning"
       }
     },
@@ -326,12 +326,12 @@
     },
     {
       "utt_id": "homo_030",
-      "text": "В магазине большой выбор замо́к для дверей.",
-      "note": "meaning: замо́к vs за́мок",
+      "text": "В магазине большой выбор замка́ для дверей.",
+      "note": "meaning: замка́ vs за́мка",
       "stress_target": {
-        "char_index": 28,
-        "lexeme": "замо́к",
-        "contrast": "за́мок",
+        "char_index": 29,
+        "lexeme": "замка́",
+        "contrast": "за́мка",
         "type": "meaning"
       }
     },
@@ -348,12 +348,12 @@
     },
     {
       "utt_id": "homo_032",
-      "text": "Ученик нашёл страну в школьном а́тлас.",
-      "note": "meaning: а́тлас vs атла́с",
+      "text": "Ученик нашёл страну в школьном а́тласе.",
+      "note": "meaning: а́тласе vs атла́се",
       "stress_target": {
         "char_index": 31,
-        "lexeme": "а́тлас",
-        "contrast": "атла́с",
+        "lexeme": "а́тласе",
+        "contrast": "атла́се",
         "type": "meaning"
       }
     },
@@ -403,12 +403,12 @@
     },
     {
       "utt_id": "homo_037",
-      "text": "Учитель показал океан на развороте а́тлас.",
-      "note": "meaning: а́тлас vs атла́с",
+      "text": "Учитель показал океан на развороте а́тласа.",
+      "note": "meaning: а́тласа vs атла́са",
       "stress_target": {
         "char_index": 35,
-        "lexeme": "а́тлас",
-        "contrast": "атла́с",
+        "lexeme": "а́тласа",
+        "contrast": "атла́са",
         "type": "meaning"
       }
     },
@@ -436,12 +436,12 @@
     },
     {
       "utt_id": "homo_040",
-      "text": "Сверьтесь с а́тлас, прежде чем ехать.",
-      "note": "meaning: а́тлас vs атла́с",
+      "text": "Сверьтесь с а́тласом, прежде чем ехать.",
+      "note": "meaning: а́тласом vs атла́сом",
       "stress_target": {
         "char_index": 12,
-        "lexeme": "а́тлас",
-        "contrast": "атла́с",
+        "lexeme": "а́тласом",
+        "contrast": "атла́сом",
         "type": "meaning"
       }
     },
@@ -480,12 +480,12 @@
     },
     {
       "utt_id": "homo_044",
-      "text": "В а́тлас не хватает карты Антарктиды.",
-      "note": "meaning: а́тлас vs атла́с",
+      "text": "В а́тласе не хватает карты Антарктиды.",
+      "note": "meaning: а́тласе vs атла́се",
       "stress_target": {
         "char_index": 2,
-        "lexeme": "а́тлас",
-        "contrast": "атла́с",
+        "lexeme": "а́тласе",
+        "contrast": "атла́се",
         "type": "meaning"
       }
     },
@@ -502,12 +502,12 @@
     },
     {
       "utt_id": "homo_046",
-      "text": "Платье сшили из гладкого атла́с.",
-      "note": "meaning: атла́с vs а́тлас",
+      "text": "Платье сшили из гладкого атла́са.",
+      "note": "meaning: атла́са vs а́тласа",
       "stress_target": {
         "char_index": 28,
-        "lexeme": "атла́с",
-        "contrast": "а́тлас",
+        "lexeme": "атла́са",
+        "contrast": "а́тласа",
         "type": "meaning"
       }
     },
@@ -524,56 +524,56 @@
     },
     {
       "utt_id": "homo_048",
-      "text": "Ткань атла́с блестит на свету.",
-      "note": "meaning: атла́с vs а́тлас",
+      "text": "Ткань атла́са блестит на свету.",
+      "note": "meaning: атла́са vs а́тласа",
       "stress_target": {
         "char_index": 9,
-        "lexeme": "атла́с",
-        "contrast": "а́тлас",
+        "lexeme": "атла́са",
+        "contrast": "а́тласа",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_049",
-      "text": "В магазине продают метры атла́с.",
-      "note": "meaning: атла́с vs а́тлас",
+      "text": "В магазине продают метры атла́са.",
+      "note": "meaning: атла́са vs а́тласа",
       "stress_target": {
         "char_index": 28,
-        "lexeme": "атла́с",
-        "contrast": "а́тлас",
+        "lexeme": "атла́са",
+        "contrast": "а́тласа",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_050",
-      "text": "Подушка обтянута мягким атла́с.",
-      "note": "meaning: атла́с vs а́тлас",
+      "text": "Подушка обтянута мягким атла́сом.",
+      "note": "meaning: атла́сом vs а́тласом",
       "stress_target": {
         "char_index": 27,
-        "lexeme": "атла́с",
-        "contrast": "а́тлас",
+        "lexeme": "атла́сом",
+        "contrast": "а́тласом",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_051",
-      "text": "Лента из атла́с украсила коробку.",
-      "note": "meaning: атла́с vs а́тлас",
+      "text": "Лента из атла́са украсила коробку.",
+      "note": "meaning: атла́са vs а́тласа",
       "stress_target": {
         "char_index": 12,
-        "lexeme": "атла́с",
-        "contrast": "а́тлас",
+        "lexeme": "атла́са",
+        "contrast": "а́тласа",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_052",
-      "text": "Шторы из плотного атла́с затемняют комнату.",
-      "note": "meaning: атла́с vs а́тлас",
+      "text": "Шторы из плотного атла́са затемняют комнату.",
+      "note": "meaning: атла́са vs а́тласа",
       "stress_target": {
         "char_index": 21,
-        "lexeme": "атла́с",
-        "contrast": "а́тлас",
+        "lexeme": "атла́са",
+        "contrast": "а́тласа",
         "type": "meaning"
       }
     },
@@ -601,23 +601,23 @@
     },
     {
       "utt_id": "homo_055",
-      "text": "Образец атла́с прислали из фабрики.",
-      "note": "meaning: атла́с vs а́тлас",
+      "text": "Образец атла́са прислали из фабрики.",
+      "note": "meaning: атла́са vs а́тласа",
       "stress_target": {
         "char_index": 11,
-        "lexeme": "атла́с",
-        "contrast": "а́тлас",
+        "lexeme": "атла́са",
+        "contrast": "а́тласа",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_056",
-      "text": "Юбка из атла́с шуршит при ходьбе.",
-      "note": "meaning: атла́с vs а́тлас",
+      "text": "Юбка из атла́са шуршит при ходьбе.",
+      "note": "meaning: атла́са vs а́тласа",
       "stress_target": {
         "char_index": 11,
-        "lexeme": "атла́с",
-        "contrast": "а́тлас",
+        "lexeme": "атла́са",
+        "contrast": "а́тласа",
         "type": "meaning"
       }
     },
@@ -645,23 +645,23 @@
     },
     {
       "utt_id": "homo_059",
-      "text": "Галстук из атла́с выглядит официально.",
-      "note": "meaning: атла́с vs а́тлас",
+      "text": "Галстук из атла́са выглядит официально.",
+      "note": "meaning: атла́са vs а́тласа",
       "stress_target": {
         "char_index": 14,
-        "lexeme": "атла́с",
-        "contrast": "а́тлас",
+        "lexeme": "атла́са",
+        "contrast": "а́тласа",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_060",
-      "text": "Скатерть из атла́с легко пачкается.",
-      "note": "meaning: атла́с vs а́тлас",
+      "text": "Скатерть из атла́са легко пачкается.",
+      "note": "meaning: атла́са vs а́тласа",
       "stress_target": {
         "char_index": 15,
-        "lexeme": "атла́с",
-        "contrast": "а́тлас",
+        "lexeme": "атла́са",
+        "contrast": "а́тласа",
         "type": "meaning"
       }
     },
@@ -678,12 +678,12 @@
     },
     {
       "utt_id": "homo_062",
-      "text": "Суд является независимым о́рган власти.",
-      "note": "meaning: о́рган vs орга́н",
+      "text": "Суд является независимым о́рганом власти.",
+      "note": "meaning: о́рганом vs орга́ном",
       "stress_target": {
         "char_index": 25,
-        "lexeme": "о́рган",
-        "contrast": "орга́н",
+        "lexeme": "о́рганом",
+        "contrast": "орга́ном",
         "type": "meaning"
       }
     },
@@ -854,12 +854,12 @@
     },
     {
       "utt_id": "homo_078",
-      "text": "Звук орга́н заполнил весь зал.",
-      "note": "meaning: орга́н vs о́рган",
+      "text": "Звук орга́на заполнил весь зал.",
+      "note": "meaning: орга́на vs о́ргана",
       "stress_target": {
         "char_index": 8,
-        "lexeme": "орга́н",
-        "contrast": "о́рган",
+        "lexeme": "орга́на",
+        "contrast": "о́ргана",
         "type": "meaning"
       }
     },
@@ -876,45 +876,45 @@
     },
     {
       "utt_id": "homo_080",
-      "text": "Концерт для орга́н с оркестром начался в семь.",
-      "note": "meaning: орга́н vs о́рган",
+      "text": "Концерт для орга́на с оркестром начался в семь.",
+      "note": "meaning: орга́на vs о́ргана",
       "stress_target": {
         "char_index": 15,
-        "lexeme": "орга́н",
-        "contrast": "о́рган",
+        "lexeme": "орга́на",
+        "contrast": "о́ргана",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_081",
-      "text": "Трубы орга́н требуют настройки.",
-      "note": "meaning: орга́н vs о́рган",
+      "text": "Трубы орга́на требуют настройки.",
+      "note": "meaning: орга́на vs о́ргана",
       "stress_target": {
         "char_index": 9,
-        "lexeme": "орга́н",
-        "contrast": "о́рган",
+        "lexeme": "орга́на",
+        "contrast": "о́ргана",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_082",
-      "text": "Органист сел за клавиатуру орга́н.",
-      "note": "meaning: орга́н vs о́рган",
+      "text": "Органист сел за клавиатуру орга́на.",
+      "note": "meaning: орга́на vs о́ргана",
       "stress_target": {
         "char_index": 30,
-        "lexeme": "орга́н",
-        "contrast": "о́рган",
+        "lexeme": "орга́на",
+        "contrast": "о́ргана",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_083",
-      "text": "Запись орга́н Баха звучала торжественно.",
-      "note": "meaning: орга́н vs о́рган",
+      "text": "Запись орга́на Баха звучала торжественно.",
+      "note": "meaning: орга́на vs о́ргана",
       "stress_target": {
         "char_index": 10,
-        "lexeme": "орга́н",
-        "contrast": "о́рган",
+        "lexeme": "орга́на",
+        "contrast": "о́ргана",
         "type": "meaning"
       }
     },
@@ -931,23 +931,23 @@
     },
     {
       "utt_id": "homo_085",
-      "text": "Учитель музыки объяснил устройство орга́н.",
-      "note": "meaning: орга́н vs о́рган",
+      "text": "Учитель музыки объяснил устройство орга́на.",
+      "note": "meaning: орга́на vs о́ргана",
       "stress_target": {
         "char_index": 38,
-        "lexeme": "орга́н",
-        "contrast": "о́рган",
+        "lexeme": "орга́на",
+        "contrast": "о́ргана",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_086",
-      "text": "Педаль орга́н управляет басовыми трубами.",
-      "note": "meaning: орга́н vs о́рган",
+      "text": "Педаль орга́на управляет басовыми трубами.",
+      "note": "meaning: орга́на vs о́ргана",
       "stress_target": {
         "char_index": 10,
-        "lexeme": "орга́н",
-        "contrast": "о́рган",
+        "lexeme": "орга́на",
+        "contrast": "о́ргана",
         "type": "meaning"
       }
     },
@@ -1019,12 +1019,12 @@
     },
     {
       "utt_id": "homo_093",
-      "text": "Букет из и́рис стоял на столе.",
-      "note": "meaning: и́рис vs ири́с",
+      "text": "Букет из и́риса стоял на столе.",
+      "note": "meaning: и́риса vs ири́са",
       "stress_target": {
         "char_index": 9,
-        "lexeme": "и́рис",
-        "contrast": "ири́с",
+        "lexeme": "и́риса",
+        "contrast": "ири́са",
         "type": "meaning"
       }
     },
@@ -1063,12 +1063,12 @@
     },
     {
       "utt_id": "homo_097",
-      "text": "Натюрморт с и́рис висел в галерее.",
-      "note": "meaning: и́рис vs ири́с",
+      "text": "Натюрморт с и́рисом висел в галерее.",
+      "note": "meaning: и́рисом vs ири́сом",
       "stress_target": {
         "char_index": 12,
-        "lexeme": "и́рис",
-        "contrast": "ири́с",
+        "lexeme": "и́рисом",
+        "contrast": "ири́сом",
         "type": "meaning"
       }
     },
@@ -1085,12 +1085,12 @@
     },
     {
       "utt_id": "homo_099",
-      "text": "В ботаническом саду коллекция и́рис.",
-      "note": "meaning: и́рис vs ири́с",
+      "text": "В ботаническом саду коллекция и́риса.",
+      "note": "meaning: и́риса vs ири́са",
       "stress_target": {
         "char_index": 30,
-        "lexeme": "и́рис",
-        "contrast": "ири́с",
+        "lexeme": "и́риса",
+        "contrast": "ири́са",
         "type": "meaning"
       }
     },
@@ -1129,34 +1129,34 @@
     },
     {
       "utt_id": "homo_103",
-      "text": "На прилавке стоят банки с ири́с.",
-      "note": "meaning: ири́с vs и́рис",
+      "text": "На прилавке стоят банки с ири́сом.",
+      "note": "meaning: ири́сом vs и́рисом",
       "stress_target": {
         "char_index": 28,
-        "lexeme": "ири́с",
-        "contrast": "и́рис",
+        "lexeme": "ири́сом",
+        "contrast": "и́рисом",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_104",
-      "text": "Вкус ири́с напоминает детство.",
-      "note": "meaning: ири́с vs и́рис",
+      "text": "Вкус ири́са напоминает детство.",
+      "note": "meaning: ири́са vs и́риса",
       "stress_target": {
         "char_index": 7,
-        "lexeme": "ири́с",
-        "contrast": "и́рис",
+        "lexeme": "ири́са",
+        "contrast": "и́риса",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_105",
-      "text": "Гости угостились шоколадным ири́с.",
-      "note": "meaning: ири́с vs и́рис",
+      "text": "Гости угостились шоколадным ири́сом.",
+      "note": "meaning: ири́сом vs и́рисом",
       "stress_target": {
         "char_index": 30,
-        "lexeme": "ири́с",
-        "contrast": "и́рис",
+        "lexeme": "ири́сом",
+        "contrast": "и́рисом",
         "type": "meaning"
       }
     },
@@ -1173,34 +1173,34 @@
     },
     {
       "utt_id": "homo_107",
-      "text": "Упаковка ири́с ярко раскрашена.",
-      "note": "meaning: ири́с vs и́рис",
+      "text": "Упаковка ири́са ярко раскрашена.",
+      "note": "meaning: ири́са vs и́риса",
       "stress_target": {
         "char_index": 11,
-        "lexeme": "ири́с",
-        "contrast": "и́рис",
+        "lexeme": "ири́са",
+        "contrast": "и́риса",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_108",
-      "text": "Я купил килограмм ири́с к чаю.",
-      "note": "meaning: ири́с vs и́рис",
+      "text": "Я купил килограмм ири́са к чаю.",
+      "note": "meaning: ири́са vs и́риса",
       "stress_target": {
         "char_index": 20,
-        "lexeme": "ири́с",
-        "contrast": "и́рис",
+        "lexeme": "ири́са",
+        "contrast": "и́риса",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_109",
-      "text": "Рецепт домашнего ири́с передали бабушке.",
-      "note": "meaning: ири́с vs и́рис",
+      "text": "Рецепт домашнего ири́са передали бабушке.",
+      "note": "meaning: ири́са vs и́риса",
       "stress_target": {
         "char_index": 19,
-        "lexeme": "ири́с",
-        "contrast": "и́рис",
+        "lexeme": "ири́са",
+        "contrast": "и́риса",
         "type": "meaning"
       }
     },
@@ -1217,12 +1217,12 @@
     },
     {
       "utt_id": "homo_111",
-      "text": "Тропа обрывается у глубокой про́пасть.",
-      "note": "meaning: про́пасть vs пропа́сть",
+      "text": "Тропа обрывается у глубокой про́пасти.",
+      "note": "meaning: про́пасти vs пропа́сти",
       "stress_target": {
         "char_index": 30,
-        "lexeme": "про́пасть",
-        "contrast": "пропа́сть",
+        "lexeme": "про́пасти",
+        "contrast": "пропа́сти",
         "type": "meaning"
       }
     },
@@ -1239,12 +1239,12 @@
     },
     {
       "utt_id": "homo_113",
-      "text": "Туман поднимался со дна про́пасть.",
-      "note": "meaning: про́пасть vs пропа́сть",
+      "text": "Туман поднимался со дна про́пасти.",
+      "note": "meaning: про́пасти vs пропа́сти",
       "stress_target": {
         "char_index": 26,
-        "lexeme": "про́пасть",
-        "contrast": "пропа́сть",
+        "lexeme": "про́пасти",
+        "contrast": "пропа́сти",
         "type": "meaning"
       }
     },
@@ -1272,23 +1272,23 @@
     },
     {
       "utt_id": "homo_116",
-      "text": "Предупреждение: не подходите к краю про́пасть.",
-      "note": "meaning: про́пасть vs пропа́сть",
+      "text": "Предупреждение: не подходите к краю про́пасти.",
+      "note": "meaning: про́пасти vs пропа́сти",
       "stress_target": {
         "char_index": 38,
-        "lexeme": "про́пасть",
-        "contrast": "пропа́сть",
+        "lexeme": "про́пасти",
+        "contrast": "пропа́сти",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_117",
-      "text": "Эхо отозвалось из про́пасть.",
-      "note": "meaning: про́пасть vs пропа́сть",
+      "text": "Эхо отозвалось из про́пасти.",
+      "note": "meaning: про́пасти vs пропа́сти",
       "stress_target": {
         "char_index": 20,
-        "lexeme": "про́пасть",
-        "contrast": "пропа́сть",
+        "lexeme": "про́пасти",
+        "contrast": "пропа́сти",
         "type": "meaning"
       }
     },
@@ -1305,12 +1305,12 @@
     },
     {
       "utt_id": "homo_119",
-      "text": "Легенда говорит о сокровищах на дне про́пасть.",
-      "note": "meaning: про́пасть vs пропа́сть",
+      "text": "Легенда говорит о сокровищах на дне про́пасти.",
+      "note": "meaning: про́пасти vs пропа́сти",
       "stress_target": {
         "char_index": 38,
-        "lexeme": "про́пасть",
-        "contrast": "пропа́сть",
+        "lexeme": "про́пасти",
+        "contrast": "пропа́сти",
         "type": "meaning"
       }
     },
@@ -1360,12 +1360,12 @@
     },
     {
       "utt_id": "homo_124",
-      "text": "Не дайте шансу пропа́сть зря.",
-      "note": "meaning: пропа́сть vs про́пасть",
+      "text": "Не дайте шансу пропа́сти зря.",
+      "note": "meaning: пропа́сти vs про́пасти",
       "stress_target": {
         "char_index": 19,
-        "lexeme": "пропа́сть",
-        "contrast": "про́пасть",
+        "lexeme": "пропа́сти",
+        "contrast": "про́пасти",
         "type": "meaning"
       }
     },
@@ -1426,12 +1426,12 @@
     },
     {
       "utt_id": "homo_130",
-      "text": "Не дайте идее пропа́сть без проверки.",
-      "note": "meaning: пропа́сть vs про́пасть",
+      "text": "Не дайте идее пропа́сти без проверки.",
+      "note": "meaning: пропа́сти vs про́пасти",
       "stress_target": {
         "char_index": 18,
-        "lexeme": "пропа́сть",
-        "contrast": "про́пасть",
+        "lexeme": "пропа́сти",
+        "contrast": "про́пасти",
         "type": "meaning"
       }
     },
@@ -1448,12 +1448,12 @@
     },
     {
       "utt_id": "homo_132",
-      "text": "Аромат духи́ наполнил комнату.",
-      "note": "meaning: духи́ vs ду́хи",
+      "text": "Аромат духо́в наполнил комнату.",
+      "note": "meaning: духо́в vs ду́хов",
       "stress_target": {
         "char_index": 10,
-        "lexeme": "духи́",
-        "contrast": "ду́хи",
+        "lexeme": "духо́в",
+        "contrast": "ду́хов",
         "type": "meaning"
       }
     },
@@ -1470,23 +1470,23 @@
     },
     {
       "utt_id": "homo_134",
-      "text": "Флакон духи́ стоит на туалетном столике.",
-      "note": "meaning: духи́ vs ду́хи",
+      "text": "Флакон духо́в стоит на туалетном столике.",
+      "note": "meaning: духо́в vs ду́хов",
       "stress_target": {
         "char_index": 10,
-        "lexeme": "духи́",
-        "contrast": "ду́хи",
+        "lexeme": "духо́в",
+        "contrast": "ду́хов",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_135",
-      "text": "Продавец дал попробовать пробник духи́.",
-      "note": "meaning: духи́ vs ду́хи",
+      "text": "Продавец дал попробовать пробник духо́в.",
+      "note": "meaning: духо́в vs ду́хов",
       "stress_target": {
         "char_index": 36,
-        "lexeme": "духи́",
-        "contrast": "ду́хи",
+        "lexeme": "духо́в",
+        "contrast": "ду́хов",
         "type": "meaning"
       }
     },
@@ -1503,34 +1503,34 @@
     },
     {
       "utt_id": "homo_137",
-      "text": "В магазине открыли новый отдел духи́.",
-      "note": "meaning: духи́ vs ду́хи",
+      "text": "В магазине открыли новый отдел духо́в.",
+      "note": "meaning: духо́в vs ду́хов",
       "stress_target": {
         "char_index": 34,
-        "lexeme": "духи́",
-        "contrast": "ду́хи",
+        "lexeme": "духо́в",
+        "contrast": "ду́хов",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_138",
-      "text": "Бутылочка духи́ уместилась в сумочке.",
-      "note": "meaning: духи́ vs ду́хи",
+      "text": "Бутылочка духо́в уместилась в сумочке.",
+      "note": "meaning: духо́в vs ду́хов",
       "stress_target": {
         "char_index": 13,
-        "lexeme": "духи́",
-        "contrast": "ду́хи",
+        "lexeme": "духо́в",
+        "contrast": "ду́хов",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_139",
-      "text": "Критик описал ноты этих духи́.",
-      "note": "meaning: духи́ vs ду́хи",
+      "text": "Критик описал ноты этих духо́в.",
+      "note": "meaning: духо́в vs ду́хов",
       "stress_target": {
         "char_index": 27,
-        "lexeme": "духи́",
-        "contrast": "ду́хи",
+        "lexeme": "духо́в",
+        "contrast": "ду́хов",
         "type": "meaning"
       }
     },
@@ -1558,23 +1558,23 @@
     },
     {
       "utt_id": "homo_142",
-      "text": "Шаман призывал добрых ду́хи.",
-      "note": "meaning: ду́хи vs духи́",
+      "text": "Шаман призывал добрых ду́хов.",
+      "note": "meaning: ду́хов vs духо́в",
       "stress_target": {
         "char_index": 23,
-        "lexeme": "ду́хи",
-        "contrast": "духи́",
+        "lexeme": "ду́хов",
+        "contrast": "духо́в",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_143",
-      "text": "Дети боятся ночных ду́хи.",
-      "note": "meaning: ду́хи vs духи́",
+      "text": "Дети боятся ночных ду́хов.",
+      "note": "meaning: ду́хов vs духо́в",
       "stress_target": {
         "char_index": 20,
-        "lexeme": "ду́хи",
-        "contrast": "духи́",
+        "lexeme": "ду́хов",
+        "contrast": "духо́в",
         "type": "meaning"
       }
     },
@@ -1591,56 +1591,56 @@
     },
     {
       "utt_id": "homo_145",
-      "text": "Фильм показывает встречу с ду́хи.",
-      "note": "meaning: ду́хи vs духи́",
+      "text": "Фильм показывает встречу с ду́хами.",
+      "note": "meaning: ду́хами vs духа́ми",
       "stress_target": {
         "char_index": 28,
-        "lexeme": "ду́хи",
-        "contrast": "духи́",
+        "lexeme": "ду́хами",
+        "contrast": "духа́ми",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_146",
-      "text": "По преданию ду́хи охраняют храм.",
-      "note": "meaning: ду́хи vs духи́",
+      "text": "По преданию ду́хов охраняют храм.",
+      "note": "meaning: ду́хов vs духо́в",
       "stress_target": {
         "char_index": 13,
-        "lexeme": "ду́хи",
-        "contrast": "духи́",
+        "lexeme": "ду́хов",
+        "contrast": "духо́в",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_147",
-      "text": "Писатель описал невидимых ду́хи.",
-      "note": "meaning: ду́хи vs духи́",
+      "text": "Писатель описал невидимых ду́хов.",
+      "note": "meaning: ду́хов vs духо́в",
       "stress_target": {
         "char_index": 27,
-        "lexeme": "ду́хи",
-        "contrast": "духи́",
+        "lexeme": "ду́хов",
+        "contrast": "духо́в",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_148",
-      "text": "Обряд изгнания ду́хи длился час.",
-      "note": "meaning: ду́хи vs духи́",
+      "text": "Обряд изгнания ду́хов длился час.",
+      "note": "meaning: ду́хов vs духо́в",
       "stress_target": {
         "char_index": 16,
-        "lexeme": "ду́хи",
-        "contrast": "духи́",
+        "lexeme": "ду́хов",
+        "contrast": "духо́в",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_149",
-      "text": "Старуха верила в домашних ду́хи.",
-      "note": "meaning: ду́хи vs духи́",
+      "text": "Старуха верила в домашних ду́хов.",
+      "note": "meaning: ду́хов vs духо́в",
       "stress_target": {
         "char_index": 27,
-        "lexeme": "ду́хи",
-        "contrast": "духи́",
+        "lexeme": "ду́хов",
+        "contrast": "духо́в",
         "type": "meaning"
       }
     },
@@ -1711,44 +1711,11 @@
       }
     },
     {
-      "utt_id": "homo_156",
-      "text": "Магазин продаёт набор цветных кру́жки.",
-      "note": "meaning: кру́жки vs кружки́",
-      "stress_target": {
-        "char_index": 32,
-        "lexeme": "кру́жки",
-        "contrast": "кружки́",
-        "type": "meaning"
-      }
-    },
-    {
       "utt_id": "homo_157",
       "text": "На столе оставили грязные кру́жки.",
       "note": "meaning: кру́жки vs кружки́",
       "stress_target": {
         "char_index": 28,
-        "lexeme": "кру́жки",
-        "contrast": "кружки́",
-        "type": "meaning"
-      }
-    },
-    {
-      "utt_id": "homo_158",
-      "text": "Сушилка полна мокрых кру́жки.",
-      "note": "meaning: кру́жки vs кружки́",
-      "stress_target": {
-        "char_index": 23,
-        "lexeme": "кру́жки",
-        "contrast": "кружки́",
-        "type": "meaning"
-      }
-    },
-    {
-      "utt_id": "homo_159",
-      "text": "В автомате нет пластиковых кру́жки.",
-      "note": "meaning: кру́жки vs кружки́",
-      "stress_target": {
-        "char_index": 29,
         "lexeme": "кру́жки",
         "contrast": "кружки́",
         "type": "meaning"
@@ -1815,17 +1782,6 @@
       "note": "meaning: кружки́ vs кру́жки",
       "stress_target": {
         "char_index": 14,
-        "lexeme": "кружки́",
-        "contrast": "кру́жки",
-        "type": "meaning"
-      }
-    },
-    {
-      "utt_id": "homo_166",
-      "text": "В доме культуры много бесплатных кружки́.",
-      "note": "meaning: кружки́ vs кру́жки",
-      "stress_target": {
-        "char_index": 38,
         "lexeme": "кружки́",
         "contrast": "кру́жки",
         "type": "meaning"
@@ -2097,23 +2053,23 @@
     },
     {
       "utt_id": "homo_211",
-      "text": "Книги расставили по деревянным по́лки.",
-      "note": "meaning: по́лки vs полки́",
+      "text": "Книги расставили по деревянным по́лкам.",
+      "note": "meaning: по́лкам vs полка́м",
       "stress_target": {
         "char_index": 32,
-        "lexeme": "по́лки",
-        "contrast": "полки́",
+        "lexeme": "по́лкам",
+        "contrast": "полка́м",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_212",
-      "text": "На кухонных по́лки стоят банки со специями.",
-      "note": "meaning: по́лки vs полки́",
+      "text": "На кухонных по́лках стоят банки со специями.",
+      "note": "meaning: по́лках vs полка́х",
       "stress_target": {
         "char_index": 13,
-        "lexeme": "по́лки",
-        "contrast": "полки́",
+        "lexeme": "по́лках",
+        "contrast": "полка́х",
         "type": "meaning"
       }
     },
@@ -2141,12 +2097,12 @@
     },
     {
       "utt_id": "homo_215",
-      "text": "Вазы стоят на стеклянных по́лки.",
-      "note": "meaning: по́лки vs полки́",
+      "text": "Вазы стоят на стеклянных по́лках.",
+      "note": "meaning: по́лках vs полка́х",
       "stress_target": {
         "char_index": 26,
-        "lexeme": "по́лки",
-        "contrast": "полки́",
+        "lexeme": "по́лках",
+        "contrast": "полка́х",
         "type": "meaning"
       }
     },
@@ -2156,17 +2112,6 @@
       "note": "meaning: по́лки vs полки́",
       "stress_target": {
         "char_index": 11,
-        "lexeme": "по́лки",
-        "contrast": "полки́",
-        "type": "meaning"
-      }
-    },
-    {
-      "utt_id": "homo_217",
-      "text": "Ребёнок достал игрушку с нижних по́лки.",
-      "note": "meaning: по́лки vs полки́",
-      "stress_target": {
-        "char_index": 33,
         "lexeme": "по́лки",
         "contrast": "полки́",
         "type": "meaning"
@@ -2294,17 +2239,6 @@
       }
     },
     {
-      "utt_id": "homo_229",
-      "text": "Историк изучил состав царских полки́.",
-      "note": "meaning: полки́ vs по́лки",
-      "stress_target": {
-        "char_index": 34,
-        "lexeme": "полки́",
-        "contrast": "по́лки",
-        "type": "meaning"
-      }
-    },
-    {
       "utt_id": "homo_230",
       "text": "После боя полки́ отошли к реке.",
       "note": "meaning: полки́ vs по́лки",
@@ -2317,23 +2251,23 @@
     },
     {
       "utt_id": "homo_231",
-      "text": "В яйце много полезного бело́к.",
-      "note": "meaning: бело́к vs бе́лок",
+      "text": "В яйце много полезного белка́.",
+      "note": "meaning: белка́ vs бе́лка",
       "stress_target": {
-        "char_index": 26,
-        "lexeme": "бело́к",
-        "contrast": "бе́лок",
+        "char_index": 27,
+        "lexeme": "белка́",
+        "contrast": "бе́лка",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_232",
-      "text": "Спортсмен считает граммы бело́к в рационе.",
-      "note": "meaning: бело́к vs бе́лок",
+      "text": "Спортсмен считает граммы белка́ в рационе.",
+      "note": "meaning: белка́ vs бе́лка",
       "stress_target": {
-        "char_index": 28,
-        "lexeme": "бело́к",
-        "contrast": "бе́лок",
+        "char_index": 29,
+        "lexeme": "белка́",
+        "contrast": "бе́лка",
         "type": "meaning"
       }
     },
@@ -2350,12 +2284,12 @@
     },
     {
       "utt_id": "homo_234",
-      "text": "Анализ показал уровень бело́к в крови.",
-      "note": "meaning: бело́к vs бе́лок",
+      "text": "Анализ показал уровень белка́ в крови.",
+      "note": "meaning: белка́ vs бе́лка",
       "stress_target": {
-        "char_index": 26,
-        "lexeme": "бело́к",
-        "contrast": "бе́лок",
+        "char_index": 27,
+        "lexeme": "белка́",
+        "contrast": "бе́лка",
         "type": "meaning"
       }
     },
@@ -2383,23 +2317,23 @@
     },
     {
       "utt_id": "homo_237",
-      "text": "Недостаток бело́к влияет на мышцы.",
-      "note": "meaning: бело́к vs бе́лок",
+      "text": "Недостаток белка́ влияет на мышцы.",
+      "note": "meaning: белка́ vs бе́лка",
       "stress_target": {
-        "char_index": 14,
-        "lexeme": "бело́к",
-        "contrast": "бе́лок",
+        "char_index": 15,
+        "lexeme": "белка́",
+        "contrast": "бе́лка",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_238",
-      "text": "Этикетка указывает процент бело́к.",
-      "note": "meaning: бело́к vs бе́лок",
+      "text": "Этикетка указывает процент белка́.",
+      "note": "meaning: белка́ vs бе́лка",
       "stress_target": {
-        "char_index": 30,
-        "lexeme": "бело́к",
-        "contrast": "бе́лок",
+        "char_index": 31,
+        "lexeme": "белка́",
+        "contrast": "бе́лка",
         "type": "meaning"
       }
     },
@@ -2460,12 +2394,12 @@
     },
     {
       "utt_id": "homo_244",
-      "text": "Фотограф поймал кадр с бе́лок.",
-      "note": "meaning: бе́лок vs бело́к",
+      "text": "Фотограф поймал кадр с бе́лком.",
+      "note": "meaning: бе́лком vs белко́м",
       "stress_target": {
         "char_index": 24,
-        "lexeme": "бе́лок",
-        "contrast": "бело́к",
+        "lexeme": "бе́лком",
+        "contrast": "белко́м",
         "type": "meaning"
       }
     },
@@ -2482,12 +2416,12 @@
     },
     {
       "utt_id": "homo_246",
-      "text": "Гнездо бе́лок спрятано в дупле.",
-      "note": "meaning: бе́лок vs бело́к",
+      "text": "Гнездо бе́лка спрятано в дупле.",
+      "note": "meaning: бе́лка vs белка́",
       "stress_target": {
         "char_index": 8,
-        "lexeme": "бе́лок",
-        "contrast": "бело́к",
+        "lexeme": "бе́лка",
+        "contrast": "белка́",
         "type": "meaning"
       }
     },
@@ -2497,17 +2431,6 @@
       "note": "meaning: бе́лок vs бело́к",
       "stress_target": {
         "char_index": 16,
-        "lexeme": "бе́лок",
-        "contrast": "бело́к",
-        "type": "meaning"
-      }
-    },
-    {
-      "utt_id": "homo_248",
-      "text": "Сказка про хитрого бе́лок смешит малышей.",
-      "note": "meaning: бе́лок vs бело́к",
-      "stress_target": {
-        "char_index": 20,
         "lexeme": "бе́лок",
         "contrast": "бело́к",
         "type": "meaning"
@@ -2526,12 +2449,12 @@
     },
     {
       "utt_id": "homo_250",
-      "text": "Следы бе́лок видны на снегу.",
-      "note": "meaning: бе́лок vs бело́к",
+      "text": "Следы бе́лка видны на снегу.",
+      "note": "meaning: бе́лка vs белка́",
       "stress_target": {
         "char_index": 7,
-        "lexeme": "бе́лок",
-        "contrast": "бело́к",
+        "lexeme": "бе́лка",
+        "contrast": "белка́",
         "type": "meaning"
       }
     },
@@ -2548,23 +2471,23 @@
     },
     {
       "utt_id": "homo_252",
-      "text": "Повесть описывает му́ка пленных.",
-      "note": "case: му́ка vs мука́",
+      "text": "Повесть описывает му́ку пленных.",
+      "note": "case: му́ку vs муку́",
       "stress_target": {
         "char_index": 19,
-        "lexeme": "му́ка",
-        "contrast": "мука́",
+        "lexeme": "му́ку",
+        "contrast": "муку́",
         "type": "case"
       }
     },
     {
       "utt_id": "homo_253",
-      "text": "Художник передал му́ка героя на холсте.",
-      "note": "case: му́ка vs мука́",
+      "text": "Художник передал му́ку героя на холсте.",
+      "note": "case: му́ку vs муку́",
       "stress_target": {
         "char_index": 18,
-        "lexeme": "му́ка",
-        "contrast": "мука́",
+        "lexeme": "му́ку",
+        "contrast": "муку́",
         "type": "case"
       }
     },
@@ -2581,45 +2504,45 @@
     },
     {
       "utt_id": "homo_255",
-      "text": "Она скрывала свою му́ка от близких.",
-      "note": "case: му́ка vs мука́",
+      "text": "Она скрывала свою му́ку от близких.",
+      "note": "case: му́ку vs муку́",
       "stress_target": {
         "char_index": 19,
-        "lexeme": "му́ка",
-        "contrast": "мука́",
+        "lexeme": "му́ку",
+        "contrast": "муку́",
         "type": "case"
       }
     },
     {
       "utt_id": "homo_256",
-      "text": "Фильм показывает му́ка войны без прикрас.",
-      "note": "case: му́ка vs мука́",
+      "text": "Фильм показывает му́ку войны без прикрас.",
+      "note": "case: му́ку vs муку́",
       "stress_target": {
         "char_index": 18,
-        "lexeme": "му́ка",
-        "contrast": "мука́",
+        "lexeme": "му́ку",
+        "contrast": "муку́",
         "type": "case"
       }
     },
     {
       "utt_id": "homo_257",
-      "text": "Поэт воспел му́ка разлуки.",
-      "note": "case: му́ка vs мука́",
+      "text": "Поэт воспел му́ку разлуки.",
+      "note": "case: му́ку vs муку́",
       "stress_target": {
         "char_index": 13,
-        "lexeme": "му́ка",
-        "contrast": "мука́",
+        "lexeme": "му́ку",
+        "contrast": "муку́",
         "type": "case"
       }
     },
     {
       "utt_id": "homo_258",
-      "text": "Свидетели помнят му́ка осаждённых.",
-      "note": "case: му́ка vs мука́",
+      "text": "Свидетели помнят му́ку осаждённых.",
+      "note": "case: му́ку vs муку́",
       "stress_target": {
         "char_index": 18,
-        "lexeme": "му́ка",
-        "contrast": "мука́",
+        "lexeme": "му́ку",
+        "contrast": "муку́",
         "type": "case"
       }
     },
@@ -2636,23 +2559,23 @@
     },
     {
       "utt_id": "homo_260",
-      "text": "Никто не знал о его внутренней му́ка.",
-      "note": "case: му́ка vs мука́",
+      "text": "Никто не знал о его внутренней му́ке.",
+      "note": "case: му́ке vs муке́",
       "stress_target": {
         "char_index": 32,
-        "lexeme": "му́ка",
-        "contrast": "мука́",
+        "lexeme": "му́ке",
+        "contrast": "муке́",
         "type": "case"
       }
     },
     {
       "utt_id": "homo_261",
-      "text": "Репортаж передал му́ка пострадавших.",
-      "note": "case: му́ка vs мука́",
+      "text": "Репортаж передал му́ку пострадавших.",
+      "note": "case: му́ку vs муку́",
       "stress_target": {
         "char_index": 18,
-        "lexeme": "му́ка",
-        "contrast": "мука́",
+        "lexeme": "му́ку",
+        "contrast": "муку́",
         "type": "case"
       }
     },
@@ -2669,12 +2592,12 @@
     },
     {
       "utt_id": "homo_263",
-      "text": "История сохранила му́ка изгнания.",
-      "note": "case: му́ка vs мука́",
+      "text": "История сохранила му́ку изгнания.",
+      "note": "case: му́ку vs муку́",
       "stress_target": {
         "char_index": 19,
-        "lexeme": "му́ка",
-        "contrast": "мука́",
+        "lexeme": "му́ку",
+        "contrast": "муку́",
         "type": "case"
       }
     },
@@ -2713,34 +2636,34 @@
     },
     {
       "utt_id": "homo_267",
-      "text": "Пекарь просеял мука́ дважды.",
-      "note": "case: мука́ vs му́ка",
+      "text": "Пекарь просеял муку́ дважды.",
+      "note": "case: муку́ vs му́ку",
       "stress_target": {
         "char_index": 18,
-        "lexeme": "мука́",
-        "contrast": "му́ка",
+        "lexeme": "муку́",
+        "contrast": "му́ку",
         "type": "case"
       }
     },
     {
       "utt_id": "homo_268",
-      "text": "В мешке осталось мало мука́.",
-      "note": "case: мука́ vs му́ка",
+      "text": "В мешке осталось мало муки́.",
+      "note": "case: муки́ vs му́ки",
       "stress_target": {
         "char_index": 25,
-        "lexeme": "мука́",
-        "contrast": "му́ка",
+        "lexeme": "муки́",
+        "contrast": "му́ки",
         "type": "case"
       }
     },
     {
       "utt_id": "homo_269",
-      "text": "Рецепт требует стакан мука́.",
-      "note": "case: мука́ vs му́ка",
+      "text": "Рецепт требует стакан муки́.",
+      "note": "case: муки́ vs му́ки",
       "stress_target": {
         "char_index": 25,
-        "lexeme": "мука́",
-        "contrast": "му́ка",
+        "lexeme": "муки́",
+        "contrast": "му́ки",
         "type": "case"
       }
     },
@@ -2757,56 +2680,56 @@
     },
     {
       "utt_id": "homo_271",
-      "text": "Купите цельнозерновую мука́ в магазине.",
-      "note": "case: мука́ vs му́ка",
+      "text": "Купите цельнозерновую муку́ в магазине.",
+      "note": "case: муку́ vs му́ку",
       "stress_target": {
         "char_index": 25,
-        "lexeme": "мука́",
-        "contrast": "му́ка",
+        "lexeme": "муку́",
+        "contrast": "му́ку",
         "type": "case"
       }
     },
     {
       "utt_id": "homo_272",
-      "text": "Блинчики жарят из жидкой мука́.",
-      "note": "case: мука́ vs му́ка",
+      "text": "Блинчики жарят из жидкой муки́.",
+      "note": "case: муки́ vs му́ки",
       "stress_target": {
         "char_index": 28,
-        "lexeme": "мука́",
-        "contrast": "му́ка",
+        "lexeme": "муки́",
+        "contrast": "му́ки",
         "type": "case"
       }
     },
     {
       "utt_id": "homo_273",
-      "text": "Мельница даёт тонкую мука́.",
-      "note": "case: мука́ vs му́ка",
+      "text": "Мельница даёт тонкую муку́.",
+      "note": "case: муку́ vs му́ку",
       "stress_target": {
         "char_index": 24,
-        "lexeme": "мука́",
-        "contrast": "му́ка",
+        "lexeme": "муку́",
+        "contrast": "му́ку",
         "type": "case"
       }
     },
     {
       "utt_id": "homo_274",
-      "text": "В кладовой стоит мешок мука́.",
-      "note": "case: мука́ vs му́ка",
+      "text": "В кладовой стоит мешок муки́.",
+      "note": "case: муки́ vs му́ки",
       "stress_target": {
         "char_index": 26,
-        "lexeme": "мука́",
-        "contrast": "му́ка",
+        "lexeme": "муки́",
+        "contrast": "му́ки",
         "type": "case"
       }
     },
     {
       "utt_id": "homo_275",
-      "text": "Кондитер смешал мука́ с сахаром.",
-      "note": "case: мука́ vs му́ка",
+      "text": "Кондитер смешал муку́ с сахаром.",
+      "note": "case: муку́ vs му́ку",
       "stress_target": {
         "char_index": 19,
-        "lexeme": "мука́",
-        "contrast": "му́ка",
+        "lexeme": "муку́",
+        "contrast": "му́ку",
         "type": "case"
       }
     },
@@ -2823,45 +2746,45 @@
     },
     {
       "utt_id": "homo_277",
-      "text": "Без мука́ пирог не получится.",
-      "note": "case: мука́ vs му́ка",
+      "text": "Без муки́ пирог не получится.",
+      "note": "case: муки́ vs му́ки",
       "stress_target": {
         "char_index": 7,
-        "lexeme": "мука́",
-        "contrast": "му́ка",
+        "lexeme": "муки́",
+        "contrast": "му́ки",
         "type": "case"
       }
     },
     {
       "utt_id": "homo_278",
-      "text": "На этикетке указан сорт мука́.",
-      "note": "case: мука́ vs му́ка",
+      "text": "На этикетке указан сорт муки́.",
+      "note": "case: муки́ vs му́ки",
       "stress_target": {
         "char_index": 27,
-        "lexeme": "мука́",
-        "contrast": "му́ка",
+        "lexeme": "муки́",
+        "contrast": "му́ки",
         "type": "case"
       }
     },
     {
       "utt_id": "homo_279",
-      "text": "Хозяйка добавила мука́ в соус.",
-      "note": "case: мука́ vs му́ка",
+      "text": "Хозяйка добавила муку́ в соус.",
+      "note": "case: муку́ vs му́ку",
       "stress_target": {
         "char_index": 20,
-        "lexeme": "мука́",
-        "contrast": "му́ка",
+        "lexeme": "муку́",
+        "contrast": "му́ку",
         "type": "case"
       }
     },
     {
       "utt_id": "homo_280",
-      "text": "Оптом продают мешки мука́.",
-      "note": "case: мука́ vs му́ка",
+      "text": "Оптом продают мешки муки́.",
+      "note": "case: муки́ vs му́ки",
       "stress_target": {
         "char_index": 23,
-        "lexeme": "мука́",
-        "contrast": "му́ка",
+        "lexeme": "муки́",
+        "contrast": "му́ки",
         "type": "case"
       }
     },
@@ -3098,12 +3021,12 @@
     },
     {
       "utt_id": "homo_302",
-      "text": "В этих дома́ живут семьи педагогов.",
-      "note": "case: дома́ vs до́ма",
+      "text": "В этих дома́х живут семьи педагогов.",
+      "note": "case: дома́х vs до́мах",
       "stress_target": {
         "char_index": 10,
-        "lexeme": "дома́",
-        "contrast": "до́ма",
+        "lexeme": "дома́х",
+        "contrast": "до́мах",
         "type": "case"
       }
     },
@@ -3252,12 +3175,12 @@
     },
     {
       "utt_id": "homo_316",
-      "text": "Охотник знает тропы этих леса́.",
-      "note": "case: леса́ vs ле́са",
+      "text": "Охотник знает тропы этих лесо́в.",
+      "note": "case: лесо́в vs ле́сов",
       "stress_target": {
         "char_index": 28,
-        "lexeme": "леса́",
-        "contrast": "ле́са",
+        "lexeme": "лесо́в",
+        "contrast": "ле́сов",
         "type": "case"
       }
     },
@@ -3736,12 +3659,12 @@
     },
     {
       "utt_id": "homo_360",
-      "text": "В этих горо́да развит туризм.",
-      "note": "case: горо́да vs го́рода",
+      "text": "В этих горо́дах развит туризм.",
+      "note": "case: горо́дах vs го́родах",
       "stress_target": {
         "char_index": 10,
-        "lexeme": "горо́да",
-        "contrast": "го́рода",
+        "lexeme": "горо́дах",
+        "contrast": "го́родах",
         "type": "case"
       }
     },
@@ -3758,12 +3681,12 @@
     },
     {
       "utt_id": "homo_362",
-      "text": "Список малых горо́да расширили.",
-      "note": "case: горо́да vs го́рода",
+      "text": "Список малых горо́дов расширили.",
+      "note": "case: горо́дов vs го́родов",
       "stress_target": {
         "char_index": 16,
-        "lexeme": "горо́да",
-        "contrast": "го́рода",
+        "lexeme": "горо́дов",
+        "contrast": "го́родов",
         "type": "case"
       }
     },
@@ -3780,12 +3703,12 @@
     },
     {
       "utt_id": "homo_364",
-      "text": "В прибрежных горо́да пахнет морем.",
-      "note": "case: горо́да vs го́рода",
+      "text": "В прибрежных горо́дах пахнет морем.",
+      "note": "case: горо́дах vs го́родах",
       "stress_target": {
         "char_index": 16,
-        "lexeme": "горо́да",
-        "contrast": "го́рода",
+        "lexeme": "горо́дах",
+        "contrast": "го́родах",
         "type": "case"
       }
     },
@@ -3813,12 +3736,12 @@
     },
     {
       "utt_id": "homo_367",
-      "text": "В промышленных горо́да много заводов.",
-      "note": "case: горо́да vs го́рода",
+      "text": "В промышленных горо́дах много заводов.",
+      "note": "case: горо́дах vs го́родах",
       "stress_target": {
         "char_index": 18,
-        "lexeme": "горо́да",
-        "contrast": "го́рода",
+        "lexeme": "горо́дах",
+        "contrast": "го́родах",
         "type": "case"
       }
     },
@@ -3835,12 +3758,12 @@
     },
     {
       "utt_id": "homo_369",
-      "text": "В горных горо́да воздух чище.",
-      "note": "case: горо́да vs го́рода",
+      "text": "В горных горо́дах воздух чище.",
+      "note": "case: горо́дах vs го́родах",
       "stress_target": {
         "char_index": 12,
-        "lexeme": "горо́да",
-        "contrast": "го́рода",
+        "lexeme": "горо́дах",
+        "contrast": "го́родах",
         "type": "case"
       }
     },
@@ -4088,12 +4011,12 @@
     },
     {
       "utt_id": "homo_392",
-      "text": "На этих острова́ нет постоянного населения.",
-      "note": "case: острова́ vs о́строва",
+      "text": "На этих острова́х нет постоянного населения.",
+      "note": "case: острова́х vs о́стровах",
       "stress_target": {
         "char_index": 14,
-        "lexeme": "острова́",
-        "contrast": "о́строва",
+        "lexeme": "острова́х",
+        "contrast": "о́стровах",
         "type": "case"
       }
     },
@@ -4110,23 +4033,23 @@
     },
     {
       "utt_id": "homo_394",
-      "text": "Шторм отрезал связь с дальними острова́.",
-      "note": "case: острова́ vs о́строва",
+      "text": "Шторм отрезал связь с дальними острова́ми.",
+      "note": "case: острова́ми vs о́стровами",
       "stress_target": {
         "char_index": 37,
-        "lexeme": "острова́",
-        "contrast": "о́строва",
+        "lexeme": "острова́ми",
+        "contrast": "о́стровами",
         "type": "case"
       }
     },
     {
       "utt_id": "homo_395",
-      "text": "В северных острова́ холодно даже летом.",
-      "note": "case: острова́ vs о́строва",
+      "text": "В северных острова́х холодно даже летом.",
+      "note": "case: острова́х vs о́стровах",
       "stress_target": {
         "char_index": 17,
-        "lexeme": "острова́",
-        "contrast": "о́строва",
+        "lexeme": "острова́х",
+        "contrast": "о́стровах",
         "type": "case"
       }
     },
@@ -4143,23 +4066,23 @@
     },
     {
       "utt_id": "homo_397",
-      "text": "Список необитаемых острова́ длинный.",
-      "note": "case: острова́ vs о́строва",
+      "text": "Список необитаемых острово́в длинный.",
+      "note": "case: острово́в vs о́стровов",
       "stress_target": {
         "char_index": 25,
-        "lexeme": "острова́",
-        "contrast": "о́строва",
+        "lexeme": "острово́в",
+        "contrast": "о́стровов",
         "type": "case"
       }
     },
     {
       "utt_id": "homo_398",
-      "text": "Между крупными острова́ лежат проливы.",
-      "note": "case: острова́ vs о́строва",
+      "text": "Между крупными острова́ми лежат проливы.",
+      "note": "case: острова́ми vs о́стровами",
       "stress_target": {
         "char_index": 21,
-        "lexeme": "острова́",
-        "contrast": "о́строва",
+        "lexeme": "острова́ми",
+        "contrast": "о́стровами",
         "type": "case"
       }
     },
@@ -4176,51 +4099,18 @@
     },
     {
       "utt_id": "homo_400",
-      "text": "Птицы гнездятся на скалистых острова́.",
-      "note": "case: острова́ vs о́строва",
+      "text": "Птицы гнездятся на скалистых острова́х.",
+      "note": "case: острова́х vs о́стровах",
       "stress_target": {
         "char_index": 35,
-        "lexeme": "острова́",
-        "contrast": "о́строва",
+        "lexeme": "острова́х",
+        "contrast": "о́стровах",
         "type": "case"
       }
     },
     {
       "utt_id": "homo_401",
       "text": "Проверьте правильность а́дреса доставки.",
-      "note": "case: а́дреса vs адреса́",
-      "stress_target": {
-        "char_index": 23,
-        "lexeme": "а́дреса",
-        "contrast": "адреса́",
-        "type": "case"
-      }
-    },
-    {
-      "utt_id": "homo_402",
-      "text": "В письме указан домашний а́дреса.",
-      "note": "case: а́дреса vs адреса́",
-      "stress_target": {
-        "char_index": 25,
-        "lexeme": "а́дреса",
-        "contrast": "адреса́",
-        "type": "case"
-      }
-    },
-    {
-      "utt_id": "homo_403",
-      "text": "Курьер спросил точный а́дреса.",
-      "note": "case: а́дреса vs адреса́",
-      "stress_target": {
-        "char_index": 22,
-        "lexeme": "а́дреса",
-        "contrast": "адреса́",
-        "type": "case"
-      }
-    },
-    {
-      "utt_id": "homo_404",
-      "text": "Форма требует почтовый а́дреса.",
       "note": "case: а́дреса vs адреса́",
       "stress_target": {
         "char_index": 23,
@@ -4246,17 +4136,6 @@
       "note": "case: а́дреса vs адреса́",
       "stress_target": {
         "char_index": 24,
-        "lexeme": "а́дреса",
-        "contrast": "адреса́",
-        "type": "case"
-      }
-    },
-    {
-      "utt_id": "homo_407",
-      "text": "На визитке напечатан рабочий а́дреса.",
-      "note": "case: а́дреса vs адреса́",
-      "stress_target": {
-        "char_index": 29,
         "lexeme": "а́дреса",
         "contrast": "адреса́",
         "type": "case"
@@ -4296,17 +4175,6 @@
       }
     },
     {
-      "utt_id": "homo_411",
-      "text": "Он назвал временный а́дреса.",
-      "note": "case: а́дреса vs адреса́",
-      "stress_target": {
-        "char_index": 20,
-        "lexeme": "а́дреса",
-        "contrast": "адреса́",
-        "type": "case"
-      }
-    },
-    {
       "utt_id": "homo_412",
       "text": "На конверте размыт а́дреса.",
       "note": "case: а́дреса vs адреса́",
@@ -4318,33 +4186,11 @@
       }
     },
     {
-      "utt_id": "homo_413",
-      "text": "Система сохранила прежний а́дреса.",
-      "note": "case: а́дреса vs адреса́",
-      "stress_target": {
-        "char_index": 26,
-        "lexeme": "а́дреса",
-        "contrast": "адреса́",
-        "type": "case"
-      }
-    },
-    {
       "utt_id": "homo_414",
       "text": "Укажите а́дреса для возврата.",
       "note": "case: а́дреса vs адреса́",
       "stress_target": {
         "char_index": 8,
-        "lexeme": "а́дреса",
-        "contrast": "адреса́",
-        "type": "case"
-      }
-    },
-    {
-      "utt_id": "homo_415",
-      "text": "В договоре прописан юридический а́дреса.",
-      "note": "case: а́дреса vs адреса́",
-      "stress_target": {
-        "char_index": 32,
         "lexeme": "а́дреса",
         "contrast": "адреса́",
         "type": "case"
@@ -4363,12 +4209,12 @@
     },
     {
       "utt_id": "homo_417",
-      "text": "Рассылка ушла по старым адреса́.",
-      "note": "case: адреса́ vs а́дреса",
+      "text": "Рассылка ушла по старым адреса́м.",
+      "note": "case: адреса́м vs а́дресам",
       "stress_target": {
         "char_index": 29,
-        "lexeme": "адреса́",
-        "contrast": "а́дреса",
+        "lexeme": "адреса́м",
+        "contrast": "а́дресам",
         "type": "case"
       }
     },
@@ -4539,12 +4385,12 @@
     },
     {
       "utt_id": "homo_433",
-      "text": "К ма́стера записались на ремонт.",
-      "note": "case: ма́стера vs мастера́",
+      "text": "К ма́стерам записались на ремонт.",
+      "note": "case: ма́стерам vs мастера́м",
       "stress_target": {
         "char_index": 3,
-        "lexeme": "ма́стера",
-        "contrast": "мастера́",
+        "lexeme": "ма́стерам",
+        "contrast": "мастера́м",
         "type": "case"
       }
     },
@@ -4649,12 +4495,12 @@
     },
     {
       "utt_id": "homo_443",
-      "text": "Награда досталась молодому ма́стера.",
-      "note": "case: ма́стера vs мастера́",
+      "text": "Награда досталась молодому ма́стеру.",
+      "note": "case: ма́стеру vs мастеру́",
       "stress_target": {
         "char_index": 28,
-        "lexeme": "ма́стера",
-        "contrast": "мастера́",
+        "lexeme": "ма́стеру",
+        "contrast": "мастеру́",
         "type": "case"
       }
     },
@@ -4693,12 +4539,12 @@
     },
     {
       "utt_id": "homo_447",
-      "text": "Цех нанял новых мастера́.",
-      "note": "case: мастера́ vs ма́стера",
+      "text": "Цех нанял новых мастеро́в.",
+      "note": "case: мастеро́в vs ма́стеров",
       "stress_target": {
         "char_index": 22,
-        "lexeme": "мастера́",
-        "contrast": "ма́стера",
+        "lexeme": "мастеро́в",
+        "contrast": "ма́стеров",
         "type": "case"
       }
     },
@@ -4715,12 +4561,12 @@
     },
     {
       "utt_id": "homo_449",
-      "text": "Конкурс выиграли юные мастера́.",
-      "note": "case: мастера́ vs ма́стера",
+      "text": "Конкурс выиграли юные мастеро́в.",
+      "note": "case: мастеро́в vs ма́стеров",
       "stress_target": {
         "char_index": 28,
-        "lexeme": "мастера́",
-        "contrast": "ма́стера",
+        "lexeme": "мастеро́в",
+        "contrast": "ма́стеров",
         "type": "case"
       }
     },
@@ -4737,12 +4583,12 @@
     },
     {
       "utt_id": "homo_451",
-      "text": "Школа готовит строительных мастера́.",
-      "note": "case: мастера́ vs ма́стера",
+      "text": "Школа готовит строительных мастеро́в.",
+      "note": "case: мастеро́в vs ма́стеров",
       "stress_target": {
         "char_index": 33,
-        "lexeme": "мастера́",
-        "contrast": "ма́стера",
+        "lexeme": "мастеро́в",
+        "contrast": "ма́стеров",
         "type": "case"
       }
     },
@@ -4770,12 +4616,12 @@
     },
     {
       "utt_id": "homo_454",
-      "text": "Город чествует заслуженных мастера́.",
-      "note": "case: мастера́ vs ма́стера",
+      "text": "Город чествует заслуженных мастеро́в.",
+      "note": "case: мастеро́в vs ма́стеров",
       "stress_target": {
         "char_index": 33,
-        "lexeme": "мастера́",
-        "contrast": "ма́стера",
+        "lexeme": "мастеро́в",
+        "contrast": "ма́стеров",
         "type": "case"
       }
     },
@@ -4825,23 +4671,23 @@
     },
     {
       "utt_id": "homo_459",
-      "text": "Каталог представляет современных мастера́.",
-      "note": "case: мастера́ vs ма́стера",
+      "text": "Каталог представляет современных мастеро́в.",
+      "note": "case: мастеро́в vs ма́стеров",
       "stress_target": {
         "char_index": 39,
-        "lexeme": "мастера́",
-        "contrast": "ма́стера",
+        "lexeme": "мастеро́в",
+        "contrast": "ма́стеров",
         "type": "case"
       }
     },
     {
       "utt_id": "homo_460",
-      "text": "В музее хранят инструменты старых мастера́.",
-      "note": "case: мастера́ vs ма́стера",
+      "text": "В музее хранят инструменты старых мастеро́в.",
+      "note": "case: мастеро́в vs ма́стеров",
       "stress_target": {
         "char_index": 40,
-        "lexeme": "мастера́",
-        "contrast": "ма́стера",
+        "lexeme": "мастеро́в",
+        "contrast": "ма́стеров",
         "type": "case"
       }
     },
@@ -4858,12 +4704,12 @@
     },
     {
       "utt_id": "homo_462",
-      "text": "Память о добром учи́теля жива.",
-      "note": "case: учи́теля vs учителя́",
+      "text": "Память о добром учи́теле жива.",
+      "note": "case: учи́теле vs учителе́",
       "stress_target": {
         "char_index": 18,
-        "lexeme": "учи́теля",
-        "contrast": "учителя́",
+        "lexeme": "учи́теле",
+        "contrast": "учителе́",
         "type": "case"
       }
     },
@@ -5001,12 +4847,12 @@
     },
     {
       "utt_id": "homo_475",
-      "text": "Награда досталась любимому учи́теля.",
-      "note": "case: учи́теля vs учителя́",
+      "text": "Награда досталась любимому учи́телю.",
+      "note": "case: учи́телю vs учителю́",
       "stress_target": {
         "char_index": 29,
-        "lexeme": "учи́теля",
-        "contrast": "учителя́",
+        "lexeme": "учи́телю",
+        "contrast": "учителю́",
         "type": "case"
       }
     },
@@ -5111,12 +4957,12 @@
     },
     {
       "utt_id": "homo_485",
-      "text": "Награда вручается лучшим учителя́.",
-      "note": "case: учителя́ vs учи́теля",
+      "text": "Награда вручается лучшим учителя́м.",
+      "note": "case: учителя́м vs учи́телям",
       "stress_target": {
         "char_index": 31,
-        "lexeme": "учителя́",
-        "contrast": "учи́теля",
+        "lexeme": "учителя́м",
+        "contrast": "учи́телям",
         "type": "case"
       }
     },
@@ -5144,12 +4990,12 @@
     },
     {
       "utt_id": "homo_488",
-      "text": "В архиве списки бывших учителя́.",
-      "note": "case: учителя́ vs учи́теля",
+      "text": "В архиве списки бывших учителе́й.",
+      "note": "case: учителе́й vs учи́телей",
       "stress_target": {
         "char_index": 29,
-        "lexeme": "учителя́",
-        "contrast": "учи́теля",
+        "lexeme": "учителе́й",
+        "contrast": "учи́телей",
         "type": "case"
       }
     },
@@ -5639,12 +5485,12 @@
     },
     {
       "utt_id": "homo_563",
-      "text": "Хирург перевязал повреждённую жи́ла.",
-      "note": "pos: жи́ла vs жила́",
+      "text": "Хирург перевязал повреждённую жи́лу.",
+      "note": "pos: жи́лу vs жилу́",
       "stress_target": {
         "char_index": 31,
-        "lexeme": "жи́ла",
-        "contrast": "жила́",
+        "lexeme": "жи́лу",
+        "contrast": "жилу́",
         "type": "pos"
       }
     },
@@ -5683,23 +5529,23 @@
     },
     {
       "utt_id": "homo_567",
-      "text": "Врач нашёл подходящую жи́ла.",
-      "note": "pos: жи́ла vs жила́",
+      "text": "Врач нашёл подходящую жи́лу.",
+      "note": "pos: жи́лу vs жилу́",
       "stress_target": {
         "char_index": 23,
-        "lexeme": "жи́ла",
-        "contrast": "жила́",
+        "lexeme": "жи́лу",
+        "contrast": "жилу́",
         "type": "pos"
       }
     },
     {
       "utt_id": "homo_568",
-      "text": "Кровь идёт по жи́ла к сердцу.",
-      "note": "pos: жи́ла vs жила́",
+      "text": "Кровь идёт по жи́лу к сердцу.",
+      "note": "pos: жи́лу vs жилу́",
       "stress_target": {
         "char_index": 15,
-        "lexeme": "жи́ла",
-        "contrast": "жила́",
+        "lexeme": "жи́лу",
+        "contrast": "жилу́",
         "type": "pos"
       }
     },
@@ -5716,12 +5562,12 @@
     },
     {
       "utt_id": "homo_570",
-      "text": "Анатомия описывает каждую жи́ла.",
-      "note": "pos: жи́ла vs жила́",
+      "text": "Анатомия описывает каждую жи́лу.",
+      "note": "pos: жи́лу vs жилу́",
       "stress_target": {
         "char_index": 27,
-        "lexeme": "жи́ла",
-        "contrast": "жила́",
+        "lexeme": "жи́лу",
+        "contrast": "жилу́",
         "type": "pos"
       }
     },
@@ -5958,12 +5804,12 @@
     },
     {
       "utt_id": "homo_592",
-      "text": "Дорога ведёт к соседнему села́.",
-      "note": "pos: села́ vs се́ла",
+      "text": "Дорога ведёт к соседнему селу́.",
+      "note": "pos: селу́ vs се́лу",
       "stress_target": {
         "char_index": 28,
-        "lexeme": "села́",
-        "contrast": "се́ла",
+        "lexeme": "селу́",
+        "contrast": "се́лу",
         "type": "pos"
       }
     },
@@ -6035,12 +5881,12 @@
     },
     {
       "utt_id": "homo_599",
-      "text": "На карте отмечено старое села́.",
-      "note": "pos: села́ vs се́ла",
+      "text": "На карте отмечено старое село́.",
+      "note": "pos: село́ vs се́ло",
       "stress_target": {
         "char_index": 28,
-        "lexeme": "села́",
-        "contrast": "се́ла",
+        "lexeme": "село́",
+        "contrast": "се́ло",
         "type": "pos"
       }
     },
@@ -6848,33 +6694,11 @@
       }
     },
     {
-      "utt_id": "homo_673",
-      "text": "Учёные кольцуют местных бе́лки.",
-      "note": "number: бе́лки vs белки́",
-      "stress_target": {
-        "char_index": 25,
-        "lexeme": "бе́лки",
-        "contrast": "белки́",
-        "type": "number"
-      }
-    },
-    {
       "utt_id": "homo_674",
       "text": "В дуплах прячутся бе́лки.",
       "note": "number: бе́лки vs белки́",
       "stress_target": {
         "char_index": 19,
-        "lexeme": "бе́лки",
-        "contrast": "белки́",
-        "type": "number"
-      }
-    },
-    {
-      "utt_id": "homo_675",
-      "text": "Туристы фотографируют ручных бе́лки.",
-      "note": "number: бе́лки vs белки́",
-      "stress_target": {
-        "char_index": 30,
         "lexeme": "бе́лки",
         "contrast": "белки́",
         "type": "number"
@@ -7047,34 +6871,34 @@
     },
     {
       "utt_id": "homo_796",
-      "text": "Занятия перенесли на эту сре́ды.",
-      "note": "number: сре́ды vs среды́",
+      "text": "Занятия перенесли на эту сре́ду.",
+      "note": "number: сре́ду vs среду́",
       "stress_target": {
         "char_index": 27,
-        "lexeme": "сре́ды",
-        "contrast": "среды́",
+        "lexeme": "сре́ду",
+        "contrast": "среду́",
         "type": "number"
       }
     },
     {
       "utt_id": "homo_797",
-      "text": "Встреча назначена на следующую сре́ды.",
-      "note": "number: сре́ды vs среды́",
+      "text": "Встреча назначена на следующую сре́ду.",
+      "note": "number: сре́ду vs среду́",
       "stress_target": {
         "char_index": 33,
-        "lexeme": "сре́ды",
-        "contrast": "среды́",
+        "lexeme": "сре́ду",
+        "contrast": "среду́",
         "type": "number"
       }
     },
     {
       "utt_id": "homo_798",
-      "text": "Каждую сре́ды проходит семинар.",
-      "note": "number: сре́ды vs среды́",
+      "text": "Каждую сре́ду проходит семинар.",
+      "note": "number: сре́ду vs среду́",
       "stress_target": {
         "char_index": 9,
-        "lexeme": "сре́ды",
-        "contrast": "среды́",
+        "lexeme": "сре́ду",
+        "contrast": "среду́",
         "type": "number"
       }
     },
@@ -7091,12 +6915,12 @@
     },
     {
       "utt_id": "homo_800",
-      "text": "В прошлую сре́ды шёл дождь.",
-      "note": "number: сре́ды vs среды́",
+      "text": "В прошлую сре́ду шёл дождь.",
+      "note": "number: сре́ду vs среду́",
       "stress_target": {
         "char_index": 12,
-        "lexeme": "сре́ды",
-        "contrast": "среды́",
+        "lexeme": "сре́ду",
+        "contrast": "среду́",
         "type": "number"
       }
     },
@@ -7146,12 +6970,12 @@
     },
     {
       "utt_id": "homo_805",
-      "text": "В ближайшую сре́ды приезжает комиссия.",
-      "note": "number: сре́ды vs среды́",
+      "text": "В ближайшую сре́ду приезжает комиссия.",
+      "note": "number: сре́ду vs среду́",
       "stress_target": {
         "char_index": 14,
-        "lexeme": "сре́ды",
-        "contrast": "среды́",
+        "lexeme": "сре́ду",
+        "contrast": "среду́",
         "type": "number"
       }
     },
@@ -7223,23 +7047,23 @@
     },
     {
       "utt_id": "homo_812",
-      "text": "Рыбы приспособлены к пресной среды́.",
-      "note": "number: среды́ vs сре́ды",
+      "text": "Рыбы приспособлены к пресной среде́.",
+      "note": "number: среде́ vs сре́де",
       "stress_target": {
         "char_index": 33,
-        "lexeme": "среды́",
-        "contrast": "сре́ды",
+        "lexeme": "среде́",
+        "contrast": "сре́де",
         "type": "number"
       }
     },
     {
       "utt_id": "homo_813",
-      "text": "Бактерии размножаются в питательной среды́.",
-      "note": "number: среды́ vs сре́ды",
+      "text": "Бактерии размножаются в питательной среде́.",
+      "note": "number: среде́ vs сре́де",
       "stress_target": {
         "char_index": 40,
-        "lexeme": "среды́",
-        "contrast": "сре́ды",
+        "lexeme": "среде́",
+        "contrast": "сре́де",
         "type": "number"
       }
     },
@@ -7256,12 +7080,12 @@
     },
     {
       "utt_id": "homo_815",
-      "text": "Реакция идёт в водной среды́.",
-      "note": "number: среды́ vs сре́ды",
+      "text": "Реакция идёт в водной среде́.",
+      "note": "number: среде́ vs сре́де",
       "stress_target": {
         "char_index": 26,
-        "lexeme": "среды́",
-        "contrast": "сре́ды",
+        "lexeme": "среде́",
+        "contrast": "сре́де",
         "type": "number"
       }
     },
@@ -7278,12 +7102,12 @@
     },
     {
       "utt_id": "homo_817",
-      "text": "Образец поместили в стерильную среды́.",
-      "note": "number: среды́ vs сре́ды",
+      "text": "Образец поместили в стерильную среду́.",
+      "note": "number: среду́ vs сре́ду",
       "stress_target": {
         "char_index": 35,
-        "lexeme": "среды́",
-        "contrast": "сре́ды",
+        "lexeme": "среду́",
+        "contrast": "сре́ду",
         "type": "number"
       }
     },
@@ -7311,34 +7135,34 @@
     },
     {
       "utt_id": "homo_820",
-      "text": "Раствор охладили в ледяной среды́.",
-      "note": "number: среды́ vs сре́ды",
+      "text": "Раствор охладили в ледяной среде́.",
+      "note": "number: среде́ vs сре́де",
       "stress_target": {
         "char_index": 31,
-        "lexeme": "среды́",
-        "contrast": "сре́ды",
+        "lexeme": "среде́",
+        "contrast": "сре́де",
         "type": "number"
       }
     },
     {
       "utt_id": "homo_821",
-      "text": "Микробы чувствительны к щелочной среды́.",
-      "note": "number: среды́ vs сре́ды",
+      "text": "Микробы чувствительны к щелочной среде́.",
+      "note": "number: среде́ vs сре́де",
       "stress_target": {
         "char_index": 37,
-        "lexeme": "среды́",
-        "contrast": "сре́ды",
+        "lexeme": "среде́",
+        "contrast": "сре́де",
         "type": "number"
       }
     },
     {
       "utt_id": "homo_822",
-      "text": "Опыт провели в инертной среды́.",
-      "note": "number: среды́ vs сре́ды",
+      "text": "Опыт провели в инертной среде́.",
+      "note": "number: среде́ vs сре́де",
       "stress_target": {
         "char_index": 28,
-        "lexeme": "среды́",
-        "contrast": "сре́ды",
+        "lexeme": "среде́",
+        "contrast": "сре́де",
         "type": "number"
       }
     },
@@ -7355,23 +7179,23 @@
     },
     {
       "utt_id": "homo_824",
-      "text": "Датчик опустили в рабочую среды́.",
-      "note": "number: среды́ vs сре́ды",
+      "text": "Датчик опустили в рабочую среду́.",
+      "note": "number: среду́ vs сре́ду",
       "stress_target": {
         "char_index": 30,
-        "lexeme": "среды́",
-        "contrast": "сре́ды",
+        "lexeme": "среду́",
+        "contrast": "сре́ду",
         "type": "number"
       }
     },
     {
       "utt_id": "homo_825",
-      "text": "Фильтр очищает загрязнённую среды́.",
-      "note": "number: среды́ vs сре́ды",
+      "text": "Фильтр очищает загрязнённую среду́.",
+      "note": "number: среду́ vs сре́ду",
       "stress_target": {
         "char_index": 32,
-        "lexeme": "среды́",
-        "contrast": "сре́ды",
+        "lexeme": "среду́",
+        "contrast": "сре́ду",
         "type": "number"
       }
     },
@@ -7695,66 +7519,11 @@
       }
     },
     {
-      "utt_id": "homo_855",
-      "text": "Капли по́том стекали по вискам.",
-      "note": "meaning: по́том vs пото́м",
-      "stress_target": {
-        "char_index": 7,
-        "lexeme": "по́том",
-        "contrast": "пото́м",
-        "type": "meaning"
-      }
-    },
-    {
-      "utt_id": "homo_856",
-      "text": "После зала всё было в по́том.",
-      "note": "meaning: по́том vs пото́м",
-      "stress_target": {
-        "char_index": 23,
-        "lexeme": "по́том",
-        "contrast": "пото́м",
-        "type": "meaning"
-      }
-    },
-    {
       "utt_id": "homo_857",
       "text": "Футболка липла по́том к спине.",
       "note": "meaning: по́том vs пото́м",
       "stress_target": {
         "char_index": 16,
-        "lexeme": "по́том",
-        "contrast": "пото́м",
-        "type": "meaning"
-      }
-    },
-    {
-      "utt_id": "homo_858",
-      "text": "Он пах по́том и пылью.",
-      "note": "meaning: по́том vs пото́м",
-      "stress_target": {
-        "char_index": 8,
-        "lexeme": "по́том",
-        "contrast": "пото́м",
-        "type": "meaning"
-      }
-    },
-    {
-      "utt_id": "homo_859",
-      "text": "Полотенце впитало по́том.",
-      "note": "meaning: по́том vs пото́м",
-      "stress_target": {
-        "char_index": 19,
-        "lexeme": "по́том",
-        "contrast": "пото́м",
-        "type": "meaning"
-      }
-    },
-    {
-      "utt_id": "homo_860",
-      "text": "Тренировка оставила одежду мокрой по́том.",
-      "note": "meaning: по́том vs пото́м",
-      "stress_target": {
-        "char_index": 35,
         "lexeme": "по́том",
         "contrast": "пото́м",
         "type": "meaning"
@@ -7927,67 +7696,67 @@
     },
     {
       "utt_id": "homo_876",
-      "text": "Футболка сшита из натурального хло́пок.",
-      "note": "meaning: хло́пок vs хлопо́к",
+      "text": "Футболка сшита из натурального хло́пка.",
+      "note": "meaning: хло́пка vs хлопка́",
       "stress_target": {
         "char_index": 33,
-        "lexeme": "хло́пок",
-        "contrast": "хлопо́к",
+        "lexeme": "хло́пка",
+        "contrast": "хлопка́",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_877",
-      "text": "Ткань хло́пок хорошо дышит.",
-      "note": "meaning: хло́пок vs хлопо́к",
+      "text": "Ткань хло́пка хорошо дышит.",
+      "note": "meaning: хло́пка vs хлопка́",
       "stress_target": {
         "char_index": 8,
-        "lexeme": "хло́пок",
-        "contrast": "хлопо́к",
+        "lexeme": "хло́пка",
+        "contrast": "хлопка́",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_878",
-      "text": "На рынке продают кипы хло́пок.",
-      "note": "meaning: хло́пок vs хлопо́к",
+      "text": "На рынке продают кипы хло́пка.",
+      "note": "meaning: хло́пка vs хлопка́",
       "stress_target": {
         "char_index": 24,
-        "lexeme": "хло́пок",
-        "contrast": "хлопо́к",
+        "lexeme": "хло́пка",
+        "contrast": "хлопка́",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_879",
-      "text": "Поле хло́пок белеет к уборке.",
-      "note": "meaning: хло́пок vs хлопо́к",
+      "text": "Поле хло́пка белеет к уборке.",
+      "note": "meaning: хло́пка vs хлопка́",
       "stress_target": {
         "char_index": 7,
-        "lexeme": "хло́пок",
-        "contrast": "хлопо́к",
+        "lexeme": "хло́пка",
+        "contrast": "хлопка́",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_880",
-      "text": "Нитки из хло́пок мягкие на ощупь.",
-      "note": "meaning: хло́пок vs хлопо́к",
+      "text": "Нитки из хло́пка мягкие на ощупь.",
+      "note": "meaning: хло́пка vs хлопка́",
       "stress_target": {
         "char_index": 11,
-        "lexeme": "хло́пок",
-        "contrast": "хлопо́к",
+        "lexeme": "хло́пка",
+        "contrast": "хлопка́",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_881",
-      "text": "Этикетка указывает сто процентов хло́пок.",
-      "note": "meaning: хло́пок vs хлопо́к",
+      "text": "Этикетка указывает сто процентов хло́пка.",
+      "note": "meaning: хло́пка vs хлопка́",
       "stress_target": {
         "char_index": 35,
-        "lexeme": "хло́пок",
-        "contrast": "хлопо́к",
+        "lexeme": "хло́пка",
+        "contrast": "хлопка́",
         "type": "meaning"
       }
     },
@@ -8015,23 +7784,23 @@
     },
     {
       "utt_id": "homo_884",
-      "text": "В жару предпочитают одежду из хло́пок.",
-      "note": "meaning: хло́пок vs хлопо́к",
+      "text": "В жару предпочитают одежду из хло́пка.",
+      "note": "meaning: хло́пка vs хлопка́",
       "stress_target": {
         "char_index": 32,
-        "lexeme": "хло́пок",
-        "contrast": "хлопо́к",
+        "lexeme": "хло́пка",
+        "contrast": "хлопка́",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_885",
-      "text": "Импортёр закупил партию хло́пок.",
-      "note": "meaning: хло́пок vs хлопо́к",
+      "text": "Импортёр закупил партию хло́пка.",
+      "note": "meaning: хло́пка vs хлопка́",
       "stress_target": {
         "char_index": 26,
-        "lexeme": "хло́пок",
-        "contrast": "хлопо́к",
+        "lexeme": "хло́пка",
+        "contrast": "хлопка́",
         "type": "meaning"
       }
     },
@@ -8048,12 +7817,12 @@
     },
     {
       "utt_id": "homo_887",
-      "text": "Зал ответил дружным хлопо́к.",
-      "note": "meaning: хлопо́к vs хло́пок",
+      "text": "Зал ответил дружным хлопко́м.",
+      "note": "meaning: хлопко́м vs хло́пком",
       "stress_target": {
-        "char_index": 24,
-        "lexeme": "хлопо́к",
-        "contrast": "хло́пок",
+        "char_index": 25,
+        "lexeme": "хлопко́м",
+        "contrast": "хло́пком",
         "type": "meaning"
       }
     },
@@ -8070,23 +7839,23 @@
     },
     {
       "utt_id": "homo_889",
-      "text": "Дверь захлопнулась с резким хлопо́к.",
-      "note": "meaning: хлопо́к vs хло́пок",
+      "text": "Дверь захлопнулась с резким хлопко́м.",
+      "note": "meaning: хлопко́м vs хло́пком",
       "stress_target": {
-        "char_index": 32,
-        "lexeme": "хлопо́к",
-        "contrast": "хло́пок",
+        "char_index": 33,
+        "lexeme": "хлопко́м",
+        "contrast": "хло́пком",
         "type": "meaning"
       }
     },
     {
       "utt_id": "homo_890",
-      "text": "Пробка вылетела с хлопо́к.",
-      "note": "meaning: хлопо́к vs хло́пок",
+      "text": "Пробка вылетела с хлопко́м.",
+      "note": "meaning: хлопко́м vs хло́пком",
       "stress_target": {
-        "char_index": 22,
-        "lexeme": "хлопо́к",
-        "contrast": "хло́пок",
+        "char_index": 23,
+        "lexeme": "хлопко́м",
+        "contrast": "хло́пком",
         "type": "meaning"
       }
     },
@@ -8114,12 +7883,12 @@
     },
     {
       "utt_id": "homo_893",
-      "text": "Шампанское открыли с хлопо́к.",
-      "note": "meaning: хлопо́к vs хло́пок",
+      "text": "Шампанское открыли с хлопко́м.",
+      "note": "meaning: хлопко́м vs хло́пком",
       "stress_target": {
-        "char_index": 25,
-        "lexeme": "хлопо́к",
-        "contrast": "хло́пок",
+        "char_index": 26,
+        "lexeme": "хлопко́м",
+        "contrast": "хло́пком",
         "type": "meaning"
       }
     },
@@ -8136,12 +7905,12 @@
     },
     {
       "utt_id": "homo_895",
-      "text": "Молния ударила с оглушительным хлопо́к.",
-      "note": "meaning: хлопо́к vs хло́пок",
+      "text": "Молния ударила с оглушительным хлопко́м.",
+      "note": "meaning: хлопко́м vs хло́пком",
       "stress_target": {
-        "char_index": 35,
-        "lexeme": "хлопо́к",
-        "contrast": "хло́пок",
+        "char_index": 36,
+        "lexeme": "хлопко́м",
+        "contrast": "хло́пком",
         "type": "meaning"
       }
     }
