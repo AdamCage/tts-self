@@ -11,4 +11,4 @@ tests/test_utmos_backend.py::test_utmos_score_range_when_backend_present
     WeightNorm.apply(module, name, dim)
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-362 passed, 2 skipped, 2 warnings in 15.63s
+362 passed, 2 skipped, 2 warnings in 13.17s

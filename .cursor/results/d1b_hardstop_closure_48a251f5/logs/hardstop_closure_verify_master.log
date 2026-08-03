@@ -1,7 +1,7 @@
-=== hardstop_closure_verify start 2026-08-03T22:57:30+03:00 ===
+=== hardstop_closure_verify start 2026-08-03T22:58:26+03:00 ===
 hostname=DESKTOP-VII9120
-WSL_SHA=a05e4b758636bb21d1501781f330ba93057756dc
-WSL_SHORT=a05e4b7
+WSL_SHA=80da9bf38ca2833e68800f93c6ab9c205e3c3fab
+WSL_SHORT=80da9bf
 WSL_PORCELAIN_COUNT=0
 ## master...origin/master
 === editable reinstall (no-deps) ===
@@ -9,7 +9,7 @@ WSL_PORCELAIN_COUNT=0
 === focused D1b suite ===
 ......................................................................s. [ 73%]
 .......s..................                                               [100%]
-96 passed, 2 skipped in 6.13s
+96 passed, 2 skipped in 3.71s
 FOCUSED_EXIT=0
 === full pytest -q ===
 ............................................................s..........s [ 19%]
@@ -25,7 +25,7 @@ tests/test_utmos_backend.py::test_utmos_score_range_when_backend_present
     WeightNorm.apply(module, name, dim)
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-362 passed, 2 skipped, 2 warnings in 15.63s
+362 passed, 2 skipped, 2 warnings in 13.17s
 FULL_PYTEST_EXIT=0
 === real torchrun --standalone --nproc_per_node=1 smoke ===
 TORCHRUN_SMOKE_OK backend=nccl world_size=1 rank=0 local_rank=0
@@ -67,11 +67,11 @@ NOTE: ignoring superseded v1 PASS in confirm_seed43_gate24_n2_gate.json
 HASH_CHECK_OK
 HARDSTOP_PROVENANCE_OK
 HASH_EXIT=0
-=== verify end 2026-08-03T22:58:00+03:00 ===
-WSL_SHA=a05e4b758636bb21d1501781f330ba93057756dc
+=== verify end 2026-08-03T22:58:48+03:00 ===
+WSL_SHA=80da9bf38ca2833e68800f93c6ab9c205e3c3fab
 FOCUSED_LOG=/mnt/c/projects/tts-self/.cursor/results/d1b_hardstop_closure_48a251f5/logs/hardstop_closure_focused.log
 PYTEST_LOG=/mnt/c/projects/tts-self/.cursor/results/d1b_hardstop_closure_48a251f5/logs/hardstop_closure_pytest.log
 TORCHRUN_LOG=/mnt/c/projects/tts-self/.cursor/results/d1b_hardstop_closure_48a251f5/logs/hardstop_closure_torchrun.log
 HASH_LOG=/mnt/c/projects/tts-self/.cursor/results/d1b_hardstop_closure_48a251f5/logs/hardstop_closure_hashes.log
 AGGREGATE_FAIL=0
-CLEAN_SHA=a05e4b758636bb21d1501781f330ba93057756dc
+CLEAN_SHA=80da9bf38ca2833e68800f93c6ab9c205e3c3fab

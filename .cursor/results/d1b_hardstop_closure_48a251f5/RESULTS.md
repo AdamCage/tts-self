@@ -3,7 +3,7 @@
 **Plan:** `.cursor/plans/d1b_hardstop_closure_48a251f5.plan.md`  
 **Slug:** `d1b_hardstop_closure_48a251f5`  
 **Date:** 2026-08-03  
-**Clean SHA (normative):** `a05e4b758636bb21d1501781f330ba93057756dc` (`a05e4b7`)  
+**Clean SHA (normative):** `80da9bf38ca2833e68800f93c6ab9c205e3c3fab` (`80da9bf`)  
 **Status:** **NO-GO for D1c start** (closure tooling complete); scientific D1b remains **HARD-STOP**  
 **D1c / 1h / 5h / full:** **not started**
 
@@ -52,7 +52,7 @@ Normative clean-SHA verify (WSL Ubuntu after `git reset --hard origin/master`, p
 | Hash / HARD-STOP provenance | **HASH_CHECK_OK** + **HARDSTOP_PROVENANCE_OK** | `logs/hardstop_closure_hashes.log` |
 | Aggregate | **AGGREGATE_FAIL=0** | `logs/hardstop_closure_verify_master.log` |
 
-Push: `origin/master` at `a05e4b7` (Groups 1–2). Methodology left uncommitted.
+Push: `origin/master` tip `80da9bf` (Groups 1–2 + verify-log commit). Re-verified clean on tip. Methodology left uncommitted.
 
 ## Related results pack
 

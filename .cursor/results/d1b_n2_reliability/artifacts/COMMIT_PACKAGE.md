@@ -8,7 +8,7 @@
 
 | Item | Result |
 |------|--------|
-| Clean SHA | `a05e4b758636bb21d1501781f330ba93057756dc` (`a05e4b7`) |
+| Clean SHA | `80da9bf38ca2833e68800f93c6ab9c205e3c3fab` (`80da9bf`) |
 | Tree | porcelain empty on WSL at verify start |
 | Focused D1b suite | **96 passed, 2 skipped** |
 | Full `pytest -q` | **362 passed, 2 skipped** |
