@@ -17,11 +17,14 @@ data:
       text_hidden_dir: ~/datasets/tts/ruslan/text_hidden
       align_dir: ~/datasets/tts/ruslan/align
       stats_path: ~/datasets/tts/ruslan/stats.safetensors
+      # D1 discrete path (Wave 1) — do not reuse VibeVoice latents above.
+      codec_tokens_dir: ~/datasets/tts/ruslan/codec_tokens
     common_voice_ru_17_hf_mirror:
       latent_dir: ~/datasets/tts/common_voice_ru17/latents
       text_hidden_dir: ~/datasets/tts/common_voice_ru17/text_hidden
       align_dir: ~/datasets/tts/common_voice_ru17/align
       stats_path: ~/datasets/tts/common_voice_ru17/stats.safetensors
+      codec_tokens_dir: ~/datasets/tts/common_voice_ru17/codec_tokens
   # Mixture stats (C1 step 4) — fill after both corpora are encoded.
   stats_path: ~/datasets/tts/multicorpus/stats.safetensors
   sampling:

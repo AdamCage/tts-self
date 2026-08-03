@@ -1,0 +1,118 @@
+{
+  "version": "1.1.0",
+  "plan_slug": "d1b_n2_reliability",
+  "description": "Frozen D1b evaluation contract (WAVE3c infer + Track N speaker map + oracle hashes).",
+  "asr": {
+    "config_path": "configs/asr.yaml",
+    "file_sha256": "f5d2b1b8ae80e76f4c585cc5dd3411732617ebc539fb8a97b975f025efbcfdb9",
+    "backend": "openai_whisper",
+    "model": "large-v3",
+    "language": "ru"
+  },
+  "codec": {
+    "id": "qwen3tts_12hz",
+    "model_id": "Qwen/Qwen3-TTS-Tokenizer-12Hz",
+    "fingerprint": {
+      "status": "ok",
+      "model_id": "Qwen/Qwen3-TTS-Tokenizer-12Hz",
+      "n_state_keys": 496,
+      "partial_sha256_16": "7030d98a18ae5968",
+      "license": "Apache-2.0",
+      "target": "qwen3tts_12hz"
+    },
+    "codec_hash": "7030d98a18ae5968",
+    "sample_rate": 24000,
+    "frame_rate": 12.5,
+    "n_codebooks": 16,
+    "codebook_size": 2048
+  },
+  "text_tokenizer_id": "/home/adam/datasets/tts/models/Qwen3.5-0.8B-Base",
+  "speaker_map": {
+    "path": "configs/speaker_maps/trackn_v2.json",
+    "version": "2.0.0",
+    "n_speakers": 1088,
+    "max_speakers": 1089,
+    "sha256": "64e7cdc5c3447a43d7484b7538f9fd5df88551650d7b95ddb23110f9c36dca6e",
+    "status": "wired"
+  },
+  "infer": {
+    "temperature": 0.0,
+    "top_k": 0,
+    "stop_threshold": 0.5,
+    "stop_consecutive": 1,
+    "min_frames": 4,
+    "max_cb0_repeat": 12,
+    "repetition_penalty": 2.0,
+    "frames_per_text_token": 2.5,
+    "stop_overrun_bias": 0.0,
+    "stop_earliest_frac": 0.7,
+    "max_frames": 750,
+    "eos_cb0": null,
+    "sampler": "greedy",
+    "shared_resolver_module": "minispeech.infer.discrete_config",
+    "shared_resolver_required": true
+  },
+  "cer_normalization": {
+    "version": "normalize_for_asr_v1",
+    "module": "minispeech.frontend.normalize.normalize_for_asr"
+  },
+  "bootstrap": {
+    "seed": 42,
+    "n_resamples": 1000
+  },
+  "catastrophic": {
+    "definition_version": "d1b_v1",
+    "cer_ge": 0.5,
+    "cer_and_jaccard_cer": 0.35,
+    "jaccard_lt": 0.2
+  },
+  "runaway": {
+    "definition_version": "d1b_v1",
+    "cb0_max_run": 12,
+    "mean_duration_ratio_range": [
+      0.9,
+      1.1
+    ],
+    "utt_duration_ratio_range": [
+      0.5,
+      2.0
+    ]
+  },
+  "subsets": {
+    "dev32": {
+      "path": "configs/train_subsets/d1b_dev32.json",
+      "n": 32,
+      "items_sha256": "c886ba31f3305546d9b4938e1cd0b7a2fa4fce738d7da342e9da2a30a28b172c",
+      "role": "development_oracle"
+    },
+    "confirm32": {
+      "path": "configs/train_subsets/d1b_confirm32.json",
+      "n": 32,
+      "items_sha256": "232df2786859820298271a4845006bbcd4f9b78cfd9fb37872da90d0eee7265c",
+      "role": "confirmation_oracle"
+    },
+    "select8": {
+      "parent": "confirm32",
+      "n": 8,
+      "items_sha256": "fa083ed564809c01037292b1324bced72d219610cef42757b9c5155489d62651",
+      "role": "checkpoint_selection"
+    },
+    "gate24": {
+      "parent": "confirm32",
+      "n": 24,
+      "items_sha256": "611762cc454e1773340136dd2079127bf28287525eb939afde443a777a9fc25e",
+      "role": "heldout_gate"
+    }
+  },
+  "repro": {
+    "clean_sha_available": true,
+    "git_sha": null,
+    "note": "git_sha recorded in run_manifest / RESULTS after promotion commit; tree must be clean for canonical gates."
+  },
+  "d1_continuity": {
+    "wave3c_fr_cer": 0.05335121751047036,
+    "wave3c_ceiling": 0.052842029147292385,
+    "wave3c_verdict": "FAIL"
+  },
+  "sha256": "3d13929cac6b06bbdf8a69b8556768104c3cbbb678b907a61176f51d1574381f"
+}

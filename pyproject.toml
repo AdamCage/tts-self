@@ -45,6 +45,13 @@ g2p = [
 train = [
   "wandb>=0.18.0",
 ]
+# Frozen Qwen3-TTS Tokenizer-12Hz / full TTS baselines (Wave 0+).
+# WARNING: qwen-tts currently pulls transformers~=4.57 and conflicts with
+# VibeVoice (transformers>=5). Use a separate env pass for D0 continuous
+# anchor vs Qwen probe (see scripts/70_probe_qwen3_tts_tokenizer.py).
+qwen_tts = [
+  "qwen-tts>=0.1.1",
+]
 
 [build-system]
 requires = ["hatchling"]

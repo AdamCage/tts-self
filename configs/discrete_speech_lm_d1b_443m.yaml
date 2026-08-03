@@ -1,0 +1,141 @@
+# D1b discrete Speech LM — honest ~443M (vocab 248077 + max_speakers=1089).
+# Do not rename/break configs/discrete_speech_lm_300m.yaml (D1 legacy).
+# Frozen codec: qwen3tts_12hz. Text-init off. RU conditioning off.
+# Termination: frame-level stop_head only (see minispeech.infer.discrete_config).
+
+model:
+  target: qwen3tts_12hz
+  d_model: 1024
+  n_layers: 12
+  n_heads: 16
+  ffn_dim: 2816
+  # Must match Wave-1 text_ids tokenizer (Qwen3.5-0.8B-Base).
+  # len(AutoTokenizer)=248077; pad_token_id=eos=248044.
+  vocab_size: 248077
+  # Track N train: 1088 speakers + reserved unknown id 0 → 1089 rows.
+  # Canonical dense map: configs/speaker_maps/trackn_v2.json (repair-speaker-rope).
+  max_speakers: 1089
+  dropout: 0.0
+  max_seq: 8192
+  rope_theta: 10000.0
+  n_codebooks: 16
+  codebook_size: 2048
+  mtp_hidden: 1024
+  pad_token_id: 248044
+  russian_conditioning:
+    enabled: false
+    phoneme_vocab: 256
+    stress_vocab: 4
+    span_vocab: 16
+  text_init:
+    enabled: false
+    model_id: Qwen/Qwen3-0.6B
+    # Fail-closed when enabled: no silent vocab truncation; coverage floor.
+    allow_unsafe_vocab_truncation: false
+    min_coverage: 0.05
+  speaker:
+    type: id_embedding  # no zero-shot cloning
+    map_path: configs/speaker_maps/trackn_v2.json
+  text_tokenizer_id: /home/adam/datasets/tts/models/Qwen3.5-0.8B-Base
+
+loss:
+  cb0_weight: 1.0
+  residual_weights: null
+  # Frame-level stop on last valid acoustic frame (sole termination).
+  stop_weight: 1.0
+  stop_pos_weight: 20.0
+
+train:
+  seed: 42
+  # D1b: global_step / schedule / save intervals count optimizer updates.
+  step_unit: optimizer_step
+  # Primary compute budget (~D1 microbatch 3000 @ grad_accum=4).
+  optimizer_steps: 750
+  # Optional DEV-only extension (must freeze before confirmation).
+  allow_dev_extension: false
+  dev_extension_optimizer_steps: 1250
+  # Alias kept for docs / older notes (same value as above).
+  optimizer_steps_dev_extension: 1250
+  # Canonical map also under model.speaker.map_path; trainer copies into run_dir.
+  speaker_map_path: configs/speaker_maps/trackn_v2.json
+  # Content sha256 of trackn_v2.json (SpeakerRegistry.sha256) — not file bytes.
+  speaker_map_hash: 64e7cdc5c3447a43d7484b7538f9fd5df88551650d7b95ddb23110f9c36dca6e
+  # Frozen oracle (override with --subset confirm32 for confirmation waves).
+  subset: configs/train_subsets/d1b_dev32.json
+  subset_split: full32
+  subset_hash: c886ba31f3305546d9b4938e1cd0b7a2fa4fce738d7da342e9da2a30a28b172c
+  # Committed contract; runtime may mirror under out/d1b_n2_reliability/frozen/.
+  eval_contract_path: configs/eval_contracts/d1b_n2_reliability.json
+  # Content sha256 of eval_contract body (field ``sha256``), not file bytes.
+  eval_contract_hash: 3d13929cac6b06bbdf8a69b8556768104c3cbbb678b907a61176f51d1574381f
+  stages:
+    - name: S1
+      # Utterances come from frozen subset (not silent first-N).
+      steps: 750
+    - name: S2
+      max_hours: 1.0
+      steps: 3000
+    - name: S3
+      max_hours: 5.0
+      steps: 5000
+    - name: S4
+      # full Track N train (~72.98h) — only after D1b RELIABILITY PASS
+      steps: 10000
+  batch:
+    mode: fixed
+    size: 4
+    candidates: [1, 2, 4, 8]
+    target_vram_gb: 14.5
+  grad_accum: 4
+  lr: 2.0e-4
+  weight_decay: 0.01
+  grad_clip: 1.0
+  warmup_steps: 50  # optimizer updates
+  lr_schedule: cosine
+  min_lr_ratio: 0.05
+  precision: bf16
+  log_every: 10
+  eval_every: 125
+  save_every: 250
+  # Offline FR selection (script 76); no in-trainer ASR best.pt.
+  fr_checkpoint:
+    enabled: false
+    offline_selection: true
+  # Immutable candidate boundaries (optimizer steps).
+  candidate_steps: [250, 375, 500, 625, 750]
+  candidate_steps_dev_extension: [250, 375, 500, 625, 750, 1000, 1250]
+  ema: false
+  # Per-run override via --run-name (expands ${run_name}).
+  run_name: discrete_speech_lm_d1b_dev_seed42
+  run_dir: runs/${run_name}
+  resume: false
+  ddp:
+    enabled: false
+    find_unused_parameters: false
+
+infer:
+  # Frozen WAVE3c block — shared via minispeech.infer.discrete_config.
+  # DEV32 may calibrate only stop_threshold / stop_consecutive (predeclared).
+  # Do not retune length prior / overrun bias / earliest frac on confirmation.
+  max_frames: 750
+  temperature: 0.0
+  top_k: 0
+  eos_cb0: null  # stop_head only; SPEECH_EOS_ID=2048 is not CB0 EOS
+  stop_threshold: 0.5
+  stop_consecutive: 1
+  min_frames: 4
+  max_cb0_repeat: 12
+  repetition_penalty: 2.0
+  frames_per_text_token: 2.5
+  stop_overrun_bias: 0.0
+  stop_earliest_frac: 0.7
+  sampler: greedy
+  calibration_allowed_keys: [stop_threshold, stop_consecutive]
+
+data:
+  target: qwen3tts_12hz
+  # Full Track N caches (DEV32/CONFIRM32 are subsets thereof).
+  codec_tokens_dir: ~/datasets/tts/ruslan/codec_tokens,~/datasets/tts/common_voice_ru17/codec_tokens
+  pad_token_id: 248044
+  speaker_map: configs/speaker_maps/trackn_v2.json
+  # Subsets: configs/train_subsets/d1b_dev32.json / d1b_confirm32.json

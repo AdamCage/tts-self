@@ -19,27 +19,31 @@ class TargetSpec:
     Attributes
     ----------
     name:
-        Registry key (e.g. ``\"vibevoice64\"``, ``\"mel80\"``).
+        Registry key (e.g. ``\"vibevoice64\"``, ``\"mel80\"``, ``\"qwen3tts_12hz\"``).
     kind:
-        ``\"latent\"`` (codec latents) or ``\"mel\"`` (log-mel spectrogram).
+        ``\"latent\"`` (continuous codec), ``\"mel\"`` (log-mel), or
+        ``\"discrete\"`` (multi-codebook integer codes).
     dim:
-        Feature dimension (64 latents / 80 mel bins).
+        Feature dimension (64 latents / 80 mel bins / ``n_codebooks`` for
+        discrete).
     sample_rate:
         Waveform sample rate in Hz for this target's STFT / codec path.
     frame_rate:
         Frames per second (exact float; see hop for mel).
     samples_per_frame:
-        Wave samples per frame (= hop for mel; codec hop for latents).
+        Wave samples per frame (= hop for mel; codec hop for latents/codes).
     n_fft / hop_length / win_length / n_mels:
-        Mel STFT parameters (None for latent targets).
+        Mel STFT parameters (None for latent / discrete targets).
     fmin / fmax / mel_scale / mel_norm:
         Mel filterbank domain (None → backend defaults; mel targets should set
         these explicitly). ``mel_scale`` is ``\"slaney\"`` or ``\"htk\"``;
         ``mel_norm`` is ``\"slaney\"`` or ``None``.
+    n_codebooks / codebook_size / code_dtype:
+        Discrete multi-codebook geometry (None / empty for non-discrete).
     """
 
     name: str
-    kind: Literal["latent", "mel"]
+    kind: Literal["latent", "mel", "discrete"]
     dim: int
     sample_rate: int
     frame_rate: float
@@ -52,6 +56,9 @@ class TargetSpec:
     fmax: float | None = None
     mel_scale: str | None = None
     mel_norm: str | None = None
+    n_codebooks: int | None = None
+    codebook_size: int | None = None
+    code_dtype: str = ""
     notes: str = ""
 
     @property
@@ -151,11 +158,32 @@ SIGMA_VAE64_T0 = TargetSpec(
     ),
 )
 
+# Frozen Qwen3-TTS Tokenizer-12Hz (Apache-2.0). Encode/decode only; never train.
+# Measured (Wave 0): input/output 24 kHz; encode downsample 1920 → 12.5 Hz;
+# codes [T, 16] int64 in [0, 2047]. Marketed as "12Hz"; exact rate is 12.5.
+QWEN3TTS_12HZ = TargetSpec(
+    name="qwen3tts_12hz",
+    kind="discrete",
+    dim=16,
+    sample_rate=24_000,
+    frame_rate=12.5,
+    samples_per_frame=1920,
+    n_codebooks=16,
+    codebook_size=2048,
+    code_dtype="torch.int64",
+    notes=(
+        "Frozen Qwen3-TTS Tokenizer-12Hz (Apache-2.0). Discrete RVQ: 16 "
+        "codebooks × vocab 2048; CB0 semantic. Frame rate 24000/1920=12.5 Hz "
+        "(HF name says 12Hz). TTS targets: deterministic encode; never train."
+    ),
+)
+
 TARGETS: dict[str, TargetSpec] = {
     VIBEVOICE64.name: VIBEVOICE64,
     MEL80.name: MEL80,
     MEL80_HIFIGAN.name: MEL80_HIFIGAN,
     SIGMA_VAE64_T0.name: SIGMA_VAE64_T0,
+    QWEN3TTS_12HZ.name: QWEN3TTS_12HZ,
 }
 
 DEFAULT_TARGET: str = VIBEVOICE64.name
@@ -186,6 +214,7 @@ LATENT_DIM: int = VIBEVOICE64.dim
 VAE_STD: float = 0.625  # posterior std; NOT an error budget for the head
 
 CODEC_MODEL_ID: str = "microsoft/VibeVoice-AcousticTokenizer"
+QWEN3_TTS_TOKENIZER_ID: str = "Qwen/Qwen3-TTS-Tokenizer-12Hz"
 QWEN_MODEL_ID: str = "Qwen/Qwen3.5-0.8B-Base"
 
 # Cached Qwen hidden layers (0-based transformer block indices; last = 23)

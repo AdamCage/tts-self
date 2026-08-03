@@ -1,0 +1,106 @@
+# D1 discrete Speech LM (~300M). Frozen codec: qwen3tts_12hz.
+# Text-init optional; RU conditioning off until text-only base PASS.
+
+model:
+  target: qwen3tts_12hz
+  d_model: 1024
+  n_layers: 12
+  n_heads: 16
+  ffn_dim: 2816
+  # Must match Wave-1 text_ids tokenizer (Qwen3.5-0.8B-Base), NOT Qwen3-0.6B.
+  # len(AutoTokenizer)=248077; pad_token_id=eos=248044. Mismatch → OOB embed / silent garbage.
+  vocab_size: 248077
+  max_speakers: 256
+  dropout: 0.0
+  max_seq: 8192
+  rope_theta: 10000.0
+  n_codebooks: 16
+  codebook_size: 2048
+  mtp_hidden: 1024
+  pad_token_id: 248044
+  russian_conditioning:
+    enabled: false  # enable only after text-only base PASS
+    phoneme_vocab: 256
+    stress_vocab: 4
+    span_vocab: 16
+  text_init:
+    enabled: false  # disabled: Qwen3-0.6B vocab ≠ Wave-1 Qwen3.5 text_ids
+    model_id: Qwen/Qwen3-0.6B
+  speaker:
+    type: id_embedding  # no zero-shot cloning in D1
+  text_tokenizer_id: /home/adam/datasets/tts/models/Qwen3.5-0.8B-Base
+
+loss:
+  cb0_weight: 1.0
+  # Uniform residual CE across CB1–CB15 (length must be 15 when overridden)
+  residual_weights: null
+  # Frame-level stop on last valid acoustic frame (fixes FR runaway).
+  stop_weight: 1.0
+  stop_pos_weight: 20.0
+
+train:
+  seed: 42
+  stages:
+    - name: S1
+      max_utterances: 32
+      steps: 3000
+    - name: S2
+      max_hours: 1.0
+      steps: 12000
+    - name: S3
+      max_hours: 5.0
+      steps: 20000
+    - name: S4
+      # full current Track N train (~72.98h) — only after oracle N2 PASS
+      steps: 40000
+  batch:
+    mode: fixed
+    size: 4
+    candidates: [1, 2, 4, 8]
+    target_vram_gb: 14.5
+  grad_accum: 4
+  lr: 2.0e-4
+  weight_decay: 0.01
+  grad_clip: 1.0
+  warmup_steps: 200
+  lr_schedule: cosine
+  min_lr_ratio: 0.05
+  precision: bf16
+  log_every: 50
+  eval_every: 250
+  save_every: 1000
+  # Prefer free-running CER when fr_eval_fn is wired (Wave 3).
+  fr_checkpoint:
+    enabled: true
+    every: 1000
+  # EMA off unless a measured win justifies it.
+  ema: false
+  run_dir: runs/discrete_speech_lm_300m
+  resume: false
+  ddp:
+    enabled: false  # launch with torchrun for 1–2 GPU
+    find_unused_parameters: false
+
+infer:
+  max_frames: 750  # ~60s @ 12.5 Hz
+  temperature: 0.0  # greedy for oracle / N2
+  top_k: 0
+  # optional CB0 id treated as stop; null = use stop_head
+  eos_cb0: null
+  stop_threshold: 0.5
+  stop_consecutive: 1
+  min_frames: 4
+  max_cb0_repeat: 12
+  repetition_penalty: 2.0
+  # WAVE3c: keep WAVE3b prior; zero overrun bias (it truncated slow CV after expected)
+  frames_per_text_token: 2.5
+  stop_overrun_bias: 0.0
+  stop_earliest_frac: 0.7
+
+data:
+  # Filled by Wave-1 caches; scripts accept --data override.
+  target: qwen3tts_12hz
+  codec_tokens_dir: null
+  pad_token_id: 248044
+  # S1 oracle roots (comma-separated also accepted on CLI):
+  # ~/datasets/tts/ruslan/codec_tokens_s1_32,~/datasets/tts/common_voice_ru17/codec_tokens_s1_32
