@@ -11,6 +11,7 @@ from minispeech.eval.discrete_n2 import (
     FR_CANDIDATE_STEPS_BASE,
     assert_dev_confirm_disjoint,
     fr_candidate_steps,
+    hyp_has_phrase_loop,
     is_catastrophic,
     items_sha256,
     load_utt_ids_from_subset,
@@ -23,7 +24,11 @@ from minispeech.eval.discrete_n2 import (
 
 REPO = Path(__file__).resolve().parents[1]
 DEV32 = REPO / "configs" / "train_subsets" / "d1b_dev32.json"
-CONFIRM32 = REPO / "configs" / "train_subsets" / "d1b_confirm32.json"
+CONFIRM32_V1 = REPO / "configs" / "train_subsets" / "d1b_confirm32.json"
+CONFIRM32 = REPO / "configs" / "train_subsets" / "d1b_confirm32_v2.json"
+if not CONFIRM32.is_file():
+    # Until v2 is minted, fall back to v1 for disjoint integrity smoke.
+    CONFIRM32 = CONFIRM32_V1
 FROZEN_HASHES = REPO / ".cursor" / "results" / "d1b_n2_reliability" / "artifacts" / "frozen_hashes.json"
 
 
@@ -145,6 +150,57 @@ def test_selection_tiebreak_catastrophic_then_duration_then_tf():
     assert select_fr_checkpoint([e, f])["selected"]["ckpt"] == "tf_low.pt"
 
 
+def test_selection_rejects_null_teacher_forced_ce():
+    cands = [
+        {
+            "ckpt": "a.pt",
+            "step": 250,
+            "macro_cer": 0.03,
+            "n_catastrophic": 0,
+            "mean_dur_ratio": 1.0,
+            "runaway_or_repetition": False,
+            "teacher_forced_ce": None,
+        },
+        {
+            "ckpt": "b.pt",
+            "step": 750,
+            "macro_cer": 0.03,
+            "n_catastrophic": 0,
+            "mean_dur_ratio": 1.0,
+            "runaway_or_repetition": False,
+            "teacher_forced_ce": 0.006,
+        },
+    ]
+    with pytest.raises(ValueError, match="teacher_forced_ce"):
+        select_fr_checkpoint(cands, selection_subset="select8")
+
+
+def test_selection_tf_ce_prefers_750_over_250_when_earlier_keys_tie():
+    """Regression: null CE → Infinity previously selected min step (250)."""
+    base = {
+        "macro_cer": 0.032569176319176316,
+        "n_catastrophic": 0,
+        "mean_dur_ratio": 1.0094491525423728,
+        "runaway_or_repetition": False,
+    }
+    c250 = {
+        **base,
+        "ckpt": "candidate_step_0250.pt",
+        "step": 250,
+        "teacher_forced_ce": 0.01815,
+    }
+    c750 = {
+        **base,
+        "ckpt": "candidate_step_0750.pt",
+        "step": 750,
+        "teacher_forced_ce": 0.00628,
+    }
+    out = select_fr_checkpoint([c250, c750], selection_subset="select8")
+    assert out["selected"]["step"] == 750
+    assert out["selected"]["ckpt"] == "candidate_step_0750.pt"
+    assert out["selected"]["selection_key"][-1] == pytest.approx(0.00628)
+
+
 def test_selection_key_tuple_shape():
     key = selection_sort_key(
         {
@@ -164,8 +220,8 @@ def test_stability_acceptance():
         "runaway_or_repetition": False,
         "cb0": {"cb0_max_run": 8},
         "rows": [
-            {"n_frames": 100, "gt_frames": 100},
-            {"n_frames": 105, "gt_frames": 100},
+            {"n_frames": 100, "gt_frames": 100, "stop_reason": "stop_head", "hyp": "привет мир"},
+            {"n_frames": 105, "gt_frames": 100, "stop_reason": "stop_head", "hyp": "другая фраза"},
         ],
     }
     st = stability_acceptance(good)
@@ -174,16 +230,55 @@ def test_stability_acceptance():
     bad_run = {
         "runaway_or_repetition": False,
         "cb0": {"cb0_max_run": 13},
-        "rows": [{"n_frames": 100, "gt_frames": 100}],
+        "rows": [{"n_frames": 100, "gt_frames": 100, "stop_reason": "stop_head"}],
     }
     assert stability_acceptance(bad_run)["pass"] is False
 
     bad_ratio = {
         "runaway_or_repetition": False,
         "cb0": {"cb0_max_run": 4},
-        "rows": [{"n_frames": 300, "gt_frames": 100}],
+        "rows": [{"n_frames": 300, "gt_frames": 100, "stop_reason": "stop_head"}],
     }
     assert stability_acceptance(bad_ratio)["pass"] is False
+
+    bad_hard_cap = {
+        "runaway_or_repetition": False,
+        "cb0": {"cb0_max_run": 4},
+        "stop_reason_distribution": {"hard_cap": 5, "stop_head": 27},
+        "rows": [
+            {"n_frames": 100, "gt_frames": 100, "stop_reason": "hard_cap", "hyp": "ok"},
+            {"n_frames": 100, "gt_frames": 100, "stop_reason": "stop_head", "hyp": "ok"},
+        ],
+    }
+    st_hc = stability_acceptance(bad_hard_cap)
+    assert st_hc["pass"] is False
+    assert st_hc["hard_cap_ok"] is False
+    assert st_hc["hard_cap_count"] == 5
+
+
+def test_phrase_loop_detector():
+    hyp = (
+        "Я кинул повестку в мусорный бак. Милиция затем приходила еще раза четыре. "
+        "И я всегда узнавал об этом заранее. И я всегда узнавал об этом заранее."
+    )
+    assert hyp_has_phrase_loop(hyp) is True
+    assert hyp_has_phrase_loop("короткая фраза без повторов здесь") is False
+
+    report = {
+        "runaway_or_repetition": False,
+        "cb0": {"cb0_max_run": 4},
+        "rows": [
+            {
+                "n_frames": 120,
+                "gt_frames": 120,
+                "stop_reason": "stop_head",
+                "hyp": hyp,
+            }
+        ],
+    }
+    st = stability_acceptance(report)
+    assert st["pass"] is False
+    assert st["phrase_loop_repetition"] is True
 
 
 def test_text_usage_acceptance():

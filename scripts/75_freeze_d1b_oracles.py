@@ -408,6 +408,8 @@ def freeze_confirm32(
     version: str,
     seed: int,
     out_path: Path,
+    exclude_utt_ids: Sequence[str] | None = None,
+    confirm_id: str = "d1b_confirm32",
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     _refuse_overwrite(out_path, version)
 
@@ -416,12 +418,13 @@ def freeze_confirm32(
     for name in ("val", "test", "review"):
         held_out[name] = set(_load_utt_ids(trackn_paths[name]))
     dev_set = set(dev32_ids)
+    burned = set(exclude_utt_ids or [])
 
     rows = read_manifest(manifest_path)
     by_id = {r.utt_id: r for r in rows}
 
-    # Eligible = trackn_train minus DEV32 (val/test/review already outside train).
-    pool_ids = sorted(train_ids - dev_set)
+    # Eligible = trackn_train minus DEV32 and any burned/excluded confirm ids.
+    pool_ids = sorted(train_ids - dev_set - burned)
     leak_hits = {
         "dev32∩confirm_pool_before": sorted(dev_set & set(pool_ids))[:20],
         "train∩val": sorted(train_ids & held_out["val"])[:5],
@@ -457,6 +460,8 @@ def freeze_confirm32(
     utt_ids = [r.utt_id for r in selected]
     if set(utt_ids) & dev_set:
         raise SystemExit("CONFIRM32 overlaps DEV32 after selection")
+    if set(utt_ids) & burned:
+        raise SystemExit("CONFIRM32 overlaps excluded/burned utterance ids")
 
     # Fingerprint uniqueness.
     fps = [_audio_fingerprint(r) for r in selected]
@@ -479,8 +484,10 @@ def freeze_confirm32(
         "ok": True,
         "seed": seed,
         "n_confirm": len(utt_ids),
+        "n_excluded_burned": len(burned),
         "overlaps": {
             "confirm∩dev32": sorted(confirm_set & dev_set),
+            "confirm∩burned_exclude": sorted(confirm_set & burned),
             "confirm∩val": sorted(confirm_set & held_out["val"]),
             "confirm∩test": sorted(confirm_set & held_out["test"]),
             "confirm∩review": sorted(confirm_set & held_out["review"]),
@@ -521,11 +528,12 @@ def freeze_confirm32(
         _duration_bucket(float(r.dur_s or 0.0), edges) for r in selected
     )
     payload = {
-        "id": "d1b_confirm32",
+        "id": confirm_id,
         "version": version,
         "description": (
-            "D1b confirmation oracle — disjoint from DEV32; train+score on same 32. "
-            f"Frozen with seed={seed}."
+            "D1b confirmation oracle — disjoint from DEV32"
+            + (" and burned prior CONFIRM" if burned else "")
+            + f"; train+score on same 32. Frozen with seed={seed}."
         ),
         "kind": "utt_ids",
         "role": "confirmation_oracle",
@@ -534,11 +542,13 @@ def freeze_confirm32(
         "source": {
             "seed": seed,
             "selection": (
-                "trackn_train minus DEV32/val/test/review; "
-                f"ratio ruslan={n_ruslan} cv={n_cv}; "
+                "trackn_train minus DEV32/val/test/review"
+                + ("/burned_confirm" if burned else "")
+                + f"; ratio ruslan={n_ruslan} cv={n_cv}; "
                 "duration tertile coverage; CV speaker diversity; "
                 f"seed={seed}"
             ),
+            "excluded_utt_ids_n": len(burned),
             "hashes": source_hashes,
             "speakers": len({r.effective_speaker_id() for r in selected}),
             "hours": hours,
@@ -632,12 +642,14 @@ def _mirror_frozen(
             "file_sha256": dev.get("file_sha256"),
         },
         "confirm32": {
-            "path": "configs/train_subsets/d1b_confirm32.json",
+            "path": str(confirm.get("id") or "d1b_confirm32"),
+            "id": confirm.get("id"),
             "version": confirm["version"],
             "n": confirm["n"],
             "items_sha256": confirm["items_sha256"],
             "file_sha256": confirm.get("file_sha256"),
             "split_hashes": confirm["split_hashes"],
+            "seed": (confirm.get("source") or {}).get("seed"),
         },
         "frozen_mirrors": paths,
         "disjoint_dev_confirm": selection_report["disjoint"],
@@ -653,6 +665,17 @@ def main(argv: Sequence[str] | None = None) -> int:
     ap.add_argument("--manifest", default=DEFAULT_MANIFEST)
     ap.add_argument("--dev-out", default="configs/train_subsets/d1b_dev32.json")
     ap.add_argument("--confirm-out", default="configs/train_subsets/d1b_confirm32.json")
+    ap.add_argument(
+        "--confirm-id",
+        default="d1b_confirm32",
+        help="JSON id field (use d1b_confirm32_v2 for replacement series)",
+    )
+    ap.add_argument(
+        "--exclude-utt-json",
+        action="append",
+        default=[],
+        help="Subset JSON whose utt_ids are excluded from CONFIRM pool (repeatable)",
+    )
     ap.add_argument(
         "--frozen-dir",
         default=f"out/{PLAN_SLUG}/frozen",
@@ -688,6 +711,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             dev["file_sha256"] = _sha256_file(dev_out)
 
     if not args.dev_only:
+        exclude_ids: list[str] = []
+        for raw in args.exclude_utt_json or []:
+            payload = _load_json(_resolve_repo(raw))
+            exclude_ids.extend(str(x) for x in payload.get("utt_ids") or [])
         confirm, leak = freeze_confirm32(
             manifest_path=manifest_path,
             trackn_paths=trackn_paths,
@@ -695,6 +722,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             version=args.version,
             seed=int(args.seed),
             out_path=confirm_out,
+            exclude_utt_ids=exclude_ids,
+            confirm_id=str(args.confirm_id),
         )
     else:
         confirm = _load_json(confirm_out)

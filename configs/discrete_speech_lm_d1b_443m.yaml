@@ -67,7 +67,7 @@ train:
   # Committed contract; runtime may mirror under out/d1b_n2_reliability/frozen/.
   eval_contract_path: configs/eval_contracts/d1b_n2_reliability.json
   # Content sha256 of eval_contract body (field ``sha256``), not file bytes.
-  eval_contract_hash: 3d13929cac6b06bbdf8a69b8556768104c3cbbb678b907a61176f51d1574381f
+  eval_contract_hash: d04295d3ac9864afe5002a8470baead8f5f57a3c8f8d38831fe134aa7feada92
   stages:
     - name: S1
       # Utterances come from frozen subset (not silent first-N).

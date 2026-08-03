@@ -1,0 +1,196 @@
+{
+  "id": "d1b_confirm32_v2",
+  "version": "2.0.0",
+  "description": "D1b confirmation oracle — disjoint from DEV32 and burned prior CONFIRM; train+score on same 32. Frozen with seed=20260804.",
+  "kind": "utt_ids",
+  "role": "confirmation_oracle",
+  "n": 32,
+  "items_sha256": "63d7e351602e62d26196d944cd1f7a9e928a241e70d968f6eb58c0d1b7a746b9",
+  "source": {
+    "seed": 20260804,
+    "selection": "trackn_train minus DEV32/val/test/review/burned_confirm; ratio ruslan=6 cv=26; duration tertile coverage; CV speaker diversity; seed=20260804",
+    "excluded_utt_ids_n": 32,
+    "hashes": {
+      "manifest": "/home/adam/datasets/tts/multicorpus/manifest.jsonl",
+      "manifest_sha256": "da8ac23b4062a48c6aff559d9dc479192bd16af55bcc643f68df1d0c4cc75f88",
+      "trackn_sets": {
+        "train": {
+          "path": "/mnt/c/projects/tts-self/configs/eval_sets/trackn_train.json",
+          "file_sha256": "ad39db6632c4ac197443da5312d497d72355cccdd383e150ab5b508d7edaeaf7",
+          "items_sha256": "4cdfe65dc87e2f389874fa1fa58690515c19b3a841d1e1d626795a1fc2edd25f",
+          "n": 51234
+        },
+        "val": {
+          "path": "/mnt/c/projects/tts-self/configs/eval_sets/trackn_val.json",
+          "file_sha256": "4d8007f9b109da04a22a9451b5be75544614e664fe0ce937453090cfe912522c",
+          "items_sha256": "6675239d9e082b837d6d3f296f0c82466e36844a163a073e7edb8c03b86dbcc3",
+          "n": 2961
+        },
+        "test": {
+          "path": "/mnt/c/projects/tts-self/configs/eval_sets/trackn_test.json",
+          "file_sha256": "88a270905be0db14b1e336a04cde6fae95cbd0ead163fab22c4cc7af25f98d13",
+          "items_sha256": "e18adbdaaffa0744e073e52211849ace6ce9d2575effc34b2d35d14966626778",
+          "n": 3276
+        },
+        "review": {
+          "path": "/mnt/c/projects/tts-self/configs/eval_sets/trackn_review.json",
+          "file_sha256": "f83ea218610e8134c24fe209b871431e5216bf5a68c61e23062978aa2d29c057",
+          "items_sha256": "9e042217566e04be66779d42c1edf4b7bcdf6d904c8c566de58be085f8b7b7ba",
+          "n": 2430
+        }
+      },
+      "dev32_items_sha256": "c886ba31f3305546d9b4938e1cd0b7a2fa4fce738d7da342e9da2a30a28b172c"
+    },
+    "speakers": 27,
+    "hours": 0.04585832175925926,
+    "corpus_counts": {
+      "ruslan": 6,
+      "common_voice_ru_17_hf_mirror": 26
+    },
+    "duration_bucket_counts": {
+      "medium": 11,
+      "short": 10,
+      "long": 11
+    },
+    "duration_edges_s": {
+      "short_lt": 4.1835,
+      "medium_lt": 5.9475
+    },
+    "selection_report": {
+      "seed": 20260804,
+      "duration_edges_s": {
+        "short_lt": 4.1835,
+        "medium_lt": 5.9475
+      },
+      "targets": {
+        "ruslan": 6,
+        "cv": 26
+      },
+      "bucket_fills": {
+        "ruslan": {
+          "short": 2,
+          "medium": 2,
+          "long": 2
+        },
+        "common_voice_ru_17_hf_mirror": {
+          "short": 8,
+          "medium": 9,
+          "long": 9
+        }
+      },
+      "cv_speaker_unique": true,
+      "notes": []
+    }
+  },
+  "utt_ids": [
+    "ruslan_000300_RUSLAN",
+    "ruslan_001953_RUSLAN",
+    "ruslan_003243_RUSLAN",
+    "ruslan_007567_RUSLAN",
+    "ruslan_016358_RUSLAN",
+    "ruslan_019706_RUSLAN",
+    "common_voice_ru_17_hf_mirror__05e28686e9d6859a03eda142",
+    "common_voice_ru_17_hf_mirror__09cca0dfd81011c7db8c6c3c",
+    "common_voice_ru_17_hf_mirror__111e96fd9f6bd3ad42b58aa3",
+    "common_voice_ru_17_hf_mirror__1b856b47855990914170b7d7",
+    "common_voice_ru_17_hf_mirror__1fbb9856c13de8ebb46c88e0",
+    "common_voice_ru_17_hf_mirror__31ac916648a5b73dd41ab9d1",
+    "common_voice_ru_17_hf_mirror__3707e547bc79f4fd7932deee",
+    "common_voice_ru_17_hf_mirror__4824a0febf18392fb4f147f5",
+    "common_voice_ru_17_hf_mirror__512e2d48a52df030af36caf2",
+    "common_voice_ru_17_hf_mirror__53a669e8a87053787621701f",
+    "common_voice_ru_17_hf_mirror__669a448e420f987d77bae7e4",
+    "common_voice_ru_17_hf_mirror__6bfce8e8912ad4a73bac05e8",
+    "common_voice_ru_17_hf_mirror__6ea40d2d08faae79f167f039",
+    "common_voice_ru_17_hf_mirror__72925b97de78e9b8c3a69b64",
+    "common_voice_ru_17_hf_mirror__74ce9bc8f0f6346023c8eed2",
+    "common_voice_ru_17_hf_mirror__755e0a90d65f14b2a57f581e",
+    "common_voice_ru_17_hf_mirror__7d04c7ad45bc4094f5ade680",
+    "common_voice_ru_17_hf_mirror__a877879b16f0bb7f37721516",
+    "common_voice_ru_17_hf_mirror__afca7d3e78cf9e6d9e0c105f",
+    "common_voice_ru_17_hf_mirror__bce6d2f0975fcbb6ed27b543",
+    "common_voice_ru_17_hf_mirror__cff2c10e5e6b4b6cbfc425dc",
+    "common_voice_ru_17_hf_mirror__d80c4db628431b729f3fee22",
+    "common_voice_ru_17_hf_mirror__daae0a2fcadc0c9fcb48726b",
+    "common_voice_ru_17_hf_mirror__f3b42700cacfdf693b422310",
+    "common_voice_ru_17_hf_mirror__f88b0e21300a78fb0640bd62",
+    "common_voice_ru_17_hf_mirror__fb236111cebace6340085cc0"
+  ],
+  "splits": {
+    "select8": [
+      "ruslan_000300_RUSLAN",
+      "ruslan_001953_RUSLAN",
+      "common_voice_ru_17_hf_mirror__1b856b47855990914170b7d7",
+      "common_voice_ru_17_hf_mirror__3707e547bc79f4fd7932deee",
+      "common_voice_ru_17_hf_mirror__53a669e8a87053787621701f",
+      "common_voice_ru_17_hf_mirror__669a448e420f987d77bae7e4",
+      "common_voice_ru_17_hf_mirror__6bfce8e8912ad4a73bac05e8",
+      "common_voice_ru_17_hf_mirror__d80c4db628431b729f3fee22"
+    ],
+    "gate24": [
+      "ruslan_003243_RUSLAN",
+      "ruslan_007567_RUSLAN",
+      "ruslan_016358_RUSLAN",
+      "ruslan_019706_RUSLAN",
+      "common_voice_ru_17_hf_mirror__05e28686e9d6859a03eda142",
+      "common_voice_ru_17_hf_mirror__09cca0dfd81011c7db8c6c3c",
+      "common_voice_ru_17_hf_mirror__111e96fd9f6bd3ad42b58aa3",
+      "common_voice_ru_17_hf_mirror__1fbb9856c13de8ebb46c88e0",
+      "common_voice_ru_17_hf_mirror__31ac916648a5b73dd41ab9d1",
+      "common_voice_ru_17_hf_mirror__4824a0febf18392fb4f147f5",
+      "common_voice_ru_17_hf_mirror__512e2d48a52df030af36caf2",
+      "common_voice_ru_17_hf_mirror__6ea40d2d08faae79f167f039",
+      "common_voice_ru_17_hf_mirror__72925b97de78e9b8c3a69b64",
+      "common_voice_ru_17_hf_mirror__74ce9bc8f0f6346023c8eed2",
+      "common_voice_ru_17_hf_mirror__755e0a90d65f14b2a57f581e",
+      "common_voice_ru_17_hf_mirror__7d04c7ad45bc4094f5ade680",
+      "common_voice_ru_17_hf_mirror__a877879b16f0bb7f37721516",
+      "common_voice_ru_17_hf_mirror__afca7d3e78cf9e6d9e0c105f",
+      "common_voice_ru_17_hf_mirror__bce6d2f0975fcbb6ed27b543",
+      "common_voice_ru_17_hf_mirror__cff2c10e5e6b4b6cbfc425dc",
+      "common_voice_ru_17_hf_mirror__daae0a2fcadc0c9fcb48726b",
+      "common_voice_ru_17_hf_mirror__f3b42700cacfdf693b422310",
+      "common_voice_ru_17_hf_mirror__f88b0e21300a78fb0640bd62",
+      "common_voice_ru_17_hf_mirror__fb236111cebace6340085cc0"
+    ],
+    "full32": [
+      "ruslan_000300_RUSLAN",
+      "ruslan_001953_RUSLAN",
+      "ruslan_003243_RUSLAN",
+      "ruslan_007567_RUSLAN",
+      "ruslan_016358_RUSLAN",
+      "ruslan_019706_RUSLAN",
+      "common_voice_ru_17_hf_mirror__05e28686e9d6859a03eda142",
+      "common_voice_ru_17_hf_mirror__09cca0dfd81011c7db8c6c3c",
+      "common_voice_ru_17_hf_mirror__111e96fd9f6bd3ad42b58aa3",
+      "common_voice_ru_17_hf_mirror__1b856b47855990914170b7d7",
+      "common_voice_ru_17_hf_mirror__1fbb9856c13de8ebb46c88e0",
+      "common_voice_ru_17_hf_mirror__31ac916648a5b73dd41ab9d1",
+      "common_voice_ru_17_hf_mirror__3707e547bc79f4fd7932deee",
+      "common_voice_ru_17_hf_mirror__4824a0febf18392fb4f147f5",
+      "common_voice_ru_17_hf_mirror__512e2d48a52df030af36caf2",
+      "common_voice_ru_17_hf_mirror__53a669e8a87053787621701f",
+      "common_voice_ru_17_hf_mirror__669a448e420f987d77bae7e4",
+      "common_voice_ru_17_hf_mirror__6bfce8e8912ad4a73bac05e8",
+      "common_voice_ru_17_hf_mirror__6ea40d2d08faae79f167f039",
+      "common_voice_ru_17_hf_mirror__72925b97de78e9b8c3a69b64",
+      "common_voice_ru_17_hf_mirror__74ce9bc8f0f6346023c8eed2",
+      "common_voice_ru_17_hf_mirror__755e0a90d65f14b2a57f581e",
+      "common_voice_ru_17_hf_mirror__7d04c7ad45bc4094f5ade680",
+      "common_voice_ru_17_hf_mirror__a877879b16f0bb7f37721516",
+      "common_voice_ru_17_hf_mirror__afca7d3e78cf9e6d9e0c105f",
+      "common_voice_ru_17_hf_mirror__bce6d2f0975fcbb6ed27b543",
+      "common_voice_ru_17_hf_mirror__cff2c10e5e6b4b6cbfc425dc",
+      "common_voice_ru_17_hf_mirror__d80c4db628431b729f3fee22",
+      "common_voice_ru_17_hf_mirror__daae0a2fcadc0c9fcb48726b",
+      "common_voice_ru_17_hf_mirror__f3b42700cacfdf693b422310",
+      "common_voice_ru_17_hf_mirror__f88b0e21300a78fb0640bd62",
+      "common_voice_ru_17_hf_mirror__fb236111cebace6340085cc0"
+    ]
+  },
+  "split_hashes": {
+    "select8": "6667da2f8fc2c3706deff48a79489103f739419041f3fb492f5822647075a0ed",
+    "gate24": "68f8d98738114761cee86bc336be5313f3ad550519a4b6764adbdc0c4b32eda8",
+    "full32": "63d7e351602e62d26196d944cd1f7a9e928a241e70d968f6eb58c0d1b7a746b9"
+  }
+}

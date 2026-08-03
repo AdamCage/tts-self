@@ -26,6 +26,8 @@ from minispeech.data.d1b_oracles import (
     DEFAULT_EVAL_CONTRACT,
     PLAN_SLUG,
     enforce_eval_contract,
+    eval_contract_content_sha256,
+    load_eval_contract,
     load_frozen_utt_ids,
 )
 from minispeech.data.speaker_registry import SpeakerRegistry
@@ -45,7 +47,7 @@ from minispeech.eval.discrete_n2 import (
 from minispeech.frontend.normalize import normalize_for_asr
 from minispeech.infer.discrete_config import GENERATE_INFER_KEYS
 from minispeech.models.discrete_speech_lm import build_discrete_speech_lm
-from minispeech.utils import expand, load_yaml, set_seed
+from minispeech.utils import expand, git_is_dirty, git_sha, load_yaml, set_seed
 
 
 def _load_model(ckpt: Path, device: torch.device):
@@ -386,11 +388,42 @@ def _score_n2_bundle(
     out_dir: Path,
     copy_synth_ceiling: float,
     d1b: bool = True,
+    eval_contract: str | None = None,
+    skip_eval_contract: bool = False,
 ) -> int:
     """ASR-score a decode-only bundle (main venv with openai-whisper)."""
     import soundfile as sf
 
     bundle = json.loads(bundle_path.read_text(encoding="utf-8"))
+    provenance = dict(bundle.get("provenance") or {})
+    if d1b and not skip_eval_contract:
+        live_infer = None
+        model_infer = ((bundle.get("reports") or {}).get("model") or {}).get("infer")
+        if isinstance(model_infer, dict):
+            live_infer = model_infer
+        enforce_eval_contract(
+            None,
+            contract_path=eval_contract or provenance.get("eval_contract_path") or DEFAULT_EVAL_CONTRACT,
+            subset_items_sha256=provenance.get("subset_items_sha256"),
+            subset_label=provenance.get("subset_label"),
+            require_clean_sha=False,
+            expected_contract_sha256=provenance.get("eval_contract_sha256"),
+            live_infer=live_infer,
+        )
+        # Fail-closed: decode must have recorded frozen max_frames.
+        mf = None
+        if isinstance(live_infer, dict):
+            mf = live_infer.get("max_frames")
+        contract = load_eval_contract(
+            eval_contract or provenance.get("eval_contract_path") or DEFAULT_EVAL_CONTRACT
+        )
+        frozen_mf = int((contract.get("infer") or {}).get("max_frames") or 750)
+        if mf is not None and int(mf) != frozen_mf:
+            raise SystemExit(
+                f"--score-only refuse: bundle max_frames={mf} != frozen {frozen_mf} "
+                "(GT-derived clamps are forbidden on D1b)"
+            )
+
     asr = load_asr_engine(asr_config)
     scored: dict[str, Any] = {}
     for name, rep in bundle["reports"].items():
@@ -447,6 +480,13 @@ def _score_n2_bundle(
         "wav_dir": bundle.get("wav_dir"),
         "decode_bundle": str(bundle_path),
         "eval_out": str(out_dir),
+    }
+    gate["teacher_forced_ce"] = bundle.get("teacher_forced_ce")
+    gate["provenance"] = {
+        **provenance,
+        "git_sha_score": git_sha(),
+        "git_dirty_score": git_is_dirty(),
+        "score_only": True,
     }
     if "enriched_reports" not in gate:
         gate["reports"] = {
@@ -660,6 +700,8 @@ def main() -> int:
             out_dir=out_dir,
             copy_synth_ceiling=float(args.copy_synth_ceiling),
             d1b=d1b,
+            eval_contract=args.eval_contract,
+            skip_eval_contract=bool(args.skip_eval_contract),
         )
 
     if not args.ckpt or not args.codec_tokens_dir:
@@ -694,8 +736,9 @@ def main() -> int:
             "or --max-utts for legacy"
         )
 
+    contract_payload: dict[str, Any] | None = None
     if not args.skip_eval_contract and not args.legacy_n2:
-        enforce_eval_contract(
+        contract_payload = enforce_eval_contract(
             cfg,
             contract_path=args.eval_contract,
             subset_items_sha256=subset_digest,
@@ -775,9 +818,19 @@ def main() -> int:
             or cfg.get("infer", {}).get("max_frames")
             or 750
         )
-        # Safety ceiling well above GT; real stop should fire earlier.
-        gt_max = max(int(r["codes"].shape[0]) for r in rows)
-        max_frames = min(max_frames, max(64, int(gt_max * 2.5) + 16))
+        if d1b:
+            # Frozen WAVE3c / eval_contract max_frames must not be GT-clamped.
+            frozen_mf = 750
+            if contract_payload is not None:
+                frozen_mf = int((contract_payload.get("infer") or {}).get("max_frames") or 750)
+            if int(max_frames) != int(frozen_mf):
+                raise SystemExit(
+                    f"D1b refuse max_frames={max_frames} != frozen contract {frozen_mf}"
+                )
+        else:
+            # Legacy D1 only: safety ceiling well above GT.
+            gt_max = max(int(r["codes"].shape[0]) for r in rows)
+            max_frames = min(max_frames, max(64, int(gt_max * 2.5) + 16))
 
         wav_root = expand(args.wav_dir)
         skip_asr = bool(args.decode_only)
@@ -819,11 +872,38 @@ def main() -> int:
             model, rows, out_wav_dir=wav_root / "mask_text", condition="mask_text", **common
         )
 
+        tf_ce = summary.get("loss")
+        provenance = {
+            "git_sha": git_sha(),
+            "git_dirty": git_is_dirty(),
+            "subset_label": subset_label,
+            "subset_split": args.subset_split,
+            "subset_items_sha256": subset_digest,
+            "eval_contract_path": str(
+                (contract_payload or {}).get("_path")
+                or args.eval_contract
+                or DEFAULT_EVAL_CONTRACT
+            ),
+            "eval_contract_sha256": (
+                str((contract_payload or {}).get("sha256"))
+                if contract_payload is not None
+                else (
+                    eval_contract_content_sha256(load_eval_contract(args.eval_contract))
+                    if not args.legacy_n2 and not args.skip_eval_contract
+                    else None
+                )
+            ),
+            "max_frames": int(max_frames),
+            "teacher_forced_ce": tf_ce,
+        }
+
         if args.decode_only:
             bundle = {
                 "ckpt": str(expand(args.ckpt)),
                 "wav_dir": str(wav_root),
                 "copy_synth_ceiling": float(args.copy_synth_ceiling),
+                "teacher_forced_ce": tf_ce,
+                "provenance": provenance,
                 "reports": {
                     "model": model_rep,
                     "copy_synth": copy_rep,
@@ -886,6 +966,8 @@ def main() -> int:
                 "eval_out": str(out_dir),
                 "tf_summary": str(out_dir / "eval_summary.json"),
             }
+            gate["teacher_forced_ce"] = tf_ce
+            gate["provenance"] = provenance
             # Attach acceptance helpers explicitly for consumers / selection
             gate["text_usage_acceptance"] = text_usage_acceptance(
                 model_cer=float(gate["criteria"]["fr_cer"]),

@@ -341,8 +341,9 @@ def stability_acceptance(
     mean_hi: float = STABILITY_MEAN_RATIO_HI,
     utt_lo: float = STABILITY_UTT_RATIO_LO,
     utt_hi: float = STABILITY_UTT_RATIO_HI,
+    allow_hard_cap: bool = False,
 ) -> dict[str, Any]:
-    """D1b stability: no runaway; cb0_max_run<=12; mean ratio in [0.9,1.1]; no utt extremes."""
+    """D1b stability: no runaway/phrase-loop; no hard_cap; cb0/duration bounds."""
     cb0 = model_report.get("cb0") or {}
     ratios = model_report.get("duration_ratios")
     if ratios is None:
@@ -352,8 +353,17 @@ def stability_acceptance(
     if mean_r is None:
         mean_r = model_report.get("mean_dur_ratio")
     runaway = bool(model_report.get("runaway_or_repetition"))
+    phrase_loop = bool(model_report.get("phrase_loop_repetition"))
+    if not phrase_loop:
+        phrase_loop = any(
+            hyp_has_phrase_loop(str(r.get("hyp") or ""))
+            for r in (model_report.get("rows") or [])
+        )
+    n_hard_cap = hard_cap_count(report=model_report)
     max_run = int(cb0.get("cb0_max_run", 0) or 0)
     no_runaway = not runaway
+    no_phrase_loop = not phrase_loop
+    hard_cap_ok = allow_hard_cap or n_hard_cap == 0
     cb0_ok = max_run <= int(max_cb0_run)
     mean_ok = (
         mean_r is not None
@@ -365,6 +375,10 @@ def stability_acceptance(
     return {
         "runaway_or_repetition": runaway,
         "no_runaway": no_runaway,
+        "phrase_loop_repetition": phrase_loop,
+        "no_phrase_loop": no_phrase_loop,
+        "hard_cap_count": n_hard_cap,
+        "hard_cap_ok": bool(hard_cap_ok),
         "cb0_max_run": max_run,
         "cb0_max_run_limit": int(max_cb0_run),
         "cb0_max_run_ok": cb0_ok,
@@ -376,7 +390,9 @@ def stability_acceptance(
         "utt_ratio_limits": [utt_lo, utt_hi],
         "no_extreme_utt_ratios": no_extreme,
         "duration_ratio_distribution": dist,
-        "pass": bool(no_runaway and cb0_ok and mean_ok and no_extreme),
+        "pass": bool(
+            no_runaway and no_phrase_loop and hard_cap_ok and cb0_ok and mean_ok and no_extreme
+        ),
     }
 
 
@@ -387,6 +403,84 @@ def abs_log_duration_ratio(mean_dur_ratio: float | None) -> float:
     if r <= 0.0 or math.isnan(r) or math.isinf(r):
         return float("inf")
     return abs(math.log(r))
+
+
+def parse_teacher_forced_ce(candidate: Mapping[str, Any]) -> float | None:
+    """Return finite TF CE or None when missing/null/non-finite."""
+    raw = candidate.get("teacher_forced_ce", candidate.get("tf_ce"))
+    if raw is None:
+        return None
+    try:
+        val = float(raw)
+    except (TypeError, ValueError):
+        return None
+    if math.isnan(val) or math.isinf(val):
+        return None
+    return val
+
+
+def require_teacher_forced_ce(candidates: Sequence[Mapping[str, Any]]) -> None:
+    """Fail-closed: every candidate must carry a finite teacher_forced_ce."""
+    missing: list[str] = []
+    for i, c in enumerate(candidates):
+        if parse_teacher_forced_ce(c) is None:
+            label = str(c.get("ckpt") or c.get("step") or f"idx={i}")
+            missing.append(label)
+    if missing:
+        raise ValueError(
+            "canonical D1b selection requires finite teacher_forced_ce for every "
+            f"candidate; missing/null for: {missing}. "
+            "Do not fall back to Infinity (that incorrectly prefers min step)."
+        )
+
+
+def teacher_forced_ce_from_ckpt_metrics(metrics: Mapping[str, Any] | None) -> float | None:
+    """Prefer explicit TF CE, else train/val total loss from checkpoint metrics."""
+    if not metrics:
+        return None
+    for key in ("teacher_forced_ce", "tf_ce", "loss"):
+        if key in metrics and metrics[key] is not None:
+            try:
+                val = float(metrics[key])
+            except (TypeError, ValueError):
+                continue
+            if not (math.isnan(val) or math.isinf(val)):
+                return val
+    return None
+
+
+def hyp_has_phrase_loop(
+    hyp: str,
+    *,
+    min_words: int = 3,
+    min_repeats: int = 2,
+    max_phrase_words: int = 12,
+) -> bool:
+    """Detect consecutive phrase/loop repetition in ASR hyp text."""
+    words = word_tokens(hyp or "")
+    if len(words) < min_words * min_repeats:
+        return False
+    upper = min(max_phrase_words, len(words) // min_repeats)
+    for n in range(min_words, upper + 1):
+        span = n * min_repeats
+        for i in range(0, len(words) - span + 1):
+            phrase = tuple(words[i : i + n])
+            if all(tuple(words[i + r * n : i + (r + 1) * n]) == phrase for r in range(1, min_repeats)):
+                return True
+    return False
+
+
+def hard_cap_count(rows: Sequence[Mapping[str, Any]] | None = None, report: Mapping[str, Any] | None = None) -> int:
+    if report is not None:
+        dist = report.get("stop_reason_distribution") or {}
+        if "hard_cap" in dist:
+            return int(dist.get("hard_cap") or 0)
+        rows = rows or report.get("rows") or []
+    n = 0
+    for r in rows or []:
+        if str(r.get("stop_reason") or "") == "hard_cap":
+            n += 1
+    return n
 
 
 def is_gate_eligible(candidate: Mapping[str, Any]) -> bool:
@@ -403,6 +497,9 @@ def selection_sort_key(candidate: Mapping[str, Any]) -> tuple:
 
     Prefer: gate-eligible → min macro CER → fewer catastrophics →
     smaller |log(mean_dur_ratio)| → lower teacher-forced CE.
+
+    Callers must run :func:`require_teacher_forced_ce` for canonical D1b so
+    null CE cannot collapse to Infinity and select the minimal step.
     """
     eligible = is_gate_eligible(candidate)
     macro = candidate.get("macro_cer", candidate.get("mean_cer", float("inf")))
@@ -419,13 +516,13 @@ def selection_sort_key(candidate: Mapping[str, Any]) -> tuple:
     except (TypeError, ValueError):
         mean_dur_f = None
     abs_log = abs_log_duration_ratio(mean_dur_f)
-    tf = candidate.get("teacher_forced_ce", candidate.get("tf_ce", float("inf")))
-    try:
-        tf_f = float(tf)
-    except (TypeError, ValueError):
-        tf_f = float("inf")
-    if math.isnan(tf_f):
-        tf_f = float("inf")
+    tf_f = parse_teacher_forced_ce(candidate)
+    if tf_f is None:
+        raise ValueError(
+            "selection_sort_key requires finite teacher_forced_ce; "
+            f"got {candidate.get('teacher_forced_ce', candidate.get('tf_ce'))!r} "
+            f"for ckpt={candidate.get('ckpt')!r} step={candidate.get('step')!r}"
+        )
     return (
         0 if eligible else 1,
         macro_f,
@@ -439,10 +536,13 @@ def select_fr_checkpoint(
     candidates: Sequence[Mapping[str, Any]],
     *,
     selection_subset: str | None = None,
+    require_tf_ce: bool = True,
 ) -> dict[str, Any]:
     """Pick best candidate by lexicographic key; never renames files to best.pt."""
     if not candidates:
         raise ValueError("no candidates to select")
+    if require_tf_ce:
+        require_teacher_forced_ce(candidates)
     rows: list[dict[str, Any]] = []
     for i, c in enumerate(candidates):
         row = dict(c)
@@ -478,7 +578,8 @@ def select_fr_checkpoint(
         "note": (
             "Selected checkpoint must be copied/symlinked to best.pt only after this "
             "file is written. Candidates must not be named best.pt before selection. "
-            "CONFIRM selection uses select8 only."
+            "CONFIRM selection uses select8 only. "
+            "Canonical D1b selection requires finite teacher_forced_ce (fail-closed)."
         ),
     }
 
@@ -517,10 +618,24 @@ def enrich_model_report(
     out["duration_ratio_distribution"] = dist
     out["mean_dur_ratio"] = dist.get("mean")
     out["stop_reason_distribution"] = stop_reason_distribution(rows)
-    # Runaway: duration>3x or long CB0 run (legacy) OR stability extreme
+    # Runaway / repetition: duration>3x, long CB0 run, phrase loops, or hard_cap hits.
     cb0 = out.get("cb0") or {}
-    runaway = any(r > 3.0 for r in ratios) or int(cb0.get("cb0_max_run", 0) or 0) >= 64
+    phrase_loop_rows = [
+        str(r.get("utt_id") or i)
+        for i, r in enumerate(rows)
+        if hyp_has_phrase_loop(str(r.get("hyp") or ""))
+    ]
+    out["phrase_loop_repetition"] = bool(phrase_loop_rows)
+    out["phrase_loop_utt_ids"] = phrase_loop_rows
+    n_hard_cap = hard_cap_count(rows=rows)
+    runaway = (
+        any(r > 3.0 for r in ratios)
+        or int(cb0.get("cb0_max_run", 0) or 0) >= 64
+        or bool(phrase_loop_rows)
+        or n_hard_cap > 0
+    )
     out["runaway_or_repetition"] = bool(out.get("runaway_or_repetition", False) or runaway)
+    out["hard_cap_count"] = n_hard_cap
     return out
 
 

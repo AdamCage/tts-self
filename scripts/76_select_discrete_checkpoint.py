@@ -17,13 +17,21 @@ import shutil
 from pathlib import Path
 from typing import Any
 
-from minispeech.data.d1b_oracles import items_sha256, load_frozen_utt_ids
+from minispeech.data.d1b_oracles import (
+    DEFAULT_EVAL_CONTRACT,
+    eval_contract_content_sha256,
+    items_sha256,
+    load_eval_contract,
+    load_frozen_utt_ids,
+)
 from minispeech.eval.discrete_n2 import (
     candidate_from_eval_report,
     fr_candidate_steps,
+    parse_teacher_forced_ce,
     select_fr_checkpoint,
+    teacher_forced_ce_from_ckpt_metrics,
 )
-from minispeech.utils import expand
+from minispeech.utils import expand, git_sha
 
 
 def _load_json(path: Path) -> Any:
@@ -67,6 +75,35 @@ def _normalize_candidate(raw: dict[str, Any]) -> dict[str, Any]:
     )
 
 
+def _tf_ce_from_ckpt(ckpt_path: str | Path | None) -> float | None:
+    if not ckpt_path:
+        return None
+    path = expand(ckpt_path)
+    if not path.is_file():
+        return None
+    try:
+        import torch
+
+        payload = torch.load(path, map_location="cpu", weights_only=False)
+    except Exception:  # noqa: BLE001
+        return None
+    metrics = payload.get("metrics") if isinstance(payload, dict) else None
+    if isinstance(metrics, dict):
+        return teacher_forced_ce_from_ckpt_metrics(metrics)
+    return None
+
+
+def _ensure_teacher_forced_ce(candidates: list[dict[str, Any]]) -> None:
+    """Fill TF CE from ckpt metrics when missing; still fail-closed afterward."""
+    for c in candidates:
+        if parse_teacher_forced_ce(c) is not None:
+            continue
+        filled = _tf_ce_from_ckpt(c.get("ckpt") or c.get("checkpoint"))
+        if filled is not None:
+            c["teacher_forced_ce"] = filled
+            c["teacher_forced_ce_source"] = "ckpt_metrics"
+
+
 def _load_candidates(args: argparse.Namespace) -> list[dict[str, Any]]:
     candidates: list[dict[str, Any]] = []
     if args.candidates_json:
@@ -103,6 +140,7 @@ def _load_candidates(args: argparse.Namespace) -> list[dict[str, Any]]:
     if args.selection_subset:
         for c in candidates:
             c["selection_subset"] = args.selection_subset
+    _ensure_teacher_forced_ce(candidates)
     return candidates
 
 
@@ -180,6 +218,16 @@ def main() -> int:
         action="store_true",
         help="With --print-schedule, include 1000/1250 DEV extension steps",
     )
+    ap.add_argument(
+        "--eval-contract",
+        default=DEFAULT_EVAL_CONTRACT,
+        help="Frozen eval_contract.json (hash stamped into selection JSON)",
+    )
+    ap.add_argument(
+        "--allow-missing-tf-ce",
+        action="store_true",
+        help="NON-CANONICAL: allow null TF CE (Infinity tie-break). Forbidden for D1b.",
+    )
     args = ap.parse_args()
 
     if args.print_schedule:
@@ -236,10 +284,28 @@ def main() -> int:
                     )
                 c["items_sha256"] = expected_sha
 
-    result = select_fr_checkpoint(candidates, selection_subset=subset)
+    try:
+        result = select_fr_checkpoint(
+            candidates,
+            selection_subset=subset,
+            require_tf_ce=not bool(args.allow_missing_tf_ce),
+        )
+    except ValueError as exc:
+        raise SystemExit(str(exc)) from exc
     if expected_sha is not None:
         result["items_sha256"] = expected_sha
         result["selection_subset_verified"] = True
+    contract = load_eval_contract(args.eval_contract)
+    result["provenance"] = {
+        "git_sha": git_sha(),
+        "eval_contract_path": str(contract.get("_path") or args.eval_contract),
+        "eval_contract_sha256": str(
+            contract.get("sha256") or eval_contract_content_sha256(contract)
+        ),
+        "selection_subset": subset,
+        "items_sha256": expected_sha,
+        "require_teacher_forced_ce": not bool(args.allow_missing_tf_ce),
+    }
     out_path = expand(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

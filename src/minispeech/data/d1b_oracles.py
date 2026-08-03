@@ -20,14 +20,19 @@ DEFAULT_EVAL_CONTRACT = "configs/eval_contracts/d1b_n2_reliability.json"
 DEFAULT_EVAL_CONTRACT_OUT = f"out/{PLAN_SLUG}/frozen/eval_contract.json"
 
 # Alias → (subset JSON path, split key). ``full32`` on DEV means top-level utt_ids.
+# Canonical CONFIRM aliases point at v2 (burned v1 kept under confirm32_v1).
 SUBSET_ALIASES: dict[str, tuple[str, str]] = {
     "dev32": ("configs/train_subsets/d1b_dev32.json", "full32"),
     "d1b_dev32": ("configs/train_subsets/d1b_dev32.json", "full32"),
-    "confirm32": ("configs/train_subsets/d1b_confirm32.json", "full32"),
-    "d1b_confirm32": ("configs/train_subsets/d1b_confirm32.json", "full32"),
-    "select8": ("configs/train_subsets/d1b_confirm32.json", "select8"),
-    "gate24": ("configs/train_subsets/d1b_confirm32.json", "gate24"),
-    "full32": ("configs/train_subsets/d1b_confirm32.json", "full32"),
+    "confirm32": ("configs/train_subsets/d1b_confirm32_v2.json", "full32"),
+    "d1b_confirm32": ("configs/train_subsets/d1b_confirm32_v2.json", "full32"),
+    "confirm32_v2": ("configs/train_subsets/d1b_confirm32_v2.json", "full32"),
+    "d1b_confirm32_v2": ("configs/train_subsets/d1b_confirm32_v2.json", "full32"),
+    "confirm32_v1": ("configs/train_subsets/d1b_confirm32.json", "full32"),
+    "d1b_confirm32_v1": ("configs/train_subsets/d1b_confirm32.json", "full32"),
+    "select8": ("configs/train_subsets/d1b_confirm32_v2.json", "select8"),
+    "gate24": ("configs/train_subsets/d1b_confirm32_v2.json", "gate24"),
+    "full32": ("configs/train_subsets/d1b_confirm32_v2.json", "full32"),
 }
 
 # Content sha256 of configs/speaker_maps/trackn_v2.json (SpeakerRegistry.sha256).
@@ -169,6 +174,16 @@ def expand_path_template(path: str | Path, mapping: Mapping[str, Any]) -> Path:
     return expand(s)
 
 
+def eval_contract_content_sha256(contract: Mapping[str, Any]) -> str:
+    """Content sha256 of eval_contract body (excluding ``sha256`` / private keys)."""
+    body = {
+        k: v
+        for k, v in contract.items()
+        if k != "sha256" and not str(k).startswith("_")
+    }
+    return hashlib.sha256(_canonical_json(body)).hexdigest()
+
+
 def load_eval_contract(path: str | Path | None = None) -> dict[str, Any]:
     candidates: list[Path] = []
     if path is not None:
@@ -185,6 +200,10 @@ def load_eval_contract(path: str | Path | None = None) -> dict[str, Any]:
     data = json.loads(p.read_text(encoding="utf-8"))
     if not isinstance(data, dict):
         raise ValueError(f"eval_contract must be object: {p}")
+    data = dict(data)
+    content_sha = eval_contract_content_sha256(data)
+    data["_path"] = str(p)
+    data["_content_sha256"] = content_sha
     return data
 
 
@@ -195,11 +214,13 @@ def enforce_eval_contract(
     subset_items_sha256: str | None = None,
     subset_label: str | None = None,
     require_clean_sha: bool = False,
+    expected_contract_sha256: str | None = None,
+    live_infer: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Fail-closed checks for canonical D1b train/eval/infer.
 
-    Verifies speaker-map content hash, WAVE3c infer knobs, and optional subset
-    hash against the frozen contract.
+    Verifies speaker-map content hash, WAVE3c infer knobs (including frozen
+    ``max_frames``), optional subset hash, and optional recorded contract hash.
     """
     from minispeech.infer.discrete_config import (
         contract_infer_from_eval_contract,
@@ -215,6 +236,19 @@ def enforce_eval_contract(
     )
     contract = load_eval_contract(path)
     errors: list[str] = []
+
+    content_sha = str(contract.get("_content_sha256") or eval_contract_content_sha256(contract))
+    declared = str(contract.get("sha256") or "")
+    if declared and declared != content_sha:
+        errors.append(
+            f"eval_contract.sha256 field stale: field={declared} content={content_sha}"
+        )
+    if expected_contract_sha256 and str(expected_contract_sha256) != content_sha:
+        errors.append(
+            f"eval_contract hash mismatch: expected={expected_contract_sha256} "
+            f"got={content_sha}"
+        )
+    contract["sha256"] = content_sha
 
     sp = contract.get("speaker_map") or {}
     expected_spk = str(sp.get("sha256") or sp.get("content_sha256") or "")
@@ -251,14 +285,14 @@ def enforce_eval_contract(
         diffs = infer_settings_match_wave3c(from_contract, ignore_max_frames=False)
         if diffs:
             errors.append(f"eval_contract infer knobs != WAVE3c: {diffs}")
-        if cfg is not None:
+        live = live_infer
+        if live is None and cfg is not None:
             live = resolve_discrete_infer_settings(cfg)
-            live_diffs = [
-                k for k in from_contract if k != "max_frames" and live.get(k) != from_contract.get(k)
-            ]
-            # Allow max_frames runtime clamp; other knobs must match.
+        if live is not None:
+            # Frozen max_frames must not be replaced by GT-derived clamps.
+            live_diffs = [k for k in from_contract if live.get(k) != from_contract.get(k)]
             if live_diffs:
-                errors.append(f"cfg infer != eval_contract: {live_diffs}")
+                errors.append(f"cfg/live infer != eval_contract: {live_diffs}")
     except Exception as exc:  # noqa: BLE001
         errors.append(f"infer contract check failed: {exc}")
 
@@ -270,6 +304,8 @@ def enforce_eval_contract(
             "d1b_dev32": "dev32",
             "confirm32": "confirm32",
             "d1b_confirm32": "confirm32",
+            "confirm32_v2": "confirm32",
+            "d1b_confirm32_v2": "confirm32",
             "full32": "confirm32",
             "select8": "select8",
             "gate24": "gate24",
@@ -278,6 +314,8 @@ def enforce_eval_contract(
         if alias is None:
             if "d1b_dev32" in key:
                 alias = "dev32"
+            elif "confirm32_v2" in key or "d1b_confirm32_v2" in key:
+                alias = "confirm32"
             elif "d1b_confirm32" in key or "confirm32" in key:
                 # Path to confirm32 with optional split elsewhere.
                 alias = "confirm32"
@@ -324,6 +362,7 @@ __all__ = [
     "SUBSET_ALIASES",
     "TRACKN_V2_SPEAKER_SHA256",
     "enforce_eval_contract",
+    "eval_contract_content_sha256",
     "expand_path_template",
     "file_sha256",
     "items_sha256",
