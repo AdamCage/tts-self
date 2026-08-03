@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import random
 import shutil
 from contextlib import nullcontext
@@ -19,6 +20,20 @@ from typing import Any, Callable
 
 import numpy as np
 import torch
+
+
+def _atomic_torch_save(payload: Any, path: Path | str) -> None:
+    """Write checkpoint via tmp + ``os.replace`` to avoid truncated ``.pt`` on crash."""
+    dest = Path(path)
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    tmp = dest.with_name(f".{dest.name}.tmp.{os.getpid()}")
+    try:
+        torch.save(payload, tmp)
+        os.replace(tmp, dest)
+    except Exception:
+        if tmp.exists():
+            tmp.unlink(missing_ok=True)
+        raise
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data import DataLoader
 from torch.utils.data.distributed import DistributedSampler
@@ -583,15 +598,15 @@ class DiscreteLMTrainer:
         payload = self._ckpt_payload(stage, step, metrics=metrics)
         if as_candidate:
             # Immutable FR candidate — never overwrite best.pt here.
-            torch.save(
+            _atomic_torch_save(
                 payload,
                 self.run_dir / f"candidate_step_{int(step):04d}.pt",
             )
             return
-        torch.save(payload, self.run_dir / f"{stage}_last.pt")
-        torch.save(payload, self.run_dir / "last.pt")
+        _atomic_torch_save(payload, self.run_dir / f"{stage}_last.pt")
+        _atomic_torch_save(payload, self.run_dir / "last.pt")
         if promote_best:
-            torch.save(payload, self.run_dir / "best.pt")
+            _atomic_torch_save(payload, self.run_dir / "best.pt")
             if metrics is not None:
                 (self.run_dir / "best_metrics.json").write_text(
                     json.dumps(metrics, indent=2), encoding="utf-8"
