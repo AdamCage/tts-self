@@ -48,6 +48,19 @@ def test_word_token_jaccard_basic():
     assert word_token_jaccard("", "") == 1.0
 
 
+def test_word_token_jaccard_strips_combining_stress():
+    """Stressed refs must not fragment on U+0301 (false catastrophic otherwise)."""
+    ref = "ка́к о́н зашнуро́вывает кро́шечные боти́нки"
+    hyp = "как он зашнуровывает крошечные ботинки"
+    assert word_token_jaccard(ref, hyp) == 1.0
+    # Prefix/suffix noise still high overlap — not catastrophic at CER 0.38
+    hyp_noisy = (
+        "Например, как он зашнуровывает крошечные ботинки. Хоть один да напечатает."
+    )
+    assert word_token_jaccard(ref, hyp_noisy) > 0.2
+    assert not is_catastrophic(0.379, ref, hyp_noisy)
+
+
 def test_selection_lexicographic_ordering():
     candidates = [
         {

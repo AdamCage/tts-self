@@ -16,6 +16,7 @@ from typing import Any, Mapping, Sequence
 import numpy as np
 
 from minispeech.eval.bootstrap import EditCounts, corpus_rate, paired_bootstrap_delta
+from minispeech.frontend.normalize import normalize_for_asr
 
 # Catastrophic substitution (eval_contract catastrophic.definition_version = d1b_v1).
 CATASTROPHIC_CER_GE = 0.50
@@ -55,11 +56,17 @@ def items_sha256(items: Sequence[str]) -> str:
 
 
 def word_tokens(text: str) -> list[str]:
-    return [t.lower() for t in _WORD_RE.findall(text or "")]
+    """Word tokens after ASR-normalization (strips stress/punct so refs match hyps)."""
+    norm = normalize_for_asr(text or "")
+    return [t.lower() for t in _WORD_RE.findall(norm)]
 
 
 def word_token_jaccard(ref: str, hyp: str) -> float:
-    """Jaccard over whitespace/word-regex tokens (case-insensitive)."""
+    """Jaccard over ASR-normalized word tokens (case-insensitive).
+
+    Combining acute stress in refs must not fragment tokens; this matches
+    ``eval_contract.cer_normalization`` (normalize_for_asr_v1).
+    """
     a = set(word_tokens(ref))
     b = set(word_tokens(hyp))
     if not a and not b:
