@@ -246,26 +246,37 @@ def main() -> int:
     print(json.dumps({"wrote": str(out_path), "selected": result["selected"]}, indent=2))
 
     if args.promote_best:
+        import os
+
         sel = result["selected"]
-        src = expand(str(sel["ckpt"]))
-        if not src.is_file():
-            raise SystemExit(f"selected ckpt missing on disk: {src}")
+        # Do NOT use expand()/Path.resolve() here — resolve() follows symlinks, so
+        # expand(best.pt) can equal the candidate file and unlink() destroys it.
+        def _abspath(p: str | Path) -> Path:
+            return Path(os.path.expanduser(str(p))).absolute()
+
+        src = _abspath(str(sel["ckpt"]))
+        if src.is_symlink() or not src.is_file():
+            raise SystemExit(
+                f"selected ckpt missing or is a symlink (refusing promote): {src}"
+            )
         if src.name == "best.pt":
             raise SystemExit(
                 "refusing to promote: selected path is already named best.pt "
                 "(candidates must use immutable step names until after selection)"
             )
-        dest = expand(args.best_path) if args.best_path else src.parent / "best.pt"
+        dest = _abspath(args.best_path) if args.best_path else (src.parent / "best.pt")
+        if dest == src:
+            raise SystemExit(f"refusing to promote: dest == src ({dest})")
         dest.parent.mkdir(parents=True, exist_ok=True)
         if dest.exists() or dest.is_symlink():
             dest.unlink()
-        try:
-            dest.symlink_to(src.resolve())
-            mode = "symlink"
-        except OSError:
-            shutil.copy2(src, dest)
-            mode = "copy"
-        print(json.dumps({"promoted_best": str(dest), "mode": mode, "from": str(src)}, indent=2))
+        shutil.copy2(src, dest)
+        print(
+            json.dumps(
+                {"promoted_best": str(dest), "mode": "copy", "from": str(src)},
+                indent=2,
+            )
+        )
         print("NOTE: run mandatory listen-demo after best.pt promotion (checkpoint-listen).")
 
     return 0
