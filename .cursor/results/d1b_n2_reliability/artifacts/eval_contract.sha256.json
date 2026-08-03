@@ -1,0 +1,6 @@
+{
+  "path": "configs/eval_contracts/d1b_n2_reliability.json",
+  "sha256": "d04295d3ac9864afe5002a8470baead8f5f57a3c8f8d38831fe134aa7feada92",
+  "version": "1.2.0",
+  "note": "content sha256 of body excluding sha256 field; confirm32_v2"
+}

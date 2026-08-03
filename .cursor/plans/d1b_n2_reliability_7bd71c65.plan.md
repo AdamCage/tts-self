@@ -4,28 +4,28 @@ overview: "Repair the correctness and reproducibility defects in the existing di
 todos:
   - id: repro-preflight
     content: Зафиксировать clean reproducible source state, frozen D1b subsets, hashes и eval contract до любого GPU run.
-    status: pending
+    status: completed
   - id: repair-speaker-rope
     content: Внедрить глобальный deterministic speaker registry и per-sample RoPE position IDs с batch/solo parity tests.
-    status: pending
+    status: completed
   - id: repair-trainer
     content: Перевести trainer на optimizer-step semantics, boundary checkpoints, exact resume и корректный DDP accumulation.
-    status: pending
+    status: completed
   - id: unify-stop-config
     content: Зафиксировать единый stop-head/infer contract, shared config resolver и fail-closed text-init/config validation.
-    status: pending
+    status: completed
   - id: build-fr-protocol
     content: Реализовать offline free-running checkpoint selection и расширенный N2 evaluator с catastrophic/stability metrics.
-    status: pending
+    status: completed
   - id: pass-unit-gates
     content: Пройти полный CPU/integration/DDP-smoke test matrix до создания нового checkpoint.
-    status: pending
+    status: completed
   - id: run-dev-confirm
-    content: Выполнить DEV32 seed42, затем замороженные CONFIRM32 seed42 и seed43 с обязательными wavs и без retuning.
-    status: pending
+    content: "Выполнить DEV32 seed42, затем замороженные CONFIRM32 seed42 и seed43 с обязательными wavs и без retuning. Terminal: HARD-STOP (confirm_v2 seed43 clean FAIL; seed42 diagnostic git_dirty)."
+    status: completed
   - id: package-decision
-    content: Собрать RESULTS/logs/listen_index и формальный D1b RELIABILITY PASS либо hard-stop; 1h не запускать.
-    status: pending
+    content: "Собрать RESULTS/logs/listen_index и формальный D1b RELIABILITY PASS либо hard-stop; 1h не запускать. Terminal result: HARD-STOP; prior PASS INVALID_WITHDRAWN; no 1h/5h/full; next D1c_termination_repair_only."
+    status: completed
 isProject: false
 ---
 

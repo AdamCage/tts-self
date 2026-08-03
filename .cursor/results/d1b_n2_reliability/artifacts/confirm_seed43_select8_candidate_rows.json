@@ -1,0 +1,136 @@
+[
+{
+  "ckpt": "runs/discrete_speech_lm_d1b_confirm_seed43/candidate_step_0250.pt",
+  "step": 250,
+  "selection_subset": "select8",
+  "macro_cer": 0.032569176319176316,
+  "mean_cer": 0.032569176319176316,
+  "n_catastrophic": 0,
+  "mean_dur_ratio": 1.0094491525423728,
+  "runaway_or_repetition": false,
+  "gate_eligible": true,
+  "teacher_forced_ce": null,
+  "cb0": {
+    "cb0_utilization": 0.15869140625,
+    "cb0_entropy": 5.6285714843046675,
+    "cb0_unique": 325,
+    "cb0_total_frames": 498,
+    "cb0_max_run": 4,
+    "healthy": true
+  },
+  "stop_reason_distribution": {
+    "hard_cap": 1,
+    "stop_head": 7
+  },
+  "items_sha256": "fa083ed564809c01037292b1324bced72d219610cef42757b9c5155489d62651",
+  "gate_verdict": "PASS"
+}
+,
+{
+  "ckpt": "runs/discrete_speech_lm_d1b_confirm_seed43/candidate_step_0375.pt",
+  "step": 375,
+  "selection_subset": "select8",
+  "macro_cer": 0.032569176319176316,
+  "mean_cer": 0.032569176319176316,
+  "n_catastrophic": 0,
+  "mean_dur_ratio": 1.0094491525423728,
+  "runaway_or_repetition": false,
+  "gate_eligible": true,
+  "teacher_forced_ce": null,
+  "cb0": {
+    "cb0_utilization": 0.15869140625,
+    "cb0_entropy": 5.6285714843046675,
+    "cb0_unique": 325,
+    "cb0_total_frames": 498,
+    "cb0_max_run": 4,
+    "healthy": true
+  },
+  "stop_reason_distribution": {
+    "hard_cap": 1,
+    "stop_head": 7
+  },
+  "items_sha256": "fa083ed564809c01037292b1324bced72d219610cef42757b9c5155489d62651",
+  "gate_verdict": "PASS"
+}
+,
+{
+  "ckpt": "runs/discrete_speech_lm_d1b_confirm_seed43/candidate_step_0500.pt",
+  "step": 500,
+  "selection_subset": "select8",
+  "macro_cer": 0.032569176319176316,
+  "mean_cer": 0.032569176319176316,
+  "n_catastrophic": 0,
+  "mean_dur_ratio": 1.0094491525423728,
+  "runaway_or_repetition": false,
+  "gate_eligible": true,
+  "teacher_forced_ce": null,
+  "cb0": {
+    "cb0_utilization": 0.15869140625,
+    "cb0_entropy": 5.6285714843046675,
+    "cb0_unique": 325,
+    "cb0_total_frames": 498,
+    "cb0_max_run": 4,
+    "healthy": true
+  },
+  "stop_reason_distribution": {
+    "hard_cap": 1,
+    "stop_head": 7
+  },
+  "items_sha256": "fa083ed564809c01037292b1324bced72d219610cef42757b9c5155489d62651",
+  "gate_verdict": "PASS"
+}
+,
+{
+  "ckpt": "runs/discrete_speech_lm_d1b_confirm_seed43/candidate_step_0625.pt",
+  "step": 625,
+  "selection_subset": "select8",
+  "macro_cer": 0.032569176319176316,
+  "mean_cer": 0.032569176319176316,
+  "n_catastrophic": 0,
+  "mean_dur_ratio": 1.0094491525423728,
+  "runaway_or_repetition": false,
+  "gate_eligible": true,
+  "teacher_forced_ce": null,
+  "cb0": {
+    "cb0_utilization": 0.15869140625,
+    "cb0_entropy": 5.6285714843046675,
+    "cb0_unique": 325,
+    "cb0_total_frames": 498,
+    "cb0_max_run": 4,
+    "healthy": true
+  },
+  "stop_reason_distribution": {
+    "hard_cap": 1,
+    "stop_head": 7
+  },
+  "items_sha256": "fa083ed564809c01037292b1324bced72d219610cef42757b9c5155489d62651",
+  "gate_verdict": "PASS"
+}
+,
+{
+  "ckpt": "runs/discrete_speech_lm_d1b_confirm_seed43/candidate_step_0750.pt",
+  "step": 750,
+  "selection_subset": "select8",
+  "macro_cer": 0.032569176319176316,
+  "mean_cer": 0.032569176319176316,
+  "n_catastrophic": 0,
+  "mean_dur_ratio": 1.0094491525423728,
+  "runaway_or_repetition": false,
+  "gate_eligible": true,
+  "teacher_forced_ce": null,
+  "cb0": {
+    "cb0_utilization": 0.15869140625,
+    "cb0_entropy": 5.6285714843046675,
+    "cb0_unique": 325,
+    "cb0_total_frames": 498,
+    "cb0_max_run": 4,
+    "healthy": true
+  },
+  "stop_reason_distribution": {
+    "hard_cap": 1,
+    "stop_head": 7
+  },
+  "items_sha256": "fa083ed564809c01037292b1324bced72d219610cef42757b9c5155489d62651",
+  "gate_verdict": "PASS"
+}
+]

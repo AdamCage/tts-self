@@ -1,0 +1,48 @@
+{
+  "ok": true,
+  "seed": 20260803,
+  "n_confirm": 32,
+  "overlaps": {
+    "confirm∩dev32": [],
+    "confirm∩val": [],
+    "confirm∩test": [],
+    "confirm∩review": []
+  },
+  "duplicate_utt_ids": false,
+  "duplicate_audio_fingerprints": false,
+  "cv_speakers": [
+    "common_voice_ru_17_hf_mirror:0309eb8646f89bef78faf8cf389bb2e90df0ffc1a2f3d31e6a9633f43b88fb74be4f53547e1a1f1996b8f0c6ce5e4202d00dea2c728773f5f4807d90a1b60612",
+    "common_voice_ru_17_hf_mirror:07752142967f237171c543e319b91e972f60faf18d29965e89fce8b4c97f39bf3c806c3b7b8e2d6d9ea189411343ebf2cb287f04aa6300dbb0869a2d30f3b828",
+    "common_voice_ru_17_hf_mirror:0abf3795af3604f6e77fdb9d04c52c9de7570d38023fbd0e9a24013da01595bc3abbf7e5b732a34d10c462745f0c725c4bdf8c4f05e41f1936833d0789b8d985",
+    "common_voice_ru_17_hf_mirror:0cec2ab477de633fa7ba715f40251bd232f95617bfb55ae0100da800e7d156ed89e7f22c3898aaceb25fc7c16dfdecebf0eb239fe4cebaf71f1c4bf23bfdda0d",
+    "common_voice_ru_17_hf_mirror:0efa353748b8e2a658be9a74dd49ac63fdde96dc61bdb04e6c00e572ed076de9d324072daf5f45cb66a65d885286a647a98a581d06744fd036c471271cb742a8",
+    "common_voice_ru_17_hf_mirror:253afae6152ee5f71a568bb005f8a6aa343a26bbabe43df9c8c8c0f50c30f0d9d7ee23b59d07795b5d72b76e83829c0bdbe023fcbd0da1c337019f0583025faa",
+    "common_voice_ru_17_hf_mirror:328ef2e98d67101faf551dcd82b93615cd03a43aaa6b931547849b915309281d3096eb0614a7afcafb4c19181659751e93be01c7e734957667d1b8eba6f961af",
+    "common_voice_ru_17_hf_mirror:354503afe8b4aad62c1ac87ef0258b438f3995d163596af95dee4c78dfdb9b46f7a81f73f9453ac7709e8cb0c86a3814682ed8ba67663c7807f5ee885e88f079",
+    "common_voice_ru_17_hf_mirror:368e8b20f5d651dce11670d36ddcb5ff21ff67a305a90a373f278f9e24e3360f19f71d1de5aa521e109f2b81f6ac516b5f5261a9d92da279dd4e5cc20ff85272",
+    "common_voice_ru_17_hf_mirror:3f2f30ad038280d4a904d8f87e0888b272b06d1e0a93ccdf6b9a04375746a03836a6f1e82cc75a9063a87c8a0d7215f1037a25896cfeb58b869302d7065c45c7",
+    "common_voice_ru_17_hf_mirror:4af4d6892f1a7262e4a6c5209a85877ba6e2269009e2c3468cb47c5d1e0c8343203da499c9d33727dd568264ad36b70b9aa8c55f5e9de074e32bcc963347fc36",
+    "common_voice_ru_17_hf_mirror:58eda5ae08bee1863e072e53a76671e79afc578897789d43db913670084f0b6dbee4f6c2577928b0de8baa7257611b9cea9be6f58a57925a6edd6ed566481001",
+    "common_voice_ru_17_hf_mirror:7b8a6028a786a4a15e30056eeeff03f4ab050f22fbfe71817a6de836ec9af30add9555720ae8c2c0615f237d93f9f3a725e2456d4fb2076464159b15060bc7c4",
+    "common_voice_ru_17_hf_mirror:7f2986e3c269f598e8914abb5af19621a2b35827959bc1bb6878704f9cb134803b8b9558aec0179046e9ed34557bdff3c1c0b5e748fc37c340f66c54a65392c3",
+    "common_voice_ru_17_hf_mirror:932bcfa705ccd94761da744394963590a67ca3e7bc4a3495747a84dc70ab567c859c94721b8c76123b503c94da005bd9652769ce1926f8c7e69cfaaef7ac1abb",
+    "common_voice_ru_17_hf_mirror:9581c46d83f615ccdf19bf004dd81bb8e15caf5cd8ff90d445c33596fbe413fe01523a8b12dd24e44f412673eef5163fb054105d9909530aafe78bd873b44664",
+    "common_voice_ru_17_hf_mirror:972d53124393ac2f374ce5a38f5c9877110e424ddaca8b778d64f82563cad5826bfb91855a4203364383e9f4bfd6b011045c13c0e9905f027c0342e4c1151785",
+    "common_voice_ru_17_hf_mirror:9bf686d5c3a9413bd2f8228d716da81bdf381cd86c7177bc32806edb68dc1cc351749c100db5e0f0f0e9a6d1e894558daa5b92d744f6ee862c6e6c9ee603eb01",
+    "common_voice_ru_17_hf_mirror:cc9db9a4581cb7afcf3f99ca93e238da84168ba707f3e2e59330b8f3e42fb558d8380f3424eae335d0f8a05b248891a128f730189171b38a4af2ccdd07829d8a",
+    "common_voice_ru_17_hf_mirror:d6a967d819b49e56c5d3b82a3c4d6a27ab6e0b2dd57868d472f7773dc2a56e28aafdbf0b08c910ccdc798d47b4bec79e561f2a213d889aff2b41deb7590bd2fb",
+    "common_voice_ru_17_hf_mirror:e4d0b7a408a6534761c31e357e70cac7cfa6e5bce6af75391b83d6e1d97f93a9c0b312f6bdc3ec91c865d7562d8721ed2af425e81db7ea0790a73bed9f9c3925",
+    "common_voice_ru_17_hf_mirror:f0e700cd36d5d3b9ac3ba22433b2ca326fdc003f8f21eb839e9cf487df204fcd3ab28a079ff44e53d33b17bfadf5e5618da15526d7178ee897aeb31d3b9804dc",
+    "common_voice_ru_17_hf_mirror:fb0b52f5e5a1e0d758625473b6114f448e13c1e08ffc1c8c68ef780e23b66d5a1b9a6ccad5b993d96e945990b87c3945b3c1400052371afafa09e52ca74a48fb",
+    "common_voice_ru_17_hf_mirror:fc344c544085f4c5ffdb574861fec8d31e029a3fa56f248acc76b573c382a97a8d499df65e7d9646c6855c21c2aca984f105e63e07f61c9596c9fc0dac4e59f6",
+    "common_voice_ru_17_hf_mirror:ffc3ecc510d291384e1caa579086089955bbc69705ce63aa608e631591c5d3b78bb1a14506c25a7bb62dadba0157ec734b50fb282710edadb90e0bb8d3792c81",
+    "common_voice_ru_17_hf_mirror:ffdceab36374037a3110209dce7ecb369153e0bbd7cb3ed52e4437a0d5a264de4b1908ee80a8645e67e22d62d04dd4ec723643613c82192554b420cba0622f5b"
+  ],
+  "cv_speaker_unique": true,
+  "preselect_inventory_leaks": {
+    "dev32∩confirm_pool_before": [],
+    "train∩val": [],
+    "train∩test": [],
+    "train∩review": []
+  }
+}

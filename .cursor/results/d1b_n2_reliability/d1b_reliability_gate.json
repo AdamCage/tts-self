@@ -1,0 +1,100 @@
+{
+  "plan_slug": "d1b_n2_reliability",
+  "terminal_result": "HARD-STOP",
+  "formal_verdict": "HARD-STOP",
+  "prior_pass_status": "INVALID_WITHDRAWN",
+  "hard_stop_basis": {
+    "rule": "any_confirm_seed_fail_establishes_hard_stop",
+    "establishing_seed": 43,
+    "establishing_evidence": "confirm_v2 seed43 clean-tree FAIL (gate24 + full32 stability) alone establishes HARD-STOP",
+    "seed42_role": "diagnostic_only",
+    "seed42_reason": "confirm_v2 seed42 eval artifacts record git_dirty=true; retained as corroborating diagnostic, not as sole HARD-STOP basis"
+  },
+  "next_stage": "D1c_termination_repair_only",
+  "do_not_proceed_to": [
+    "1h",
+    "5h",
+    "full"
+  ],
+  "gpu_code_sha": "0db69d608eb3d3d2f8fd9ba535fb92eb457fc06b",
+  "selection_fix_sha": "bee3f009661bb30472fc02682f429787c38b46cb",
+  "atomic_save_sha": "0db69d608eb3d3d2f8fd9ba535fb92eb457fc06b",
+  "eval_contract_version": "1.2.0",
+  "eval_contract_sha256": "d04295d3ac9864afe5002a8470baead8f5f57a3c8f8d38831fe134aa7feada92",
+  "confirm_oracle_items_sha256": "63d7e351602e62d26196d944cd1f7a9e928a241e70d968f6eb58c0d1b7a746b9",
+  "confirm_oracle_path": "configs/train_subsets/d1b_confirm32_v2.json",
+  "confirm_oracle_seed": 20260804,
+  "confirm_v2": {
+    "42": {
+      "classification": "DIAGNOSTIC",
+      "git_dirty": true,
+      "formal_weight": "not_sole_hard_stop_basis",
+      "run_dir": "/home/adam/projects/tts-self/runs/discrete_speech_lm_d1b_confirm_v2_seed42",
+      "selected_step": 750,
+      "selected_ckpt": "runs/discrete_speech_lm_d1b_confirm_v2_seed42/candidate_step_0750.pt",
+      "selected_tf_ce": 0.006540585309267044,
+      "select8_macro_cer": 0.01202865761689291,
+      "select8_gate_eligible": false,
+      "gate24_verdict": "FAIL",
+      "gate24_macro_cer": 0.020523855011317343,
+      "gate24_cer_pass": true,
+      "gate24_text_usage_pass": true,
+      "gate24_stability": {
+        "runaway_or_repetition": true,
+        "phrase_loop_repetition": true,
+        "hard_cap_count": 3,
+        "hard_cap_ok": false,
+        "mean_dur_ratio": 1.0026272134381593
+      },
+      "full32_verdict": "FAIL",
+      "full32_macro_cer": 0.018400055662711235,
+      "full32_cer_pass": true,
+      "full32_stability": {
+        "runaway_or_repetition": true,
+        "phrase_loop_repetition": true,
+        "hard_cap_count": 4,
+        "hard_cap_ok": false,
+        "mean_dur_ratio": 1.0043148836815832
+      }
+    },
+    "43": {
+      "classification": "FORMAL_HARD_STOP_BASIS",
+      "git_dirty": false,
+      "formal_weight": "alone_establishes_hard_stop",
+      "run_dir": "/home/adam/projects/tts-self/runs/discrete_speech_lm_d1b_confirm_v2_seed43",
+      "selected_step": 750,
+      "selected_ckpt": "runs/discrete_speech_lm_d1b_confirm_v2_seed43/candidate_step_0750.pt",
+      "selected_tf_ce": 0.006479623494669795,
+      "select8_macro_cer": 0.01202865761689291,
+      "select8_gate_eligible": false,
+      "gate24_verdict": "FAIL",
+      "gate24_macro_cer": 0.021194922118028012,
+      "gate24_cer_pass": true,
+      "gate24_text_usage_pass": true,
+      "gate24_stability": {
+        "runaway_or_repetition": true,
+        "phrase_loop_repetition": false,
+        "hard_cap_count": 3,
+        "hard_cap_ok": false,
+        "mean_dur_ratio": 1.0081485514191746
+      },
+      "full32_verdict": "FAIL",
+      "full32_macro_cer": 0.018903355992744238,
+      "full32_cer_pass": true,
+      "full32_stability": {
+        "runaway_or_repetition": true,
+        "phrase_loop_repetition": false,
+        "hard_cap_count": 4,
+        "hard_cap_ok": false,
+        "mean_dur_ratio": 1.0084558871673448
+      }
+    }
+  },
+  "reasons": [
+    "Prior PASS withdrawn / INVALID (null TF-CE selection, score-only contract bypass, GT max_frames, hard_cap/phrase-loop gaps, burned CONFIRM v1).",
+    "confirm_v2 seed43 clean-tree FAIL alone establishes terminal HARD-STOP under any-seed-fails.",
+    "confirm_v2 seed42 eval remains DIAGNOSTIC due to git_dirty=true; metrics preserved but not sole basis.",
+    "Both seeds FAIL N2_D1b on mandatory stability (hard_cap / phrase_loop) despite CER and text-usage pass; formal PASS not restored.",
+    "No 1h / 5h / full allowed; next stage is D1c termination-repair only."
+  ]
+}

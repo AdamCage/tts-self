@@ -1,0 +1,1183 @@
+=== decode select8 step=250 ===
+/bin/sh: 1: sox: not found
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+[n2] free-running model on 8 utts max_frames=750 skip_asr=True d1b=True
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+[n2] copy_synth
+[n2] wrong_utt
+[n2] random_codes
+[n2] shuffle_text (text-usage)
+[n2] mask_text (text-usage)
+wrote decode bundle /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/cand_0250_select8_n2/n2_decode_bundle.json (run --score-only next)
+{
+  "loss": 0.01944955810904503,
+  "ce_cb0": 0.0043707736767828465,
+  "ce_residual": 0.014754479750990868,
+  "n_batches": 2,
+  "n_utts": 8,
+  "note": "Teacher-forced CE is diagnostic only; promotion uses free-running CER/DER.",
+  "n2_decode_bundle": "/home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/cand_0250_select8_n2/n2_decode_bundle.json"
+}
+wrote /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/cand_0250_select8_n2/eval_summary.json
+[score] model macro_cer=0.0120 micro_cer=0.017057569296375266 n=8
+[score] copy_synth macro_cer=0.0120 micro_cer=0.017057569296375266 n=8
+[score] wrong_utt macro_cer=1.1850 micro_cer=0.9872068230277186 n=8
+[score] random_codes macro_cer=0.8646 micro_cer=0.8635394456289979 n=8
+[score] shuffle_text macro_cer=1.0208 micro_cer=0.9317697228144989 n=8
+[score] mask_text macro_cer=0.8502 micro_cer=0.8571428571428571 n=8
+{
+  "n2_verdict": "FAIL",
+  "fr_cer": 0.01202865761689291,
+  "macro_cer": 0.01202865761689291,
+  "macro_cer_median": 0.0,
+  "macro_cer_ci95_low": 0.0,
+  "macro_cer_ci95_high": 0.02967571644042232,
+  "micro_cer": 0.017057569296375266,
+  "copy_synth_cer_subset": 0.01202865761689291,
+  "ceiling_copy_plus_margin": 0.04202865761689291,
+  "cer_pass": true,
+  "bootstrap_sep_wrong_utt": true,
+  "bootstrap_sep_random": true,
+  "paired_vs_wrong": {
+    "delta_pp_model_minus_wrong": -97.01492537313433,
+    "ci95_low": -132.8890690743338,
+    "ci95_high": -80.06043622706919,
+    "separated": true
+  },
+  "no_runaway_repetition": false,
+  "cb0_healthy": true,
+  "cb0": {
+    "cb0_utilization": 0.14794921875,
+    "cb0_entropy": 5.539908286129402,
+    "cb0_unique": 303,
+    "cb0_total_frames": 473,
+    "cb0_max_run": 4,
+    "healthy": true
+  },
+  "text_usage_shuffle_hurts": true,
+  "text_usage_mask_hurts": true,
+  "text_usage_prefix_cf_changes": true,
+  "text_usage_d1b": {
+    "shuffle_cer": 1.0208454767349453,
+    "mask_cer": 0.8501579655849105,
+    "model_cer": 0.01202865761689291,
+    "margin": 0.05,
+    "shuffle_ok": true,
+    "mask_ok": true,
+    "content_change_n": 8,
+    "content_change_need": 2,
+    "prefix_cf_ok": true,
+    "paired_ci95_high": -80.06043622706919,
+    "paired_ci_lt_zero": true,
+    "pass": true
+  },
+  "stability_d1b": {
+    "runaway_or_repetition": true,
+    "no_runaway": false,
+    "phrase_loop_repetition": false,
+    "no_phrase_loop": true,
+    "hard_cap_count": 1,
+    "hard_cap_ok": false,
+    "cb0_max_run": 4,
+    "cb0_max_run_limit": 12,
+    "cb0_max_run_ok": true,
+    "mean_dur_ratio": 1.0093778944118554,
+    "mean_dur_ratio_ok": true,
+    "mean_dur_ratio_range": [
+      0.9,
+      1.1
+    ],
+    "duration_buckets": {
+      "lt_0_5": 0,
+      "0_5_to_0_9": 0,
+      "0_9_to_1_1": 8,
+      "1_1_to_2_0": 0,
+      "gt_2_0": 0
+    },
+    "utt_ratio_outliers": [],
+    "utt_ratio_limits": [
+      0.5,
+      2.0
+    ],
+    "no_extreme_utt_ratios": true,
+    "duration_ratio_distribution": {
+      "n": 8,
+      "mean": 1.0093778944118554,
+      "median": 1.0,
+      "min": 1.0,
+      "max": 1.0506329113924051,
+      "p10": 1.0,
+      "p90": 1.032263044149429,
+      "buckets": {
+        "lt_0_5": 0,
+        "0_5_to_0_9": 0,
+        "0_9_to_1_1": 8,
+        "1_1_to_2_0": 0,
+        "gt_2_0": 0
+      },
+      "outliers_lt_0_5": [],
+      "outliers_gt_2_0": [],
+      "outlier_indices": []
+    },
+    "pass": false
+  },
+  "n_catastrophic": 0,
+  "zero_catastrophic": true,
+  "duration_ratio_distribution": {
+    "n": 8,
+    "mean": 1.0093778944118554,
+    "median": 1.0,
+    "min": 1.0,
+    "max": 1.0506329113924051,
+    "p10": 1.0,
+    "p90": 1.032263044149429,
+    "buckets": {
+      "lt_0_5": 0,
+      "0_5_to_0_9": 0,
+      "0_9_to_1_1": 8,
+      "1_1_to_2_0": 0,
+      "gt_2_0": 0
+    },
+    "outliers_lt_0_5": [],
+    "outliers_gt_2_0": [],
+    "outlier_indices": []
+  },
+  "stop_reason_distribution": {
+    "hard_cap": 1,
+    "stop_head": 7
+  },
+  "shuffle_cer": 1.0208454767349453,
+  "mask_cer": 0.8501579655849105,
+  "wrong_utt_cer": 1.1849653436643475,
+  "random_codes_cer": 0.8646327381241993
+}
+wrote /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/cand_0250_select8_n2/n2_gate.json
+=== decode select8 step=375 ===
+/bin/sh: 1: sox: not found
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+[n2] free-running model on 8 utts max_frames=750 skip_asr=True d1b=True
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+[n2] copy_synth
+[n2] wrong_utt
+[n2] random_codes
+[n2] shuffle_text (text-usage)
+[n2] mask_text (text-usage)
+wrote decode bundle /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/cand_0375_select8_n2/n2_decode_bundle.json (run --score-only next)
+{
+  "loss": 0.01060852874070406,
+  "ce_cb0": 0.0025967631954699755,
+  "ce_residual": 0.007843398954719305,
+  "n_batches": 2,
+  "n_utts": 8,
+  "note": "Teacher-forced CE is diagnostic only; promotion uses free-running CER/DER.",
+  "n2_decode_bundle": "/home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/cand_0375_select8_n2/n2_decode_bundle.json"
+}
+wrote /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/cand_0375_select8_n2/eval_summary.json
+[score] model macro_cer=0.0120 micro_cer=0.017057569296375266 n=8
+[score] copy_synth macro_cer=0.0120 micro_cer=0.017057569296375266 n=8
+[score] wrong_utt macro_cer=1.1850 micro_cer=0.9872068230277186 n=8
+[score] random_codes macro_cer=0.8646 micro_cer=0.8635394456289979 n=8
+[score] shuffle_text macro_cer=0.9664 micro_cer=0.906183368869936 n=8
+[score] mask_text macro_cer=0.8414 micro_cer=0.8486140724946695 n=8
+{
+  "n2_verdict": "FAIL",
+  "fr_cer": 0.01202865761689291,
+  "macro_cer": 0.01202865761689291,
+  "macro_cer_median": 0.0,
+  "macro_cer_ci95_low": 0.0,
+  "macro_cer_ci95_high": 0.02967571644042232,
+  "micro_cer": 0.017057569296375266,
+  "copy_synth_cer_subset": 0.01202865761689291,
+  "ceiling_copy_plus_margin": 0.04202865761689291,
+  "cer_pass": true,
+  "bootstrap_sep_wrong_utt": true,
+  "bootstrap_sep_random": true,
+  "paired_vs_wrong": {
+    "delta_pp_model_minus_wrong": -97.01492537313433,
+    "ci95_low": -132.8890690743338,
+    "ci95_high": -80.06043622706919,
+    "separated": true
+  },
+  "no_runaway_repetition": false,
+  "cb0_healthy": true,
+  "cb0": {
+    "cb0_utilization": 0.14794921875,
+    "cb0_entropy": 5.530937784385355,
+    "cb0_unique": 303,
+    "cb0_total_frames": 473,
+    "cb0_max_run": 5,
+    "healthy": true
+  },
+  "text_usage_shuffle_hurts": true,
+  "text_usage_mask_hurts": true,
+  "text_usage_prefix_cf_changes": true,
+  "text_usage_d1b": {
+    "shuffle_cer": 0.9663582972477659,
+    "mask_cer": 0.8413826347329668,
+    "model_cer": 0.01202865761689291,
+    "margin": 0.05,
+    "shuffle_ok": true,
+    "mask_ok": true,
+    "content_change_n": 8,
+    "content_change_need": 2,
+    "prefix_cf_ok": true,
+    "paired_ci95_high": -80.06043622706919,
+    "paired_ci_lt_zero": true,
+    "pass": true
+  },
+  "stability_d1b": {
+    "runaway_or_repetition": true,
+    "no_runaway": false,
+    "phrase_loop_repetition": false,
+    "no_phrase_loop": true,
+    "hard_cap_count": 1,
+    "hard_cap_ok": false,
+    "cb0_max_run": 5,
+    "cb0_max_run_limit": 12,
+    "cb0_max_run_ok": true,
+    "mean_dur_ratio": 1.0093778944118554,
+    "mean_dur_ratio_ok": true,
+    "mean_dur_ratio_range": [
+      0.9,
+      1.1
+    ],
+    "duration_buckets": {
+      "lt_0_5": 0,
+      "0_5_to_0_9": 0,
+      "0_9_to_1_1": 8,
+      "1_1_to_2_0": 0,
+      "gt_2_0": 0
+    },
+    "utt_ratio_outliers": [],
+    "utt_ratio_limits": [
+      0.5,
+      2.0
+    ],
+    "no_extreme_utt_ratios": true,
+    "duration_ratio_distribution": {
+      "n": 8,
+      "mean": 1.0093778944118554,
+      "median": 1.0,
+      "min": 1.0,
+      "max": 1.0506329113924051,
+      "p10": 1.0,
+      "p90": 1.032263044149429,
+      "buckets": {
+        "lt_0_5": 0,
+        "0_5_to_0_9": 0,
+        "0_9_to_1_1": 8,
+        "1_1_to_2_0": 0,
+        "gt_2_0": 0
+      },
+      "outliers_lt_0_5": [],
+      "outliers_gt_2_0": [],
+      "outlier_indices": []
+    },
+    "pass": false
+  },
+  "n_catastrophic": 0,
+  "zero_catastrophic": true,
+  "duration_ratio_distribution": {
+    "n": 8,
+    "mean": 1.0093778944118554,
+    "median": 1.0,
+    "min": 1.0,
+    "max": 1.0506329113924051,
+    "p10": 1.0,
+    "p90": 1.032263044149429,
+    "buckets": {
+      "lt_0_5": 0,
+      "0_5_to_0_9": 0,
+      "0_9_to_1_1": 8,
+      "1_1_to_2_0": 0,
+      "gt_2_0": 0
+    },
+    "outliers_lt_0_5": [],
+    "outliers_gt_2_0": [],
+    "outlier_indices": []
+  },
+  "stop_reason_distribution": {
+    "hard_cap": 1,
+    "stop_head": 7
+  },
+  "shuffle_cer": 0.9663582972477659,
+  "mask_cer": 0.8413826347329668,
+  "wrong_utt_cer": 1.1849653436643475,
+  "random_codes_cer": 0.8646327381241993
+}
+wrote /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/cand_0375_select8_n2/n2_gate.json
+=== decode select8 step=500 ===
+/bin/sh: 1: sox: not found
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+[n2] free-running model on 8 utts max_frames=750 skip_asr=True d1b=True
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+[n2] copy_synth
+[n2] wrong_utt
+[n2] random_codes
+[n2] shuffle_text (text-usage)
+[n2] mask_text (text-usage)
+wrote decode bundle /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/cand_0500_select8_n2/n2_decode_bundle.json (run --score-only next)
+{
+  "loss": 0.007874633418396115,
+  "ce_cb0": 0.001986772520467639,
+  "ce_residual": 0.005764094414189458,
+  "n_batches": 2,
+  "n_utts": 8,
+  "note": "Teacher-forced CE is diagnostic only; promotion uses free-running CER/DER.",
+  "n2_decode_bundle": "/home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/cand_0500_select8_n2/n2_decode_bundle.json"
+}
+wrote /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/cand_0500_select8_n2/eval_summary.json
+[score] model macro_cer=0.0120 micro_cer=0.017057569296375266 n=8
+[score] copy_synth macro_cer=0.0120 micro_cer=0.017057569296375266 n=8
+[score] wrong_utt macro_cer=1.1850 micro_cer=0.9872068230277186 n=8
+[score] random_codes macro_cer=0.8646 micro_cer=0.8635394456289979 n=8
+[score] shuffle_text macro_cer=1.0337 micro_cer=0.9360341151385928 n=8
+[score] mask_text macro_cer=0.8575 micro_cer=0.8571428571428571 n=8
+{
+  "n2_verdict": "FAIL",
+  "fr_cer": 0.01202865761689291,
+  "macro_cer": 0.01202865761689291,
+  "macro_cer_median": 0.0,
+  "macro_cer_ci95_low": 0.0,
+  "macro_cer_ci95_high": 0.02967571644042232,
+  "micro_cer": 0.017057569296375266,
+  "copy_synth_cer_subset": 0.01202865761689291,
+  "ceiling_copy_plus_margin": 0.04202865761689291,
+  "cer_pass": true,
+  "bootstrap_sep_wrong_utt": true,
+  "bootstrap_sep_random": true,
+  "paired_vs_wrong": {
+    "delta_pp_model_minus_wrong": -97.01492537313433,
+    "ci95_low": -132.8890690743338,
+    "ci95_high": -80.06043622706919,
+    "separated": true
+  },
+  "no_runaway_repetition": false,
+  "cb0_healthy": true,
+  "cb0": {
+    "cb0_utilization": 0.14794921875,
+    "cb0_entropy": 5.530937784385355,
+    "cb0_unique": 303,
+    "cb0_total_frames": 473,
+    "cb0_max_run": 5,
+    "healthy": true
+  },
+  "text_usage_shuffle_hurts": true,
+  "text_usage_mask_hurts": true,
+  "text_usage_prefix_cf_changes": true,
+  "text_usage_d1b": {
+    "shuffle_cer": 1.033665989555458,
+    "mask_cer": 0.8575418227671548,
+    "model_cer": 0.01202865761689291,
+    "margin": 0.05,
+    "shuffle_ok": true,
+    "mask_ok": true,
+    "content_change_n": 8,
+    "content_change_need": 2,
+    "prefix_cf_ok": true,
+    "paired_ci95_high": -80.06043622706919,
+    "paired_ci_lt_zero": true,
+    "pass": true
+  },
+  "stability_d1b": {
+    "runaway_or_repetition": true,
+    "no_runaway": false,
+    "phrase_loop_repetition": false,
+    "no_phrase_loop": true,
+    "hard_cap_count": 1,
+    "hard_cap_ok": false,
+    "cb0_max_run": 5,
+    "cb0_max_run_limit": 12,
+    "cb0_max_run_ok": true,
+    "mean_dur_ratio": 1.0093778944118554,
+    "mean_dur_ratio_ok": true,
+    "mean_dur_ratio_range": [
+      0.9,
+      1.1
+    ],
+    "duration_buckets": {
+      "lt_0_5": 0,
+      "0_5_to_0_9": 0,
+      "0_9_to_1_1": 8,
+      "1_1_to_2_0": 0,
+      "gt_2_0": 0
+    },
+    "utt_ratio_outliers": [],
+    "utt_ratio_limits": [
+      0.5,
+      2.0
+    ],
+    "no_extreme_utt_ratios": true,
+    "duration_ratio_distribution": {
+      "n": 8,
+      "mean": 1.0093778944118554,
+      "median": 1.0,
+      "min": 1.0,
+      "max": 1.0506329113924051,
+      "p10": 1.0,
+      "p90": 1.032263044149429,
+      "buckets": {
+        "lt_0_5": 0,
+        "0_5_to_0_9": 0,
+        "0_9_to_1_1": 8,
+        "1_1_to_2_0": 0,
+        "gt_2_0": 0
+      },
+      "outliers_lt_0_5": [],
+      "outliers_gt_2_0": [],
+      "outlier_indices": []
+    },
+    "pass": false
+  },
+  "n_catastrophic": 0,
+  "zero_catastrophic": true,
+  "duration_ratio_distribution": {
+    "n": 8,
+    "mean": 1.0093778944118554,
+    "median": 1.0,
+    "min": 1.0,
+    "max": 1.0506329113924051,
+    "p10": 1.0,
+    "p90": 1.032263044149429,
+    "buckets": {
+      "lt_0_5": 0,
+      "0_5_to_0_9": 0,
+      "0_9_to_1_1": 8,
+      "1_1_to_2_0": 0,
+      "gt_2_0": 0
+    },
+    "outliers_lt_0_5": [],
+    "outliers_gt_2_0": [],
+    "outlier_indices": []
+  },
+  "stop_reason_distribution": {
+    "hard_cap": 1,
+    "stop_head": 7
+  },
+  "shuffle_cer": 1.033665989555458,
+  "mask_cer": 0.8575418227671548,
+  "wrong_utt_cer": 1.1849653436643475,
+  "random_codes_cer": 0.8646327381241993
+}
+wrote /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/cand_0500_select8_n2/n2_gate.json
+=== decode select8 step=625 ===
+/bin/sh: 1: sox: not found
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+[n2] free-running model on 8 utts max_frames=750 skip_asr=True d1b=True
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+[n2] copy_synth
+[n2] wrong_utt
+[n2] random_codes
+[n2] shuffle_text (text-usage)
+[n2] mask_text (text-usage)
+wrote decode bundle /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/cand_0625_select8_n2/n2_decode_bundle.json (run --score-only next)
+{
+  "loss": 0.006866926327347755,
+  "ce_cb0": 0.001755640550982207,
+  "ce_residual": 0.005003764759749174,
+  "n_batches": 2,
+  "n_utts": 8,
+  "note": "Teacher-forced CE is diagnostic only; promotion uses free-running CER/DER.",
+  "n2_decode_bundle": "/home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/cand_0625_select8_n2/n2_decode_bundle.json"
+}
+wrote /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/cand_0625_select8_n2/eval_summary.json
+[score] model macro_cer=0.0120 micro_cer=0.017057569296375266 n=8
+[score] copy_synth macro_cer=0.0120 micro_cer=0.017057569296375266 n=8
+[score] wrong_utt macro_cer=1.1850 micro_cer=0.9872068230277186 n=8
+[score] random_codes macro_cer=0.8646 micro_cer=0.8635394456289979 n=8
+[score] shuffle_text macro_cer=1.0337 micro_cer=0.9360341151385928 n=8
+[score] mask_text macro_cer=0.9878 micro_cer=0.9104477611940298 n=8
+{
+  "n2_verdict": "FAIL",
+  "fr_cer": 0.01202865761689291,
+  "macro_cer": 0.01202865761689291,
+  "macro_cer_median": 0.0,
+  "macro_cer_ci95_low": 0.0,
+  "macro_cer_ci95_high": 0.02967571644042232,
+  "micro_cer": 0.017057569296375266,
+  "copy_synth_cer_subset": 0.01202865761689291,
+  "ceiling_copy_plus_margin": 0.04202865761689291,
+  "cer_pass": true,
+  "bootstrap_sep_wrong_utt": true,
+  "bootstrap_sep_random": true,
+  "paired_vs_wrong": {
+    "delta_pp_model_minus_wrong": -97.01492537313433,
+    "ci95_low": -132.8890690743338,
+    "ci95_high": -80.06043622706919,
+    "separated": true
+  },
+  "no_runaway_repetition": false,
+  "cb0_healthy": true,
+  "cb0": {
+    "cb0_utilization": 0.14794921875,
+    "cb0_entropy": 5.530937784385355,
+    "cb0_unique": 303,
+    "cb0_total_frames": 473,
+    "cb0_max_run": 5,
+    "healthy": true
+  },
+  "text_usage_shuffle_hurts": true,
+  "text_usage_mask_hurts": true,
+  "text_usage_prefix_cf_changes": true,
+  "text_usage_d1b": {
+    "shuffle_cer": 1.033665989555458,
+    "mask_cer": 0.9877501561004882,
+    "model_cer": 0.01202865761689291,
+    "margin": 0.05,
+    "shuffle_ok": true,
+    "mask_ok": true,
+    "content_change_n": 8,
+    "content_change_need": 2,
+    "prefix_cf_ok": true,
+    "paired_ci95_high": -80.06043622706919,
+    "paired_ci_lt_zero": true,
+    "pass": true
+  },
+  "stability_d1b": {
+    "runaway_or_repetition": true,
+    "no_runaway": false,
+    "phrase_loop_repetition": false,
+    "no_phrase_loop": true,
+    "hard_cap_count": 1,
+    "hard_cap_ok": false,
+    "cb0_max_run": 5,
+    "cb0_max_run_limit": 12,
+    "cb0_max_run_ok": true,
+    "mean_dur_ratio": 1.0093778944118554,
+    "mean_dur_ratio_ok": true,
+    "mean_dur_ratio_range": [
+      0.9,
+      1.1
+    ],
+    "duration_buckets": {
+      "lt_0_5": 0,
+      "0_5_to_0_9": 0,
+      "0_9_to_1_1": 8,
+      "1_1_to_2_0": 0,
+      "gt_2_0": 0
+    },
+    "utt_ratio_outliers": [],
+    "utt_ratio_limits": [
+      0.5,
+      2.0
+    ],
+    "no_extreme_utt_ratios": true,
+    "duration_ratio_distribution": {
+      "n": 8,
+      "mean": 1.0093778944118554,
+      "median": 1.0,
+      "min": 1.0,
+      "max": 1.0506329113924051,
+      "p10": 1.0,
+      "p90": 1.032263044149429,
+      "buckets": {
+        "lt_0_5": 0,
+        "0_5_to_0_9": 0,
+        "0_9_to_1_1": 8,
+        "1_1_to_2_0": 0,
+        "gt_2_0": 0
+      },
+      "outliers_lt_0_5": [],
+      "outliers_gt_2_0": [],
+      "outlier_indices": []
+    },
+    "pass": false
+  },
+  "n_catastrophic": 0,
+  "zero_catastrophic": true,
+  "duration_ratio_distribution": {
+    "n": 8,
+    "mean": 1.0093778944118554,
+    "median": 1.0,
+    "min": 1.0,
+    "max": 1.0506329113924051,
+    "p10": 1.0,
+    "p90": 1.032263044149429,
+    "buckets": {
+      "lt_0_5": 0,
+      "0_5_to_0_9": 0,
+      "0_9_to_1_1": 8,
+      "1_1_to_2_0": 0,
+      "gt_2_0": 0
+    },
+    "outliers_lt_0_5": [],
+    "outliers_gt_2_0": [],
+    "outlier_indices": []
+  },
+  "stop_reason_distribution": {
+    "hard_cap": 1,
+    "stop_head": 7
+  },
+  "shuffle_cer": 1.033665989555458,
+  "mask_cer": 0.9877501561004882,
+  "wrong_utt_cer": 1.1849653436643475,
+  "random_codes_cer": 0.8646327381241993
+}
+wrote /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/cand_0625_select8_n2/n2_gate.json
+=== decode select8 step=750 ===
+/bin/sh: 1: sox: not found
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+[n2] free-running model on 8 utts max_frames=750 skip_asr=True d1b=True
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+[n2] copy_synth
+[n2] wrong_utt
+[n2] random_codes
+[n2] shuffle_text (text-usage)
+[n2] mask_text (text-usage)
+wrote decode bundle /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/cand_0750_select8_n2/n2_decode_bundle.json (run --score-only next)
+{
+  "loss": 0.006540585309267044,
+  "ce_cb0": 0.001678259635809809,
+  "ce_residual": 0.004760110750794411,
+  "n_batches": 2,
+  "n_utts": 8,
+  "note": "Teacher-forced CE is diagnostic only; promotion uses free-running CER/DER.",
+  "n2_decode_bundle": "/home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/cand_0750_select8_n2/n2_decode_bundle.json"
+}
+wrote /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/cand_0750_select8_n2/eval_summary.json
+  0%|                                              | 0.00/2.88G [00:00<?, ?iB/s]  0%|                                    | 16.0k/2.88G [00:00<5:25:27, 158kiB/s]  0%|                                    | 64.0k/2.88G [00:00<2:49:41, 303kiB/s]  0%|                                     | 128k/2.88G [00:00<1:54:49, 448kiB/s]  0%|                                     | 256k/2.88G [00:00<1:08:42, 749kiB/s]  0%|                                      | 480k/2.88G [00:00<40:56, 1.26MiB/s]  0%|                                      | 880k/2.88G [00:00<23:44, 2.17MiB/s]  0%|                                     | 1.55M/2.88G [00:00<13:44, 3.74MiB/s]  0%|                                     | 2.78M/2.88G [00:00<07:48, 6.59MiB/s]  0%|                                     | 5.00M/2.88G [00:00<04:23, 11.7MiB/s]  0%|                                     | 8.86M/2.88G [00:01<02:30, 20.4MiB/s]  0%|▏                                    | 10.8M/2.88G [00:01<05:18, 9.65MiB/s]  0%|▏                                    | 13.6M/2.88G [00:01<04:20, 11.8MiB/s]  1%|▏                                    | 15.2M/2.88G [00:02<06:35, 7.77MiB/s]  1%|▎                                    | 21.0M/2.88G [00:02<03:54, 13.1MiB/s]  1%|▍                                    | 33.1M/2.88G [00:02<01:43, 29.5MiB/s]  1%|▍                                    | 37.9M/2.88G [00:02<01:37, 31.4MiB/s]  1%|▌                                    | 42.4M/2.88G [00:02<01:32, 32.9MiB/s]  2%|▌                                    | 46.6M/2.88G [00:02<01:29, 34.1MiB/s]  2%|▋                                    | 50.6M/2.88G [00:02<01:25, 35.5MiB/s]  2%|▋                                    | 54.6M/2.88G [00:03<03:02, 16.6MiB/s]  2%|▋                                    | 58.4M/2.88G [00:03<02:42, 18.6MiB/s]  2%|▊                                    | 62.3M/2.88G [00:03<02:33, 19.7MiB/s]  2%|▉                                    | 72.7M/2.88G [00:04<01:45, 28.7MiB/s]  3%|▉                                    | 76.0M/2.88G [00:04<01:55, 26.0MiB/s]  3%|█                                    | 81.0M/2.88G [00:04<02:09, 23.2MiB/s]  3%|█                                    | 83.5M/2.88G [00:04<03:00, 16.6MiB/s]  3%|█▏                                   | 96.6M/2.88G [00:05<01:32, 32.3MiB/s]  3%|█▎                                    | 101M/2.88G [00:05<01:39, 29.8MiB/s]  4%|█▎                                    | 105M/2.88G [00:05<01:45, 28.3MiB/s]  4%|█▍                                    | 109M/2.88G [00:05<01:49, 27.2MiB/s]  4%|█▍                                    | 112M/2.88G [00:05<01:52, 26.3MiB/s]  4%|█▍                                    | 115M/2.88G [00:05<01:55, 25.6MiB/s]  4%|█▌                                    | 118M/2.88G [00:05<01:57, 25.3MiB/s]  4%|█▌                                    | 120M/2.88G [00:06<01:59, 24.9MiB/s]  4%|█▌                                    | 123M/2.88G [00:06<02:00, 24.5MiB/s]  4%|█▌                                    | 125M/2.88G [00:06<02:01, 24.3MiB/s]  4%|█▋                                    | 127M/2.88G [00:06<02:02, 24.2MiB/s]  4%|█▋                                    | 130M/2.88G [00:06<02:02, 24.0MiB/s]  4%|█▋                                    | 132M/2.88G [00:06<02:03, 23.9MiB/s]  5%|█▋                                    | 134M/2.88G [00:06<02:04, 23.8MiB/s]  5%|█▊                                    | 137M/2.88G [00:06<03:04, 16.0MiB/s]  5%|█▊                                    | 139M/2.88G [00:07<03:58, 12.3MiB/s]  5%|█▊                                    | 145M/2.88G [00:07<02:13, 22.0MiB/s]  5%|█▉                                    | 148M/2.88G [00:07<02:59, 16.3MiB/s]  5%|█▉                                    | 151M/2.88G [00:07<02:47, 17.5MiB/s]  5%|██                                    | 156M/2.88G [00:08<02:35, 18.9MiB/s]  5%|██                                    | 161M/2.88G [00:08<01:53, 25.8MiB/s]  6%|██▏                                   | 165M/2.88G [00:08<01:59, 24.4MiB/s]  6%|██▏                                   | 168M/2.88G [00:08<02:18, 21.1MiB/s]  6%|██▎                                   | 175M/2.88G [00:08<01:30, 32.0MiB/s]  6%|██▎                                   | 179M/2.88G [00:08<01:38, 29.3MiB/s]  6%|██▎                                   | 182M/2.88G [00:08<01:44, 27.7MiB/s]  6%|██▍                                   | 185M/2.88G [00:09<01:48, 26.6MiB/s]  6%|██▍                                   | 188M/2.88G [00:09<01:51, 25.9MiB/s]  6%|██▍                                   | 191M/2.88G [00:09<01:54, 25.3MiB/s]  7%|██▍                                   | 193M/2.88G [00:09<01:56, 24.8MiB/s]  7%|██▌                                   | 196M/2.88G [00:09<01:57, 24.5MiB/s]  7%|██▌                                   | 198M/2.88G [00:09<01:58, 24.3MiB/s]  7%|██▌                                   | 201M/2.88G [00:09<01:59, 24.1MiB/s]  7%|██▌                                   | 203M/2.88G [00:09<01:59, 24.0MiB/s]  7%|██▋                                   | 205M/2.88G [00:09<02:01, 23.7MiB/s]  7%|██▋                                   | 208M/2.88G [00:10<02:00, 23.9MiB/s]  7%|██▋                                   | 210M/2.88G [00:10<02:00, 23.8MiB/s]  7%|██▋                                   | 212M/2.88G [00:10<02:00, 23.8MiB/s]  7%|██▊                                   | 214M/2.88G [00:10<02:00, 23.7MiB/s]  7%|██▊                                   | 217M/2.88G [00:10<02:00, 23.7MiB/s]  7%|██▊                                   | 219M/2.88G [00:10<02:00, 23.7MiB/s]  8%|██▊                                   | 221M/2.88G [00:10<02:00, 23.7MiB/s]  8%|██▉                                   | 223M/2.88G [00:10<02:00, 23.6MiB/s]  8%|██▉                                   | 226M/2.88G [00:10<02:00, 23.6MiB/s]  8%|██▉                                   | 228M/2.88G [00:10<02:00, 23.7MiB/s]  8%|██▉                                   | 230M/2.88G [00:11<02:00, 23.6MiB/s]  8%|███                                   | 233M/2.88G [00:11<01:59, 23.8MiB/s]  8%|███                                   | 235M/2.88G [00:11<02:55, 16.2MiB/s]  8%|███                                   | 240M/2.88G [00:11<01:54, 24.8MiB/s]  8%|███▏                                  | 243M/2.88G [00:11<01:54, 24.7MiB/s]  8%|███▏                                  | 245M/2.88G [00:11<01:54, 24.6MiB/s]  8%|███▏                                  | 248M/2.88G [00:11<01:55, 24.5MiB/s]  9%|███▏                                  | 251M/2.88G [00:11<01:55, 24.5MiB/s]  9%|███▎                                  | 253M/2.88G [00:12<01:53, 24.8MiB/s]  9%|███▎                                  | 255M/2.88G [00:12<03:24, 13.8MiB/s]  9%|███▎                                  | 261M/2.88G [00:12<02:16, 20.7MiB/s]  9%|███▍                                  | 264M/2.88G [00:12<02:08, 21.8MiB/s]  9%|███▍                                  | 266M/2.88G [00:12<02:03, 22.7MiB/s]  9%|███▍                                  | 269M/2.88G [00:12<02:02, 23.0MiB/s]  9%|███▌                                  | 271M/2.88G [00:13<02:00, 23.2MiB/s]  9%|███▌                                  | 274M/2.88G [00:13<01:57, 23.9MiB/s]  9%|███▌                                  | 279M/2.88G [00:13<01:25, 32.8MiB/s] 10%|███▋                                  | 283M/2.88G [00:13<02:05, 22.3MiB/s] 10%|███▋                                  | 285M/2.88G [00:13<01:59, 23.3MiB/s] 10%|███▋                                  | 288M/2.88G [00:13<02:03, 22.6MiB/s] 10%|███▋                                  | 290M/2.88G [00:14<02:37, 17.6MiB/s] 10%|███▊                                  | 297M/2.88G [00:14<01:43, 26.9MiB/s] 10%|███▊                                  | 300M/2.88G [00:14<01:57, 23.7MiB/s] 10%|███▉                                  | 303M/2.88G [00:14<01:53, 24.3MiB/s] 10%|███▉                                  | 305M/2.88G [00:14<01:53, 24.3MiB/s] 10%|███▉                                  | 308M/2.88G [00:14<01:54, 24.2MiB/s] 11%|████                                  | 310M/2.88G [00:14<01:54, 24.1MiB/s] 11%|████                                  | 313M/2.88G [00:14<01:55, 23.9MiB/s] 11%|████                                  | 315M/2.88G [00:14<01:50, 25.0MiB/s] 11%|████▏                                 | 320M/2.88G [00:15<01:54, 24.0MiB/s] 11%|████▏                                 | 322M/2.88G [00:15<02:50, 16.2MiB/s] 11%|████▏                                 | 324M/2.88G [00:15<02:33, 17.9MiB/s] 11%|████▏                                 | 327M/2.88G [00:15<02:17, 20.0MiB/s] 11%|████▎                                 | 330M/2.88G [00:15<01:59, 22.9MiB/s] 11%|████▎                                 | 333M/2.88G [00:15<01:48, 25.2MiB/s] 11%|████▎                                 | 336M/2.88G [00:15<01:41, 27.1MiB/s] 12%|████▍                                 | 339M/2.88G [00:16<01:35, 28.5MiB/s] 12%|████▍                                 | 343M/2.88G [00:16<01:32, 29.6MiB/s] 12%|████▍                                 | 346M/2.88G [00:16<01:29, 30.3MiB/s] 12%|████▌                                 | 350M/2.88G [00:16<01:21, 33.3MiB/s] 12%|████▌                                 | 353M/2.88G [00:16<02:13, 20.4MiB/s] 12%|████▌                                 | 355M/2.88G [00:16<02:17, 19.8MiB/s] 12%|████▌                                 | 358M/2.88G [00:17<03:04, 14.7MiB/s] 12%|████▋                                 | 361M/2.88G [00:17<03:10, 14.2MiB/s] 13%|████▊                                 | 372M/2.88G [00:17<01:27, 30.9MiB/s] 13%|████▊                                 | 376M/2.88G [00:17<01:22, 32.5MiB/s] 13%|████▉                                 | 380M/2.88G [00:17<01:19, 33.7MiB/s] 13%|████▉                                 | 384M/2.88G [00:18<02:00, 22.3MiB/s] 13%|████▉                                 | 387M/2.88G [00:18<02:44, 16.3MiB/s] 13%|█████                                 | 391M/2.88G [00:18<02:13, 20.1MiB/s] 13%|█████                                 | 396M/2.88G [00:18<01:46, 25.2MiB/s] 14%|█████▏                                | 400M/2.88G [00:18<01:49, 24.4MiB/s] 14%|█████▏                                | 403M/2.88G [00:18<01:53, 23.5MiB/s] 14%|█████▎                                | 411M/2.88G [00:19<01:13, 36.1MiB/s] 14%|█████▎                                | 415M/2.88G [00:19<01:23, 31.6MiB/s] 14%|█████▍                                | 419M/2.88G [00:19<01:31, 29.1MiB/s] 14%|█████▍                                | 422M/2.88G [00:19<01:36, 27.5MiB/s] 14%|█████▍                                | 425M/2.88G [00:19<01:39, 26.5MiB/s] 15%|█████▌                                | 428M/2.88G [00:19<01:42, 25.7MiB/s] 15%|█████▌                                | 431M/2.88G [00:19<01:45, 25.1MiB/s] 15%|█████▌                                | 433M/2.88G [00:20<01:46, 24.7MiB/s] 15%|█████▌                                | 435M/2.88G [00:20<01:48, 24.3MiB/s] 15%|█████▋                                | 438M/2.88G [00:20<01:49, 24.1MiB/s] 15%|█████▋                                | 440M/2.88G [00:20<01:49, 24.0MiB/s] 15%|█████▋                                | 442M/2.88G [00:20<01:50, 23.8MiB/s] 15%|█████▋                                | 445M/2.88G [00:20<01:50, 23.7MiB/s] 15%|█████▊                                | 447M/2.88G [00:20<01:50, 23.7MiB/s] 15%|█████▊                                | 449M/2.88G [00:20<01:51, 23.4MiB/s] 15%|█████▊                                | 452M/2.88G [00:20<01:50, 23.6MiB/s] 15%|█████▊                                | 454M/2.88G [00:20<01:50, 23.6MiB/s] 15%|█████▉                                | 456M/2.88G [00:21<01:50, 23.6MiB/s] 16%|█████▉                                | 458M/2.88G [00:21<01:50, 23.6MiB/s] 16%|█████▉                                | 461M/2.88G [00:21<01:50, 23.5MiB/s] 16%|█████▉                                | 463M/2.88G [00:21<01:50, 23.5MiB/s] 16%|██████                                | 465M/2.88G [00:21<01:50, 23.5MiB/s] 16%|██████                                | 467M/2.88G [00:21<01:50, 23.5MiB/s] 16%|██████                                | 470M/2.88G [00:21<01:50, 23.5MiB/s] 16%|██████                                | 472M/2.88G [00:21<01:50, 23.5MiB/s] 16%|██████                                | 474M/2.88G [00:21<02:13, 19.4MiB/s] 16%|██████▏                               | 478M/2.88G [00:22<01:44, 24.8MiB/s] 16%|██████▏                               | 480M/2.88G [00:22<01:45, 24.4MiB/s] 16%|██████▏                               | 483M/2.88G [00:22<01:46, 24.1MiB/s] 16%|██████▎                               | 485M/2.88G [00:22<01:47, 23.9MiB/s] 17%|██████▎                               | 488M/2.88G [00:22<01:48, 23.8MiB/s] 17%|██████▎                               | 490M/2.88G [00:22<01:48, 23.8MiB/s] 17%|██████▎                               | 492M/2.88G [00:22<01:48, 23.7MiB/s] 17%|██████▍                               | 495M/2.88G [00:22<01:48, 23.7MiB/s] 17%|██████▍                               | 497M/2.88G [00:22<01:48, 23.6MiB/s] 17%|██████▍                               | 499M/2.88G [00:22<01:48, 23.6MiB/s] 17%|██████▍                               | 501M/2.88G [00:23<01:48, 23.5MiB/s] 17%|██████▍                               | 504M/2.88G [00:23<01:48, 23.5MiB/s] 17%|██████▌                               | 506M/2.88G [00:23<01:48, 23.5MiB/s] 17%|██████▌                               | 508M/2.88G [00:23<01:48, 23.5MiB/s] 17%|██████▌                               | 510M/2.88G [00:23<01:48, 23.5MiB/s] 17%|██████▌                               | 513M/2.88G [00:23<01:48, 23.5MiB/s] 17%|██████▋                               | 515M/2.88G [00:23<01:48, 23.5MiB/s] 18%|██████▋                               | 517M/2.88G [00:23<01:48, 23.5MiB/s] 18%|██████▋                               | 519M/2.88G [00:23<01:48, 23.5MiB/s] 18%|██████▋                               | 522M/2.88G [00:24<01:48, 23.5MiB/s] 18%|██████▊                               | 524M/2.88G [00:24<01:48, 23.5MiB/s] 18%|██████▊                               | 526M/2.88G [00:24<01:47, 23.5MiB/s] 18%|██████▊                               | 528M/2.88G [00:24<01:47, 23.5MiB/s] 18%|██████▊                               | 531M/2.88G [00:24<01:47, 23.5MiB/s] 18%|██████▉                               | 533M/2.88G [00:24<01:47, 23.5MiB/s] 18%|██████▉                               | 535M/2.88G [00:24<01:47, 23.5MiB/s] 18%|██████▉                               | 537M/2.88G [00:24<01:47, 23.4MiB/s] 18%|██████▉                               | 540M/2.88G [00:24<01:47, 23.5MiB/s] 18%|██████▉                               | 542M/2.88G [00:24<01:47, 23.5MiB/s] 18%|███████                               | 544M/2.88G [00:25<01:47, 23.5MiB/s] 19%|███████                               | 546M/2.88G [00:25<01:47, 23.4MiB/s] 19%|███████                               | 549M/2.88G [00:25<01:45, 23.9MiB/s] 19%|███████                               | 552M/2.88G [00:25<01:37, 25.7MiB/s] 19%|███████▏                              | 554M/2.88G [00:26<04:45, 8.79MiB/s] 19%|███████▏                              | 557M/2.88G [00:26<03:36, 11.6MiB/s] 19%|███████▏                              | 560M/2.88G [00:26<02:53, 14.4MiB/s] 19%|███████▎                              | 563M/2.88G [00:26<02:25, 17.2MiB/s] 19%|███████▎                              | 565M/2.88G [00:26<02:06, 19.7MiB/s] 19%|███████▎                              | 569M/2.88G [00:26<01:49, 22.8MiB/s] 19%|███████▍                              | 572M/2.88G [00:26<01:37, 25.5MiB/s] 20%|███████▍                              | 575M/2.88G [00:26<01:36, 25.7MiB/s] 20%|███████▍                              | 578M/2.88G [00:26<01:27, 28.4MiB/s] 20%|███████▌                              | 582M/2.88G [00:26<01:21, 30.6MiB/s] 20%|███████▌                              | 585M/2.88G [00:27<01:16, 32.1MiB/s] 20%|███████▌                              | 589M/2.88G [00:27<01:14, 33.3MiB/s] 20%|███████▋                              | 592M/2.88G [00:27<01:12, 34.2MiB/s] 20%|███████▋                              | 596M/2.88G [00:27<01:10, 34.7MiB/s] 20%|███████▋                              | 599M/2.88G [00:27<01:08, 36.1MiB/s] 20%|███████▊                              | 603M/2.88G [00:28<02:35, 15.8MiB/s] 21%|███████▊                              | 607M/2.88G [00:28<02:07, 19.3MiB/s] 21%|███████▉                              | 618M/2.88G [00:28<01:24, 28.9MiB/s] 21%|████████                              | 621M/2.88G [00:28<02:01, 20.1MiB/s] 21%|████████                              | 624M/2.88G [00:28<02:09, 18.8MiB/s] 22%|████████▏                             | 634M/2.88G [00:29<01:14, 32.7MiB/s] 22%|████████▏                             | 639M/2.88G [00:29<01:14, 32.5MiB/s] 22%|████████▎                             | 643M/2.88G [00:29<01:51, 21.6MiB/s] 22%|████████▎                             | 647M/2.88G [00:29<01:55, 20.9MiB/s] 22%|████████▍                             | 650M/2.88G [00:29<01:45, 22.8MiB/s] 22%|████████▍                             | 653M/2.88G [00:30<01:38, 24.4MiB/s] 22%|████████▍                             | 656M/2.88G [00:30<01:38, 24.5MiB/s] 22%|████████▌                             | 659M/2.88G [00:30<01:34, 25.4MiB/s] 22%|████████▌                             | 662M/2.88G [00:30<01:39, 24.1MiB/s] 23%|████████▌                             | 665M/2.88G [00:30<01:40, 23.9MiB/s] 23%|████████▋                             | 672M/2.88G [00:30<01:04, 36.9MiB/s] 23%|████████▋                             | 676M/2.88G [00:30<01:14, 31.8MiB/s] 23%|████████▊                             | 680M/2.88G [00:30<01:21, 29.2MiB/s] 23%|████████▊                             | 683M/2.88G [00:31<01:26, 27.5MiB/s] 23%|████████▊                             | 685M/2.88G [00:31<01:29, 26.4MiB/s] 23%|████████▉                             | 688M/2.88G [00:31<01:32, 25.6MiB/s] 23%|████████▉                             | 691M/2.88G [00:31<01:34, 25.0MiB/s] 24%|████████▉                             | 693M/2.88G [00:31<01:35, 24.7MiB/s] 24%|████████▉                             | 695M/2.88G [00:31<01:36, 24.4MiB/s] 24%|█████████                             | 698M/2.88G [00:31<01:40, 23.5MiB/s] 24%|█████████                             | 700M/2.88G [00:31<01:40, 23.5MiB/s] 24%|█████████                             | 702M/2.88G [00:31<01:40, 23.5MiB/s] 24%|█████████                             | 705M/2.88G [00:32<01:40, 23.5MiB/s] 24%|█████████                             | 707M/2.88G [00:32<01:39, 23.5MiB/s] 24%|█████████▏                            | 709M/2.88G [00:32<01:40, 23.4MiB/s] 24%|█████████▏                            | 711M/2.88G [00:32<01:39, 23.5MiB/s] 24%|█████████▏                            | 714M/2.88G [00:32<01:39, 23.5MiB/s] 24%|█████████▏                            | 716M/2.88G [00:32<01:39, 23.5MiB/s] 24%|█████████▎                            | 718M/2.88G [00:32<01:39, 23.4MiB/s] 24%|█████████▎                            | 720M/2.88G [00:32<01:39, 23.4MiB/s] 25%|█████████▎                            | 723M/2.88G [00:32<01:39, 23.5MiB/s] 25%|█████████▎                            | 725M/2.88G [00:32<01:39, 23.5MiB/s] 25%|█████████▍                            | 727M/2.88G [00:33<01:38, 23.5MiB/s] 25%|█████████▍                            | 729M/2.88G [00:33<01:38, 23.5MiB/s] 25%|█████████▍                            | 732M/2.88G [00:33<01:38, 23.5MiB/s] 25%|█████████▍                            | 734M/2.88G [00:33<01:38, 23.5MiB/s] 25%|█████████▍                            | 736M/2.88G [00:33<01:38, 23.5MiB/s] 25%|█████████▌                            | 738M/2.88G [00:33<01:38, 23.4MiB/s] 25%|█████████▌                            | 741M/2.88G [00:33<01:38, 23.5MiB/s] 25%|█████████▌                            | 743M/2.88G [00:33<01:38, 23.5MiB/s] 25%|█████████▌                            | 745M/2.88G [00:33<01:38, 23.3MiB/s] 25%|█████████▋                            | 747M/2.88G [00:34<01:37, 23.6MiB/s] 25%|█████████▋                            | 750M/2.88G [00:34<01:37, 23.5MiB/s] 26%|█████████▋                            | 752M/2.88G [00:34<01:37, 23.5MiB/s] 26%|█████████▋                            | 754M/2.88G [00:34<01:37, 23.5MiB/s] 26%|█████████▊                            | 756M/2.88G [00:34<01:37, 23.5MiB/s] 26%|█████████▊                            | 759M/2.88G [00:34<01:37, 23.5MiB/s] 26%|█████████▊                            | 761M/2.88G [00:34<01:37, 23.5MiB/s] 26%|█████████▊                            | 763M/2.88G [00:34<01:37, 23.5MiB/s] 26%|█████████▉                            | 765M/2.88G [00:34<01:37, 23.5MiB/s] 26%|█████████▉                            | 768M/2.88G [00:34<01:37, 23.5MiB/s] 26%|█████████▉                            | 770M/2.88G [00:35<01:37, 23.5MiB/s] 26%|█████████▉                            | 772M/2.88G [00:35<01:37, 23.4MiB/s] 26%|█████████▉                            | 774M/2.88G [00:35<01:36, 23.5MiB/s] 26%|██████████                            | 777M/2.88G [00:35<01:36, 23.5MiB/s] 26%|██████████                            | 779M/2.88G [00:35<01:36, 23.5MiB/s] 27%|██████████                            | 781M/2.88G [00:35<01:36, 23.5MiB/s] 27%|██████████                            | 783M/2.88G [00:35<01:36, 23.5MiB/s] 27%|██████████▏                           | 786M/2.88G [00:35<01:36, 23.5MiB/s] 27%|██████████▏                           | 788M/2.88G [00:35<01:36, 23.5MiB/s] 27%|██████████▏                           | 790M/2.88G [00:35<01:36, 23.5MiB/s] 27%|██████████▏                           | 792M/2.88G [00:36<01:36, 23.5MiB/s] 27%|██████████▎                           | 795M/2.88G [00:36<01:36, 23.5MiB/s] 27%|██████████▎                           | 797M/2.88G [00:36<01:35, 23.5MiB/s] 27%|██████████▎                           | 799M/2.88G [00:36<01:35, 23.4MiB/s] 27%|██████████▎                           | 801M/2.88G [00:36<01:35, 23.4MiB/s] 27%|██████████▎                           | 804M/2.88G [00:36<01:35, 23.4MiB/s] 27%|██████████▍                           | 806M/2.88G [00:36<01:35, 23.4MiB/s] 27%|██████████▍                           | 808M/2.88G [00:36<01:35, 23.4MiB/s] 28%|██████████▍                           | 810M/2.88G [00:36<01:35, 23.4MiB/s] 28%|██████████▍                           | 813M/2.88G [00:36<01:34, 23.7MiB/s] 28%|██████████▌                           | 815M/2.88G [00:37<01:28, 25.3MiB/s] 28%|██████████▌                           | 818M/2.88G [00:37<01:21, 27.4MiB/s] 28%|██████████▌                           | 821M/2.88G [00:37<02:21, 15.7MiB/s] 28%|██████████▋                           | 826M/2.88G [00:37<01:40, 22.1MiB/s] 28%|██████████▋                           | 829M/2.88G [00:37<02:31, 14.6MiB/s] 28%|██████████▊                           | 835M/2.88G [00:38<01:37, 22.6MiB/s] 28%|██████████▊                           | 838M/2.88G [00:38<02:51, 12.9MiB/s] 29%|██████████▉                           | 845M/2.88G [00:38<01:47, 20.5MiB/s] 29%|██████████▉                           | 849M/2.88G [00:38<01:36, 22.7MiB/s] 29%|███████████                           | 853M/2.88G [00:38<01:28, 24.7MiB/s] 29%|███████████                           | 856M/2.88G [00:39<01:23, 26.4MiB/s] 29%|███████████                           | 860M/2.88G [00:39<01:18, 27.8MiB/s] 29%|███████████▏                          | 863M/2.88G [00:39<01:15, 29.0MiB/s] 29%|███████████▏                          | 867M/2.88G [00:39<01:09, 31.2MiB/s] 30%|███████████▏                          | 870M/2.88G [00:39<01:07, 32.2MiB/s] 30%|███████████▎                          | 873M/2.88G [00:39<01:09, 31.3MiB/s] 30%|███████████▎                          | 877M/2.88G [00:39<01:07, 32.3MiB/s] 30%|███████████▎                          | 880M/2.88G [00:39<01:05, 33.3MiB/s] 30%|███████████▍                          | 883M/2.88G [00:40<01:49, 19.8MiB/s] 30%|███████████▍                          | 886M/2.88G [00:40<02:12, 16.3MiB/s] 30%|███████████▍                          | 891M/2.88G [00:40<01:36, 22.3MiB/s] 30%|███████████▌                          | 894M/2.88G [00:40<01:53, 18.9MiB/s] 30%|███████████▌                          | 898M/2.88G [00:40<01:32, 23.3MiB/s] 31%|███████████▋                          | 901M/2.88G [00:40<01:28, 24.2MiB/s] 31%|███████████▋                          | 904M/2.88G [00:41<01:25, 24.9MiB/s] 31%|███████████▋                          | 910M/2.88G [00:41<01:01, 34.5MiB/s] 31%|███████████▊                          | 914M/2.88G [00:41<01:09, 30.4MiB/s] 31%|███████████▊                          | 917M/2.88G [00:41<01:15, 28.2MiB/s] 31%|███████████▊                          | 920M/2.88G [00:41<01:19, 26.8MiB/s] 31%|███████████▉                          | 923M/2.88G [00:41<01:21, 25.9MiB/s] 31%|███████████▉                          | 925M/2.88G [00:41<01:24, 25.2MiB/s] 32%|███████████▉                          | 928M/2.88G [00:42<01:25, 24.8MiB/s] 32%|████████████                          | 930M/2.88G [00:42<01:26, 24.4MiB/s] 32%|████████████                          | 933M/2.88G [00:42<01:27, 24.1MiB/s] 32%|████████████                          | 935M/2.88G [00:42<01:28, 23.9MiB/s] 32%|████████████                          | 937M/2.88G [00:42<01:28, 23.8MiB/s] 32%|████████████▏                         | 940M/2.88G [00:42<01:28, 23.7MiB/s] 32%|████████████▏                         | 942M/2.88G [00:42<01:28, 23.6MiB/s] 32%|████████████▏                         | 944M/2.88G [00:42<01:29, 23.5MiB/s] 32%|████████████▏                         | 946M/2.88G [00:42<01:29, 23.3MiB/s] 32%|████████████▏                         | 949M/2.88G [00:42<01:29, 23.4MiB/s] 32%|████████████▎                         | 951M/2.88G [00:43<01:29, 23.4MiB/s] 32%|████████████▎                         | 953M/2.88G [00:43<01:29, 23.4MiB/s] 32%|████████████▎                         | 955M/2.88G [00:43<01:29, 23.4MiB/s] 33%|████████████▎                         | 958M/2.88G [00:43<01:29, 23.4MiB/s] 33%|████████████▍                         | 960M/2.88G [00:43<01:29, 23.3MiB/s] 33%|████████████▍                         | 962M/2.88G [00:43<01:28, 23.4MiB/s] 33%|████████████▍                         | 964M/2.88G [00:43<01:28, 23.4MiB/s] 33%|████████████▍                         | 966M/2.88G [00:43<01:28, 23.4MiB/s] 33%|████████████▌                         | 969M/2.88G [00:43<01:28, 23.4MiB/s] 33%|████████████▌                         | 971M/2.88G [00:43<01:28, 23.4MiB/s] 33%|████████████▌                         | 973M/2.88G [00:44<01:28, 23.4MiB/s] 33%|████████████▌                         | 975M/2.88G [00:44<01:28, 23.4MiB/s] 33%|████████████▌                         | 978M/2.88G [00:44<01:28, 23.4MiB/s] 33%|████████████▋                         | 980M/2.88G [00:44<01:27, 23.4MiB/s] 33%|████████████▋                         | 982M/2.88G [00:44<01:27, 23.4MiB/s] 33%|████████████▋                         | 984M/2.88G [00:44<01:27, 23.4MiB/s] 34%|████████████▋                         | 987M/2.88G [00:44<01:27, 23.4MiB/s] 34%|████████████▊                         | 989M/2.88G [00:44<01:27, 23.4MiB/s] 34%|████████████▊                         | 991M/2.88G [00:44<01:27, 23.4MiB/s] 34%|████████████▊                         | 993M/2.88G [00:44<01:27, 23.4MiB/s] 34%|████████████▊                         | 996M/2.88G [00:45<01:27, 23.4MiB/s] 34%|████████████▉                         | 998M/2.88G [00:45<01:27, 23.5MiB/s] 34%|████████████▌                        | 0.98G/2.88G [00:45<01:26, 23.4MiB/s] 34%|████████████▌                        | 0.98G/2.88G [00:45<01:26, 23.4MiB/s] 34%|████████████▌                        | 0.98G/2.88G [00:45<01:26, 23.4MiB/s] 34%|████████████▋                        | 0.98G/2.88G [00:45<01:26, 23.4MiB/s] 34%|████████████▋                        | 0.99G/2.88G [00:45<01:26, 23.4MiB/s] 34%|████████████▋                        | 0.99G/2.88G [00:45<01:26, 23.4MiB/s] 34%|████████████▋                        | 0.99G/2.88G [00:45<01:26, 23.4MiB/s] 35%|████████████▊                        | 0.99G/2.88G [00:45<01:26, 23.4MiB/s] 35%|████████████▊                        | 0.99G/2.88G [00:46<01:26, 23.4MiB/s] 35%|████████████▊                        | 1.00G/2.88G [00:46<01:26, 23.4MiB/s] 35%|████████████▊                        | 1.00G/2.88G [00:46<01:26, 23.4MiB/s] 35%|████████████▉                        | 1.00G/2.88G [00:46<01:25, 23.4MiB/s] 35%|████████████▉                        | 1.00G/2.88G [00:46<01:25, 23.4MiB/s] 35%|████████████▉                        | 1.01G/2.88G [00:46<01:25, 23.4MiB/s] 35%|████████████▉                        | 1.01G/2.88G [00:46<01:25, 23.4MiB/s] 35%|████████████▉                        | 1.01G/2.88G [00:46<01:25, 23.4MiB/s] 35%|█████████████                        | 1.01G/2.88G [00:46<01:25, 23.4MiB/s] 35%|█████████████                        | 1.01G/2.88G [00:46<01:25, 23.4MiB/s] 35%|█████████████                        | 1.02G/2.88G [00:47<01:25, 23.4MiB/s] 35%|█████████████                        | 1.02G/2.88G [00:47<01:25, 23.4MiB/s] 35%|█████████████▏                       | 1.02G/2.88G [00:47<01:25, 23.3MiB/s] 36%|█████████████▏                       | 1.02G/2.88G [00:47<01:25, 23.4MiB/s] 36%|█████████████▏                       | 1.02G/2.88G [00:47<01:25, 23.3MiB/s] 36%|█████████████▏                       | 1.03G/2.88G [00:47<01:19, 25.0MiB/s] 36%|█████████████▎                       | 1.03G/2.88G [00:47<01:20, 24.7MiB/s] 36%|█████████████▎                       | 1.03G/2.88G [00:47<01:16, 25.8MiB/s] 36%|█████████████▎                       | 1.04G/2.88G [00:47<01:13, 26.8MiB/s] 36%|█████████████▎                       | 1.04G/2.88G [00:47<01:11, 27.5MiB/s] 36%|█████████████▍                       | 1.04G/2.88G [00:48<01:10, 27.9MiB/s] 36%|█████████████▍                       | 1.04G/2.88G [00:48<02:21, 13.9MiB/s] 36%|█████████████▍                       | 1.05G/2.88G [00:48<01:58, 16.6MiB/s] 37%|█████████████▌                       | 1.05G/2.88G [00:48<01:51, 17.6MiB/s] 37%|█████████████▌                       | 1.06G/2.88G [00:48<01:10, 27.6MiB/s] 37%|█████████████▋                       | 1.06G/2.88G [00:49<01:13, 26.4MiB/s] 37%|█████████████▋                       | 1.06G/2.88G [00:49<01:21, 24.0MiB/s] 37%|█████████████▋                       | 1.07G/2.88G [00:49<01:16, 25.3MiB/s] 37%|█████████████▊                       | 1.07G/2.88G [00:49<01:38, 19.6MiB/s] 37%|█████████████▊                       | 1.07G/2.88G [00:49<01:15, 25.6MiB/s] 37%|█████████████▊                       | 1.08G/2.88G [00:49<01:16, 25.3MiB/s] 38%|█████████████▉                       | 1.08G/2.88G [00:50<01:16, 25.1MiB/s] 38%|█████████████▉                       | 1.08G/2.88G [00:50<01:18, 24.6MiB/s] 38%|█████████████▉                       | 1.09G/2.88G [00:50<01:18, 24.4MiB/s] 38%|██████████████                       | 1.09G/2.88G [00:50<01:15, 25.5MiB/s] 38%|██████████████                       | 1.09G/2.88G [00:50<00:56, 34.0MiB/s] 38%|██████████████                       | 1.10G/2.88G [00:50<01:03, 30.1MiB/s] 38%|██████████████▏                      | 1.10G/2.88G [00:51<02:03, 15.4MiB/s] 38%|██████████████▏                      | 1.10G/2.88G [00:51<01:54, 16.7MiB/s] 38%|██████████████▏                      | 1.10G/2.88G [00:51<01:46, 17.9MiB/s] 38%|██████████████▏                      | 1.11G/2.88G [00:51<01:39, 19.0MiB/s] 39%|██████████████▎                      | 1.11G/2.88G [00:51<01:34, 20.0MiB/s] 39%|██████████████▎                      | 1.11G/2.88G [00:51<01:30, 20.8MiB/s] 39%|██████████████▎                      | 1.11G/2.88G [00:51<01:28, 21.5MiB/s] 39%|██████████████▎                      | 1.12G/2.88G [00:51<01:26, 21.9MiB/s] 39%|██████████████▍                      | 1.12G/2.88G [00:51<01:24, 22.3MiB/s] 39%|██████████████▍                      | 1.12G/2.88G [00:52<01:23, 22.6MiB/s] 39%|██████████████▍                      | 1.12G/2.88G [00:52<01:22, 22.8MiB/s] 39%|██████████████▍                      | 1.12G/2.88G [00:52<01:21, 23.0MiB/s] 39%|██████████████▍                      | 1.13G/2.88G [00:52<01:21, 23.1MiB/s] 39%|██████████████▌                      | 1.13G/2.88G [00:52<01:20, 23.2MiB/s] 39%|██████████████▌                      | 1.13G/2.88G [00:52<01:20, 23.2MiB/s] 39%|██████████████▌                      | 1.13G/2.88G [00:52<01:20, 23.2MiB/s] 39%|██████████████▌                      | 1.14G/2.88G [00:52<01:20, 23.3MiB/s] 40%|██████████████▋                      | 1.14G/2.88G [00:52<01:20, 23.3MiB/s] 40%|██████████████▋                      | 1.14G/2.88G [00:52<01:20, 23.3MiB/s] 40%|██████████████▋                      | 1.14G/2.88G [00:53<01:19, 23.3MiB/s] 40%|██████████████▋                      | 1.14G/2.88G [00:53<01:19, 23.3MiB/s] 40%|██████████████▊                      | 1.15G/2.88G [00:53<01:19, 23.3MiB/s] 40%|██████████████▊                      | 1.15G/2.88G [00:53<01:19, 23.3MiB/s] 40%|██████████████▊                      | 1.15G/2.88G [00:53<01:19, 23.3MiB/s] 40%|██████████████▊                      | 1.15G/2.88G [00:53<01:19, 23.3MiB/s] 40%|██████████████▊                      | 1.15G/2.88G [00:53<01:19, 23.3MiB/s] 40%|██████████████▉                      | 1.16G/2.88G [00:53<01:19, 23.3MiB/s] 40%|██████████████▉                      | 1.16G/2.88G [00:53<01:19, 23.3MiB/s] 40%|██████████████▉                      | 1.16G/2.88G [00:53<01:18, 23.3MiB/s] 40%|██████████████▉                      | 1.16G/2.88G [00:54<01:18, 23.3MiB/s] 41%|███████████████                      | 1.17G/2.88G [00:54<01:18, 23.3MiB/s] 41%|███████████████                      | 1.17G/2.88G [00:54<01:18, 23.3MiB/s] 41%|███████████████                      | 1.17G/2.88G [00:54<01:18, 23.3MiB/s] 41%|███████████████                      | 1.17G/2.88G [00:54<01:18, 23.3MiB/s] 41%|███████████████                      | 1.17G/2.88G [00:54<01:18, 23.3MiB/s] 41%|███████████████▏                     | 1.18G/2.88G [00:54<01:18, 23.3MiB/s] 41%|███████████████▏                     | 1.18G/2.88G [00:54<01:18, 23.3MiB/s] 41%|███████████████▏                     | 1.18G/2.88G [00:54<01:17, 23.3MiB/s] 41%|███████████████▏                     | 1.18G/2.88G [00:54<01:17, 23.3MiB/s] 41%|███████████████▎                     | 1.19G/2.88G [00:55<01:17, 23.3MiB/s] 41%|███████████████▎                     | 1.19G/2.88G [00:55<01:17, 23.3MiB/s] 41%|███████████████▎                     | 1.19G/2.88G [00:55<01:17, 23.3MiB/s] 41%|███████████████▎                     | 1.19G/2.88G [00:55<01:17, 23.3MiB/s] 42%|███████████████▎                     | 1.19G/2.88G [00:55<01:17, 23.3MiB/s] 42%|███████████████▍                     | 1.20G/2.88G [00:55<01:17, 23.3MiB/s] 42%|███████████████▍                     | 1.20G/2.88G [00:55<01:17, 23.2MiB/s] 42%|███████████████▍                     | 1.20G/2.88G [00:55<01:17, 23.3MiB/s] 42%|███████████████▍                     | 1.20G/2.88G [00:55<01:17, 23.3MiB/s] 42%|███████████████▌                     | 1.21G/2.88G [00:55<01:17, 23.3MiB/s] 42%|███████████████▌                     | 1.21G/2.88G [00:56<01:16, 23.3MiB/s] 42%|███████████████▌                     | 1.21G/2.88G [00:56<01:16, 23.3MiB/s] 42%|███████████████▌                     | 1.21G/2.88G [00:56<01:16, 23.3MiB/s] 42%|███████████████▌                     | 1.21G/2.88G [00:56<01:16, 23.2MiB/s] 42%|███████████████▋                     | 1.22G/2.88G [00:56<01:16, 23.4MiB/s] 42%|███████████████▋                     | 1.22G/2.88G [00:56<01:16, 23.3MiB/s] 42%|███████████████▋                     | 1.22G/2.88G [00:56<01:16, 23.3MiB/s] 43%|███████████████▋                     | 1.22G/2.88G [00:56<01:16, 23.3MiB/s] 43%|███████████████▊                     | 1.22G/2.88G [00:56<01:16, 23.3MiB/s] 43%|███████████████▊                     | 1.23G/2.88G [00:56<01:16, 23.2MiB/s] 43%|███████████████▊                     | 1.23G/2.88G [00:57<01:15, 23.3MiB/s] 43%|███████████████▊                     | 1.23G/2.88G [00:57<01:15, 23.3MiB/s] 43%|███████████████▉                     | 1.23G/2.88G [00:57<01:13, 24.0MiB/s] 43%|███████████████▉                     | 1.24G/2.88G [00:57<01:08, 25.5MiB/s] 43%|███████████████▉                     | 1.24G/2.88G [00:57<01:03, 27.8MiB/s] 43%|███████████████▉                     | 1.24G/2.88G [00:57<00:57, 30.5MiB/s] 43%|████████████████                     | 1.25G/2.88G [00:57<00:51, 33.9MiB/s] 43%|████████████████                     | 1.25G/2.88G [00:57<00:55, 31.5MiB/s] 44%|████████████████▏                    | 1.25G/2.88G [00:57<00:52, 32.9MiB/s] 44%|████████████████▏                    | 1.26G/2.88G [00:57<00:50, 34.2MiB/s] 44%|████████████████▏                    | 1.26G/2.88G [00:58<00:49, 35.1MiB/s] 44%|████████████████▎                    | 1.26G/2.88G [00:58<00:48, 35.8MiB/s] 44%|████████████████▎                    | 1.27G/2.88G [00:58<01:44, 16.5MiB/s] 44%|████████████████▎                    | 1.27G/2.88G [00:58<02:02, 14.0MiB/s] 45%|████████████████▍                    | 1.28G/2.88G [00:59<01:02, 27.6MiB/s] 45%|████████████████▌                    | 1.28G/2.88G [00:59<00:57, 29.5MiB/s] 45%|████████████████▌                    | 1.29G/2.88G [00:59<00:54, 31.0MiB/s] 45%|████████████████▌                    | 1.29G/2.88G [01:00<01:58, 14.4MiB/s] 45%|████████████████▋                    | 1.30G/2.88G [01:00<01:07, 24.9MiB/s] 45%|████████████████▊                    | 1.31G/2.88G [01:00<01:01, 27.4MiB/s] 46%|████████████████▊                    | 1.31G/2.88G [01:00<00:54, 31.0MiB/s] 46%|████████████████▉                    | 1.31G/2.88G [01:00<00:53, 31.3MiB/s] 46%|████████████████▉                    | 1.32G/2.88G [01:01<01:43, 16.1MiB/s] 46%|█████████████████                    | 1.32G/2.88G [01:01<01:34, 17.6MiB/s] 46%|█████████████████▏                   | 1.33G/2.88G [01:01<00:58, 28.4MiB/s] 46%|█████████████████▏                   | 1.34G/2.88G [01:01<01:27, 18.8MiB/s] 47%|█████████████████▏                   | 1.34G/2.88G [01:01<01:16, 21.5MiB/s] 47%|█████████████████▎                   | 1.35G/2.88G [01:02<01:00, 27.3MiB/s] 47%|█████████████████▍                   | 1.35G/2.88G [01:02<01:14, 22.1MiB/s] 47%|█████████████████▌                   | 1.36G/2.88G [01:02<00:55, 29.0MiB/s] 47%|█████████████████▌                   | 1.36G/2.88G [01:03<01:28, 18.3MiB/s] 48%|█████████████████▌                   | 1.37G/2.88G [01:03<01:11, 22.6MiB/s] 48%|█████████████████▋                   | 1.37G/2.88G [01:03<01:02, 26.0MiB/s] 48%|█████████████████▊                   | 1.38G/2.88G [01:03<01:01, 26.3MiB/s] 48%|█████████████████▊                   | 1.38G/2.88G [01:03<01:12, 22.2MiB/s] 48%|█████████████████▊                   | 1.39G/2.88G [01:04<01:11, 22.4MiB/s] 49%|█████████████████▉                   | 1.39G/2.88G [01:04<00:53, 29.9MiB/s] 49%|██████████████████                   | 1.40G/2.88G [01:04<01:03, 24.9MiB/s] 49%|██████████████████                   | 1.40G/2.88G [01:04<01:22, 19.3MiB/s] 49%|██████████████████▏                  | 1.41G/2.88G [01:04<00:45, 34.3MiB/s] 49%|██████████████████▎                  | 1.42G/2.88G [01:05<00:50, 30.7MiB/s] 49%|██████████████████▎                  | 1.42G/2.88G [01:05<00:54, 28.7MiB/s] 50%|██████████████████▎                  | 1.43G/2.88G [01:05<00:56, 27.4MiB/s] 50%|██████████████████▍                  | 1.43G/2.88G [01:05<00:58, 26.4MiB/s] 50%|██████████████████▍                  | 1.43G/2.88G [01:05<01:00, 25.7MiB/s] 50%|██████████████████▍                  | 1.44G/2.88G [01:05<01:01, 25.2MiB/s] 50%|██████████████████▌                  | 1.44G/2.88G [01:06<01:02, 24.7MiB/s] 50%|██████████████████▌                  | 1.44G/2.88G [01:06<01:03, 24.4MiB/s] 50%|██████████████████▌                  | 1.44G/2.88G [01:06<01:03, 24.1MiB/s] 50%|██████████████████▌                  | 1.44G/2.88G [01:06<01:04, 24.0MiB/s] 50%|██████████████████▌                  | 1.45G/2.88G [01:06<01:04, 23.8MiB/s] 50%|██████████████████▋                  | 1.45G/2.88G [01:06<01:04, 23.7MiB/s] 50%|██████████████████▋                  | 1.45G/2.88G [01:06<01:04, 23.7MiB/s] 51%|██████████████████▋                  | 1.45G/2.88G [01:06<01:04, 23.6MiB/s] 51%|██████████████████▋                  | 1.46G/2.88G [01:06<01:04, 23.6MiB/s] 51%|██████████████████▊                  | 1.46G/2.88G [01:07<01:04, 23.5MiB/s] 51%|██████████████████▊                  | 1.46G/2.88G [01:07<01:04, 23.5MiB/s] 51%|██████████████████▊                  | 1.46G/2.88G [01:07<01:04, 23.5MiB/s] 51%|██████████████████▊                  | 1.46G/2.88G [01:07<01:04, 23.5MiB/s] 51%|██████████████████▉                  | 1.47G/2.88G [01:07<01:04, 23.5MiB/s] 51%|██████████████████▉                  | 1.47G/2.88G [01:07<01:04, 23.5MiB/s] 51%|██████████████████▉                  | 1.47G/2.88G [01:07<01:04, 23.3MiB/s] 51%|██████████████████▉                  | 1.47G/2.88G [01:07<01:04, 23.4MiB/s] 51%|██████████████████▉                  | 1.48G/2.88G [01:07<01:03, 23.5MiB/s] 51%|███████████████████                  | 1.48G/2.88G [01:07<01:03, 23.5MiB/s] 51%|███████████████████                  | 1.48G/2.88G [01:08<01:03, 23.5MiB/s] 52%|███████████████████                  | 1.48G/2.88G [01:08<01:03, 23.4MiB/s] 52%|███████████████████                  | 1.48G/2.88G [01:08<01:03, 23.4MiB/s] 52%|███████████████████▏                 | 1.49G/2.88G [01:08<01:03, 23.5MiB/s] 52%|███████████████████▏                 | 1.49G/2.88G [01:08<01:03, 23.4MiB/s] 52%|███████████████████▏                 | 1.49G/2.88G [01:08<01:03, 23.4MiB/s] 52%|███████████████████▏                 | 1.49G/2.88G [01:08<01:03, 23.5MiB/s] 52%|███████████████████▏                 | 1.50G/2.88G [01:08<01:03, 23.4MiB/s] 52%|███████████████████▎                 | 1.50G/2.88G [01:08<01:03, 23.5MiB/s] 52%|███████████████████▎                 | 1.50G/2.88G [01:08<01:03, 23.4MiB/s] 52%|███████████████████▎                 | 1.50G/2.88G [01:09<01:02, 23.5MiB/s] 52%|███████████████████▎                 | 1.50G/2.88G [01:09<02:08, 11.5MiB/s] 52%|███████████████████▍                 | 1.51G/2.88G [01:09<01:48, 13.5MiB/s] 52%|███████████████████▍                 | 1.51G/2.88G [01:09<01:34, 15.5MiB/s] 53%|███████████████████▍                 | 1.51G/2.88G [01:09<01:24, 17.2MiB/s] 53%|███████████████████▍                 | 1.51G/2.88G [01:09<01:18, 18.7MiB/s] 53%|███████████████████▍                 | 1.52G/2.88G [01:09<01:13, 19.9MiB/s] 53%|███████████████████▌                 | 1.52G/2.88G [01:10<01:09, 20.9MiB/s] 53%|███████████████████▌                 | 1.52G/2.88G [01:10<01:07, 21.6MiB/s] 53%|███████████████████▌                 | 1.52G/2.88G [01:10<01:05, 22.1MiB/s] 53%|███████████████████▌                 | 1.52G/2.88G [01:10<01:04, 22.5MiB/s] 53%|███████████████████▋                 | 1.53G/2.88G [01:10<01:03, 22.8MiB/s] 53%|███████████████████▋                 | 1.53G/2.88G [01:10<01:03, 22.9MiB/s] 53%|███████████████████▋                 | 1.53G/2.88G [01:10<01:02, 23.1MiB/s] 53%|███████████████████▋                 | 1.53G/2.88G [01:10<01:02, 23.2MiB/s] 53%|███████████████████▊                 | 1.54G/2.88G [01:10<01:01, 23.4MiB/s] 53%|███████████████████▊                 | 1.54G/2.88G [01:10<00:56, 25.2MiB/s] 54%|███████████████████▊                 | 1.54G/2.88G [01:11<00:53, 27.0MiB/s] 54%|███████████████████▊                 | 1.54G/2.88G [01:11<00:47, 29.8MiB/s] 54%|███████████████████▉                 | 1.55G/2.88G [01:11<00:43, 33.0MiB/s] 54%|███████████████████▉                 | 1.55G/2.88G [01:11<00:39, 35.7MiB/s] 54%|████████████████████                 | 1.56G/2.88G [01:11<00:42, 33.4MiB/s] 54%|████████████████████                 | 1.56G/2.88G [01:11<01:01, 22.9MiB/s] 54%|████████████████████                 | 1.56G/2.88G [01:11<00:59, 23.8MiB/s] 54%|████████████████████▏                | 1.56G/2.88G [01:12<01:47, 13.1MiB/s] 55%|████████████████████▎                | 1.58G/2.88G [01:12<00:47, 29.3MiB/s] 55%|████████████████████▎                | 1.58G/2.88G [01:12<00:44, 31.4MiB/s] 55%|████████████████████▍                | 1.59G/2.88G [01:12<00:41, 33.2MiB/s] 55%|████████████████████▍                | 1.59G/2.88G [01:13<01:10, 19.4MiB/s] 55%|████████████████████▌                | 1.59G/2.88G [01:13<01:16, 18.0MiB/s] 56%|████████████████████▋                | 1.60G/2.88G [01:13<00:54, 24.8MiB/s] 56%|████████████████████▋                | 1.61G/2.88G [01:14<01:08, 20.0MiB/s] 56%|████████████████████▋                | 1.61G/2.88G [01:14<01:02, 21.8MiB/s] 56%|████████████████████▊                | 1.62G/2.88G [01:14<00:39, 34.2MiB/s] 56%|████████████████████▉                | 1.62G/2.88G [01:14<01:10, 19.2MiB/s] 57%|████████████████████▉                | 1.63G/2.88G [01:15<01:02, 21.3MiB/s] 57%|████████████████████▉                | 1.63G/2.88G [01:15<00:57, 23.2MiB/s] 57%|█████████████████████                | 1.64G/2.88G [01:15<00:49, 26.9MiB/s] 57%|█████████████████████▏               | 1.64G/2.88G [01:15<00:51, 25.9MiB/s] 57%|█████████████████████▏               | 1.64G/2.88G [01:15<01:01, 21.5MiB/s] 57%|█████████████████████▏               | 1.65G/2.88G [01:15<01:04, 20.5MiB/s] 58%|█████████████████████▎               | 1.65G/2.88G [01:16<00:44, 29.5MiB/s] 58%|█████████████████████▎               | 1.66G/2.88G [01:16<00:38, 34.3MiB/s] 58%|█████████████████████▍               | 1.66G/2.88G [01:16<00:37, 34.3MiB/s] 58%|█████████████████████▍               | 1.67G/2.88G [01:16<01:14, 17.5MiB/s] 58%|█████████████████████▍               | 1.67G/2.88G [01:16<01:10, 18.3MiB/s] 58%|█████████████████████▌               | 1.68G/2.88G [01:17<00:46, 27.5MiB/s] 58%|█████████████████████▋               | 1.68G/2.88G [01:17<00:40, 31.7MiB/s] 59%|█████████████████████▋               | 1.68G/2.88G [01:17<00:43, 29.4MiB/s] 59%|█████████████████████▋               | 1.69G/2.88G [01:17<00:45, 28.1MiB/s] 59%|█████████████████████▊               | 1.69G/2.88G [01:17<00:46, 27.1MiB/s] 59%|█████████████████████▊               | 1.69G/2.88G [01:17<00:48, 26.4MiB/s] 59%|█████████████████████▊               | 1.70G/2.88G [01:17<00:48, 26.1MiB/s] 59%|█████████████████████▊               | 1.70G/2.88G [01:17<00:49, 25.7MiB/s] 59%|█████████████████████▉               | 1.70G/2.88G [01:18<00:49, 25.5MiB/s] 59%|█████████████████████▉               | 1.70G/2.88G [01:18<00:49, 25.2MiB/s] 59%|█████████████████████▉               | 1.71G/2.88G [01:18<00:50, 25.0MiB/s] 59%|█████████████████████▉               | 1.71G/2.88G [01:18<00:50, 25.0MiB/s] 60%|██████████████████████               | 1.71G/2.88G [01:18<00:50, 24.8MiB/s] 60%|██████████████████████               | 1.71G/2.88G [01:18<00:50, 24.8MiB/s] 60%|██████████████████████               | 1.72G/2.88G [01:18<00:50, 24.6MiB/s] 60%|██████████████████████               | 1.72G/2.88G [01:19<01:22, 15.0MiB/s] 60%|██████████████████████▏              | 1.72G/2.88G [01:19<01:15, 16.4MiB/s] 60%|██████████████████████▏              | 1.72G/2.88G [01:19<01:07, 18.3MiB/s] 60%|██████████████████████▏              | 1.73G/2.88G [01:19<01:01, 20.0MiB/s] 60%|██████████████████████▏              | 1.73G/2.88G [01:19<00:59, 20.8MiB/s] 60%|██████████████████████▎              | 1.73G/2.88G [01:19<00:56, 21.7MiB/s] 60%|██████████████████████▎              | 1.73G/2.88G [01:19<00:54, 22.3MiB/s] 60%|██████████████████████▎              | 1.74G/2.88G [01:19<00:54, 22.6MiB/s] 60%|██████████████████████▎              | 1.74G/2.88G [01:19<00:53, 22.9MiB/s] 61%|██████████████████████▍              | 1.74G/2.88G [01:20<00:52, 23.2MiB/s] 61%|██████████████████████▍              | 1.74G/2.88G [01:20<00:52, 23.3MiB/s] 61%|██████████████████████▍              | 1.75G/2.88G [01:20<01:19, 15.2MiB/s] 61%|██████████████████████▌              | 1.75G/2.88G [01:20<00:46, 25.8MiB/s] 61%|██████████████████████▌              | 1.75G/2.88G [01:20<00:46, 25.9MiB/s] 61%|██████████████████████▋              | 1.76G/2.88G [01:20<00:36, 32.8MiB/s] 61%|██████████████████████▋              | 1.76G/2.88G [01:20<00:39, 30.1MiB/s] 61%|██████████████████████▋              | 1.77G/2.88G [01:21<00:41, 28.4MiB/s] 62%|██████████████████████▊              | 1.77G/2.88G [01:21<00:43, 27.4MiB/s] 62%|██████████████████████▊              | 1.77G/2.88G [01:21<00:44, 26.6MiB/s] 62%|██████████████████████▊              | 1.77G/2.88G [01:21<00:45, 26.1MiB/s] 62%|██████████████████████▊              | 1.78G/2.88G [01:21<00:45, 25.7MiB/s] 62%|██████████████████████▉              | 1.78G/2.88G [01:21<00:46, 25.4MiB/s] 62%|██████████████████████▉              | 1.78G/2.88G [01:21<00:46, 25.1MiB/s] 62%|██████████████████████▉              | 1.78G/2.88G [01:21<00:46, 24.9MiB/s] 62%|██████████████████████▉              | 1.79G/2.88G [01:21<00:47, 24.9MiB/s] 62%|███████████████████████              | 1.79G/2.88G [01:22<00:46, 24.8MiB/s] 62%|███████████████████████              | 1.79G/2.88G [01:22<00:46, 24.8MiB/s] 62%|███████████████████████              | 1.79G/2.88G [01:22<00:46, 24.8MiB/s] 62%|███████████████████████              | 1.80G/2.88G [01:22<00:46, 24.7MiB/s] 63%|███████████████████████▏             | 1.80G/2.88G [01:22<00:46, 24.7MiB/s] 63%|███████████████████████▏             | 1.80G/2.88G [01:22<00:46, 24.7MiB/s] 63%|███████████████████████▏             | 1.80G/2.88G [01:22<00:46, 24.7MiB/s] 63%|███████████████████████▏             | 1.80G/2.88G [01:22<00:46, 24.6MiB/s] 63%|███████████████████████▎             | 1.81G/2.88G [01:22<00:46, 24.6MiB/s] 63%|███████████████████████▎             | 1.81G/2.88G [01:23<01:17, 14.8MiB/s] 63%|███████████████████████▎             | 1.81G/2.88G [01:23<01:02, 18.2MiB/s] 63%|███████████████████████▍             | 1.82G/2.88G [01:23<00:39, 28.5MiB/s] 63%|███████████████████████▍             | 1.82G/2.88G [01:23<00:40, 27.6MiB/s] 63%|███████████████████████▍             | 1.82G/2.88G [01:23<00:41, 27.1MiB/s] 64%|███████████████████████▌             | 1.83G/2.88G [01:23<01:05, 17.1MiB/s] 64%|███████████████████████▌             | 1.83G/2.88G [01:24<01:46, 10.5MiB/s] 64%|███████████████████████▌             | 1.83G/2.88G [01:24<01:55, 9.69MiB/s] 64%|███████████████████████▌             | 1.84G/2.88G [01:24<01:24, 13.2MiB/s] 64%|███████████████████████▋             | 1.84G/2.88G [01:24<00:50, 21.8MiB/s] 64%|███████████████████████▋             | 1.84G/2.88G [01:25<00:48, 22.6MiB/s] 64%|███████████████████████▊             | 1.85G/2.88G [01:25<00:47, 23.3MiB/s] 64%|███████████████████████▊             | 1.85G/2.88G [01:25<00:46, 23.9MiB/s] 64%|███████████████████████▊             | 1.85G/2.88G [01:25<00:45, 24.3MiB/s] 65%|███████████████████████▉             | 1.86G/2.88G [01:25<00:44, 24.6MiB/s] 65%|███████████████████████▉             | 1.86G/2.88G [01:25<00:41, 26.3MiB/s] 65%|███████████████████████▉             | 1.86G/2.88G [01:25<00:38, 28.2MiB/s] 65%|████████████████████████             | 1.87G/2.88G [01:25<00:35, 30.3MiB/s] 65%|████████████████████████             | 1.87G/2.88G [01:25<00:35, 30.8MiB/s] 65%|████████████████████████             | 1.87G/2.88G [01:26<00:33, 32.6MiB/s] 65%|████████████████████████▏            | 1.88G/2.88G [01:26<00:31, 33.9MiB/s] 65%|████████████████████████▏            | 1.88G/2.88G [01:26<00:31, 34.2MiB/s] 65%|████████████████████████▏            | 1.88G/2.88G [01:26<00:29, 35.6MiB/s] 66%|████████████████████████▎            | 1.89G/2.88G [01:26<00:29, 36.1MiB/s] 66%|████████████████████████▎            | 1.89G/2.88G [01:26<00:29, 36.4MiB/s] 66%|████████████████████████▎            | 1.89G/2.88G [01:27<01:27, 12.1MiB/s] 66%|████████████████████████▌            | 1.90G/2.88G [01:27<00:40, 25.9MiB/s] 66%|████████████████████████▌            | 1.91G/2.88G [01:27<00:36, 28.3MiB/s] 67%|████████████████████████▋            | 1.91G/2.88G [01:27<00:32, 31.5MiB/s] 67%|████████████████████████▋            | 1.92G/2.88G [01:27<00:32, 31.3MiB/s] 67%|████████████████████████▋            | 1.92G/2.88G [01:28<00:53, 19.0MiB/s] 67%|████████████████████████▊            | 1.93G/2.88G [01:28<00:51, 19.7MiB/s] 67%|████████████████████████▊            | 1.93G/2.88G [01:28<00:52, 19.2MiB/s] 67%|████████████████████████▉            | 1.94G/2.88G [01:28<00:39, 25.4MiB/s] 67%|████████████████████████▉            | 1.94G/2.88G [01:29<00:44, 22.4MiB/s] 68%|████████████████████████▉            | 1.94G/2.88G [01:29<00:48, 20.9MiB/s] 68%|█████████████████████████            | 1.95G/2.88G [01:29<00:30, 32.7MiB/s] 68%|█████████████████████████▏           | 1.95G/2.88G [01:29<00:30, 32.0MiB/s] 68%|█████████████████████████▏           | 1.96G/2.88G [01:29<00:30, 32.1MiB/s] 68%|█████████████████████████▏           | 1.96G/2.88G [01:29<00:48, 20.2MiB/s] 68%|█████████████████████████▎           | 1.96G/2.88G [01:30<00:53, 18.2MiB/s] 68%|█████████████████████████▎           | 1.97G/2.88G [01:30<00:44, 21.8MiB/s] 68%|█████████████████████████▎           | 1.97G/2.88G [01:30<00:42, 22.8MiB/s] 69%|█████████████████████████▍           | 1.97G/2.88G [01:30<00:42, 23.1MiB/s] 69%|█████████████████████████▍           | 1.97G/2.88G [01:30<00:41, 23.2MiB/s] 69%|█████████████████████████▍           | 1.98G/2.88G [01:30<00:40, 23.6MiB/s] 69%|█████████████████████████▍           | 1.98G/2.88G [01:30<00:40, 24.0MiB/s] 69%|█████████████████████████▌           | 1.99G/2.88G [01:30<00:25, 37.5MiB/s] 69%|█████████████████████████▌           | 1.99G/2.88G [01:31<00:29, 32.1MiB/s] 69%|█████████████████████████▋           | 1.99G/2.88G [01:31<00:32, 29.3MiB/s] 69%|█████████████████████████▋           | 2.00G/2.88G [01:31<00:34, 27.6MiB/s] 70%|█████████████████████████▋           | 2.00G/2.88G [01:31<00:35, 26.5MiB/s] 70%|█████████████████████████▊           | 2.00G/2.88G [01:31<00:36, 25.7MiB/s] 70%|█████████████████████████▊           | 2.01G/2.88G [01:31<00:37, 25.1MiB/s] 70%|█████████████████████████▊           | 2.01G/2.88G [01:31<00:37, 24.6MiB/s] 70%|█████████████████████████▊           | 2.01G/2.88G [01:31<00:38, 24.3MiB/s] 70%|█████████████████████████▉           | 2.01G/2.88G [01:32<00:38, 24.1MiB/s] 70%|█████████████████████████▉           | 2.01G/2.88G [01:32<00:38, 23.9MiB/s] 70%|█████████████████████████▉           | 2.02G/2.88G [01:32<00:38, 23.8MiB/s] 70%|█████████████████████████▉           | 2.02G/2.88G [01:32<00:38, 23.7MiB/s] 70%|██████████████████████████           | 2.02G/2.88G [01:32<00:38, 23.6MiB/s] 70%|██████████████████████████           | 2.02G/2.88G [01:32<00:38, 23.6MiB/s] 70%|██████████████████████████           | 2.03G/2.88G [01:32<00:38, 23.6MiB/s] 71%|██████████████████████████           | 2.03G/2.88G [01:32<00:38, 23.6MiB/s] 71%|██████████████████████████           | 2.03G/2.88G [01:32<00:38, 23.5MiB/s] 71%|██████████████████████████▏          | 2.03G/2.88G [01:32<00:38, 23.5MiB/s] 71%|██████████████████████████▏          | 2.03G/2.88G [01:33<00:38, 23.5MiB/s] 71%|██████████████████████████▏          | 2.04G/2.88G [01:33<00:38, 23.5MiB/s] 71%|██████████████████████████▏          | 2.04G/2.88G [01:33<00:38, 23.5MiB/s] 71%|██████████████████████████▎          | 2.04G/2.88G [01:33<00:38, 23.5MiB/s] 71%|██████████████████████████▎          | 2.04G/2.88G [01:33<00:38, 23.5MiB/s] 71%|██████████████████████████▎          | 2.05G/2.88G [01:33<00:37, 23.5MiB/s] 71%|██████████████████████████▎          | 2.05G/2.88G [01:33<00:37, 23.5MiB/s] 71%|██████████████████████████▎          | 2.05G/2.88G [01:33<00:37, 23.5MiB/s] 71%|██████████████████████████▍          | 2.05G/2.88G [01:33<00:37, 23.5MiB/s] 71%|██████████████████████████▍          | 2.05G/2.88G [01:34<00:37, 23.5MiB/s] 72%|██████████████████████████▍          | 2.06G/2.88G [01:34<00:37, 23.5MiB/s] 72%|██████████████████████████▍          | 2.06G/2.88G [01:34<00:37, 23.5MiB/s] 72%|██████████████████████████▌          | 2.06G/2.88G [01:34<00:37, 23.5MiB/s] 72%|██████████████████████████▌          | 2.06G/2.88G [01:34<00:37, 23.5MiB/s] 72%|██████████████████████████▌          | 2.06G/2.88G [01:34<00:37, 23.5MiB/s] 72%|██████████████████████████▌          | 2.07G/2.88G [01:34<00:36, 23.5MiB/s] 72%|██████████████████████████▋          | 2.07G/2.88G [01:34<00:36, 23.5MiB/s] 72%|██████████████████████████▋          | 2.07G/2.88G [01:34<00:36, 23.5MiB/s] 72%|██████████████████████████▋          | 2.07G/2.88G [01:34<00:36, 23.5MiB/s] 72%|██████████████████████████▋          | 2.08G/2.88G [01:35<00:36, 23.5MiB/s] 72%|██████████████████████████▋          | 2.08G/2.88G [01:35<00:36, 23.5MiB/s] 72%|██████████████████████████▊          | 2.08G/2.88G [01:35<00:36, 23.5MiB/s] 72%|██████████████████████████▊          | 2.08G/2.88G [01:35<00:36, 23.5MiB/s] 73%|██████████████████████████▊          | 2.08G/2.88G [01:35<00:36, 23.5MiB/s] 73%|██████████████████████████▊          | 2.09G/2.88G [01:35<00:36, 23.5MiB/s] 73%|██████████████████████████▉          | 2.09G/2.88G [01:35<00:35, 23.5MiB/s] 73%|██████████████████████████▉          | 2.09G/2.88G [01:35<00:35, 23.5MiB/s] 73%|██████████████████████████▉          | 2.09G/2.88G [01:35<00:35, 23.5MiB/s] 73%|██████████████████████████▉          | 2.10G/2.88G [01:35<00:35, 23.5MiB/s] 73%|██████████████████████████▉          | 2.10G/2.88G [01:36<00:35, 23.5MiB/s] 73%|███████████████████████████          | 2.10G/2.88G [01:36<00:35, 23.5MiB/s] 73%|███████████████████████████          | 2.10G/2.88G [01:36<00:35, 23.5MiB/s] 73%|███████████████████████████          | 2.10G/2.88G [01:36<00:35, 23.5MiB/s] 73%|███████████████████████████          | 2.11G/2.88G [01:36<00:35, 23.5MiB/s] 73%|███████████████████████████▏         | 2.11G/2.88G [01:36<00:33, 24.4MiB/s] 73%|███████████████████████████▏         | 2.11G/2.88G [01:36<00:31, 25.9MiB/s] 74%|███████████████████████████▏         | 2.11G/2.88G [01:36<00:43, 18.8MiB/s] 74%|███████████████████████████▏         | 2.12G/2.88G [01:37<00:50, 16.0MiB/s] 74%|███████████████████████████▎         | 2.12G/2.88G [01:37<00:35, 22.5MiB/s] 74%|███████████████████████████▎         | 2.12G/2.88G [01:37<00:42, 18.8MiB/s] 74%|███████████████████████████▍         | 2.13G/2.88G [01:37<00:31, 25.5MiB/s] 74%|███████████████████████████▍         | 2.13G/2.88G [01:37<01:01, 13.0MiB/s] 74%|███████████████████████████▍         | 2.13G/2.88G [01:38<00:48, 16.6MiB/s] 74%|███████████████████████████▍         | 2.14G/2.88G [01:38<00:42, 18.7MiB/s] 74%|███████████████████████████▌         | 2.14G/2.88G [01:38<00:35, 21.9MiB/s] 75%|███████████████████████████▌         | 2.14G/2.88G [01:38<00:30, 25.4MiB/s] 75%|███████████████████████████▋         | 2.15G/2.88G [01:38<00:26, 29.9MiB/s] 75%|███████████████████████████▋         | 2.15G/2.88G [01:38<00:25, 30.2MiB/s] 75%|███████████████████████████▋         | 2.15G/2.88G [01:38<00:24, 31.7MiB/s] 75%|███████████████████████████▊         | 2.16G/2.88G [01:38<00:22, 34.1MiB/s] 75%|███████████████████████████▊         | 2.16G/2.88G [01:38<00:21, 35.9MiB/s] 75%|███████████████████████████▊         | 2.17G/2.88G [01:39<00:43, 17.6MiB/s] 75%|███████████████████████████▉         | 2.17G/2.88G [01:39<00:40, 18.7MiB/s] 76%|███████████████████████████▉         | 2.17G/2.88G [01:39<00:42, 17.7MiB/s] 76%|████████████████████████████         | 2.18G/2.88G [01:39<00:32, 23.0MiB/s] 76%|████████████████████████████         | 2.18G/2.88G [01:40<00:29, 24.9MiB/s] 76%|████████████████████████████         | 2.18G/2.88G [01:40<00:35, 21.0MiB/s] 76%|████████████████████████████▏        | 2.19G/2.88G [01:40<00:20, 36.0MiB/s] 76%|████████████████████████████▎        | 2.20G/2.88G [01:40<00:38, 18.9MiB/s] 77%|████████████████████████████▍        | 2.21G/2.88G [01:41<00:24, 28.9MiB/s] 77%|████████████████████████████▍        | 2.21G/2.88G [01:41<00:23, 30.5MiB/s] 77%|████████████████████████████▌        | 2.22G/2.88G [01:41<00:32, 21.5MiB/s] 77%|████████████████████████████▌        | 2.22G/2.88G [01:41<00:28, 24.8MiB/s] 77%|████████████████████████████▌        | 2.22G/2.88G [01:42<00:45, 15.4MiB/s] 78%|████████████████████████████▊        | 2.24G/2.88G [01:42<00:24, 27.6MiB/s] 78%|████████████████████████████▊        | 2.24G/2.88G [01:42<00:23, 29.5MiB/s] 78%|████████████████████████████▉        | 2.24G/2.88G [01:42<00:33, 20.2MiB/s] 78%|████████████████████████████▉        | 2.25G/2.88G [01:43<00:29, 22.8MiB/s] 78%|████████████████████████████▉        | 2.25G/2.88G [01:43<00:27, 24.2MiB/s] 78%|█████████████████████████████        | 2.26G/2.88G [01:43<00:37, 17.6MiB/s] 79%|█████████████████████████████        | 2.26G/2.88G [01:43<00:36, 18.1MiB/s] 79%|█████████████████████████████▏       | 2.27G/2.88G [01:43<00:20, 32.0MiB/s] 79%|█████████████████████████████▎       | 2.27G/2.88G [01:43<00:18, 35.0MiB/s] 79%|█████████████████████████████▎       | 2.28G/2.88G [01:44<00:30, 21.1MiB/s] 79%|█████████████████████████████▎       | 2.28G/2.88G [01:44<00:34, 18.6MiB/s] 80%|█████████████████████████████▍       | 2.29G/2.88G [01:44<00:20, 29.9MiB/s] 80%|█████████████████████████████▌       | 2.30G/2.88G [01:45<00:29, 21.2MiB/s] 80%|█████████████████████████████▌       | 2.30G/2.88G [01:45<00:26, 23.6MiB/s] 80%|█████████████████████████████▋       | 2.31G/2.88G [01:45<00:22, 26.9MiB/s] 80%|█████████████████████████████▋       | 2.31G/2.88G [01:45<00:24, 25.0MiB/s] 80%|█████████████████████████████▊       | 2.31G/2.88G [01:45<00:24, 24.8MiB/s] 81%|█████████████████████████████▊       | 2.32G/2.88G [01:46<00:22, 26.2MiB/s] 81%|█████████████████████████████▊       | 2.32G/2.88G [01:46<00:26, 22.6MiB/s] 81%|█████████████████████████████▉       | 2.32G/2.88G [01:46<00:34, 17.4MiB/s] 81%|██████████████████████████████       | 2.33G/2.88G [01:46<00:17, 32.8MiB/s] 81%|██████████████████████████████       | 2.34G/2.88G [01:46<00:18, 31.7MiB/s] 81%|██████████████████████████████▏      | 2.34G/2.88G [01:47<00:24, 23.5MiB/s] 82%|██████████████████████████████▏      | 2.35G/2.88G [01:47<00:25, 22.3MiB/s] 82%|██████████████████████████████▏      | 2.35G/2.88G [01:47<00:28, 19.9MiB/s] 82%|██████████████████████████████▎      | 2.35G/2.88G [01:47<00:30, 18.7MiB/s] 82%|██████████████████████████████▎      | 2.35G/2.88G [01:47<00:29, 19.1MiB/s] 82%|██████████████████████████████▎      | 2.36G/2.88G [01:48<00:27, 20.3MiB/s] 82%|██████████████████████████████▍      | 2.36G/2.88G [01:48<00:26, 21.2MiB/s] 82%|██████████████████████████████▌      | 2.37G/2.88G [01:48<00:19, 28.4MiB/s] 83%|██████████████████████████████▌      | 2.37G/2.88G [01:48<00:23, 23.1MiB/s] 83%|██████████████████████████████▌      | 2.38G/2.88G [01:48<00:25, 20.8MiB/s] 83%|██████████████████████████████▋      | 2.38G/2.88G [01:49<00:22, 23.5MiB/s] 83%|██████████████████████████████▋      | 2.39G/2.88G [01:49<00:23, 22.5MiB/s] 83%|██████████████████████████████▊      | 2.39G/2.88G [01:49<00:22, 22.8MiB/s] 83%|██████████████████████████████▊      | 2.39G/2.88G [01:49<00:21, 23.6MiB/s] 84%|██████████████████████████████▉      | 2.40G/2.88G [01:49<00:13, 38.6MiB/s] 84%|██████████████████████████████▉      | 2.41G/2.88G [01:50<00:25, 20.1MiB/s] 84%|███████████████████████████████      | 2.41G/2.88G [01:50<00:24, 20.7MiB/s] 84%|███████████████████████████████      | 2.41G/2.88G [01:50<00:23, 21.3MiB/s] 84%|███████████████████████████████      | 2.41G/2.88G [01:50<00:22, 21.7MiB/s] 84%|███████████████████████████████      | 2.42G/2.88G [01:50<00:22, 22.1MiB/s] 84%|███████████████████████████████▏     | 2.42G/2.88G [01:50<00:21, 22.4MiB/s] 84%|███████████████████████████████▏     | 2.42G/2.88G [01:51<00:21, 22.7MiB/s] 84%|███████████████████████████████▏     | 2.42G/2.88G [01:51<00:21, 22.9MiB/s] 84%|███████████████████████████████▏     | 2.43G/2.88G [01:51<00:20, 23.0MiB/s] 84%|███████████████████████████████▎     | 2.43G/2.88G [01:51<00:20, 23.2MiB/s] 85%|███████████████████████████████▎     | 2.43G/2.88G [01:51<00:20, 23.3MiB/s] 85%|███████████████████████████████▎     | 2.43G/2.88G [01:51<00:20, 23.4MiB/s] 85%|███████████████████████████████▎     | 2.44G/2.88G [01:51<00:20, 23.4MiB/s] 85%|███████████████████████████████▎     | 2.44G/2.88G [01:51<00:20, 23.5MiB/s] 85%|███████████████████████████████▍     | 2.44G/2.88G [01:51<00:19, 23.4MiB/s] 85%|███████████████████████████████▍     | 2.44G/2.88G [01:51<00:19, 23.5MiB/s] 85%|███████████████████████████████▍     | 2.44G/2.88G [01:52<00:19, 23.4MiB/s] 85%|███████████████████████████████▍     | 2.45G/2.88G [01:52<00:19, 23.5MiB/s] 85%|███████████████████████████████▌     | 2.45G/2.88G [01:52<00:19, 23.5MiB/s] 85%|███████████████████████████████▌     | 2.45G/2.88G [01:52<00:19, 23.5MiB/s] 85%|███████████████████████████████▌     | 2.45G/2.88G [01:52<00:19, 23.5MiB/s] 85%|███████████████████████████████▌     | 2.46G/2.88G [01:52<00:19, 23.5MiB/s] 85%|███████████████████████████████▋     | 2.46G/2.88G [01:52<00:19, 23.5MiB/s] 86%|███████████████████████████████▋     | 2.46G/2.88G [01:52<00:18, 23.5MiB/s] 86%|███████████████████████████████▋     | 2.46G/2.88G [01:52<00:18, 23.5MiB/s] 86%|███████████████████████████████▋     | 2.46G/2.88G [01:52<00:18, 23.5MiB/s] 86%|███████████████████████████████▋     | 2.47G/2.88G [01:53<00:18, 23.5MiB/s] 86%|███████████████████████████████▊     | 2.47G/2.88G [01:53<00:18, 23.5MiB/s] 86%|███████████████████████████████▊     | 2.47G/2.88G [01:53<00:18, 23.5MiB/s] 86%|███████████████████████████████▊     | 2.47G/2.88G [01:53<00:18, 23.6MiB/s] 86%|███████████████████████████████▊     | 2.48G/2.88G [01:53<00:18, 23.5MiB/s] 86%|███████████████████████████████▉     | 2.48G/2.88G [01:53<00:18, 23.5MiB/s] 86%|███████████████████████████████▉     | 2.48G/2.88G [01:53<00:18, 23.5MiB/s] 86%|███████████████████████████████▉     | 2.48G/2.88G [01:53<00:17, 23.5MiB/s] 86%|███████████████████████████████▉     | 2.48G/2.88G [01:53<00:17, 23.5MiB/s] 86%|███████████████████████████████▉     | 2.49G/2.88G [01:53<00:17, 23.3MiB/s] 87%|████████████████████████████████     | 2.49G/2.88G [01:54<00:17, 23.4MiB/s] 87%|████████████████████████████████     | 2.49G/2.88G [01:54<00:17, 23.4MiB/s] 87%|████████████████████████████████     | 2.49G/2.88G [01:54<00:17, 23.5MiB/s] 87%|████████████████████████████████     | 2.50G/2.88G [01:54<00:17, 23.5MiB/s] 87%|████████████████████████████████▏    | 2.50G/2.88G [01:54<00:17, 23.5MiB/s] 87%|████████████████████████████████▏    | 2.50G/2.88G [01:54<00:17, 23.5MiB/s] 87%|████████████████████████████████▏    | 2.50G/2.88G [01:54<00:17, 23.6MiB/s] 87%|████████████████████████████████▏    | 2.50G/2.88G [01:54<00:16, 23.5MiB/s] 87%|████████████████████████████████▎    | 2.51G/2.88G [01:54<00:16, 23.5MiB/s] 87%|████████████████████████████████▎    | 2.51G/2.88G [01:55<00:16, 23.6MiB/s] 87%|████████████████████████████████▎    | 2.51G/2.88G [01:55<00:16, 23.6MiB/s] 87%|████████████████████████████████▎    | 2.51G/2.88G [01:55<00:16, 23.5MiB/s] 87%|████████████████████████████████▎    | 2.52G/2.88G [01:55<00:16, 23.6MiB/s] 88%|████████████████████████████████▍    | 2.52G/2.88G [01:55<00:16, 23.6MiB/s] 88%|████████████████████████████████▍    | 2.52G/2.88G [01:55<00:16, 23.6MiB/s] 88%|████████████████████████████████▍    | 2.52G/2.88G [01:55<00:16, 23.6MiB/s] 88%|████████████████████████████████▍    | 2.52G/2.88G [01:55<00:16, 23.5MiB/s] 88%|████████████████████████████████▌    | 2.53G/2.88G [01:55<00:15, 23.5MiB/s] 88%|████████████████████████████████▌    | 2.53G/2.88G [01:55<00:15, 23.5MiB/s] 88%|████████████████████████████████▌    | 2.53G/2.88G [01:56<00:15, 23.5MiB/s] 88%|████████████████████████████████▌    | 2.53G/2.88G [01:56<00:15, 23.5MiB/s] 88%|████████████████████████████████▌    | 2.53G/2.88G [01:56<00:15, 23.5MiB/s] 88%|████████████████████████████████▋    | 2.54G/2.88G [01:56<00:15, 23.5MiB/s] 88%|████████████████████████████████▋    | 2.54G/2.88G [01:56<00:15, 23.4MiB/s] 88%|████████████████████████████████▋    | 2.54G/2.88G [01:56<00:15, 23.5MiB/s] 88%|████████████████████████████████▋    | 2.54G/2.88G [01:56<00:14, 24.7MiB/s] 89%|████████████████████████████████▊    | 2.55G/2.88G [01:56<00:13, 26.3MiB/s] 89%|████████████████████████████████▊    | 2.55G/2.88G [01:56<00:12, 28.9MiB/s] 89%|████████████████████████████████▊    | 2.55G/2.88G [01:56<00:10, 31.8MiB/s] 89%|████████████████████████████████▉    | 2.56G/2.88G [01:57<00:09, 35.4MiB/s] 89%|████████████████████████████████▉    | 2.56G/2.88G [01:57<00:10, 33.2MiB/s] 89%|█████████████████████████████████    | 2.56G/2.88G [01:57<00:09, 34.3MiB/s] 89%|█████████████████████████████████    | 2.57G/2.88G [01:57<00:09, 35.8MiB/s] 89%|█████████████████████████████████    | 2.57G/2.88G [01:58<00:25, 12.8MiB/s] 90%|█████████████████████████████████▏   | 2.58G/2.88G [01:58<00:12, 25.2MiB/s] 90%|█████████████████████████████████▎   | 2.59G/2.88G [01:58<00:11, 27.9MiB/s] 90%|█████████████████████████████████▎   | 2.59G/2.88G [01:58<00:10, 30.3MiB/s] 90%|█████████████████████████████████▍   | 2.60G/2.88G [01:58<00:09, 32.3MiB/s] 90%|█████████████████████████████████▍   | 2.60G/2.88G [01:58<00:15, 19.5MiB/s] 90%|█████████████████████████████████▍   | 2.60G/2.88G [01:59<00:14, 20.1MiB/s] 91%|█████████████████████████████████▌   | 2.60G/2.88G [01:59<00:20, 14.5MiB/s] 91%|█████████████████████████████████▋   | 2.62G/2.88G [01:59<00:10, 27.1MiB/s] 91%|█████████████████████████████████▋   | 2.62G/2.88G [01:59<00:08, 30.8MiB/s] 91%|█████████████████████████████████▊   | 2.62G/2.88G [01:59<00:08, 31.3MiB/s] 91%|█████████████████████████████████▊   | 2.63G/2.88G [02:00<00:15, 17.5MiB/s] 92%|█████████████████████████████████▊   | 2.63G/2.88G [02:00<00:12, 20.2MiB/s] 92%|█████████████████████████████████▉   | 2.64G/2.88G [02:01<00:12, 20.0MiB/s] 92%|██████████████████████████████████▏  | 2.65G/2.88G [02:01<00:08, 29.4MiB/s] 92%|██████████████████████████████████▏  | 2.66G/2.88G [02:01<00:07, 31.2MiB/s] 93%|██████████████████████████████████▏  | 2.66G/2.88G [02:01<00:12, 19.0MiB/s] 93%|██████████████████████████████████▎  | 2.67G/2.88G [02:02<00:10, 22.3MiB/s] 93%|██████████████████████████████████▎  | 2.67G/2.88G [02:02<00:08, 26.6MiB/s] 93%|██████████████████████████████████▍  | 2.68G/2.88G [02:02<00:06, 33.3MiB/s] 93%|██████████████████████████████████▌  | 2.68G/2.88G [02:02<00:12, 16.2MiB/s] 94%|██████████████████████████████████▋  | 2.69G/2.88G [02:03<00:06, 28.2MiB/s] 94%|██████████████████████████████████▋  | 2.70G/2.88G [02:03<00:06, 30.4MiB/s] 94%|██████████████████████████████████▊  | 2.70G/2.88G [02:03<00:09, 19.8MiB/s] 94%|██████████████████████████████████▊  | 2.71G/2.88G [02:03<00:08, 21.7MiB/s] 94%|██████████████████████████████████▉  | 2.71G/2.88G [02:04<00:06, 26.4MiB/s] 95%|██████████████████████████████████▉  | 2.72G/2.88G [02:04<00:07, 23.9MiB/s] 95%|███████████████████████████████████  | 2.72G/2.88G [02:04<00:10, 15.4MiB/s] 95%|███████████████████████████████████▏ | 2.73G/2.88G [02:05<00:05, 26.4MiB/s] 95%|███████████████████████████████████▏ | 2.74G/2.88G [02:05<00:05, 28.1MiB/s] 95%|███████████████████████████████████▎ | 2.74G/2.88G [02:05<00:04, 29.8MiB/s] 95%|███████████████████████████████████▎ | 2.75G/2.88G [02:05<00:04, 32.2MiB/s] 96%|███████████████████████████████████▍ | 2.75G/2.88G [02:06<00:09, 14.6MiB/s] 96%|███████████████████████████████████▌ | 2.76G/2.88G [02:06<00:04, 26.1MiB/s] 96%|███████████████████████████████████▌ | 2.77G/2.88G [02:06<00:03, 29.6MiB/s] 96%|███████████████████████████████████▋ | 2.77G/2.88G [02:06<00:03, 30.7MiB/s] 97%|███████████████████████████████████▋ | 2.77G/2.88G [02:07<00:05, 18.2MiB/s] 97%|███████████████████████████████████▊ | 2.78G/2.88G [02:07<00:05, 19.7MiB/s] 97%|███████████████████████████████████▉ | 2.79G/2.88G [02:07<00:03, 24.6MiB/s] 97%|███████████████████████████████████▉ | 2.79G/2.88G [02:07<00:05, 17.1MiB/s] 97%|████████████████████████████████████ | 2.80G/2.88G [02:08<00:02, 29.3MiB/s] 98%|████████████████████████████████████▏| 2.81G/2.88G [02:08<00:03, 21.2MiB/s] 98%|████████████████████████████████████▏| 2.81G/2.88G [02:08<00:02, 24.5MiB/s] 98%|████████████████████████████████████▏| 2.82G/2.88G [02:08<00:02, 26.0MiB/s] 98%|████████████████████████████████████▎| 2.82G/2.88G [02:08<00:02, 27.9MiB/s] 98%|████████████████████████████████████▎| 2.82G/2.88G [02:08<00:01, 30.7MiB/s] 98%|████████████████████████████████████▍| 2.83G/2.88G [02:09<00:01, 33.3MiB/s] 98%|████████████████████████████████████▍| 2.83G/2.88G [02:09<00:02, 17.6MiB/s] 99%|████████████████████████████████████▍| 2.84G/2.88G [02:09<00:02, 19.1MiB/s] 99%|████████████████████████████████████▌| 2.84G/2.88G [02:09<00:01, 20.2MiB/s] 99%|████████████████████████████████████▌| 2.84G/2.88G [02:10<00:01, 18.2MiB/s] 99%|████████████████████████████████████▌| 2.84G/2.88G [02:10<00:02, 14.7MiB/s] 99%|████████████████████████████████████▋| 2.86G/2.88G [02:10<00:00, 25.0MiB/s]100%|████████████████████████████████████▉| 2.87G/2.88G [02:10<00:00, 38.0MiB/s]100%|████████████████████████████████████▉| 2.87G/2.88G [02:11<00:00, 26.9MiB/s]100%|████████████████████████████████████▉| 2.88G/2.88G [02:11<00:00, 28.5MiB/s]100%|█████████████████████████████████████| 2.88G/2.88G [02:11<00:00, 23.5MiB/s]
+[score] model macro_cer=0.0120 micro_cer=0.017057569296375266 n=8
+[score] copy_synth macro_cer=0.0120 micro_cer=0.017057569296375266 n=8
+[score] wrong_utt macro_cer=1.1850 micro_cer=0.9872068230277186 n=8
+[score] random_codes macro_cer=0.8646 micro_cer=0.8635394456289979 n=8
+[score] shuffle_text macro_cer=1.0337 micro_cer=0.9360341151385928 n=8
+[score] mask_text macro_cer=0.9878 micro_cer=0.9104477611940298 n=8
+{
+  "n2_verdict": "FAIL",
+  "fr_cer": 0.01202865761689291,
+  "macro_cer": 0.01202865761689291,
+  "macro_cer_median": 0.0,
+  "macro_cer_ci95_low": 0.0,
+  "macro_cer_ci95_high": 0.02967571644042232,
+  "micro_cer": 0.017057569296375266,
+  "copy_synth_cer_subset": 0.01202865761689291,
+  "ceiling_copy_plus_margin": 0.04202865761689291,
+  "cer_pass": true,
+  "bootstrap_sep_wrong_utt": true,
+  "bootstrap_sep_random": true,
+  "paired_vs_wrong": {
+    "delta_pp_model_minus_wrong": -97.01492537313433,
+    "ci95_low": -132.8890690743338,
+    "ci95_high": -80.06043622706919,
+    "separated": true
+  },
+  "no_runaway_repetition": false,
+  "cb0_healthy": true,
+  "cb0": {
+    "cb0_utilization": 0.14794921875,
+    "cb0_entropy": 5.530937784385355,
+    "cb0_unique": 303,
+    "cb0_total_frames": 473,
+    "cb0_max_run": 5,
+    "healthy": true
+  },
+  "text_usage_shuffle_hurts": true,
+  "text_usage_mask_hurts": true,
+  "text_usage_prefix_cf_changes": true,
+  "text_usage_d1b": {
+    "shuffle_cer": 1.033665989555458,
+    "mask_cer": 0.9877501561004882,
+    "model_cer": 0.01202865761689291,
+    "margin": 0.05,
+    "shuffle_ok": true,
+    "mask_ok": true,
+    "content_change_n": 8,
+    "content_change_need": 2,
+    "prefix_cf_ok": true,
+    "paired_ci95_high": -80.06043622706919,
+    "paired_ci_lt_zero": true,
+    "pass": true
+  },
+  "stability_d1b": {
+    "runaway_or_repetition": true,
+    "no_runaway": false,
+    "phrase_loop_repetition": false,
+    "no_phrase_loop": true,
+    "hard_cap_count": 1,
+    "hard_cap_ok": false,
+    "cb0_max_run": 5,
+    "cb0_max_run_limit": 12,
+    "cb0_max_run_ok": true,
+    "mean_dur_ratio": 1.0093778944118554,
+    "mean_dur_ratio_ok": true,
+    "mean_dur_ratio_range": [
+      0.9,
+      1.1
+    ],
+    "duration_buckets": {
+      "lt_0_5": 0,
+      "0_5_to_0_9": 0,
+      "0_9_to_1_1": 8,
+      "1_1_to_2_0": 0,
+      "gt_2_0": 0
+    },
+    "utt_ratio_outliers": [],
+    "utt_ratio_limits": [
+      0.5,
+      2.0
+    ],
+    "no_extreme_utt_ratios": true,
+    "duration_ratio_distribution": {
+      "n": 8,
+      "mean": 1.0093778944118554,
+      "median": 1.0,
+      "min": 1.0,
+      "max": 1.0506329113924051,
+      "p10": 1.0,
+      "p90": 1.032263044149429,
+      "buckets": {
+        "lt_0_5": 0,
+        "0_5_to_0_9": 0,
+        "0_9_to_1_1": 8,
+        "1_1_to_2_0": 0,
+        "gt_2_0": 0
+      },
+      "outliers_lt_0_5": [],
+      "outliers_gt_2_0": [],
+      "outlier_indices": []
+    },
+    "pass": false
+  },
+  "n_catastrophic": 0,
+  "zero_catastrophic": true,
+  "duration_ratio_distribution": {
+    "n": 8,
+    "mean": 1.0093778944118554,
+    "median": 1.0,
+    "min": 1.0,
+    "max": 1.0506329113924051,
+    "p10": 1.0,
+    "p90": 1.032263044149429,
+    "buckets": {
+      "lt_0_5": 0,
+      "0_5_to_0_9": 0,
+      "0_9_to_1_1": 8,
+      "1_1_to_2_0": 0,
+      "gt_2_0": 0
+    },
+    "outliers_lt_0_5": [],
+    "outliers_gt_2_0": [],
+    "outlier_indices": []
+  },
+  "stop_reason_distribution": {
+    "hard_cap": 1,
+    "stop_head": 7
+  },
+  "shuffle_cer": 1.033665989555458,
+  "mask_cer": 0.9877501561004882,
+  "wrong_utt_cer": 1.1849653436643475,
+  "random_codes_cer": 0.8646327381241993
+}
+wrote /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/cand_0750_select8_n2/n2_gate.json
+{
+  "wrote": "/home/adam/projects/tts-self/runs/discrete_speech_lm_d1b_confirm_v2_seed42/checkpoint_selection.json",
+  "selected": {
+    "ckpt": "runs/discrete_speech_lm_d1b_confirm_v2_seed42/candidate_step_0750.pt",
+    "step": 750,
+    "rank": 0,
+    "selection_key": [
+      1,
+      0.01202865761689291,
+      0,
+      0.009334194953546144,
+      0.006540585309267044
+    ],
+    "macro_cer": 0.01202865761689291,
+    "n_catastrophic": 0,
+    "mean_dur_ratio": 1.0093778944118554,
+    "teacher_forced_ce": 0.006540585309267044,
+    "gate_eligible": false,
+    "runaway_or_repetition": true
+  }
+}
+{
+  "promoted_best": "/home/adam/projects/tts-self/runs/discrete_speech_lm_d1b_confirm_v2_seed42/best.pt",
+  "mode": "copy",
+  "from": "/home/adam/projects/tts-self/runs/discrete_speech_lm_d1b_confirm_v2_seed42/candidate_step_0750.pt"
+}
+NOTE: run mandatory listen-demo after best.pt promotion (checkpoint-listen).
+=== decode gate24 best ===
+/bin/sh: 1: sox: not found
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+[n2] free-running model on 24 utts max_frames=750 skip_asr=True d1b=True
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+[n2] copy_synth
+[n2] wrong_utt
+[n2] random_codes
+[n2] shuffle_text (text-usage)
+[n2] mask_text (text-usage)
+wrote decode bundle /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/best_gate24_n2/n2_decode_bundle.json (run --score-only next)
+{
+  "loss": 0.006635406209776799,
+  "ce_cb0": 0.0017309921483198802,
+  "ce_residual": 0.00480611987101535,
+  "n_batches": 6,
+  "n_utts": 24,
+  "note": "Teacher-forced CE is diagnostic only; promotion uses free-running CER/DER.",
+  "n2_decode_bundle": "/home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/best_gate24_n2/n2_decode_bundle.json"
+}
+wrote /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/best_gate24_n2/eval_summary.json
+[score] model macro_cer=0.0205 micro_cer=0.02721518987341772 n=24
+[score] copy_synth macro_cer=0.0055 micro_cer=0.00569620253164557 n=24
+[score] wrong_utt macro_cer=1.2520 micro_cer=1.0031645569620253 n=24
+[score] random_codes macro_cer=0.9815 micro_cer=1.099367088607595 n=24
+[score] shuffle_text macro_cer=1.2214 micro_cer=1.0316455696202531 n=24
+[score] mask_text macro_cer=0.8403 micro_cer=0.8335443037974684 n=24
+{
+  "n2_verdict": "FAIL",
+  "fr_cer": 0.020523855011317343,
+  "macro_cer": 0.020523855011317343,
+  "macro_cer_median": 0.0,
+  "macro_cer_ci95_low": 0.0027713437428111337,
+  "macro_cer_ci95_high": 0.04876662329694507,
+  "micro_cer": 0.02721518987341772,
+  "copy_synth_cer_subset": 0.005496352261042317,
+  "ceiling_copy_plus_margin": 0.035496352261042315,
+  "cer_pass": true,
+  "bootstrap_sep_wrong_utt": true,
+  "bootstrap_sep_random": true,
+  "paired_vs_wrong": {
+    "delta_pp_model_minus_wrong": -97.59493670886076,
+    "ci95_low": -119.94725723942634,
+    "ci95_high": -84.91970317270392,
+    "separated": true
+  },
+  "no_runaway_repetition": false,
+  "cb0_healthy": true,
+  "cb0": {
+    "cb0_utilization": 0.34326171875,
+    "cb0_entropy": 6.23560486239433,
+    "cb0_unique": 703,
+    "cb0_total_frames": 1626,
+    "cb0_max_run": 5,
+    "healthy": true
+  },
+  "text_usage_shuffle_hurts": true,
+  "text_usage_mask_hurts": true,
+  "text_usage_prefix_cf_changes": true,
+  "text_usage_d1b": {
+    "shuffle_cer": 1.221427896982604,
+    "mask_cer": 0.8403026351560726,
+    "model_cer": 0.020523855011317343,
+    "margin": 0.05,
+    "shuffle_ok": true,
+    "mask_ok": true,
+    "content_change_n": 24,
+    "content_change_need": 6,
+    "prefix_cf_ok": true,
+    "paired_ci95_high": -84.91970317270392,
+    "paired_ci_lt_zero": true,
+    "pass": true
+  },
+  "stability_d1b": {
+    "runaway_or_repetition": true,
+    "no_runaway": false,
+    "phrase_loop_repetition": true,
+    "no_phrase_loop": false,
+    "hard_cap_count": 3,
+    "hard_cap_ok": false,
+    "cb0_max_run": 5,
+    "cb0_max_run_limit": 12,
+    "cb0_max_run_ok": true,
+    "mean_dur_ratio": 1.0026272134381593,
+    "mean_dur_ratio_ok": true,
+    "mean_dur_ratio_range": [
+      0.9,
+      1.1
+    ],
+    "duration_buckets": {
+      "lt_0_5": 0,
+      "0_5_to_0_9": 2,
+      "0_9_to_1_1": 20,
+      "1_1_to_2_0": 2,
+      "gt_2_0": 0
+    },
+    "utt_ratio_outliers": [],
+    "utt_ratio_limits": [
+      0.5,
+      2.0
+    ],
+    "no_extreme_utt_ratios": true,
+    "duration_ratio_distribution": {
+      "n": 24,
+      "mean": 1.0026272134381593,
+      "median": 1.0,
+      "min": 0.7647058823529411,
+      "max": 1.3440860215053763,
+      "p10": 0.9835294117647059,
+      "p90": 1.0107692307692306,
+      "buckets": {
+        "lt_0_5": 0,
+        "0_5_to_0_9": 2,
+        "0_9_to_1_1": 20,
+        "1_1_to_2_0": 2,
+        "gt_2_0": 0
+      },
+      "outliers_lt_0_5": [],
+      "outliers_gt_2_0": [],
+      "outlier_indices": []
+    },
+    "pass": false
+  },
+  "n_catastrophic": 0,
+  "zero_catastrophic": true,
+  "duration_ratio_distribution": {
+    "n": 24,
+    "mean": 1.0026272134381593,
+    "median": 1.0,
+    "min": 0.7647058823529411,
+    "max": 1.3440860215053763,
+    "p10": 0.9835294117647059,
+    "p90": 1.0107692307692306,
+    "buckets": {
+      "lt_0_5": 0,
+      "0_5_to_0_9": 2,
+      "0_9_to_1_1": 20,
+      "1_1_to_2_0": 2,
+      "gt_2_0": 0
+    },
+    "outliers_lt_0_5": [],
+    "outliers_gt_2_0": [],
+    "outlier_indices": []
+  },
+  "stop_reason_distribution": {
+    "hard_cap": 3,
+    "stop_head": 21
+  },
+  "shuffle_cer": 1.221427896982604,
+  "mask_cer": 0.8403026351560726,
+  "wrong_utt_cer": 1.2519876598801087,
+  "random_codes_cer": 0.9815085960099706
+}
+wrote /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/best_gate24_n2/n2_gate.json
+=== decode full32 best ===
+/bin/sh: 1: sox: not found
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+[n2] free-running model on 32 utts max_frames=750 skip_asr=True d1b=True
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+[n2] copy_synth
+[n2] wrong_utt
+[n2] random_codes
+[n2] shuffle_text (text-usage)
+[n2] mask_text (text-usage)
+wrote decode bundle /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/best_full32_n2/n2_decode_bundle.json (run --score-only next)
+{
+  "loss": 0.006577524414751679,
+  "ce_cb0": 0.0017114096553996205,
+  "ce_residual": 0.0047668981133028865,
+  "n_batches": 8,
+  "n_utts": 32,
+  "note": "Teacher-forced CE is diagnostic only; promotion uses free-running CER/DER.",
+  "n2_decode_bundle": "/home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/best_full32_n2/n2_decode_bundle.json"
+}
+wrote /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/best_full32_n2/eval_summary.json
+[score] model macro_cer=0.0184 micro_cer=0.024890190336749635 n=32
+[score] copy_synth macro_cer=0.0071 micro_cer=0.008296730112249878 n=32
+[score] wrong_utt macro_cer=1.1773 micro_cer=0.9790141532454856 n=32
+[score] random_codes macro_cer=0.9621 micro_cer=0.9960956564177648 n=32
+[score] shuffle_text macro_cer=1.2020 micro_cer=1.0219619326500733 n=32
+[score] mask_text macro_cer=0.8772 micro_cer=0.8511469009272816 n=32
+{
+  "n2_verdict": "FAIL",
+  "fr_cer": 0.018400055662711235,
+  "macro_cer": 0.018400055662711235,
+  "macro_cer_median": 0.0,
+  "macro_cer_ci95_low": 0.0044443926016616234,
+  "macro_cer_ci95_high": 0.04173022002529694,
+  "micro_cer": 0.024890190336749635,
+  "copy_synth_cer_subset": 0.007129428600004966,
+  "ceiling_copy_plus_margin": 0.03712942860000497,
+  "cer_pass": true,
+  "bootstrap_sep_wrong_utt": true,
+  "bootstrap_sep_random": true,
+  "paired_vs_wrong": {
+    "delta_pp_model_minus_wrong": -95.41239629087359,
+    "ci95_low": -111.61632818795684,
+    "ci95_high": -84.73150095471223,
+    "separated": true
+  },
+  "no_runaway_repetition": false,
+  "cb0_healthy": true,
+  "cb0": {
+    "cb0_utilization": 0.38623046875,
+    "cb0_entropy": 6.315820199513192,
+    "cb0_unique": 791,
+    "cb0_total_frames": 2099,
+    "cb0_max_run": 5,
+    "healthy": true
+  },
+  "text_usage_shuffle_hurts": true,
+  "text_usage_mask_hurts": true,
+  "text_usage_prefix_cf_changes": true,
+  "text_usage_d1b": {
+    "shuffle_cer": 1.2019959606989656,
+    "mask_cer": 0.8771645153921765,
+    "model_cer": 0.018400055662711235,
+    "margin": 0.05,
+    "shuffle_ok": true,
+    "mask_ok": true,
+    "content_change_n": 32,
+    "content_change_need": 8,
+    "prefix_cf_ok": true,
+    "paired_ci95_high": -84.73150095471223,
+    "paired_ci_lt_zero": true,
+    "pass": true
+  },
+  "stability_d1b": {
+    "runaway_or_repetition": true,
+    "no_runaway": false,
+    "phrase_loop_repetition": true,
+    "no_phrase_loop": false,
+    "hard_cap_count": 4,
+    "hard_cap_ok": false,
+    "cb0_max_run": 5,
+    "cb0_max_run_limit": 12,
+    "cb0_max_run_ok": true,
+    "mean_dur_ratio": 1.0043148836815832,
+    "mean_dur_ratio_ok": true,
+    "mean_dur_ratio_range": [
+      0.9,
+      1.1
+    ],
+    "duration_buckets": {
+      "lt_0_5": 0,
+      "0_5_to_0_9": 2,
+      "0_9_to_1_1": 28,
+      "1_1_to_2_0": 2,
+      "gt_2_0": 0
+    },
+    "utt_ratio_outliers": [],
+    "utt_ratio_limits": [
+      0.5,
+      2.0
+    ],
+    "no_extreme_utt_ratios": true,
+    "duration_ratio_distribution": {
+      "n": 32,
+      "mean": 1.0043148836815832,
+      "median": 1.0,
+      "min": 0.7647058823529411,
+      "max": 1.3440860215053763,
+      "p10": 1.0,
+      "p90": 1.0234896810506566,
+      "buckets": {
+        "lt_0_5": 0,
+        "0_5_to_0_9": 2,
+        "0_9_to_1_1": 28,
+        "1_1_to_2_0": 2,
+        "gt_2_0": 0
+      },
+      "outliers_lt_0_5": [],
+      "outliers_gt_2_0": [],
+      "outlier_indices": []
+    },
+    "pass": false
+  },
+  "n_catastrophic": 0,
+  "zero_catastrophic": true,
+  "duration_ratio_distribution": {
+    "n": 32,
+    "mean": 1.0043148836815832,
+    "median": 1.0,
+    "min": 0.7647058823529411,
+    "max": 1.3440860215053763,
+    "p10": 1.0,
+    "p90": 1.0234896810506566,
+    "buckets": {
+      "lt_0_5": 0,
+      "0_5_to_0_9": 2,
+      "0_9_to_1_1": 28,
+      "1_1_to_2_0": 2,
+      "gt_2_0": 0
+    },
+    "outliers_lt_0_5": [],
+    "outliers_gt_2_0": [],
+    "outlier_indices": []
+  },
+  "stop_reason_distribution": {
+    "hard_cap": 4,
+    "stop_head": 28
+  },
+  "shuffle_cer": 1.2019959606989656,
+  "mask_cer": 0.8771645153921765,
+  "wrong_utt_cer": 1.177273753766777,
+  "random_codes_cer": 0.9621267531463334
+}
+wrote /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/best_full32_n2/n2_gate.json

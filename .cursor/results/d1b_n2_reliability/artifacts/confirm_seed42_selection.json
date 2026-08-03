@@ -1,0 +1,197 @@
+{
+  "protocol": "d1b_fr_lexicographic_v1",
+  "selection_subset": "select8",
+  "selected": {
+    "ckpt": "runs/discrete_speech_lm_d1b_confirm_seed42/candidate_step_0250.pt",
+    "step": 250,
+    "rank": 0,
+    "selection_key": [
+      0,
+      0.032569176319176316,
+      0,
+      0.009404788549619108,
+      Infinity
+    ],
+    "macro_cer": 0.032569176319176316,
+    "n_catastrophic": 0,
+    "mean_dur_ratio": 1.0094491525423728,
+    "teacher_forced_ce": null,
+    "gate_eligible": true,
+    "runaway_or_repetition": false
+  },
+  "candidates": [
+    {
+      "ckpt": "runs/discrete_speech_lm_d1b_confirm_seed42/candidate_step_0250.pt",
+      "step": 250,
+      "selection_subset": "select8",
+      "macro_cer": 0.032569176319176316,
+      "mean_cer": 0.032569176319176316,
+      "n_catastrophic": 0,
+      "mean_dur_ratio": 1.0094491525423728,
+      "runaway_or_repetition": false,
+      "gate_eligible": true,
+      "teacher_forced_ce": null,
+      "cb0": {
+        "cb0_utilization": 0.15869140625,
+        "cb0_entropy": 5.6285714843046675,
+        "cb0_unique": 325,
+        "cb0_total_frames": 498,
+        "cb0_max_run": 4,
+        "healthy": true
+      },
+      "stop_reason_distribution": {
+        "hard_cap": 1,
+        "stop_head": 7
+      },
+      "items_sha256": "fa083ed564809c01037292b1324bced72d219610cef42757b9c5155489d62651",
+      "gate_verdict": "PASS",
+      "selection_key": [
+        0,
+        0.032569176319176316,
+        0,
+        0.009404788549619108,
+        Infinity
+      ],
+      "rank": 0
+    },
+    {
+      "ckpt": "runs/discrete_speech_lm_d1b_confirm_seed42/candidate_step_0375.pt",
+      "step": 375,
+      "selection_subset": "select8",
+      "macro_cer": 0.032569176319176316,
+      "mean_cer": 0.032569176319176316,
+      "n_catastrophic": 0,
+      "mean_dur_ratio": 1.0094491525423728,
+      "runaway_or_repetition": false,
+      "gate_eligible": true,
+      "teacher_forced_ce": null,
+      "cb0": {
+        "cb0_utilization": 0.15869140625,
+        "cb0_entropy": 5.6285714843046675,
+        "cb0_unique": 325,
+        "cb0_total_frames": 498,
+        "cb0_max_run": 4,
+        "healthy": true
+      },
+      "stop_reason_distribution": {
+        "hard_cap": 1,
+        "stop_head": 7
+      },
+      "items_sha256": "fa083ed564809c01037292b1324bced72d219610cef42757b9c5155489d62651",
+      "gate_verdict": "PASS",
+      "selection_key": [
+        0,
+        0.032569176319176316,
+        0,
+        0.009404788549619108,
+        Infinity
+      ],
+      "rank": 1
+    },
+    {
+      "ckpt": "runs/discrete_speech_lm_d1b_confirm_seed42/candidate_step_0500.pt",
+      "step": 500,
+      "selection_subset": "select8",
+      "macro_cer": 0.032569176319176316,
+      "mean_cer": 0.032569176319176316,
+      "n_catastrophic": 0,
+      "mean_dur_ratio": 1.0094491525423728,
+      "runaway_or_repetition": false,
+      "gate_eligible": true,
+      "teacher_forced_ce": null,
+      "cb0": {
+        "cb0_utilization": 0.15869140625,
+        "cb0_entropy": 5.6285714843046675,
+        "cb0_unique": 325,
+        "cb0_total_frames": 498,
+        "cb0_max_run": 4,
+        "healthy": true
+      },
+      "stop_reason_distribution": {
+        "hard_cap": 1,
+        "stop_head": 7
+      },
+      "items_sha256": "fa083ed564809c01037292b1324bced72d219610cef42757b9c5155489d62651",
+      "gate_verdict": "PASS",
+      "selection_key": [
+        0,
+        0.032569176319176316,
+        0,
+        0.009404788549619108,
+        Infinity
+      ],
+      "rank": 2
+    },
+    {
+      "ckpt": "runs/discrete_speech_lm_d1b_confirm_seed42/candidate_step_0625.pt",
+      "step": 625,
+      "selection_subset": "select8",
+      "macro_cer": 0.032569176319176316,
+      "mean_cer": 0.032569176319176316,
+      "n_catastrophic": 0,
+      "mean_dur_ratio": 1.0094491525423728,
+      "runaway_or_repetition": false,
+      "gate_eligible": true,
+      "teacher_forced_ce": null,
+      "cb0": {
+        "cb0_utilization": 0.15869140625,
+        "cb0_entropy": 5.6285714843046675,
+        "cb0_unique": 325,
+        "cb0_total_frames": 498,
+        "cb0_max_run": 4,
+        "healthy": true
+      },
+      "stop_reason_distribution": {
+        "hard_cap": 1,
+        "stop_head": 7
+      },
+      "items_sha256": "fa083ed564809c01037292b1324bced72d219610cef42757b9c5155489d62651",
+      "gate_verdict": "PASS",
+      "selection_key": [
+        0,
+        0.032569176319176316,
+        0,
+        0.009404788549619108,
+        Infinity
+      ],
+      "rank": 3
+    },
+    {
+      "ckpt": "runs/discrete_speech_lm_d1b_confirm_seed42/candidate_step_0750.pt",
+      "step": 750,
+      "selection_subset": "select8",
+      "macro_cer": 0.032569176319176316,
+      "mean_cer": 0.032569176319176316,
+      "n_catastrophic": 0,
+      "mean_dur_ratio": 1.0094491525423728,
+      "runaway_or_repetition": false,
+      "gate_eligible": true,
+      "teacher_forced_ce": null,
+      "cb0": {
+        "cb0_utilization": 0.15869140625,
+        "cb0_entropy": 5.6285714843046675,
+        "cb0_unique": 325,
+        "cb0_total_frames": 498,
+        "cb0_max_run": 4,
+        "healthy": true
+      },
+      "stop_reason_distribution": {
+        "hard_cap": 1,
+        "stop_head": 7
+      },
+      "items_sha256": "fa083ed564809c01037292b1324bced72d219610cef42757b9c5155489d62651",
+      "gate_verdict": "PASS",
+      "selection_key": [
+        0,
+        0.032569176319176316,
+        0,
+        0.009404788549619108,
+        Infinity
+      ],
+      "rank": 4
+    }
+  ],
+  "note": "Selected checkpoint must be copied/symlinked to best.pt only after this file is written. Candidates must not be named best.pt before selection. CONFIRM selection uses select8 only.",
+  "items_sha256": "fa083ed564809c01037292b1324bced72d219610cef42757b9c5155489d62651",
+  "selection_subset_verified": true
+}

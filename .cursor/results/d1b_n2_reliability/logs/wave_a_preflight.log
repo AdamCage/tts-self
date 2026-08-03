@@ -1,0 +1,7 @@
+=== Wave A preflight 2026-08-03T08:57:32+03:00 ===
+313cca1af5fb20951852457b8d76f98b08a0caa3
+porcelain_bytes=0
+Python 3.11.15
+torch 2.13.0+cu130 cuda True NVIDIA GeForce RTX 4080 SUPER
+name, memory.total [MiB], memory.used [MiB]
+NVIDIA GeForce RTX 4080 SUPER, 16376 MiB, 2137 MiB

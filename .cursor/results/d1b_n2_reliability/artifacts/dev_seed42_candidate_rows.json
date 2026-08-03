@@ -1,0 +1,82 @@
+[
+  {
+    "ckpt": "runs/discrete_speech_lm_d1b_dev_seed42/candidate_step_0375.pt",
+    "step": 375,
+    "selection_subset": "dev32",
+    "macro_cer": 0.04658620069359471,
+    "mean_cer": 0.04658620069359471,
+    "n_catastrophic": 1,
+    "mean_dur_ratio": 1.0190142822099306,
+    "runaway_or_repetition": false,
+    "gate_eligible": true,
+    "teacher_forced_ce": null,
+    "cb0": null,
+    "stop_reason_distribution": {
+      "hard_cap": 3,
+      "stop_head": 29
+    },
+    "items_sha256": "c886ba31f3305546d9b4938e1cd0b7a2fa4fce738d7da342e9da2a30a28b172c",
+    "gate_verdict": "FAIL",
+    "ckpt_on_disk": true
+  },
+  {
+    "ckpt": "runs/discrete_speech_lm_d1b_dev_seed42/candidate_step_0500.pt",
+    "step": 500,
+    "selection_subset": "dev32",
+    "macro_cer": 0.04658620069359471,
+    "mean_cer": 0.04658620069359471,
+    "n_catastrophic": 1,
+    "mean_dur_ratio": 1.0190142822099306,
+    "runaway_or_repetition": false,
+    "gate_eligible": true,
+    "teacher_forced_ce": null,
+    "cb0": null,
+    "stop_reason_distribution": {
+      "hard_cap": 3,
+      "stop_head": 29
+    },
+    "items_sha256": "c886ba31f3305546d9b4938e1cd0b7a2fa4fce738d7da342e9da2a30a28b172c",
+    "gate_verdict": "FAIL",
+    "ckpt_on_disk": true
+  },
+  {
+    "ckpt": "runs/discrete_speech_lm_d1b_dev_seed42/candidate_step_0625.pt",
+    "step": 625,
+    "selection_subset": "dev32",
+    "macro_cer": 0.03293677540623839,
+    "mean_cer": 0.03293677540623839,
+    "n_catastrophic": 0,
+    "mean_dur_ratio": 1.0103094453800938,
+    "runaway_or_repetition": false,
+    "gate_eligible": true,
+    "teacher_forced_ce": null,
+    "cb0": null,
+    "stop_reason_distribution": {
+      "hard_cap": 3,
+      "stop_head": 29
+    },
+    "items_sha256": "c886ba31f3305546d9b4938e1cd0b7a2fa4fce738d7da342e9da2a30a28b172c",
+    "gate_verdict": "PASS",
+    "ckpt_on_disk": true
+  },
+  {
+    "ckpt": "runs/discrete_speech_lm_d1b_dev_seed42/candidate_step_0750.pt",
+    "step": 750,
+    "selection_subset": "dev32",
+    "macro_cer": 0.03293677540623839,
+    "mean_cer": 0.03293677540623839,
+    "n_catastrophic": 0,
+    "mean_dur_ratio": 1.0103094453800938,
+    "runaway_or_repetition": false,
+    "gate_eligible": true,
+    "teacher_forced_ce": null,
+    "cb0": null,
+    "stop_reason_distribution": {
+      "hard_cap": 3,
+      "stop_head": 29
+    },
+    "items_sha256": "c886ba31f3305546d9b4938e1cd0b7a2fa4fce738d7da342e9da2a30a28b172c",
+    "gate_verdict": "PASS",
+    "ckpt_on_disk": true
+  }
+]

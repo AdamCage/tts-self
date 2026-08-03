@@ -1,0 +1,46 @@
+/bin/sh: 1: sox: not found
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0000_ruslan_000418_RUSLAN.wav frames=29
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0001_ruslan_006437_RUSLAN.wav frames=81
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0002_ruslan_016544_RUSLAN.wav frames=102
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0003_ruslan_017729_RUSLAN.wav frames=104
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0004_ruslan_019874_RUSLAN.wav frames=98
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0005_ruslan_019969_RUSLAN.wav frames=70
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0006_common_voice_ru_17_hf_mirror__099f4be73f6f3585f1.wav frames=29
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0007_common_voice_ru_17_hf_mirror__1d1d705e4a340e27c1.wav frames=38
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0008_common_voice_ru_17_hf_mirror__27a6f8faef04b371c4.wav frames=59
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0009_common_voice_ru_17_hf_mirror__27e32d21039446eaa6.wav frames=55
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0010_common_voice_ru_17_hf_mirror__399d7f8c910663dc6f.wav frames=35
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0011_common_voice_ru_17_hf_mirror__45aa05b1b3395888cc.wav frames=37
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0012_common_voice_ru_17_hf_mirror__49f46351eee6509ee5.wav frames=89
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0013_common_voice_ru_17_hf_mirror__5534a8577c1543c9d4.wav frames=70
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0014_common_voice_ru_17_hf_mirror__64d2c3c11acd9214c2.wav frames=98
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0015_common_voice_ru_17_hf_mirror__79a4d9667b4cbb870e.wav frames=90
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0016_common_voice_ru_17_hf_mirror__9264b83f6dfbf4cb9e.wav frames=90
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0017_common_voice_ru_17_hf_mirror__9d719811751b2bc399.wav frames=64
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0018_common_voice_ru_17_hf_mirror__a282a59221705be7a9.wav frames=98
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0019_common_voice_ru_17_hf_mirror__a4fa5023b26512cd6c.wav frames=101
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0020_common_voice_ru_17_hf_mirror__ac44ab53d7642471f6.wav frames=104
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0021_common_voice_ru_17_hf_mirror__b0f3d6d8dfb9d8e3e3.wav frames=86
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0022_common_voice_ru_17_hf_mirror__ba1a4089af87b3ebc9.wav frames=38
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0023_common_voice_ru_17_hf_mirror__bee4f920247afc2999.wav frames=39
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0024_common_voice_ru_17_hf_mirror__c20ae785dedb3d3b60.wav frames=63
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0025_common_voice_ru_17_hf_mirror__c664546009afd97ebc.wav frames=49
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0026_common_voice_ru_17_hf_mirror__c9116137e7ffe2c343.wav frames=59
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0027_common_voice_ru_17_hf_mirror__d47a9fb0f4db13adf6.wav frames=91
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0028_common_voice_ru_17_hf_mirror__d8a54ca9d0a23a92c8.wav frames=71
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0029_common_voice_ru_17_hf_mirror__e04f3938c6beda375d.wav frames=100
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0030_common_voice_ru_17_hf_mirror__f2e845f8645155e573.wav frames=74
+wrote /mnt/c/projects/tts-self/out/d1b_n2_reliability/dev_seed42/listen_demo/0031_common_voice_ru_17_hf_mirror__f86b6f77ae7ffb4a62.wav frames=60

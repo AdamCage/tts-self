@@ -1,0 +1,22 @@
+/bin/sh: 1: sox: not found
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+wrote /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/listen_demo/0000_ruslan_000300_RUSLAN.wav frames=67
+wrote /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/listen_demo/0001_ruslan_001953_RUSLAN.wav frames=25
+wrote /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/listen_demo/0002_common_voice_ru_17_hf_mirror__1b856b478559909141.wav frames=66
+wrote /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/listen_demo/0003_common_voice_ru_17_hf_mirror__3707e547bc79f4fd79.wav frames=66
+wrote /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/listen_demo/0004_common_voice_ru_17_hf_mirror__53a669e8a870537876.wav frames=48
+wrote /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/listen_demo/0005_common_voice_ru_17_hf_mirror__669a448e420f987d77.wav frames=84
+wrote /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/listen_demo/0006_common_voice_ru_17_hf_mirror__6bfce8e8912ad4a73b.wav frames=83
+wrote /home/adam/projects/tts-self/out/d1b_n2_reliability/confirm_v2_seed42/listen_demo/0007_common_voice_ru_17_hf_mirror__d80c4db628431b729f.wav frames=34
