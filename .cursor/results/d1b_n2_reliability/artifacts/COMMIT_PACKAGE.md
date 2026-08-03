@@ -1,6 +1,6 @@
 # D1b hardstop closure — commit package
 
-**Status:** user authorized commit/push + clean SHA re-verify.  
+**Status:** commit/push done; clean-SHA verify green.  
 **Do not** mix methodology or `configs/_tmp_*` into this package.  
 **Never** use `MINISPEECH_ALLOW_DIRTY=1` for the normative verify.
 
@@ -8,13 +8,14 @@
 
 | Item | Result |
 |------|--------|
-| Clean SHA | recorded in `.cursor/results/d1b_hardstop_closure_48a251f5/RESULTS.md` + verify master log |
-| Tree | porcelain empty on WSL after `git pull` |
-| Focused D1b suite | see hardstop_closure focused log |
-| Full `pytest -q` | see hardstop_closure pytest log |
-| Real `torchrun --standalone --nproc_per_node=1` | `TORCHRUN_SMOKE_OK` |
-| Frozen hashes / HARD-STOP provenance | `HASH_CHECK_OK` (v1 PASS ignored) |
+| Clean SHA | `a05e4b758636bb21d1501781f330ba93057756dc` (`a05e4b7`) |
+| Tree | porcelain empty on WSL at verify start |
+| Focused D1b suite | **96 passed, 2 skipped** |
+| Full `pytest -q` | **362 passed, 2 skipped** |
+| Real `torchrun --standalone --nproc_per_node=1` | **TORCHRUN_SMOKE_OK** |
+| Frozen hashes / HARD-STOP provenance | **HASH_CHECK_OK** (v1 PASS ignored) |
 | Formal gate | **HARD-STOP** (seed43 clean FAIL basis) |
+| Push | `origin/master` updated |
 
 ## CRLF hazard
 

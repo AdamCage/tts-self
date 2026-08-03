@@ -22,6 +22,7 @@ run_body() {
   fi
 
   cd "$WSL"
+  export PATH="${HOME}/.local/bin:${PATH}"
   # shellcheck disable=SC1091
   source .venv/bin/activate
   export HF_HOME="${HOME}/hf_cache"

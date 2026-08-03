@@ -3,6 +3,7 @@
 **Plan:** `.cursor/plans/d1b_hardstop_closure_48a251f5.plan.md`  
 **Slug:** `d1b_hardstop_closure_48a251f5`  
 **Date:** 2026-08-03  
+**Clean SHA (normative):** `a05e4b758636bb21d1501781f330ba93057756dc` (`a05e4b7`)  
 **Status:** **NO-GO for D1c start** (closure tooling complete); scientific D1b remains **HARD-STOP**  
 **D1c / 1h / 5h / full:** **not started**
 
@@ -41,15 +42,17 @@ Pre-commit (WSL Ubuntu, dirty sync for development only):
 | Focused D1b (8 files) | **96 passed, 2 skipped** | `logs/precommit_focused_full.log` |
 | Real torchrun smoke | **TORCHRUN_SMOKE_OK** (nccl, world_size=1) | `logs/precommit_torchrun.log` |
 
-Normative clean-SHA verify (after commit/push + WSL `git pull`, porcelain empty, **no** `MINISPEECH_ALLOW_DIRTY=1`):
+Normative clean-SHA verify (WSL Ubuntu after `git reset --hard origin/master`, porcelain empty, **no** `MINISPEECH_ALLOW_DIRTY=1`):
 
 | Suite | Result | Log |
 |-------|--------|-----|
-| Focused D1b | see `logs/hardstop_closure_focused.log` | |
-| Full `pytest -q` | see `logs/hardstop_closure_pytest.log` | |
-| `torchrun --standalone --nproc_per_node=1` | see `logs/hardstop_closure_torchrun.log` | |
-| Hash / HARD-STOP provenance | `HASH_CHECK_OK` + `HARDSTOP_PROVENANCE_OK` | `logs/hardstop_closure_hashes.log` |
-| Master | `logs/hardstop_closure_verify_master.log` | |
+| Focused D1b | **96 passed, 2 skipped** | `logs/hardstop_closure_focused.log` |
+| Full `pytest -q` | **362 passed, 2 skipped** | `logs/hardstop_closure_pytest.log` |
+| `torchrun --standalone --nproc_per_node=1` | **TORCHRUN_SMOKE_OK** (nccl) | `logs/hardstop_closure_torchrun.log` |
+| Hash / HARD-STOP provenance | **HASH_CHECK_OK** + **HARDSTOP_PROVENANCE_OK** | `logs/hardstop_closure_hashes.log` |
+| Aggregate | **AGGREGATE_FAIL=0** | `logs/hardstop_closure_verify_master.log` |
+
+Push: `origin/master` at `a05e4b7` (Groups 1–2). Methodology left uncommitted.
 
 ## Related results pack
 

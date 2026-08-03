@@ -1,0 +1,35 @@
+eval_contract.path=configs/eval_contracts/d1b_n2_reliability.json
+eval_contract.version=1.2.0
+eval_contract.expected_sha256=d04295d3ac9864afe5002a8470baead8f5f57a3c8f8d38831fe134aa7feada92
+eval_contract.got_sha256=d04295d3ac9864afe5002a8470baead8f5f57a3c8f8d38831fe134aa7feada92
+dev32.path=configs/train_subsets/d1b_dev32.json
+dev32.items_sha256.expected=c886ba31f3305546d9b4938e1cd0b7a2fa4fce738d7da342e9da2a30a28b172c
+dev32.items_sha256.got=c886ba31f3305546d9b4938e1cd0b7a2fa4fce738d7da342e9da2a30a28b172c
+confirm32.path=configs/train_subsets/d1b_confirm32_v2.json
+confirm32.items_sha256.expected=63d7e351602e62d26196d944cd1f7a9e928a241e70d968f6eb58c0d1b7a746b9
+confirm32.items_sha256.got=63d7e351602e62d26196d944cd1f7a9e928a241e70d968f6eb58c0d1b7a746b9
+confirm32.split.select8.expected=6667da2f8fc2c3706deff48a79489103f739419041f3fb492f5822647075a0ed
+confirm32.split.select8.got=6667da2f8fc2c3706deff48a79489103f739419041f3fb492f5822647075a0ed
+confirm32.split.gate24.expected=68f8d98738114761cee86bc336be5313f3ad550519a4b6764adbdc0c4b32eda8
+confirm32.split.gate24.got=68f8d98738114761cee86bc336be5313f3ad550519a4b6764adbdc0c4b32eda8
+confirm32.split.full32.expected=63d7e351602e62d26196d944cd1f7a9e928a241e70d968f6eb58c0d1b7a746b9
+confirm32.split.full32.got=63d7e351602e62d26196d944cd1f7a9e928a241e70d968f6eb58c0d1b7a746b9
+formal_gate.path=.cursor/results/d1b_n2_reliability/d1b_reliability_gate.json
+formal_gate.terminal_result='HARD-STOP'
+formal_gate.formal_verdict='HARD-STOP'
+formal_gate.prior_pass_status='INVALID_WITHDRAWN'
+confirm_v2.43.classification='FORMAL_HARD_STOP_BASIS'
+confirm_v2.43.git_dirty=False
+confirm_v2.43.gate24_verdict='FAIL'
+confirm_v2.43.full32_verdict='FAIL'
+confirm_v2.42.classification='DIAGNOSTIC'
+confirm_v2.42.git_dirty=True
+confirm_v2_summary.formal_verdict='HARD-STOP'
+v1_superseded_note=.cursor/results/d1b_n2_reliability/artifacts/V1_SUPERSEDED.md
+v1_artifact=confirm_seed43_full32_n2_gate.json verdict='PASS' (SUPERSEDED; must not count as OK)
+NOTE: ignoring superseded v1 PASS in confirm_seed43_full32_n2_gate.json
+v1_artifact=confirm_seed43_gate24_n2_gate.json verdict='PASS' (SUPERSEDED; must not count as OK)
+NOTE: ignoring superseded v1 PASS in confirm_seed43_gate24_n2_gate.json
+---
+HASH_CHECK_OK
+HARDSTOP_PROVENANCE_OK
