@@ -94,7 +94,7 @@ def _tf_ce_from_ckpt(ckpt_path: str | Path | None) -> float | None:
 
 
 def _ensure_teacher_forced_ce(candidates: list[dict[str, Any]]) -> None:
-    """Fill TF CE from ckpt metrics when missing; still fail-closed afterward."""
+    """Fill TF CE from ckpt metrics when missing (NON-CANONICAL escape only)."""
     for c in candidates:
         if parse_teacher_forced_ce(c) is not None:
             continue
@@ -102,6 +102,99 @@ def _ensure_teacher_forced_ce(candidates: list[dict[str, Any]]) -> None:
         if filled is not None:
             c["teacher_forced_ce"] = filled
             c["teacher_forced_ce_source"] = "ckpt_metrics"
+
+
+_NON_EVAL_TF_CE_SOURCES = frozenset({"ckpt_metrics", "ckpt", "train_metrics", "train_log"})
+_EVAL_TF_CE_SOURCES = frozenset(
+    {
+        "eval",
+        "eval_computed",
+        "score",
+        "score_only",
+        "teacher_forced_eval",
+        "n2_eval",
+    }
+)
+
+
+def require_eval_computed_tf_ce(candidates: list[dict[str, Any]]) -> None:
+    """Canonical D1b: finite TF CE needs explicit eval-source attestation.
+
+    Unproven CE (missing source) and ckpt/train fills are refused.
+    """
+    bad: list[str] = []
+    for i, c in enumerate(candidates):
+        label = str(c.get("ckpt") or c.get("step") or f"idx={i}")
+        if parse_teacher_forced_ce(c) is None:
+            bad.append(f"{label}: missing/null teacher_forced_ce")
+            continue
+        src = c.get("teacher_forced_ce_source")
+        if src is None or str(src).strip() == "":
+            bad.append(
+                f"{label}: teacher_forced_ce_source missing "
+                "(explicit eval attestation required; refuse unproven CE)"
+            )
+            continue
+        src_s = str(src)
+        if src_s in _NON_EVAL_TF_CE_SOURCES:
+            bad.append(f"{label}: teacher_forced_ce_source={src_s!r} (not eval-computed)")
+            continue
+        if src_s not in _EVAL_TF_CE_SOURCES:
+            bad.append(
+                f"{label}: teacher_forced_ce_source={src_s!r} not in "
+                f"allowed eval sources {sorted(_EVAL_TF_CE_SOURCES)}"
+            )
+    if bad:
+        raise SystemExit(
+            "canonical D1b selection requires eval-computed finite teacher_forced_ce "
+            "with explicit teacher_forced_ce_source attestation; "
+            "refuse ckpt-metrics / train-log / unproven fills. Offenders:\n- "
+            + "\n- ".join(bad)
+        )
+
+
+def _candidate_contract_sha(c: dict[str, Any]) -> str | None:
+    got = c.get("eval_contract_sha256")
+    if got:
+        return str(got)
+    prov = c.get("provenance")
+    if isinstance(prov, dict) and prov.get("eval_contract_sha256"):
+        return str(prov["eval_contract_sha256"])
+    return None
+
+
+def require_candidate_contract_provenance(
+    candidates: list[dict[str, Any]],
+    *,
+    expected_contract_sha256: str,
+) -> None:
+    """Fail-closed: every candidate must attest the frozen eval_contract hash."""
+    bad: list[str] = []
+    for i, c in enumerate(candidates):
+        label = str(c.get("ckpt") or c.get("step") or f"idx={i}")
+        got = _candidate_contract_sha(c)
+        if got is None:
+            bad.append(f"{label}: missing eval_contract_sha256 provenance")
+        elif got != expected_contract_sha256:
+            bad.append(
+                f"{label}: eval_contract_sha256={got} != expected={expected_contract_sha256}"
+            )
+    if bad:
+        raise SystemExit(
+            "canonical D1b selection requires verified eval_contract provenance "
+            "on every candidate. Offenders:\n- " + "\n- ".join(bad)
+        )
+
+
+def _candidate_items_sha256(c: dict[str, Any]) -> str | None:
+    got = c.get("items_sha256") or c.get("subset_items_sha256")
+    if got is not None:
+        return str(got)
+    if c.get("utt_ids"):
+        digest = items_sha256([str(u) for u in c["utt_ids"]])
+        c["items_sha256"] = digest
+        return digest
+    return None
 
 
 def _load_candidates(args: argparse.Namespace) -> list[dict[str, Any]]:
@@ -140,7 +233,9 @@ def _load_candidates(args: argparse.Namespace) -> list[dict[str, Any]]:
     if args.selection_subset:
         for c in candidates:
             c["selection_subset"] = args.selection_subset
-    _ensure_teacher_forced_ce(candidates)
+    # Canonical path must not invent TF CE from checkpoint metrics.
+    if args.allow_missing_tf_ce:
+        _ensure_teacher_forced_ce(candidates)
     return candidates
 
 
@@ -245,21 +340,20 @@ def main() -> int:
             verify_hash=True,
         )
         expected_sha = digest
-        # Also stamp candidates lacking an utterance hash.
         for c in candidates:
             c.setdefault("selection_subset", subset or args.verify_frozen_subset)
-            got = c.get("items_sha256") or c.get("subset_items_sha256")
-            if got is None and c.get("utt_ids"):
-                got = items_sha256([str(u) for u in c["utt_ids"]])
-                c["items_sha256"] = got
-            if got is not None and got != expected_sha:
+            got = _candidate_items_sha256(c)
+            if got is None:
+                raise SystemExit(
+                    f"candidate missing items_sha256 for {c.get('ckpt')}: "
+                    "refuse to stamp from verified frozen subset "
+                    "(record hash at eval / pass utt_ids)"
+                )
+            if got != expected_sha:
                 raise SystemExit(
                     f"candidate utterance-set hash mismatch for {c.get('ckpt')}: "
                     f"got={got} expected={expected_sha} (n={len(ids)})"
                 )
-            if got is None:
-                # Accept when scorer recorded the subset label + we verified frozen file.
-                c["items_sha256"] = expected_sha
     if args.require_subset:
         if subset != args.require_subset:
             raise SystemExit(
@@ -272,17 +366,40 @@ def main() -> int:
                         "CONFIRM selection must use select8 only; "
                         f"got selection_subset={c.get('selection_subset')!r} for {c.get('ckpt')}"
                     )
+            # Always load + verify the frozen select8 digest (fail-closed).
+            _, _, select8_sha = load_frozen_utt_ids("select8", verify_hash=True)
             if expected_sha is None:
-                # Default: verify against frozen select8 hash.
-                _, _, expected_sha = load_frozen_utt_ids("select8", verify_hash=True)
+                expected_sha = select8_sha
+            elif expected_sha != select8_sha:
+                raise SystemExit(
+                    "CONFIRM select8 hash mismatch vs frozen oracle: "
+                    f"require_items_sha256/verify={expected_sha} frozen={select8_sha}"
+                )
             for c in candidates:
-                got = c.get("items_sha256") or c.get("subset_items_sha256")
-                if got is not None and got != expected_sha:
+                got = _candidate_items_sha256(c)
+                if got is None:
+                    raise SystemExit(
+                        "CONFIRM select8 requires items_sha256 on every candidate; "
+                        f"missing for {c.get('ckpt')} (refuse to stamp frozen hash)"
+                    )
+                if got != expected_sha:
                     raise SystemExit(
                         "CONFIRM select8 items_sha256 mismatch: "
                         f"got={got} expected={expected_sha} for {c.get('ckpt')}"
                     )
-                c["items_sha256"] = expected_sha
+
+    contract = load_eval_contract(args.eval_contract)
+    contract_sha = str(
+        contract.get("_content_sha256")
+        or contract.get("sha256")
+        or eval_contract_content_sha256(contract)
+    )
+
+    if not args.allow_missing_tf_ce:
+        require_eval_computed_tf_ce(candidates)
+        require_candidate_contract_provenance(
+            candidates, expected_contract_sha256=contract_sha
+        )
 
     try:
         result = select_fr_checkpoint(
@@ -295,16 +412,15 @@ def main() -> int:
     if expected_sha is not None:
         result["items_sha256"] = expected_sha
         result["selection_subset_verified"] = True
-    contract = load_eval_contract(args.eval_contract)
     result["provenance"] = {
         "git_sha": git_sha(),
         "eval_contract_path": str(contract.get("_path") or args.eval_contract),
-        "eval_contract_sha256": str(
-            contract.get("sha256") or eval_contract_content_sha256(contract)
-        ),
+        "eval_contract_sha256": contract_sha,
         "selection_subset": subset,
         "items_sha256": expected_sha,
         "require_teacher_forced_ce": not bool(args.allow_missing_tf_ce),
+        "require_eval_computed_tf_ce": not bool(args.allow_missing_tf_ce),
+        "require_candidate_contract_provenance": not bool(args.allow_missing_tf_ce),
     }
     out_path = expand(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)

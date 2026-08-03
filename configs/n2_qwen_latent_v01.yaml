@@ -1,0 +1,96 @@
+# N2 first execution — Qwen3.5 backbone over vibevoice64 latents + DDPM head.
+# Geometry ONLY via TARGETS (src/minispeech/constants.py). Do not duplicate dims.
+
+target: vibevoice64  # → TARGETS["vibevoice64"]: dim=64, sr=24000, frame_rate=7.5
+
+qwen:
+  model_id: /home/adam/datasets/tts/models/Qwen3.5-0.8B-Base
+  text_model_class: Qwen3_5TextModel
+  # Must match backbone config / QWEN_HIDDEN_SIZE; not a parallel constant registry.
+  hidden_size: 1024
+  dtype: bfloat16
+  max_length: 256
+  freeze_backbone: true
+
+model:
+  latent_io:
+    # in_dim / out_dim resolved from TARGETS[target].dim and qwen.hidden_size
+    projector_mlp_hidden: null  # null → single Linear; else MLP width
+    use_acoustic_marker: true
+    dropout: 0.0
+  backbone:
+    freeze: true
+    # trainable at start: latent_in + acoustic_marker + bos_latent (+ diffusion head)
+  diffusion:
+    # DDPM ε-prediction (see .cursor/results/n2_first_execution/A2_head_choice.md)
+    hidden: 1024
+    layers: 4
+    time_embed_dim: 256
+    timesteps: 1000
+    beta_start: 0.0001
+    beta_end: 0.02
+    schedule: linear
+    cfg_dropout: 0.1
+    cfg_scale: 1.3
+    sample_steps: 10
+    sampler: ddim
+    eval_seed: 42
+    # d_model defaults to qwen.hidden_size (conditioning dim)
+
+data:
+  # S1 default: RUSLAN latents+text already on disk. Switch to multicorpus when C1/C2 ready.
+  source: ruslan  # ruslan | multicorpus
+  config: configs/data_ruslan_local.yaml
+  multicorpus_config: configs/data_multicorpus.yaml
+  require_text_hidden: false  # N2 uses input_ids; text_hidden optional inventory check
+
+train:
+  seed: 42
+  stages:
+    - name: S1
+      max_utterances: 32
+      steps: 3000
+    - name: S2
+      max_hours: 1.0
+      steps: 12000
+    - name: S3
+      max_hours: 5.0
+      steps: 20000
+  batch:
+    mode: auto
+    candidates: [1, 2, 4, 8]
+    target_vram_gb: 14.5
+  # Curriculum short → 15 s (schedule in config, not code).
+  curriculum:
+    stages:
+      - max_dur_s: 3.0
+        steps: 1000
+      - max_dur_s: 8.0
+        steps: 1000
+      - max_dur_s: 15.0
+        steps: 1000
+  lr: 2.0e-4
+  weight_decay: 0.01
+  grad_clip: 1.0
+  warmup_steps: 200
+  lr_schedule: cosine
+  min_lr_ratio: 0.05
+  log_every: 50
+  eval_every: 250
+  save_every: 1000
+  precision: bf16
+  # 0 = no EMA deepcopy (frozen Qwen VRAM). Set 0.999 only if VRAM allows.
+  ema_decay: 0.0
+  run_dir: runs/n2_s1_ruslan
+  fr_checkpoint:
+    enabled: true
+    every: 1000
+    n: 4
+  fr_eval_every: 1000
+  fr_eval_n: 4
+
+infer:
+  cfg_scale: 1.3
+  sample_steps: 10
+  sampler: ddim
+  eval_seed: 42

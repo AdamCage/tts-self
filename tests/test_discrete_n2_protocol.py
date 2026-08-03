@@ -2,11 +2,18 @@
 
 from __future__ import annotations
 
+import importlib.util
 import json
+import sys
 from pathlib import Path
 
 import pytest
 
+from minispeech.data.d1b_oracles import (
+    eval_contract_content_sha256,
+    load_eval_contract,
+    load_frozen_utt_ids,
+)
 from minispeech.eval.discrete_n2 import (
     FR_CANDIDATE_STEPS_BASE,
     assert_dev_confirm_disjoint,
@@ -30,6 +37,47 @@ if not CONFIRM32.is_file():
     # Until v2 is minted, fall back to v1 for disjoint integrity smoke.
     CONFIRM32 = CONFIRM32_V1
 FROZEN_HASHES = REPO / ".cursor" / "results" / "d1b_n2_reliability" / "artifacts" / "frozen_hashes.json"
+SCRIPT_76 = REPO / "scripts" / "76_select_discrete_checkpoint.py"
+EVAL_CONTRACT = REPO / "configs" / "eval_contracts" / "d1b_n2_reliability.json"
+
+
+def _load_select_script():
+    name = "select_discrete_checkpoint_76"
+    if name in sys.modules:
+        # Force reload so edits during the session are picked up.
+        del sys.modules[name]
+    spec = importlib.util.spec_from_file_location(name, SCRIPT_76)
+    assert spec is not None and spec.loader is not None
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules[name] = mod
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _contract_sha() -> str:
+    contract = load_eval_contract(EVAL_CONTRACT)
+    return str(
+        contract.get("_content_sha256")
+        or contract.get("sha256")
+        or eval_contract_content_sha256(contract)
+    )
+
+
+def _base_cand(**kwargs):
+    row = {
+        "ckpt": "cand.pt",
+        "step": 750,
+        "macro_cer": 0.04,
+        "n_catastrophic": 0,
+        "mean_dur_ratio": 1.0,
+        "runaway_or_repetition": False,
+        "teacher_forced_ce": 0.006,
+        "teacher_forced_ce_source": "eval",
+        "selection_subset": "select8",
+        "eval_contract_sha256": _contract_sha() if EVAL_CONTRACT.is_file() else "pending",
+    }
+    row.update(kwargs)
+    return row
 
 
 def test_catastrophic_cer_ge_050():
@@ -365,3 +413,161 @@ def test_confirm_selection_subset_label():
     out = select_fr_checkpoint(cands, selection_subset="select8")
     assert out["selection_subset"] == "select8"
     assert "best.pt" not in (out["selected"]["ckpt"] or "")
+
+
+@pytest.mark.skipif(not SCRIPT_76.is_file(), reason="select script missing")
+def test_select_refuses_ckpt_metrics_tf_ce_for_canonical():
+    mod = _load_select_script()
+    cands = [
+        _base_cand(
+            ckpt="from_ckpt.pt",
+            teacher_forced_ce=0.01,
+            teacher_forced_ce_source="ckpt_metrics",
+        )
+    ]
+    with pytest.raises(SystemExit, match="eval-computed|not eval-computed"):
+        mod.require_eval_computed_tf_ce(cands)
+
+
+@pytest.mark.skipif(not SCRIPT_76.is_file(), reason="select script missing")
+def test_select_refuses_unproven_tf_ce_without_source():
+    mod = _load_select_script()
+    cands = [_base_cand(teacher_forced_ce=0.01, teacher_forced_ce_source=None)]
+    # Pop default source injected by _base_cand.
+    cands[0].pop("teacher_forced_ce_source", None)
+    with pytest.raises(SystemExit, match="unproven|source missing"):
+        mod.require_eval_computed_tf_ce(cands)
+
+
+@pytest.mark.skipif(not SCRIPT_76.is_file(), reason="select script missing")
+def test_select_accepts_eval_computed_tf_ce():
+    mod = _load_select_script()
+    cands = [
+        _base_cand(teacher_forced_ce=0.006, teacher_forced_ce_source="eval"),
+        _base_cand(
+            ckpt="b.pt",
+            step=500,
+            teacher_forced_ce=0.02,
+            teacher_forced_ce_source="eval_computed",
+        ),
+    ]
+    mod.require_eval_computed_tf_ce(cands)
+
+
+@pytest.mark.skipif(
+    not SCRIPT_76.is_file() or not EVAL_CONTRACT.is_file(),
+    reason="select/contract missing",
+)
+def test_select_refuses_missing_contract_provenance():
+    mod = _load_select_script()
+    cands = [_base_cand()]
+    cands[0].pop("eval_contract_sha256", None)
+    with pytest.raises(SystemExit, match="eval_contract_sha256"):
+        mod.require_candidate_contract_provenance(
+            cands, expected_contract_sha256=_contract_sha()
+        )
+
+
+@pytest.mark.skipif(not SCRIPT_76.is_file() or not CONFIRM32.is_file(), reason="select/oracle missing")
+def test_select_refuses_stamping_missing_items_sha256(tmp_path: Path):
+    """CONFIRM select8 must not invent items_sha256 from the frozen alias."""
+    mod = _load_select_script()
+    _, _, select8_sha = load_frozen_utt_ids("select8", verify_hash=True)
+    cand_path = tmp_path / "cand.json"
+    cand_path.write_text(
+        json.dumps(
+            [
+                _base_cand(
+                    # Explicitly omit items_sha256 — previous hole stamped frozen hash.
+                    teacher_forced_ce=0.006,
+                    teacher_forced_ce_source="eval",
+                )
+            ]
+        ),
+        encoding="utf-8",
+    )
+    out_path = tmp_path / "selection.json"
+    argv = [
+        "76_select_discrete_checkpoint.py",
+        "--candidates-json",
+        str(cand_path),
+        "--selection-subset",
+        "select8",
+        "--require-subset",
+        "select8",
+        "--out",
+        str(out_path),
+    ]
+    old = sys.argv
+    try:
+        sys.argv = argv
+        with pytest.raises(SystemExit, match="refuse to stamp|requires items_sha256"):
+            mod.main()
+    finally:
+        sys.argv = old
+    assert not out_path.is_file()
+    # Positive control: matching hash proceeds (and does not rewrite hash).
+    cand_ok = tmp_path / "cand_ok.json"
+    row = _base_cand(
+        teacher_forced_ce=0.006,
+        teacher_forced_ce_source="eval",
+        items_sha256=select8_sha,
+        eval_contract_sha256=_contract_sha(),
+    )
+    cand_ok.write_text(json.dumps([row]), encoding="utf-8")
+    out_ok = tmp_path / "selection_ok.json"
+    sys.argv = [
+        "76_select_discrete_checkpoint.py",
+        "--candidates-json",
+        str(cand_ok),
+        "--selection-subset",
+        "select8",
+        "--require-subset",
+        "select8",
+        "--out",
+        str(out_ok),
+    ]
+    try:
+        rc = mod.main()
+    finally:
+        sys.argv = old
+    assert rc == 0
+    payload = json.loads(out_ok.read_text(encoding="utf-8"))
+    assert payload["items_sha256"] == select8_sha
+    assert payload["provenance"]["require_eval_computed_tf_ce"] is True
+
+
+@pytest.mark.skipif(not SCRIPT_76.is_file() or not CONFIRM32.is_file(), reason="select/oracle missing")
+def test_select_refuses_mismatched_select8_hash(tmp_path: Path):
+    mod = _load_select_script()
+    cand_path = tmp_path / "cand.json"
+    cand_path.write_text(
+        json.dumps(
+            [
+                _base_cand(
+                    teacher_forced_ce=0.006,
+                    teacher_forced_ce_source="eval",
+                    items_sha256="0" * 64,
+                    eval_contract_sha256=_contract_sha(),
+                )
+            ]
+        ),
+        encoding="utf-8",
+    )
+    old = sys.argv
+    sys.argv = [
+        "76_select_discrete_checkpoint.py",
+        "--candidates-json",
+        str(cand_path),
+        "--selection-subset",
+        "select8",
+        "--require-subset",
+        "select8",
+        "--out",
+        str(tmp_path / "out.json"),
+    ]
+    try:
+        with pytest.raises(SystemExit, match="items_sha256 mismatch"):
+            mod.main()
+    finally:
+        sys.argv = old

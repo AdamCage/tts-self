@@ -45,9 +45,18 @@ from minispeech.eval.discrete_n2 import (
     text_usage_acceptance,
 )
 from minispeech.frontend.normalize import normalize_for_asr
-from minispeech.infer.discrete_config import GENERATE_INFER_KEYS
+from minispeech.infer.discrete_config import GENERATE_INFER_KEYS, wave3c_infer_defaults
 from minispeech.models.discrete_speech_lm import build_discrete_speech_lm
 from minispeech.utils import expand, git_is_dirty, git_sha, load_yaml, set_seed
+
+_REQUIRED_N2_SCORE_REPORTS = (
+    "model",
+    "copy_synth",
+    "wrong_utt",
+    "random_codes",
+    "shuffle_text",
+    "mask_text",
+)
 
 
 def _load_model(ckpt: Path, device: torch.device):
@@ -66,7 +75,8 @@ def _resolve_speaker_registry(
     *,
     cfg: dict[str, Any],
     speaker_map: str | None,
-) -> SpeakerRegistry:
+) -> tuple[SpeakerRegistry, str]:
+    """Return ``(registry, resolved_map_path)`` for contract hash checks."""
     candidates: list[str] = []
     if speaker_map:
         candidates.append(speaker_map)
@@ -88,7 +98,7 @@ def _resolve_speaker_registry(
     for path in candidates:
         p = expand(path)
         if p.is_file():
-            return SpeakerRegistry.load(p)
+            return SpeakerRegistry.load(p), str(p)
     raise SystemExit(
         "speaker map required; pass --speaker-map or place "
         "configs/speaker_maps/trackn_v2.json"
@@ -381,6 +391,147 @@ def _edit_counts_to_jsonable(edit_counts: list[Any]) -> list[dict[str, int]]:
     return out
 
 
+def assert_score_only_d1b_bundle(
+    bundle: dict[str, Any],
+    *,
+    eval_contract: str | None = None,
+    speaker_map_path: str | None = None,
+) -> dict[str, Any]:
+    """Fail-closed provenance + frozen max_frames checks for ``--score-only``.
+
+    Canonical D1b refuses bundles that omit provenance / contract hash /
+    subset label+hash / full WAVE3c infer block / ``max_frames``, or that
+    record a GT-clamped ``max_frames``.
+    Returns the loaded eval contract on success.
+    """
+    raw_prov = bundle.get("provenance")
+    if not isinstance(raw_prov, dict) or not raw_prov:
+        raise SystemExit(
+            "--score-only refuse: missing bundle.provenance "
+            "(canonical D1b requires decode-time provenance)"
+        )
+    provenance = dict(raw_prov)
+    contract_path = (
+        eval_contract or provenance.get("eval_contract_path") or DEFAULT_EVAL_CONTRACT
+    )
+    contract_sha = provenance.get("eval_contract_sha256")
+    if not contract_sha:
+        raise SystemExit(
+            "--score-only refuse: provenance.eval_contract_sha256 missing "
+            "(fail-closed; refuse unsigned decode bundles)"
+        )
+    subset_label = provenance.get("subset_label")
+    subset_hash = provenance.get("subset_items_sha256")
+    if not subset_label:
+        raise SystemExit(
+            "--score-only refuse: provenance.subset_label missing "
+            "(canonical D1b requires frozen subset attestation)"
+        )
+    if not subset_hash:
+        raise SystemExit(
+            "--score-only refuse: provenance.subset_items_sha256 missing "
+            "(canonical D1b requires subset hash with subset_label)"
+        )
+
+    reports = bundle.get("reports")
+    if not isinstance(reports, dict) or not reports:
+        raise SystemExit("--score-only refuse: missing bundle.reports")
+    missing_reps = [k for k in _REQUIRED_N2_SCORE_REPORTS if k not in reports]
+    if missing_reps:
+        raise SystemExit(
+            "--score-only refuse: incomplete N2 reports block; missing "
+            + ", ".join(missing_reps)
+        )
+
+    live_infer = None
+    model_infer = (reports.get("model") or {}).get("infer")
+    if not isinstance(model_infer, dict) or not model_infer:
+        raise SystemExit(
+            "--score-only refuse: reports.model.infer missing "
+            "(canonical D1b requires full frozen WAVE3c infer block at decode)"
+        )
+    missing_keys = [k for k in GENERATE_INFER_KEYS if k not in model_infer]
+    if missing_keys:
+        raise SystemExit(
+            "--score-only refuse: incomplete reports.model.infer; missing keys "
+            + ", ".join(missing_keys)
+        )
+    live_infer = model_infer
+    # Also require provenance to carry the same frozen max_frames attestation.
+    wave3c = wave3c_infer_defaults()
+
+    try:
+        contract = enforce_eval_contract(
+            None,
+            contract_path=contract_path,
+            subset_items_sha256=str(subset_hash),
+            subset_label=str(subset_label),
+            require_clean_sha=False,
+            expected_contract_sha256=str(contract_sha),
+            live_infer=live_infer,
+            speaker_map_path=speaker_map_path,
+        )
+    except RuntimeError as exc:
+        raise SystemExit(f"--score-only refuse: {exc}") from exc
+
+    frozen_mf = int((contract.get("infer") or {}).get("max_frames") or wave3c["max_frames"])
+    recorded: list[tuple[str, Any]] = [
+        ("reports.model.infer.max_frames", live_infer.get("max_frames"))
+    ]
+    if provenance.get("max_frames") is not None:
+        recorded.append(("provenance.max_frames", provenance.get("max_frames")))
+    else:
+        raise SystemExit(
+            "--score-only refuse: provenance.max_frames missing "
+            "(frozen WAVE3c max_frames must be recorded at decode)"
+        )
+    for loc, mf in recorded:
+        try:
+            mf_i = int(mf)
+        except (TypeError, ValueError) as exc:
+            raise SystemExit(
+                f"--score-only refuse: non-integer {loc}={mf!r}"
+            ) from exc
+        if mf_i != frozen_mf:
+            raise SystemExit(
+                f"--score-only refuse: {loc}={mf_i} != frozen {frozen_mf} "
+                "(GT-derived clamps are forbidden on D1b)"
+            )
+    return contract
+
+
+def assert_score_only_wavs_present(
+    bundle: dict[str, Any],
+    *,
+    d1b: bool = True,
+    skip_eval_contract: bool = False,
+) -> None:
+    """Canonical score-only: missing wav paths fail-closed (no silent skip)."""
+    if not d1b or skip_eval_contract:
+        return
+    missing: list[str] = []
+    reports = bundle.get("reports") or {}
+    for name, rep in reports.items():
+        if not isinstance(rep, dict):
+            continue
+        for i, row in enumerate(rep.get("rows") or []):
+            if not isinstance(row, dict):
+                continue
+            wav = row.get("wav")
+            utt = row.get("utt_id") or row.get("id") or i
+            if not wav:
+                missing.append(f"{name}[{utt}]: wav path missing")
+            elif not Path(str(wav)).is_file():
+                missing.append(f"{name}[{utt}]: missing file {wav}")
+    if missing:
+        preview = "\n- ".join(missing[:20])
+        more = "" if len(missing) <= 20 else f"\n- ... and {len(missing) - 20} more"
+        raise SystemExit(
+            "--score-only refuse: missing wav files on canonical path "
+            f"({len(missing)} rows):\n- {preview}{more}"
+        )
+
+
 def _score_n2_bundle(
     bundle_path: Path,
     *,
@@ -397,32 +548,10 @@ def _score_n2_bundle(
     bundle = json.loads(bundle_path.read_text(encoding="utf-8"))
     provenance = dict(bundle.get("provenance") or {})
     if d1b and not skip_eval_contract:
-        live_infer = None
-        model_infer = ((bundle.get("reports") or {}).get("model") or {}).get("infer")
-        if isinstance(model_infer, dict):
-            live_infer = model_infer
-        enforce_eval_contract(
-            None,
-            contract_path=eval_contract or provenance.get("eval_contract_path") or DEFAULT_EVAL_CONTRACT,
-            subset_items_sha256=provenance.get("subset_items_sha256"),
-            subset_label=provenance.get("subset_label"),
-            require_clean_sha=False,
-            expected_contract_sha256=provenance.get("eval_contract_sha256"),
-            live_infer=live_infer,
+        assert_score_only_d1b_bundle(bundle, eval_contract=eval_contract)
+        assert_score_only_wavs_present(
+            bundle, d1b=d1b, skip_eval_contract=skip_eval_contract
         )
-        # Fail-closed: decode must have recorded frozen max_frames.
-        mf = None
-        if isinstance(live_infer, dict):
-            mf = live_infer.get("max_frames")
-        contract = load_eval_contract(
-            eval_contract or provenance.get("eval_contract_path") or DEFAULT_EVAL_CONTRACT
-        )
-        frozen_mf = int((contract.get("infer") or {}).get("max_frames") or 750)
-        if mf is not None and int(mf) != frozen_mf:
-            raise SystemExit(
-                f"--score-only refuse: bundle max_frames={mf} != frozen {frozen_mf} "
-                "(GT-derived clamps are forbidden on D1b)"
-            )
 
     asr = load_asr_engine(asr_config)
     scored: dict[str, Any] = {}
@@ -434,6 +563,11 @@ def _score_n2_bundle(
             wav = row.get("wav")
             ref = row.get("ref") or ""
             if not wav or not Path(wav).is_file():
+                # Canonical path already fail-closed above; legacy/non-d1b may skip.
+                if d1b and not skip_eval_contract:
+                    raise SystemExit(
+                        f"--score-only refuse: missing wav during score ({name}: {wav!r})"
+                    )
                 continue
             audio, sr = sf.read(wav, dtype="float32")
             if getattr(audio, "ndim", 1) > 1:
@@ -736,24 +870,26 @@ def main() -> int:
             "or --max-utts for legacy"
         )
 
+    pad_id = int(
+        cfg.get("data", {}).get("pad_token_id", cfg.get("model", {}).get("pad_token_id", 0))
+    )
+    collate = resolve_collate_codec_seq()
+    speaker_registry, speaker_map_resolved = _resolve_speaker_registry(
+        cfg=cfg if isinstance(cfg, dict) else {},
+        speaker_map=args.speaker_map,
+    )
+
     contract_payload: dict[str, Any] | None = None
     if not args.skip_eval_contract and not args.legacy_n2:
+        # CLI --speaker-map must be checked against contract map hash/path.
         contract_payload = enforce_eval_contract(
             cfg,
             contract_path=args.eval_contract,
             subset_items_sha256=subset_digest,
             subset_label=subset_label,
             require_clean_sha=False,
+            speaker_map_path=speaker_map_resolved,
         )
-
-    pad_id = int(
-        cfg.get("data", {}).get("pad_token_id", cfg.get("model", {}).get("pad_token_id", 0))
-    )
-    collate = resolve_collate_codec_seq()
-    speaker_registry = _resolve_speaker_registry(
-        cfg=cfg if isinstance(cfg, dict) else {},
-        speaker_map=args.speaker_map,
-    )
     rows = load_codec_items(
         args.codec_tokens_dir,
         args.max_utts,

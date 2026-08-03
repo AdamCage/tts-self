@@ -207,6 +207,38 @@ def load_eval_contract(path: str | Path | None = None) -> dict[str, Any]:
     return data
 
 
+def resolve_subset_alias(subset_label: str | None) -> str | None:
+    """Map a subset CLI label/path to a contract ``subsets`` key, if known."""
+    if not subset_label:
+        return None
+    key = str(subset_label).replace("\\", "/").lower()
+    alias_map = {
+        "dev32": "dev32",
+        "d1b_dev32": "dev32",
+        "confirm32": "confirm32",
+        "d1b_confirm32": "confirm32",
+        "confirm32_v2": "confirm32",
+        "d1b_confirm32_v2": "confirm32",
+        "full32": "confirm32",
+        "select8": "select8",
+        "gate24": "gate24",
+    }
+    alias = alias_map.get(key)
+    if alias is not None:
+        return alias
+    if "d1b_dev32" in key or key.endswith("/d1b_dev32.json"):
+        return "dev32"
+    if "confirm32_v2" in key or "d1b_confirm32_v2" in key:
+        return "confirm32"
+    if "d1b_confirm32" in key or "/confirm32" in key or key.endswith("confirm32.json"):
+        return "confirm32"
+    if key.endswith("select8") or key == "select8" or "/select8" in key:
+        return "select8"
+    if key.endswith("gate24") or key == "gate24" or "/gate24" in key:
+        return "gate24"
+    return key
+
+
 def enforce_eval_contract(
     cfg: Mapping[str, Any] | None,
     *,
@@ -216,11 +248,13 @@ def enforce_eval_contract(
     require_clean_sha: bool = False,
     expected_contract_sha256: str | None = None,
     live_infer: Mapping[str, Any] | None = None,
+    speaker_map_path: str | Path | None = None,
 ) -> dict[str, Any]:
     """Fail-closed checks for canonical D1b train/eval/infer.
 
     Verifies speaker-map content hash, WAVE3c infer knobs (including frozen
     ``max_frames``), optional subset hash, and optional recorded contract hash.
+    Rejects contradictory ``subset_label`` vs ``subset_items_sha256``.
     """
     from minispeech.infer.discrete_config import (
         contract_infer_from_eval_contract,
@@ -261,22 +295,37 @@ def enforce_eval_contract(
     if expected_spk in ("", "pending", "null", "None"):
         errors.append("eval_contract speaker_map.sha256 is pending/empty")
 
-    # Live speaker map content hash must match contract.
+    # Live speaker map content hash must match contract (CLI path takes precedence).
     try:
         from minispeech.data.speaker_registry import SpeakerRegistry
 
         map_path = (
-            ((cfg or {}).get("train") or {}).get("speaker_map_path")
+            speaker_map_path
+            or ((cfg or {}).get("train") or {}).get("speaker_map_path")
             or ((cfg or {}).get("data") or {}).get("speaker_map")
             or ((cfg or {}).get("model") or {}).get("speaker", {}).get("map_path")
+            or sp.get("path")
             or "configs/speaker_maps/trackn_v2.json"
         )
         reg = SpeakerRegistry.load(map_path)
         if expected_spk and reg.sha256 != expected_spk:
             errors.append(
                 f"speaker map content sha256 mismatch: live={reg.sha256} "
-                f"contract={expected_spk}"
+                f"contract={expected_spk} path={map_path}"
             )
+        contract_map_path = sp.get("path")
+        if speaker_map_path is not None and contract_map_path:
+            live_norm = str(expand(speaker_map_path)).replace("\\", "/").lower()
+            contract_norm = str(expand(contract_map_path)).replace("\\", "/").lower()
+            # Path mismatch is OK only when content hash already matches; still
+            # surface when the CLI path does not exist / hash failed above.
+            if live_norm != contract_norm and expected_spk and reg.sha256 == expected_spk:
+                pass  # alternate path with identical content
+            elif live_norm != contract_norm and not expected_spk:
+                errors.append(
+                    f"CLI speaker-map path {speaker_map_path!r} != contract "
+                    f"speaker_map.path={contract_map_path!r}"
+                )
     except Exception as exc:  # noqa: BLE001 — fail-closed surface
         errors.append(f"speaker map load failed: {exc}")
 
@@ -298,42 +347,33 @@ def enforce_eval_contract(
 
     subsets = contract.get("subsets") or {}
     if subset_label and subset_items_sha256 and isinstance(subsets, Mapping):
-        key = str(subset_label).replace("\\", "/").lower()
-        alias_map = {
-            "dev32": "dev32",
-            "d1b_dev32": "dev32",
-            "confirm32": "confirm32",
-            "d1b_confirm32": "confirm32",
-            "confirm32_v2": "confirm32",
-            "d1b_confirm32_v2": "confirm32",
-            "full32": "confirm32",
-            "select8": "select8",
-            "gate24": "gate24",
-        }
-        alias = alias_map.get(key)
-        if alias is None:
-            if "d1b_dev32" in key:
-                alias = "dev32"
-            elif "confirm32_v2" in key or "d1b_confirm32_v2" in key:
-                alias = "confirm32"
-            elif "d1b_confirm32" in key or "confirm32" in key:
-                # Path to confirm32 with optional split elsewhere.
-                alias = "confirm32"
-            elif key.endswith("select8") or key == "select8":
-                alias = "select8"
-            elif key.endswith("gate24") or key == "gate24":
-                alias = "gate24"
-            else:
-                alias = key
-        # If digest matches a known subset hash, accept even if label is a path.
+        alias = resolve_subset_alias(subset_label)
         by_hash = {
             str(v.get("items_sha256")): name
             for name, v in subsets.items()
             if isinstance(v, Mapping) and v.get("items_sha256")
         }
-        if subset_items_sha256 in by_hash:
-            alias = by_hash[subset_items_sha256]
-        entry = subsets.get(alias) or subsets.get(key)
+        hash_alias = by_hash.get(str(subset_items_sha256))
+        # Fail-closed: label and hash must not point at different known subsets.
+        if (
+            alias in ("dev32", "confirm32", "select8", "gate24")
+            and hash_alias is not None
+            and hash_alias != alias
+        ):
+            errors.append(
+                f"subset label/hash contradiction: label={subset_label!r} "
+                f"(alias={alias}) but items_sha256 maps to {hash_alias}"
+            )
+        elif hash_alias is not None and alias not in (
+            "dev32",
+            "confirm32",
+            "select8",
+            "gate24",
+        ):
+            # Unresolved path-like label: bind via hash only when label is not a
+            # known contradictory alias.
+            alias = hash_alias
+        entry = subsets.get(alias) or subsets.get(str(subset_label))
         if isinstance(entry, Mapping):
             exp = entry.get("items_sha256")
             if exp and str(exp) != subset_items_sha256:
@@ -369,6 +409,7 @@ __all__ = [
     "load_eval_contract",
     "load_frozen_utt_ids",
     "load_subset_payload",
+    "resolve_subset_alias",
     "resolve_subset_spec",
     "utt_ids_from_payload",
     "verify_items_sha256",

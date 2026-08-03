@@ -14,6 +14,7 @@ from minispeech.data.codec_seq_protocol import collate_codec_seq
 from minispeech.train.discrete_lm_trainer import (
     STEP_UNIT_OPTIMIZER,
     DiscreteLMTrainer,
+    _atomic_torch_save,
     freeze_disabled_ru_conditioning,
     resolve_candidate_steps,
     resolve_optimizer_step_budget,
@@ -164,6 +165,53 @@ def test_mid_accum_save_refused(tmp_path: Path):
     trainer._accum_counter = 2
     with pytest.raises(RuntimeError, match="optimizer boundary"):
         trainer.save_checkpoint("S1", 0)
+
+
+def test_atomic_torch_save_success_replaces_and_cleans_tmp(tmp_path: Path, monkeypatch):
+    dest = tmp_path / "last.pt"
+    torch.save({"v": 0}, dest)
+    payload = {"v": 1, "ok": True}
+    seen_tmp: list[Path] = []
+    real_save = torch.save
+
+    def _tracking_save(obj, path, *a, **k):
+        p = Path(path)
+        if p.name.startswith(".last.pt.tmp."):
+            seen_tmp.append(p)
+        return real_save(obj, path, *a, **k)
+
+    monkeypatch.setattr(torch, "save", _tracking_save)
+    _atomic_torch_save(payload, dest)
+
+    assert dest.is_file()
+    assert seen_tmp, "expected write via pid-scoped tmp path"
+    assert all(not p.exists() for p in seen_tmp)
+    loaded = torch.load(dest, map_location="cpu", weights_only=False)
+    assert loaded == payload
+
+
+def test_atomic_torch_save_failure_preserves_dest_and_cleans_tmp(
+    tmp_path: Path, monkeypatch
+):
+    dest = tmp_path / "last.pt"
+    prior = {"v": "intact"}
+    torch.save(prior, dest)
+    tmp_seen: list[Path] = []
+
+    def _boom(obj, path, *a, **k):
+        p = Path(path)
+        tmp_seen.append(p)
+        p.write_bytes(b"partial-corrupt")
+        raise OSError("simulated crash mid-save")
+
+    monkeypatch.setattr(torch, "save", _boom)
+    with pytest.raises(OSError, match="simulated crash"):
+        _atomic_torch_save({"v": "new"}, dest)
+
+    assert tmp_seen
+    assert all(not p.exists() for p in tmp_seen)
+    loaded = torch.load(dest, map_location="cpu", weights_only=False)
+    assert loaded == prior
 
 
 def test_freeze_ru_conditioning_when_disabled():

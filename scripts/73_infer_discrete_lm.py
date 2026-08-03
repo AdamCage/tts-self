@@ -32,8 +32,12 @@ def _resolve_speaker_registry(
     cfg: dict,
     ckpt_payload: dict | None,
     speaker_map: str | None,
-) -> SpeakerRegistry | None:
-    """Load speaker map from CLI / ckpt / config when present."""
+) -> tuple[SpeakerRegistry | None, str | None]:
+    """Load speaker map from CLI / ckpt / config when present.
+
+    Returns ``(registry, resolved_path)`` so canonical contract checks can
+    verify the CLI/config map against the frozen speaker_map hash.
+    """
     candidates: list[str] = []
     if speaker_map:
         candidates.append(speaker_map)
@@ -63,8 +67,8 @@ def _resolve_speaker_registry(
     for path in candidates:
         p = expand(path)
         if p.is_file():
-            return SpeakerRegistry.load(p)
-    return None
+            return SpeakerRegistry.load(p), str(p)
+    return None, None
 
 
 def _load_model(
@@ -136,6 +140,21 @@ def _load_codec_items(
     return [ds[i] for i in range(len(ds))]
 
 
+def refuse_canonical_cli_infer_overrides(
+    *,
+    skip_eval_contract: bool,
+    max_frames: int | None,
+) -> None:
+    """Fail-closed: canonical D1b forbids CLI overrides of frozen infer knobs."""
+    if skip_eval_contract:
+        return
+    if max_frames is not None:
+        raise SystemExit(
+            "canonical D1b refuse: --max-frames overrides frozen infer settings; "
+            "omit --max-frames or pass --skip-eval-contract (non-canonical only)"
+        )
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--ckpt", required=True)
@@ -196,7 +215,7 @@ def main() -> int:
     if isinstance(file_cfg.get("infer"), dict):
         cfg.setdefault("infer", {}).update(file_cfg["infer"])
 
-    speaker_registry = _resolve_speaker_registry(
+    speaker_registry, speaker_map_resolved = _resolve_speaker_registry(
         cfg=cfg if isinstance(cfg, dict) else {},
         ckpt_payload=ckpt_payload,
         speaker_map=args.speaker_map,
@@ -209,18 +228,25 @@ def main() -> int:
             args.subset, split=args.subset_split, verify_hash=True
         )
     if not args.skip_eval_contract:
+        # Canonical D1b: frozen WAVE3c infer knobs come only from eval_contract /
+        # cfg['infer']. CLI overrides (e.g. --max-frames) are forbidden.
+        refuse_canonical_cli_infer_overrides(
+            skip_eval_contract=False,
+            max_frames=args.max_frames,
+        )
         enforce_eval_contract(
             cfg if isinstance(cfg, dict) else {},
             contract_path=args.eval_contract,
             subset_items_sha256=subset_digest,
             subset_label=args.subset,
             require_clean_sha=False,
+            speaker_map_path=speaker_map_resolved or args.speaker_map,
         )
 
     codebook_size = int(cfg.get("model", {}).get("codebook_size", 2048))
     gen_kw = resolve_discrete_infer_settings(
         cfg,
-        max_frames_override=args.max_frames,
+        max_frames_override=None if not args.skip_eval_contract else args.max_frames,
         codebook_size=codebook_size,
     )
     out_dir = expand(args.out)
