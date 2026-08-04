@@ -60,6 +60,9 @@ redirects = { "minispeech" = "src/minispeech" }
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
+markers = [
+  "gpu: needs CUDA (skipped on CPU-only hosts)",
+]
 
 [tool.ruff]
 line-length = 100
