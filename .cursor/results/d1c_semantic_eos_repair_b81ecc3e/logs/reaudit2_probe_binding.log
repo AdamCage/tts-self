@@ -1,0 +1,71 @@
+A1a FAIL independent raw-file recompute=590bdb996cc1fb72 declared=32f0ea2b16fabb0a match=False
+A1b PASS load_eval_contract sha=32f0ea2b16fabb0a == declared file sha (32f0ea2b16fabb0a)
+A1c PASS recipe_sha256=32f0ea2b16fabb0a == sha256=32f0ea2b16fabb0a
+A1d INFO full live contract sha256=32f0ea2b16fabb0a16086754d28e4f8986efa78735658de43769c172d13aac5c
+A1e INFO recipe_source_manifest_sha256=cb697d4f35f6a25066d0c71bb8c280045721189a50a21450d69415a9467e3111
+A1f PASS live contract sha != stale a59ada9c (32f0ea2b16fabb0a)
+A2-w1-contract PASS w1 eval_contract_hash=32f0ea2b16fabb0a live=32f0ea2b16fabb0a
+A2-w1-recipe PASS w1 recipe_hash=32f0ea2b16fabb0a contract.recipe_sha256=32f0ea2b16fabb0a
+A2-w1-manifest PASS w1 recipe_source_manifest_hash=cb697d4f35f6a250
+A2-w1-runmanifest INFO w1 run_manifest_hash=e0e7b95cf5367dd9541e2036958e1d70f163f29d32e01eb9690ca845cbb94483
+A2-w2-contract PASS w2 eval_contract_hash=32f0ea2b16fabb0a live=32f0ea2b16fabb0a
+A2-w2-recipe PASS w2 recipe_hash=32f0ea2b16fabb0a contract.recipe_sha256=32f0ea2b16fabb0a
+A2-w2-manifest PASS w2 recipe_source_manifest_hash=cb697d4f35f6a250
+A2-w2-runmanifest INFO w2 run_manifest_hash=f4a62daead585370014ac4020cda71f3340c71b30a7aa6d45785724ead484d06
+A3a PASS v2_0_1.parent_sha256=32f0ea2b16fabb0a live200=32f0ea2b16fabb0a
+A3b PASS v2_0_1.parent_recipe_sha256=32f0ea2b16fabb0a
+A3c PASS v2_0_1 self sha declared= recomputed=a2bc89876f1c0443
+A3d FAIL v2_0_1.recipe_sha256=None preserves 2.0.0 recipe_sha256 (plan §7)
+A4a PASS verify_recipe_source_manifest n_locked=19 mismatches=[]
+A4b PASS manifest dict sha=cb697d4f35f6a250 declared=cb697d4f35f6a250
+A4c PASS previously-unlocked modules now locked: missing=[]
+A4d INFO locked set (19): ['configs/discrete_speech_lm_d1c_semantic_eos_w1.yaml', 'configs/discrete_speech_lm_d1c_semantic_eos_w2.yaml', 'scripts/72_train_discrete_lm.py', 'scripts/73_infer_discrete_lm.py', 'scripts/74_eval_discrete_lm.py', 'scripts/76_select_discrete_checkpoint.py', 'scripts/77_freeze_d1c_oracles.py', 'src/minispeech/constants.py', 'src/minispeech/data/codec_seq_protocol.py', 'src/minispeech/data/collate_codec_seq.py', 'src/minispeech/data/d1b_oracles.py', 'src/minispeech/data/discrete_oracles.py', 'src/minispeech/eval/asr.py', 'src/minispeech/eval/discrete_n2.py', 'src/minispeech/eval/discrete_report_schema.py', 'src/minispeech/infer/discrete_config.py', 'src/minispeech/models/discrete_speech_lm.py', 'src/minispeech/models/multi_codebook_head.py', 'src/minispeech/train/discrete_lm_trainer.py']
+A4e PASS stripped hash of pristine copy == manifest entry (91125b5abfed71c8)
+A4f PASS stripped hash IS sensitive to train.seed change (36ced27b46d7ee58 != 91125b5abfed71c8)
+A4g INFO stripped hash is BLIND to eval_contract_hash tamper: same=True (by design; 72 must catch it)
+A4h PASS stripped hash catches subset_hash tamper: True
+A5-w1 PASS w1 resolve_repro_hashes inert(None) keys=[]
+A5-w1-vals INFO {"config": "8b3597866ed41a6c", "eval_contract": "32f0ea2b16fabb0a", "model_config": "0fb389c327c5301a", "recipe": "32f0ea2b16fabb0a", "recipe_source_manifest": "cb697d4f35f6a250", "run_manifest": "e0e7b95cf5367dd9", "speaker_map": "64e7cdc5c3447a43", "subset": "501330481c07d928"}
+A5-w1-contract PASS w1 resolved eval_contract == live contract sha
+A5-w2 PASS w2 resolve_repro_hashes inert(None) keys=[]
+A5-w2-vals INFO {"config": "ee9d788be1652e93", "eval_contract": "32f0ea2b16fabb0a", "model_config": "0fb389c327c5301a", "recipe": "32f0ea2b16fabb0a", "recipe_source_manifest": "cb697d4f35f6a250", "run_manifest": "f4a62daead585370", "speaker_map": "64e7cdc5c3447a43", "subset": "501330481c07d928"}
+A5-w2-contract PASS w2 resolved eval_contract == live contract sha
+A5c PASS stale eval_contract_hash raises: eval_contract_hash mismatch: declared=a59ada9c1e0a64f067b27dd2b4d93ca270702bd41881746d1bb9
+A5d PASS w1 declared run_manifest_hash reproducible from derived identity: declared=e0e7b95cf5367dd9 derived=e0e7b95cf5367dd9
+A6a FAIL matched hashes resume OK (err=ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 'optimizer'))
+A6b-config FAIL D1c resume refuses current config=None -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 'optimizer
+A6b-model_config FAIL D1c resume refuses current model_config=None -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 'optimizer
+A6b-speaker_map FAIL D1c resume refuses current speaker_map=None -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 'optimizer
+A6b-subset FAIL D1c resume refuses current subset=None -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 'optimizer
+A6b-eval_contract FAIL D1c resume refuses current eval_contract=None -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 'optimizer
+A6b-recipe FAIL D1c resume refuses current recipe=None -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 'optimizer
+A6b-recipe_source_manifest FAIL D1c resume refuses current recipe_source_manifest=None -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 'optimizer
+A6b-run_manifest FAIL D1c resume refuses current run_manifest=None -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 'optimizer
+A6c-config PASS D1c resume refuses config mismatch -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 
+A6c-model_config PASS D1c resume refuses model_config mismatch -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 
+A6c-speaker_map PASS D1c resume refuses speaker_map mismatch -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 
+A6c-subset PASS D1c resume refuses subset mismatch -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 
+A6c-eval_contract PASS D1c resume refuses eval_contract mismatch -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 
+A6c-recipe PASS D1c resume refuses recipe mismatch -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 
+A6c-recipe_source_manifest PASS D1c resume refuses recipe_source_manifest mismatch -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 
+A6c-run_manifest PASS D1c resume refuses run_manifest mismatch -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 
+A6d-run_manifest PASS D1c resume refuses ckpt missing run_manifest -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 
+A6d-recipe PASS D1c resume refuses ckpt missing recipe -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 
+A6d-recipe_source_manifest PASS D1c resume refuses ckpt missing recipe_source_manifest -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 
+A6e FAIL dropping run_manifest_hash from cfg no longer yields None (got=e0e7b95cf5367dd9); resume err=ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 
+A6f INFO non-D1c also refuses: unsupported step_unit='optimizer_step' (expected 'optimizer')
+
+=== SUMMARY A ===
+FAIL A1a: independent raw-file recompute=590bdb996cc1fb72 declared=32f0ea2b16fabb0a match=False
+FAIL A3d: v2_0_1.recipe_sha256=None preserves 2.0.0 recipe_sha256 (plan §7)
+FAIL A6a: matched hashes resume OK (err=ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 'optimizer'))
+FAIL A6b-config: D1c resume refuses current config=None -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 'optimizer
+FAIL A6b-model_config: D1c resume refuses current model_config=None -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 'optimizer
+FAIL A6b-speaker_map: D1c resume refuses current speaker_map=None -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 'optimizer
+FAIL A6b-subset: D1c resume refuses current subset=None -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 'optimizer
+FAIL A6b-eval_contract: D1c resume refuses current eval_contract=None -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 'optimizer
+FAIL A6b-recipe: D1c resume refuses current recipe=None -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 'optimizer
+FAIL A6b-recipe_source_manifest: D1c resume refuses current recipe_source_manifest=None -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 'optimizer
+FAIL A6b-run_manifest: D1c resume refuses current run_manifest=None -> ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 'optimizer
+FAIL A6e: dropping run_manifest_hash from cfg no longer yields None (got=e0e7b95cf5367dd9); resume err=ResumeMismatchError: unsupported step_unit='optimizer_step' (expected 
+A_total=56 A_fail=12

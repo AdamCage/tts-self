@@ -1,0 +1,31 @@
+=== REAUDIT ROUND2 pytest, DEFAULT env (no GIT_DIR override) ===
+Tue Aug  4 07:01:12 UTC 2026
+........................................................................ [ 18%]
+.......................s..........s..................................... [ 36%]
+........................................................................ [ 54%]
+..................................................................F..... [ 72%]
+........................................................................ [ 90%]
+.......................................                                  [100%]
+=================================== FAILURES ===================================
+________________________ test_git_sha_and_run_manifest _________________________
+
+tmp_path = PosixPath('/tmp/pytest-of-adam/pytest-24/test_git_sha_and_run_manifest0')
+
+    def test_git_sha_and_run_manifest(tmp_path: Path):
+        sha = git_sha()
+        assert isinstance(sha, str) and len(sha) >= 7
+        # Should not be unknown inside this repo
+>       assert sha != "unknown"
+E       AssertionError: assert 'unknown' != 'unknown'
+
+tests/test_mel_baseline.py:182: AssertionError
+=============================== warnings summary ===============================
+tests/test_eval_mel_suite.py::test_optional_metrics_skip_missing
+tests/test_utmos_backend.py::test_utmos_score_range_when_backend_present
+  /home/adam/projects/tts-self/.venv/lib/python3.11/site-packages/torch/nn/utils/weight_norm.py:144: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+    WeightNorm.apply(module, name, dim)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_mel_baseline.py::test_git_sha_and_run_manifest - AssertionE...
+1 failed, 396 passed, 2 skipped, 2 warnings in 21.00s

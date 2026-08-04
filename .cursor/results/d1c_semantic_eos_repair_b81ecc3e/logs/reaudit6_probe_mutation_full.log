@@ -1,0 +1,10 @@
+N0 INFO pre-mutation sha256: 74_eval_discrete_lm.py=8a94899ce9637691 76_select_discrete_checkpoint.py=b2513ec49b141bab discrete_report_schema.py=37fac4058b99eae8
+N0a INFO backups at /tmp/d1c_r6_mutbak_d1kq5ksb
+N1 PASS unmutated whole suite: rc=0 '406 passed, 3 skipped, 2 warnings in 63.82s (0:01:03)'
+N2 PASS MUTATION selector tolerates missing/placeholder checkpoint.hashes -> whole suite rc=1 '1 failed, 405 passed, 3 skipped, 2 warnings in 61.07s (0:01:01)'
+N3 PASS MUTATION selector accepts mixed checkpoint.hashes across candidates -> whole suite rc=1 '1 failed, 405 passed, 3 skipped, 2 warnings in 59.83s'
+N7 PASS MUTATION emitter fabricates checkpoint.hashes when provenance lacks them -> whole suite rc=1 '1 failed, 405 passed, 3 skipped, 2 warnings in 58.38s'
+N8 PASS MUTATION schema drops the checkpoint.hashes requirement -> whole suite rc=1 '1 failed, 405 passed, 3 skipped, 2 warnings in 59.29s'
+N9 PASS MUTATION schema drops the cross-wired basename check -> whole suite rc=1 '1 failed, 405 passed, 3 skipped, 2 warnings in 61.60s (0:01:01)'
+N10 PASS post-mutation source integrity: 74_eval_discrete_lm.py=OK 76_select_discrete_checkpoint.py=OK discrete_report_schema.py=OK
+SUMMARY fails=0 total=9

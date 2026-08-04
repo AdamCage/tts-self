@@ -1,0 +1,18 @@
+P1 PASS claimed log summary: 401 passed, 3 skipped, 2 warnings in 52.51s
+P2 PASS independent run summary: 401 passed, 3 skipped, 2 warnings in 53.24s
+P3 PASS pass/skip counts reproduce exactly (ignoring wall time)
+P4 PASS collected test ids = 404 (claim 404)
+P5 PASS three claimed new tests are collected: {'test_validate_formal_report_rejects_checkpoint_step_zero': True, 'test_resolve_checkpoint_step_payload_filename_cli': True, 'test_main_stamps_checkpoint_step_and_selector_e2e': True}
+P6 PASS no duplicate test ids (unique=404)
+P7 INFO 404 collected = round-3 401 + 3 new tests (arithmetic consistent)
+P8 INFO claimed pytest log mtime = 2026-08-04 07:51:18 UTC
+P9 PASS newest attested source = configs/eval_contracts/d1c_semantic_eos_v2_0_1.json @ 2026-08-04 07:48:34 UTC; sources newer than the log: []
+P10 INFO post-probe source digests written to logs/reaudit4_post_probe_hashes.json
+    f6c59fbf64f1b1d6  scripts/74_eval_discrete_lm.py
+    a5824c6f8218d43f  scripts/76_select_discrete_checkpoint.py
+    62ac323301c66bda  src/minispeech/eval/discrete_report_schema.py
+    7d85475e6ab3db19  src/minispeech/eval/discrete_n2.py
+    b54f7ebe6bc3102e  tests/test_d1c_infra_repair.py
+    e39461d5e7097997  configs/eval_contracts/d1c_semantic_eos_v2_0_0.json
+
+SUMMARY fails=0 total=10

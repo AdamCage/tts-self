@@ -1,0 +1,23 @@
+{
+  "dev32_file_sha256": "f9f82b708b23ab61af1ee3ffc493b1c064998a14eb2edcab4d7020483bb3c574",
+  "select8_items_sha256": "882691c9fa7e799b3e49e8dbde6ef8cfa7226aecdf18bf77110ebee424b62e05",
+  "gate24_items_sha256": "5485d37be12342d187cef264fa5626e58edee3c821737dada26418142223b1ad",
+  "full32_items_sha256": "501330481c07d928d0fe6b86395355aea1410a680a4020c73b602df5cc3d9b40",
+  "select8": [
+    "ruslan_000842_RUSLAN",
+    "ruslan_009795_RUSLAN",
+    "common_voice_ru_17_hf_mirror__09aa4399d9c1ff8a7e0c6e4a",
+    "common_voice_ru_17_hf_mirror__0d6cf78a9d80b6fe87407e20",
+    "common_voice_ru_17_hf_mirror__12455777d26e4cc00303b8e4",
+    "common_voice_ru_17_hf_mirror__14a4281c9aeab18512d8ee6b",
+    "common_voice_ru_17_hf_mirror__15491f980f3956a0b6764fc7",
+    "common_voice_ru_17_hf_mirror__1628e7d565b2c16947f3e66f"
+  ],
+  "select8_composition": {
+    "ruslan": 2,
+    "cv": 6
+  },
+  "contract_sha256": "c636562ee0f158f722dc02d2161ea3dac6424c58f5404e7f346cc10f9cc76f71",
+  "recipe_sha256": "c636562ee0f158f722dc02d2161ea3dac6424c58f5404e7f346cc10f9cc76f71",
+  "recipe_source_manifest_sha256": "15869c58ecd1f01dc33a3c8b5f8432c8c303c47d34243cbb0bc2fbc3e76ec261"
+}

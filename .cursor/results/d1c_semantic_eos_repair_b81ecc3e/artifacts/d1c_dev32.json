@@ -1,0 +1,535 @@
+{
+  "id": "d1c_dev32",
+  "version": "1.0.0",
+  "kind": "utt_ids",
+  "role": "development_oracle",
+  "plan_slug": "d1c_semantic_eos_repair_b81ecc3e",
+  "n": 32,
+  "seed": 20260805,
+  "utt_ids": [
+    "ruslan_000842_RUSLAN",
+    "ruslan_009795_RUSLAN",
+    "ruslan_012313_RUSLAN",
+    "ruslan_014694_RUSLAN",
+    "ruslan_016866_RUSLAN",
+    "ruslan_020735_RUSLAN",
+    "common_voice_ru_17_hf_mirror__09aa4399d9c1ff8a7e0c6e4a",
+    "common_voice_ru_17_hf_mirror__0d6cf78a9d80b6fe87407e20",
+    "common_voice_ru_17_hf_mirror__12455777d26e4cc00303b8e4",
+    "common_voice_ru_17_hf_mirror__14a4281c9aeab18512d8ee6b",
+    "common_voice_ru_17_hf_mirror__15491f980f3956a0b6764fc7",
+    "common_voice_ru_17_hf_mirror__1628e7d565b2c16947f3e66f",
+    "common_voice_ru_17_hf_mirror__1cb637b6ec112b82730036e4",
+    "common_voice_ru_17_hf_mirror__263415e1ca03d6bc10921bd9",
+    "common_voice_ru_17_hf_mirror__281cce7d7e16fd59dcddde92",
+    "common_voice_ru_17_hf_mirror__2f2d5e738c33d92f4386ef47",
+    "common_voice_ru_17_hf_mirror__39761663f82a9f3f8d98b133",
+    "common_voice_ru_17_hf_mirror__446972cb169330c7d6febe63",
+    "common_voice_ru_17_hf_mirror__4560cc100567c5ef2abd4990",
+    "common_voice_ru_17_hf_mirror__487f8fabe58657cdeab79c87",
+    "common_voice_ru_17_hf_mirror__5335e0fa538ed9dbbe8250d0",
+    "common_voice_ru_17_hf_mirror__581ab60a3112ae2065c7f2de",
+    "common_voice_ru_17_hf_mirror__583a7805fa9bf474945dc7cd",
+    "common_voice_ru_17_hf_mirror__6a0f60ba7f221878a7d38a80",
+    "common_voice_ru_17_hf_mirror__7194e0c263d6bfbdc5447912",
+    "common_voice_ru_17_hf_mirror__7668c6d031af0ff60afcf3f5",
+    "common_voice_ru_17_hf_mirror__8909698425d9385f8030b0fc",
+    "common_voice_ru_17_hf_mirror__90e85c3be82d9c97b02bad9b",
+    "common_voice_ru_17_hf_mirror__9402bc5e4351a7f572ddc34a",
+    "common_voice_ru_17_hf_mirror__ed0082847651b152cf7fc56a",
+    "common_voice_ru_17_hf_mirror__ee94e66edbaeec444ee7e502",
+    "common_voice_ru_17_hf_mirror__fb8fbfd6d4d5b7328dc15678"
+  ],
+  "items_sha256": "501330481c07d928d0fe6b86395355aea1410a680a4020c73b602df5cc3d9b40",
+  "splits": {
+    "select8": [
+      "ruslan_000842_RUSLAN",
+      "ruslan_009795_RUSLAN",
+      "common_voice_ru_17_hf_mirror__09aa4399d9c1ff8a7e0c6e4a",
+      "common_voice_ru_17_hf_mirror__0d6cf78a9d80b6fe87407e20",
+      "common_voice_ru_17_hf_mirror__12455777d26e4cc00303b8e4",
+      "common_voice_ru_17_hf_mirror__14a4281c9aeab18512d8ee6b",
+      "common_voice_ru_17_hf_mirror__15491f980f3956a0b6764fc7",
+      "common_voice_ru_17_hf_mirror__1628e7d565b2c16947f3e66f"
+    ],
+    "gate24": [
+      "ruslan_012313_RUSLAN",
+      "ruslan_014694_RUSLAN",
+      "ruslan_016866_RUSLAN",
+      "ruslan_020735_RUSLAN",
+      "common_voice_ru_17_hf_mirror__1cb637b6ec112b82730036e4",
+      "common_voice_ru_17_hf_mirror__263415e1ca03d6bc10921bd9",
+      "common_voice_ru_17_hf_mirror__281cce7d7e16fd59dcddde92",
+      "common_voice_ru_17_hf_mirror__2f2d5e738c33d92f4386ef47",
+      "common_voice_ru_17_hf_mirror__39761663f82a9f3f8d98b133",
+      "common_voice_ru_17_hf_mirror__446972cb169330c7d6febe63",
+      "common_voice_ru_17_hf_mirror__4560cc100567c5ef2abd4990",
+      "common_voice_ru_17_hf_mirror__487f8fabe58657cdeab79c87",
+      "common_voice_ru_17_hf_mirror__5335e0fa538ed9dbbe8250d0",
+      "common_voice_ru_17_hf_mirror__581ab60a3112ae2065c7f2de",
+      "common_voice_ru_17_hf_mirror__583a7805fa9bf474945dc7cd",
+      "common_voice_ru_17_hf_mirror__6a0f60ba7f221878a7d38a80",
+      "common_voice_ru_17_hf_mirror__7194e0c263d6bfbdc5447912",
+      "common_voice_ru_17_hf_mirror__7668c6d031af0ff60afcf3f5",
+      "common_voice_ru_17_hf_mirror__8909698425d9385f8030b0fc",
+      "common_voice_ru_17_hf_mirror__90e85c3be82d9c97b02bad9b",
+      "common_voice_ru_17_hf_mirror__9402bc5e4351a7f572ddc34a",
+      "common_voice_ru_17_hf_mirror__ed0082847651b152cf7fc56a",
+      "common_voice_ru_17_hf_mirror__ee94e66edbaeec444ee7e502",
+      "common_voice_ru_17_hf_mirror__fb8fbfd6d4d5b7328dc15678"
+    ],
+    "full32": [
+      "ruslan_000842_RUSLAN",
+      "ruslan_009795_RUSLAN",
+      "ruslan_012313_RUSLAN",
+      "ruslan_014694_RUSLAN",
+      "ruslan_016866_RUSLAN",
+      "ruslan_020735_RUSLAN",
+      "common_voice_ru_17_hf_mirror__09aa4399d9c1ff8a7e0c6e4a",
+      "common_voice_ru_17_hf_mirror__0d6cf78a9d80b6fe87407e20",
+      "common_voice_ru_17_hf_mirror__12455777d26e4cc00303b8e4",
+      "common_voice_ru_17_hf_mirror__14a4281c9aeab18512d8ee6b",
+      "common_voice_ru_17_hf_mirror__15491f980f3956a0b6764fc7",
+      "common_voice_ru_17_hf_mirror__1628e7d565b2c16947f3e66f",
+      "common_voice_ru_17_hf_mirror__1cb637b6ec112b82730036e4",
+      "common_voice_ru_17_hf_mirror__263415e1ca03d6bc10921bd9",
+      "common_voice_ru_17_hf_mirror__281cce7d7e16fd59dcddde92",
+      "common_voice_ru_17_hf_mirror__2f2d5e738c33d92f4386ef47",
+      "common_voice_ru_17_hf_mirror__39761663f82a9f3f8d98b133",
+      "common_voice_ru_17_hf_mirror__446972cb169330c7d6febe63",
+      "common_voice_ru_17_hf_mirror__4560cc100567c5ef2abd4990",
+      "common_voice_ru_17_hf_mirror__487f8fabe58657cdeab79c87",
+      "common_voice_ru_17_hf_mirror__5335e0fa538ed9dbbe8250d0",
+      "common_voice_ru_17_hf_mirror__581ab60a3112ae2065c7f2de",
+      "common_voice_ru_17_hf_mirror__583a7805fa9bf474945dc7cd",
+      "common_voice_ru_17_hf_mirror__6a0f60ba7f221878a7d38a80",
+      "common_voice_ru_17_hf_mirror__7194e0c263d6bfbdc5447912",
+      "common_voice_ru_17_hf_mirror__7668c6d031af0ff60afcf3f5",
+      "common_voice_ru_17_hf_mirror__8909698425d9385f8030b0fc",
+      "common_voice_ru_17_hf_mirror__90e85c3be82d9c97b02bad9b",
+      "common_voice_ru_17_hf_mirror__9402bc5e4351a7f572ddc34a",
+      "common_voice_ru_17_hf_mirror__ed0082847651b152cf7fc56a",
+      "common_voice_ru_17_hf_mirror__ee94e66edbaeec444ee7e502",
+      "common_voice_ru_17_hf_mirror__fb8fbfd6d4d5b7328dc15678"
+    ]
+  },
+  "split_hashes": {
+    "select8": "882691c9fa7e799b3e49e8dbde6ef8cfa7226aecdf18bf77110ebee424b62e05",
+    "gate24": "5485d37be12342d187cef264fa5626e58edee3c821737dada26418142223b1ad",
+    "full32": "501330481c07d928d0fe6b86395355aea1410a680a4020c73b602df5cc3d9b40"
+  },
+  "selection": {
+    "static_metadata_only": true,
+    "corpus_counts": {
+      "ruslan": 6,
+      "common_voice_ru_17_hf_mirror": 26
+    },
+    "duration_targets": {
+      "short": 10,
+      "medium": 11,
+      "long": 11
+    },
+    "near_dup_jaccard_ge": 0.9,
+    "char_ngram": 5,
+    "duration_edges_s": {
+      "short_lt": 4.1835,
+      "medium_lt": 5.9475
+    },
+    "ratio_quartiles": {
+      "q1": 2.6842105263157894,
+      "q3": 4.625
+    },
+    "ratio_extremes": {
+      "low": 6,
+      "high": 9
+    },
+    "bucket_counts": {
+      "short": 10,
+      "medium": 11,
+      "long": 11
+    },
+    "cv_speaker_unique": true,
+    "n_cv_speakers": 26
+  },
+  "source": {
+    "manifest": "/home/adam/datasets/tts/multicorpus/manifest.jsonl",
+    "manifest_sha256": "da8ac23b4062a48c6aff559d9dc479192bd16af55bcc643f68df1d0c4cc75f88",
+    "burn_registry": "configs/train_subsets/d1_oracle_burn_registry.json",
+    "pool": {
+      "codec_indexes": {
+        "ruslan": {
+          "path": "/home/adam/datasets/tts/ruslan/codec_tokens/codec_tokens_index.json",
+          "file_sha256": "6626988fca5c6ee90dc4fa00831956a7b5e17e1cf269cc1e0304a2ecb36c3ad1",
+          "n": 12035
+        },
+        "common_voice_ru_17_hf_mirror": {
+          "path": "/home/adam/datasets/tts/common_voice_ru17/codec_tokens/codec_tokens_index.json",
+          "file_sha256": "5a98b7253c675e69f4c6d2eb683524bd4baf59b30c49e4e4d2f6e57a25fb6e3e",
+          "n": 39199
+        }
+      },
+      "n_train": 51234,
+      "n_codec_intersection": 51234,
+      "n_eligible": 51129,
+      "skipped": {
+        "burned_or_heldout": 96,
+        "exact_text_dup": 9
+      },
+      "heldout_sizes": {
+        "val": 2961,
+        "test": 3276,
+        "review": 2430
+      },
+      "n_burned": 96
+    },
+    "trackn": {
+      "train": {
+        "path": "/mnt/c/projects/tts-self-d1c/configs/eval_sets/trackn_train.json",
+        "file_sha256": "ad39db6632c4ac197443da5312d497d72355cccdd383e150ab5b508d7edaeaf7",
+        "items_sha256": "4cdfe65dc87e2f389874fa1fa58690515c19b3a841d1e1d626795a1fc2edd25f",
+        "n": 51234
+      },
+      "val": {
+        "path": "/mnt/c/projects/tts-self-d1c/configs/eval_sets/trackn_val.json",
+        "file_sha256": "4d8007f9b109da04a22a9451b5be75544614e664fe0ce937453090cfe912522c",
+        "items_sha256": "6675239d9e082b837d6d3f296f0c82466e36844a163a073e7edb8c03b86dbcc3",
+        "n": 2961
+      },
+      "test": {
+        "path": "/mnt/c/projects/tts-self-d1c/configs/eval_sets/trackn_test.json",
+        "file_sha256": "88a270905be0db14b1e336a04cde6fae95cbd0ead163fab22c4cc7af25f98d13",
+        "items_sha256": "e18adbdaaffa0744e073e52211849ace6ce9d2575effc34b2d35d14966626778",
+        "n": 3276
+      },
+      "review": {
+        "path": "/mnt/c/projects/tts-self-d1c/configs/eval_sets/trackn_review.json",
+        "file_sha256": "f83ea218610e8134c24fe209b871431e5216bf5a68c61e23062978aa2d29c057",
+        "items_sha256": "9e042217566e04be66779d42c1edf4b7bcdf6d904c8c566de58be085f8b7b7ba",
+        "n": 2430
+      }
+    }
+  },
+  "rows_meta": [
+    {
+      "utt_id": "ruslan_000842_RUSLAN",
+      "corpus": "ruslan",
+      "speaker_id": "ruslan",
+      "dur_s": 1.7121666666666666,
+      "codec_frames": 22,
+      "text_token_count": 15,
+      "ratio": 1.4666666666666666,
+      "duration_bucket": "short"
+    },
+    {
+      "utt_id": "ruslan_009795_RUSLAN",
+      "corpus": "ruslan",
+      "speaker_id": "ruslan",
+      "dur_s": 5.483625,
+      "codec_frames": 69,
+      "text_token_count": 46,
+      "ratio": 1.5,
+      "duration_bucket": "medium"
+    },
+    {
+      "utt_id": "ruslan_012313_RUSLAN",
+      "corpus": "ruslan",
+      "speaker_id": "ruslan",
+      "dur_s": 5.33425,
+      "codec_frames": 67,
+      "text_token_count": 48,
+      "ratio": 1.3958333333333333,
+      "duration_bucket": "medium"
+    },
+    {
+      "utt_id": "ruslan_014694_RUSLAN",
+      "corpus": "ruslan",
+      "speaker_id": "ruslan",
+      "dur_s": 7.104708333333333,
+      "codec_frames": 89,
+      "text_token_count": 58,
+      "ratio": 1.5344827586206897,
+      "duration_bucket": "long"
+    },
+    {
+      "utt_id": "ruslan_016866_RUSLAN",
+      "corpus": "ruslan",
+      "speaker_id": "ruslan",
+      "dur_s": 3.392125,
+      "codec_frames": 43,
+      "text_token_count": 36,
+      "ratio": 1.1944444444444444,
+      "duration_bucket": "short"
+    },
+    {
+      "utt_id": "ruslan_020735_RUSLAN",
+      "corpus": "ruslan",
+      "speaker_id": "ruslan",
+      "dur_s": 6.739916666666667,
+      "codec_frames": 85,
+      "text_token_count": 46,
+      "ratio": 1.8478260869565217,
+      "duration_bucket": "long"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__09aa4399d9c1ff8a7e0c6e4a",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:6bcb9d37192be00629d6fbfa174f136931b6c6735e2003b4c59d7400a3b5a6096e81de5db626961b02ca115d80bacf29d49b82dfef05b315d5443a8a6aa3814f",
+      "dur_s": 3.9675,
+      "codec_frames": 50,
+      "text_token_count": 12,
+      "ratio": 4.166666666666667,
+      "duration_bucket": "short"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__0d6cf78a9d80b6fe87407e20",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:8a127fc948673d60d84fe655fe2065747e0f45e96a5150470517a71b4e44b29ca53460963a85dd976c691fd1a25a17ad70e601d68c4542bfc7403ced29f7574f",
+      "dur_s": 4.949625,
+      "codec_frames": 62,
+      "text_token_count": 11,
+      "ratio": 5.636363636363637,
+      "duration_bucket": "medium"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__12455777d26e4cc00303b8e4",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:54f49c446937de7036a85717c6ace2395d8229449e6ed5f87cb50f6c7fb87fcf26285dfcb3b96b6dc82d6e0aa4e3af4d3272e88a1232beb1e9bf0b4112de89a9",
+      "dur_s": 7.2956666666666665,
+      "codec_frames": 91,
+      "text_token_count": 16,
+      "ratio": 5.6875,
+      "duration_bucket": "long"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__14a4281c9aeab18512d8ee6b",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:abaaf3892457522b58201f90038a11a6df21959cbce7c3d9082f033bf70ad81039a6f1609c92796f862920b7f11133e9ed646fc04bd8f8d6e10f85bbfe56c512",
+      "dur_s": 6.068291666666667,
+      "codec_frames": 76,
+      "text_token_count": 20,
+      "ratio": 3.8,
+      "duration_bucket": "long"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__15491f980f3956a0b6764fc7",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:5211d712e76025dc64976e39b46446423a7c363ef213118c0968a40cfe71444aacd7f9c34d3e7ce8ae276659d37a4864afdfcd11de67a1eaf5b6e200a811d1d7",
+      "dur_s": 5.237625,
+      "codec_frames": 66,
+      "text_token_count": 11,
+      "ratio": 6.0,
+      "duration_bucket": "medium"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__1628e7d565b2c16947f3e66f",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:bcc79498e62505a68e4c1b6c6e54d5fad1fc8262f19e6eb22f5e059c36c51324ec2de1ea458d1533737f00e3a6315b64953a82ab593a74b76d052244306e76f0",
+      "dur_s": 6.4875,
+      "codec_frames": 81,
+      "text_token_count": 19,
+      "ratio": 4.2631578947368425,
+      "duration_bucket": "long"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__1cb637b6ec112b82730036e4",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:585d5aec8be9949ace25fe1cf306b63c3b37ffa3cffc28ca8fd3734bb4a012c4661e08766ea25da1bb45ec7f777d0bf8e897dc4ee80491f7116cf89f68f29c53",
+      "dur_s": 8.501625,
+      "codec_frames": 107,
+      "text_token_count": 26,
+      "ratio": 4.115384615384615,
+      "duration_bucket": "long"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__263415e1ca03d6bc10921bd9",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:1f976efdf730d70f845b0c376eee9231acaf1db1cdc3c65c3f73e8626abb53dff504da3d15a7a55b60647f7463b48c4980fb027fd4f6cd45b7d2b1f7623a8362",
+      "dur_s": 4.277625,
+      "codec_frames": 54,
+      "text_token_count": 13,
+      "ratio": 4.153846153846154,
+      "duration_bucket": "medium"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__281cce7d7e16fd59dcddde92",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:1cc18e2e55df7de01603a4d327c378cafda82028ca47b2638398d0de63f31a6666cf63405f702891fe5d2967df69cd229d5d60592d27e35e314db30f942b547c",
+      "dur_s": 5.6235,
+      "codec_frames": 71,
+      "text_token_count": 10,
+      "ratio": 7.1,
+      "duration_bucket": "medium"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__2f2d5e738c33d92f4386ef47",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:299f0dd85f2861f679e92991dc15e9adbdcc7cb8ce7e6df075f462a56ec7664f2f5e37671d88006d525e3c5454dd5e1258bf38e85df96b1356861fadbf259999",
+      "dur_s": 7.925625,
+      "codec_frames": 99,
+      "text_token_count": 23,
+      "ratio": 4.304347826086956,
+      "duration_bucket": "long"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__39761663f82a9f3f8d98b133",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:8d1db49e42d2ec59d0fd346dd726fddf8cc6baf221d296a5ded4e801578adbd7c04b31b04b26adf7734848a6ed085c6e7a2c81b441a89e31e0f9a2cbc8bcece0",
+      "dur_s": 5.117625,
+      "codec_frames": 64,
+      "text_token_count": 20,
+      "ratio": 3.2,
+      "duration_bucket": "medium"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__446972cb169330c7d6febe63",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:1624c048526b9b0c4ab92e30f17557e4855eb5cb43c5be502460e3611841d36b43e326569a796acd33faeb4269e031a5e1b8e5cedb8bef9eeb1d88cb5b0a892f",
+      "dur_s": 6.773625,
+      "codec_frames": 85,
+      "text_token_count": 25,
+      "ratio": 3.4,
+      "duration_bucket": "long"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__4560cc100567c5ef2abd4990",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:d58dac1e162e048a96d7d92f8939d9c9de1fb847f40ebea8eca3d9e4ed9ba01071beaecb2ca03124a46a19ff34a526f6a1ce56a6ab63a077121d60494210539c",
+      "dur_s": 3.6795,
+      "codec_frames": 46,
+      "text_token_count": 7,
+      "ratio": 6.571428571428571,
+      "duration_bucket": "short"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__487f8fabe58657cdeab79c87",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:42471f4740366eebae572f28aa407ac33ed8fd457bc325e57a473adce2fb525e05866860f6c5ec1ce47b433c109b0ea785a1cd4121f6455f6a341a3118add5ed",
+      "dur_s": 5.885625,
+      "codec_frames": 74,
+      "text_token_count": 18,
+      "ratio": 4.111111111111111,
+      "duration_bucket": "medium"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__5335e0fa538ed9dbbe8250d0",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:932bcfa705ccd94761da744394963590a67ca3e7bc4a3495747a84dc70ab567c859c94721b8c76123b503c94da005bd9652769ce1926f8c7e69cfaaef7ac1abb",
+      "dur_s": 3.101625,
+      "codec_frames": 39,
+      "text_token_count": 7,
+      "ratio": 5.571428571428571,
+      "duration_bucket": "short"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__581ab60a3112ae2065c7f2de",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:bbc1c3d9a4a8929c7651377609fbace2a1419c4f0070e7955c139889d5e4d08fade96b6230036a13fb11b1d705b54b9c7b301bfa05493de78844ec10f5c6246f",
+      "dur_s": 4.061166666666667,
+      "codec_frames": 51,
+      "text_token_count": 18,
+      "ratio": 2.8333333333333335,
+      "duration_bucket": "short"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__583a7805fa9bf474945dc7cd",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:6a1079bb8edde4299a1d808d0c1808a712fd40731c2b5555c40194a3a4f4b70262e7f9a0cb6485aabc83f14de02770e57e9f9c8e5864a1e8f5f9c450b5c1c5e3",
+      "dur_s": 6.989625,
+      "codec_frames": 88,
+      "text_token_count": 15,
+      "ratio": 5.866666666666666,
+      "duration_bucket": "long"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__6a0f60ba7f221878a7d38a80",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:39496aa4e73f73e1b7bc8e0a3113af5e300663d44c6576ee53dd44db24694f1e0b8631578bcdbc2e1a7f28354b109ea8b31c555e94753920c73d7de1fe8d0d76",
+      "dur_s": 4.109625,
+      "codec_frames": 52,
+      "text_token_count": 18,
+      "ratio": 2.888888888888889,
+      "duration_bucket": "short"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__7194e0c263d6bfbdc5447912",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:70fa4a52709b3963d01d14bdbded59e30bc9f17316692db77bee4de7c44d77ad05ea9bc4505df640c6fc7bf0ccf8564f9d83ffee76b9bbbf35ae108c68da6674",
+      "dur_s": 2.8515,
+      "codec_frames": 36,
+      "text_token_count": 9,
+      "ratio": 4.0,
+      "duration_bucket": "short"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__7668c6d031af0ff60afcf3f5",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:79693d319f90a9b9140e7ca715be57096251aa451f23b283c5842346dc3a35bf65866c2f653bba89255bdf530c33a4ce8c184b3ab43bd757bf90209e6fe2b209",
+      "dur_s": 3.9675,
+      "codec_frames": 50,
+      "text_token_count": 16,
+      "ratio": 3.125,
+      "duration_bucket": "short"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__8909698425d9385f8030b0fc",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:c9991459ce03d2e2837fd9b71a729518b22757d368b1b1162c2136b3b54d5da231cac83e13362725aa3a46b994c00d8c1c496b28c46af8ad3ec714895c6df4f1",
+      "dur_s": 6.509625,
+      "codec_frames": 82,
+      "text_token_count": 18,
+      "ratio": 4.555555555555555,
+      "duration_bucket": "long"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__90e85c3be82d9c97b02bad9b",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:d50dcfda416d233b9da1bbf684a9d208973a981927b7f3b1c30cb43d0b01213187043c60494d13d7b4b8ab2e7c4a15384fc157022732cc95e62b8fae6c43f51c",
+      "dur_s": 5.2275,
+      "codec_frames": 66,
+      "text_token_count": 13,
+      "ratio": 5.076923076923077,
+      "duration_bucket": "medium"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__9402bc5e4351a7f572ddc34a",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:2e22b2d83dfdedf40c2f49bbc7f7e018a7981bd91402caf9b253b8a9f7bb9e00b61c96cd4efedf9ced55fa6e7ac7a703cf3ace3b15e5546758f1eae19aef8307",
+      "dur_s": 3.269625,
+      "codec_frames": 41,
+      "text_token_count": 15,
+      "ratio": 2.7333333333333334,
+      "duration_bucket": "short"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__ed0082847651b152cf7fc56a",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:0893e2f5db40fe3eb37652785ffd49a7a3d401cab54aeb8aa12c1772b2e718380cfe10a1437f0bd082074340fc2a21694d8794ac5f0306aab6b687e17c0e682a",
+      "dur_s": 4.7235,
+      "codec_frames": 59,
+      "text_token_count": 13,
+      "ratio": 4.538461538461538,
+      "duration_bucket": "medium"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__ee94e66edbaeec444ee7e502",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:8213a0f79acb074bf5427027efa90e01391d8709700f103d434a0831e9232e7c83551fff5f5e2bf4e65128b0432eeec7292ecbfaa0c624ea2b3d38450e844c22",
+      "dur_s": 7.301625,
+      "codec_frames": 92,
+      "text_token_count": 19,
+      "ratio": 4.842105263157895,
+      "duration_bucket": "long"
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__fb8fbfd6d4d5b7328dc15678",
+      "corpus": "common_voice_ru_17_hf_mirror",
+      "speaker_id": "common_voice_ru_17_hf_mirror:fc344c544085f4c5ffdb574861fec8d31e029a3fa56f248acc76b573c382a97a8d499df65e7d9646c6855c21c2aca984f105e63e07f61c9596c9fc0dac4e59f6",
+      "dur_s": 5.4435,
+      "codec_frames": 68,
+      "text_token_count": 23,
+      "ratio": 2.9565217391304346,
+      "duration_bucket": "medium"
+    }
+  ],
+  "file_sha256": "f9f82b708b23ab61af1ee3ffc493b1c064998a14eb2edcab4d7020483bb3c574"
+}

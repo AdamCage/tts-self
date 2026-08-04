@@ -1,0 +1,7 @@
+N1 PASS five best.pt + --checkpoint-step invents refused: --checkpoint-step=250 cannot invent a step for /tmp/r5_dupckpt_y_prgpa0/best.pt: formal D1c requires payload['step'] and
+N1b PASS resolve invent refuse: --checkpoint-step=625 cannot invent a step for /tmp/r5_dupckpt_y_prgpa0/best.pt: formal D1c requires payload['step'] and/or candidate_step_XXXX.pt; CLI may only confirm a derived step
+N2 PASS selector refused duplicate hashes: D1c formal selection refuses duplicate checkpoint.sha256 across candidates (distinct=1, n=5); plan §8.4 requires one checkpoint hash/step match per report
+N3 PASS schema refused hash mismatch: formal D1c report refused: checkpoint.sha256 does not match file at checkpoint.path (claimed=0000000000000000000000000000000000000000000000000000000000000000 live=767a6ecef8816899008584b308fd15ee1d99dc8e3b9835e335ddf26c92c8b077)
+C1 PASS CLI confirm of derived step still works: 625
+
+SUMMARY pass=5 fail=0

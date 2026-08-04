@@ -1,0 +1,33 @@
+contract sha256              = c636562ee0f158f722dc02d2161ea3dac6424c58f5404e7f346cc10f9cc76f71
+contract recipe_sha256       = c636562ee0f158f722dc02d2161ea3dac6424c58f5404e7f346cc10f9cc76f71
+contract recipe_source_man   = 15869c58ecd1f01dc33a3c8b5f8432c8c303c47d34243cbb0bc2fbc3e76ec261
+REAUDIT B2 FAIL w1: train.eval_contract_hash=a59ada9c1e0a64f067b27dd2b4d93ca270702bd41881746d1bb9a437d2f33772 vs live contract sha256=c636562ee0f158f722dc02d2161ea3dac6424c58f5404e7f346cc10f9cc76f71 match=False
+REAUDIT B7 INFO w1: resolve_repro_hashes -> {"config": "8b3597866ed41a6c", "model_config": "0fb389c327c5301a", "speaker_map": "64e7cdc5c3447a43\u2026", "subset": "501330481c07d928\u2026", "eval_contract": "a59ada9c1e0a64f0\u2026", "recipe": null, "recipe_source_manifest": null, "run_manifest": null}
+REAUDIT B7 FAIL w1: resume hash checks that are INERT (None) for the canonical config: ['recipe', 'recipe_source_manifest', 'run_manifest']
+REAUDIT B7 FAIL w1: stamped eval_contract hash == live contract sha: False
+REAUDIT B2 PASS w1: train.subset_hash matches contract full32 items_sha256: True
+REAUDIT B2 INFO w1: loss={'cb0_weight': 1.0, 'residual_weights': None, 'eos_loss_weight': 1.0}
+REAUDIT B2 FAIL w2: train.eval_contract_hash=a59ada9c1e0a64f067b27dd2b4d93ca270702bd41881746d1bb9a437d2f33772 vs live contract sha256=c636562ee0f158f722dc02d2161ea3dac6424c58f5404e7f346cc10f9cc76f71 match=False
+REAUDIT B7 INFO w2: resolve_repro_hashes -> {"config": "ee9d788be1652e93", "model_config": "0fb389c327c5301a", "speaker_map": "64e7cdc5c3447a43\u2026", "subset": "501330481c07d928\u2026", "eval_contract": "a59ada9c1e0a64f0\u2026", "recipe": null, "recipe_source_manifest": null, "run_manifest": null}
+REAUDIT B7 FAIL w2: resume hash checks that are INERT (None) for the canonical config: ['recipe', 'recipe_source_manifest', 'run_manifest']
+REAUDIT B7 FAIL w2: stamped eval_contract hash == live contract sha: False
+REAUDIT B2 PASS w2: train.subset_hash matches contract full32 items_sha256: True
+REAUDIT B2 INFO w2: loss={'cb0_weight': 1.0, 'residual_weights': None, 'eos_loss_weight': 2.0}
+REAUDIT B2 PASS W1 vs W2 diff=['loss.eos_loss_weight', 'train.run_name'] unexpected=[]
+
+=== REAUDIT PROBE3 SUMMARY ===
+FAIL  B2   w1: train.eval_contract_hash=a59ada9c1e0a64f067b27dd2b4d93ca270702bd41881746d1bb9a437d2f33772 vs live contract sha256=c636562ee0f158f722dc02d2161ea3dac6424c58f5404e7f346cc10f9cc76f71 match=False
+INFO  B7   w1: resolve_repro_hashes -> {"config": "8b3597866ed41a6c", "model_config": "0fb389c327c5301a", "speaker_map": "64e7cdc5c3447a43\u2026", "subset": "501330481c07d928\u2026", "eval_contract": "a59ada9c1e0a64f0\u2026", "recipe": null, "recipe_source_manifest": null, "run_manifest": null}
+FAIL  B7   w1: resume hash checks that are INERT (None) for the canonical config: ['recipe', 'recipe_source_manifest', 'run_manifest']
+FAIL  B7   w1: stamped eval_contract hash == live contract sha: False
+PASS  B2   w1: train.subset_hash matches contract full32 items_sha256: True
+INFO  B2   w1: loss={'cb0_weight': 1.0, 'residual_weights': None, 'eos_loss_weight': 1.0}
+FAIL  B2   w2: train.eval_contract_hash=a59ada9c1e0a64f067b27dd2b4d93ca270702bd41881746d1bb9a437d2f33772 vs live contract sha256=c636562ee0f158f722dc02d2161ea3dac6424c58f5404e7f346cc10f9cc76f71 match=False
+INFO  B7   w2: resolve_repro_hashes -> {"config": "ee9d788be1652e93", "model_config": "0fb389c327c5301a", "speaker_map": "64e7cdc5c3447a43\u2026", "subset": "501330481c07d928\u2026", "eval_contract": "a59ada9c1e0a64f0\u2026", "recipe": null, "recipe_source_manifest": null, "run_manifest": null}
+FAIL  B7   w2: resume hash checks that are INERT (None) for the canonical config: ['recipe', 'recipe_source_manifest', 'run_manifest']
+FAIL  B7   w2: stamped eval_contract hash == live contract sha: False
+PASS  B2   w2: train.subset_hash matches contract full32 items_sha256: True
+INFO  B2   w2: loss={'cb0_weight': 1.0, 'residual_weights': None, 'eos_loss_weight': 2.0}
+PASS  B2   W1 vs W2 diff=['loss.eos_loss_weight', 'train.run_name'] unexpected=[]
+
+TOTAL checks=13 fail_or_error=6

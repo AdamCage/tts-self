@@ -1,0 +1,31 @@
+ROOT=/mnt/c/projects/tts-self-d1c
+REAUDIT B5 PASS mixed batch: lengths=[0, 3] codes.shape=(2, 3, 16) row0_mask_any=False reasons=['learned_eos', 'safety_max_frames']
+REAUDIT B5 INFO row0 padded codes (masked out) first frame=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+REAUDIT B5 PASS min_frames=4: early_eos_suppressed_count=4 len=4 reason=learned_eos
+discrete-lm-S1:   0%|          | 0/1 [00:00<?, ?it/s]discrete-lm-S1: 100%|██████████| 1/1 [00:00<00:00, 10.12it/s, loss=292, ce_cb0=183, lr=0.001, mb=4]discrete-lm-S1: 100%|██████████| 1/1 [00:00<00:00, 10.11it/s, loss=292, ce_cb0=183, lr=0.001, mb=4]
+REAUDIT B7 INFO checkpoint hashes keys=['config', 'eval_contract', 'model_config', 'recipe', 'recipe_source_manifest', 'run_manifest', 'speaker_map', 'subset']
+REAUDIT B7 PASS checkpoint stores all 8 hash keys: True (run_manifest=rm_a)
+REAUDIT B7 PASS run_manifest mismatch refused: resume fail-closed: run_manifest mismatch ckpt=rm_a current=rm_b
+REAUDIT B7 PASS config mismatch refused: resume fail-closed: config mismatch ckpt=ec15e5c48824e50f current=77f4607cbe349b52
+[resume] loaded=/tmp/tmpcx765vd0/b7a/run/last.pt optimizer_step=1 microbatch_step=4 epoch=0 batches_in_epoch=4
+REAUDIT B7 FAIL fail-OPEN: resume accepted after dropping run_manifest_hash from config (current=None -> check skipped)
+REAUDIT B7 PASS checkpoint lacking run_manifest refused: resume fail-closed: current run_manifest=rm_a but checkpoint hashes lack this key
+REAUDIT B8 PASS n_locked=14 missing=[] mismatches=[]
+REAUDIT B8 INFO manifest digest recompute skipped: AttributeError: 'NoneType' object has no attribute '__dict__'
+REAUDIT B8 FAIL d1c-critical files NOT in frozen manifest: ['src/minispeech/data/discrete_oracles.py', 'src/minispeech/data/d1b_oracles.py', 'src/minispeech/eval/asr.py', 'src/minispeech/data/codec_seq_protocol.py', 'src/minispeech/constants.py', 'configs/eval_contracts/schemas/discrete_eval_report_v2.schema.json', 'configs/train_subsets/d1c_dev32.json', 'configs/asr.yaml']
+
+=== REAUDIT PROBE2 SUMMARY ===
+PASS  B5   mixed batch: lengths=[0, 3] codes.shape=(2, 3, 16) row0_mask_any=False reasons=['learned_eos', 'safety_max_frames']
+INFO  B5   row0 padded codes (masked out) first frame=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+PASS  B5   min_frames=4: early_eos_suppressed_count=4 len=4 reason=learned_eos
+INFO  B7   checkpoint hashes keys=['config', 'eval_contract', 'model_config', 'recipe', 'recipe_source_manifest', 'run_manifest', 'speaker_map', 'subset']
+PASS  B7   checkpoint stores all 8 hash keys: True (run_manifest=rm_a)
+PASS  B7   run_manifest mismatch refused: resume fail-closed: run_manifest mismatch ckpt=rm_a current=rm_b
+PASS  B7   config mismatch refused: resume fail-closed: config mismatch ckpt=ec15e5c48824e50f current=77f4607cbe349b52
+FAIL  B7   fail-OPEN: resume accepted after dropping run_manifest_hash from config (current=None -> check skipped)
+PASS  B7   checkpoint lacking run_manifest refused: resume fail-closed: current run_manifest=rm_a but checkpoint hashes lack this key
+PASS  B8   n_locked=14 missing=[] mismatches=[]
+INFO  B8   manifest digest recompute skipped: AttributeError: 'NoneType' object has no attribute '__dict__'
+FAIL  B8   d1c-critical files NOT in frozen manifest: ['src/minispeech/data/discrete_oracles.py', 'src/minispeech/data/d1b_oracles.py', 'src/minispeech/eval/asr.py', 'src/minispeech/data/codec_seq_protocol.py', 'src/minispeech/constants.py', 'configs/eval_contracts/schemas/discrete_eval_report_v2.schema.json', 'configs/train_subsets/d1c_dev32.json', 'configs/asr.yaml']
+
+TOTAL checks=12 fail_or_error=2

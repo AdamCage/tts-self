@@ -12,7 +12,9 @@ after promotion.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import math
 import shutil
 from pathlib import Path
 from typing import Any
@@ -31,11 +33,270 @@ from minispeech.eval.discrete_n2 import (
     select_fr_checkpoint,
     teacher_forced_ce_from_ckpt_metrics,
 )
+from minispeech.eval.discrete_report_schema import validate_formal_report
 from minispeech.utils import expand, git_sha
 
 
 def _load_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+_D1C_STEPS = (250, 375, 500, 625, 750)
+
+
+def _sha256_file(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def _require_distinct_checkpoint_identities(reports: list[dict[str, Any]]) -> None:
+    """Plan §8.4: one distinct checkpoint hash/step match per formal report.
+
+    Fail-closed rules:
+    * five ``checkpoint.sha256`` values must be pairwise distinct;
+    * basename must be ``candidate_step_<step:04d>.pt`` for that report's step;
+    * ``checkpoint.path`` must be readable and its live sha256 must equal the
+      claimed ``checkpoint.sha256``;
+    * all five candidates must share one sealed run identity via
+      ``checkpoint.hashes`` (eval_contract / recipe / recipe_source_manifest /
+      run_manifest).
+    """
+    sha_list = [str(r["checkpoint"]["sha256"]) for r in reports]
+    if len(set(sha_list)) != len(sha_list):
+        raise ValueError(
+            "D1c formal selection refuses duplicate checkpoint.sha256 across "
+            f"candidates (distinct={len(set(sha_list))}, n={len(sha_list)}); "
+            "plan §8.4 requires one checkpoint hash/step match per report"
+        )
+    run_identity_keys = (
+        "eval_contract",
+        "recipe",
+        "recipe_source_manifest",
+        "run_manifest",
+    )
+    run_fingerprints: list[str] = []
+    resolved_paths: list[str] = []
+    for report in reports:
+        ckpt = report["checkpoint"]
+        step = int(ckpt["step"])
+        ckpt_path = expand(ckpt["path"])
+        expected_name = f"candidate_step_{step:04d}.pt"
+        if ckpt_path.name.lower() != expected_name.lower():
+            raise ValueError(
+                f"checkpoint path basename {ckpt_path.name!r} does not match "
+                f"expected {expected_name!r} for step={step}"
+            )
+        hashes = ckpt.get("hashes")
+        if not isinstance(hashes, dict):
+            raise ValueError(
+                "D1c formal selection refuses checkpoint without hashes "
+                f"(step={step}); payload['hashes'] must bind the candidate "
+                "to one sealed training run"
+            )
+        identity: dict[str, str] = {}
+        for key in run_identity_keys:
+            value = hashes.get(key)
+            if value is None or not str(value).strip() or str(value) == ("0" * 64):
+                raise ValueError(
+                    f"D1c formal selection refuses missing checkpoint.hashes.{key} "
+                    f"(step={step})"
+                )
+            identity[key] = str(value)
+        run_fingerprints.append(json.dumps(identity, sort_keys=True))
+        if not ckpt_path.is_file():
+            raise ValueError(
+                f"checkpoint.path not readable for hash verification: {ckpt_path}"
+            )
+        live = _sha256_file(ckpt_path)
+        claimed = str(ckpt["sha256"])
+        if live != claimed:
+            raise ValueError(
+                f"checkpoint sha256 mismatch: claimed={claimed} live={live} "
+                f"path={ckpt_path}"
+            )
+        resolved_paths.append(str(ckpt_path.resolve()))
+    if len(set(run_fingerprints)) != 1:
+        raise ValueError(
+            "D1c formal selection refuses mixed checkpoint.hashes across "
+            "candidates; all five must share one sealed run identity "
+            f"(distinct_run_ids={len(set(run_fingerprints))}, n={len(run_fingerprints)})"
+        )
+    if len(set(resolved_paths)) != len(resolved_paths):
+        raise ValueError(
+            "D1c formal selection refuses duplicate checkpoint.path across "
+            "candidates; plan §8.4 requires one checkpoint per report"
+        )
+
+
+def select_d1c_formal_reports(report_paths: list[str | Path]) -> dict[str, Any]:
+    """Select only among complete evaluator-produced D1c v2 reports."""
+    if len(report_paths) != len(_D1C_STEPS):
+        raise ValueError("D1c formal selection requires exactly five evaluator report paths")
+    reports = []
+    for path in report_paths:
+        resolved = expand(path)
+        report = validate_formal_report(_load_json(resolved))
+        report["report_path"] = str(resolved)
+        reports.append(report)
+    steps = [int(r["checkpoint"]["step"]) for r in reports]
+    if sorted(steps) != list(_D1C_STEPS) or len(set(steps)) != len(steps):
+        raise ValueError(f"D1c candidate steps must be exactly {list(_D1C_STEPS)}")
+    _require_distinct_checkpoint_identities(reports)
+    common_fields = (
+        ("provenance", "eval_contract_sha256"),
+        ("provenance", "recipe_sha256"),
+        ("provenance", "asr_sha256"),
+        ("infer",),
+        ("row_binding", "ordered_utt_ids_sha256"),
+    )
+    for path in common_fields:
+        values = []
+        for report in reports:
+            value: Any = report
+            for key in path:
+                value = value.get(key) if isinstance(value, dict) else None
+            values.append(json.dumps(value, sort_keys=True, ensure_ascii=False))
+        if len(set(values)) != 1:
+            raise ValueError(f"D1c reports have mixed provenance: {'.'.join(path)}")
+    candidates: list[dict[str, Any]] = []
+    for report in reports:
+        tf = report["teacher_forced_metrics"]
+        model = report["conditions"]["model"]
+        rows = list(model.get("rows") or [])
+        copy_rows = list((report["conditions"].get("copy_synth") or {}).get("rows") or [])
+        reasons = [
+            str((r.get("generation") or {}).get("termination_reason", "")) for r in rows
+        ]
+        # Recompute ranking metrics from bound rows (do not trust summaries alone).
+        cers = [float(r["cer"]) for r in rows if r.get("cer") is not None]
+        macro_cer = sum(cers) / len(cers) if cers else float("inf")
+        copy_cers = [float(r["cer"]) for r in copy_rows if r.get("cer") is not None]
+        copy_macro = sum(copy_cers) / len(copy_cers) if copy_cers else None
+        n_cat = sum(1 for r in rows if bool(r.get("catastrophic")))
+        # Duration errors: prefer per-row abs log duration when present.
+        dur_errs = []
+        dur_ratios = []
+        for r in rows:
+            n_frames = int(r.get("n_frames") or (r.get("generation") or {}).get("n_decoded_frames") or 0)
+            gt = int(r.get("gt_frames") or 0)
+            if gt > 0:
+                ratio = float(n_frames) / float(gt)
+                dur_ratios.append(ratio)
+            if r.get("abs_log_duration_error") is not None:
+                dur_errs.append(float(r["abs_log_duration_error"]))
+            elif gt > 0 and n_frames > 0:
+                dur_errs.append(abs(math.log(n_frames / gt)))
+        max_abs = max(dur_errs) if dur_errs else float("inf")
+        mean_abs = sum(dur_errs) / len(dur_errs) if dur_errs else float("inf")
+        mean_ratio = (sum(dur_ratios) / len(dur_ratios)) if dur_ratios else float("inf")
+        early_suppressed = sum(
+            int((r.get("generation") or {}).get("early_eos_suppressed_count") or 0)
+            for r in rows
+        )
+        max_cb0_run = max(
+            (
+                int((r.get("generation") or {}).get("max_cb0_run") or 0)
+                for r in rows
+            ),
+            default=0,
+        )
+        empty_gen = any(
+            int(r.get("n_frames") or (r.get("generation") or {}).get("n_decoded_frames") or 0)
+            <= 0
+            for r in rows
+        )
+        per_row_dur_ok = bool(dur_ratios) and all(0.5 <= x <= 2.0 for x in dur_ratios)
+        mean_dur_ok = bool(dur_ratios) and 0.90 <= mean_ratio <= 1.10
+        cer_vs_copy_ok = (
+            copy_macro is None or (math.isfinite(macro_cer) and macro_cer <= copy_macro + 0.03)
+        )
+        runaway = bool((report.get("gates") or {}).get("runaway_or_repetition"))
+        if not runaway:
+            runaway = bool((report.get("summaries") or {}).get("runaway_or_repetition"))
+        phrase_loop = bool((report.get("summaries") or {}).get("phrase_loop_repetition"))
+        text_usage = (report.get("gates") or {}).get("text_usage") or {}
+        if "pass" in text_usage:
+            text_usage_ok = bool(text_usage.get("pass"))
+        else:
+            # §11: absent text_usage is not a vacuous pass on the formal path.
+            text_usage_ok = False
+        eos_acc = tf.get("tf_eos_final_top1_accuracy")
+        eos_fp = tf.get("tf_eos_early_top1_false_positive_count")
+        eos_tf_ok = (
+            isinstance(eos_acc, (int, float))
+            and float(eos_acc) == 1.0
+            and eos_fp is not None
+            and str(eos_fp) != "unavailable"
+            and int(eos_fp) == 0
+        )
+        summary = report.get("summaries") or {}
+        row_eligible = (
+            bool(rows)
+            and all(r == "learned_eos" for r in reasons)
+            and n_cat == 0
+            and all(math.isfinite(c) for c in cers)
+            and early_suppressed == 0
+            and max_cb0_run <= 12
+            and not empty_gen
+            and per_row_dur_ok
+            and mean_dur_ok
+            and cer_vs_copy_ok
+            and not runaway
+            and not phrase_loop
+        ) if rows else False
+        eligibility = (
+            report["formal_eligible"] is True
+            and tf.get("teacher_forced_ce_source") == "eval_computed"
+            and row_eligible
+            and eos_tf_ok
+            and text_usage_ok
+        )
+        candidates.append(
+            {
+                "report_path": str(report.get("report_path") or ""),
+                "ckpt": report["checkpoint"]["path"],
+                "checkpoint_sha256": report["checkpoint"]["sha256"],
+                "step": report["checkpoint"]["step"],
+                "gate_eligible": eligibility,
+                "macro_cer": macro_cer
+                if math.isfinite(macro_cer)
+                else summary.get("model_macro_cer", float("inf")),
+                "n_catastrophic": n_cat,
+                "max_abs_log_duration_error": max_abs
+                if math.isfinite(max_abs)
+                else summary.get("max_abs_log_duration_error", float("inf")),
+                "mean_abs_log_duration_error": mean_abs
+                if math.isfinite(mean_abs)
+                else summary.get("mean_abs_log_duration_error", float("inf")),
+                "teacher_forced_ce": tf["total_ce"],
+            }
+        )
+    eligible = [c for c in candidates if c["gate_eligible"]]
+    if not eligible:
+        raise ValueError("D1c formal selection found no eligible candidate; refusing least-bad selection")
+    selected = min(
+        eligible,
+        key=lambda c: (
+            float(c["macro_cer"]),
+            int(c["n_catastrophic"]),
+            float(c["max_abs_log_duration_error"]),
+            float(c["mean_abs_log_duration_error"]),
+            float(c["teacher_forced_ce"]),
+            int(c["step"]),
+            str(c["checkpoint_sha256"]),
+        ),
+    )
+    return {
+        "schema": "minispeech.discrete_checkpoint_selection",
+        "schema_version": "2.0.0",
+        "mode": "d1c_formal",
+        "candidate_steps": list(_D1C_STEPS),
+        "selected": selected,
+        "candidates": candidates,
+    }
 
 
 def _normalize_candidate(raw: dict[str, Any]) -> dict[str, Any]:
@@ -323,11 +584,50 @@ def main() -> int:
         action="store_true",
         help="NON-CANONICAL: allow null TF CE (Infinity tie-break). Forbidden for D1b.",
     )
+    ap.add_argument(
+        "--d1c-formal",
+        action="store_true",
+        help="Use v2 evaluator-report-only D1c selection; historical inputs are refused.",
+    )
+    ap.add_argument(
+        "--formal-reports",
+        nargs="*",
+        default=None,
+        help="Exactly five evaluator-produced discrete_eval_report v2 JSON paths.",
+    )
     args = ap.parse_args()
 
     if args.print_schedule:
         steps = fr_candidate_steps(include_dev_extension=bool(args.include_dev_extension))
         print(json.dumps({"fr_candidate_steps": list(steps)}, indent=2))
+        return 0
+
+    if args.d1c_formal:
+        if not args.formal_reports or args.candidates_json or args.scored or args.candidates_dir:
+            raise SystemExit(
+                "D1c formal mode accepts only --formal-reports; flat/manual candidate inputs are refused"
+            )
+        try:
+            result = select_d1c_formal_reports(args.formal_reports)
+        except ValueError as exc:
+            raise SystemExit(str(exc)) from exc
+        out_path = expand(args.out)
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        if args.promote_best:
+            src = Path(str(result["selected"]["ckpt"]))
+            dest = Path(args.best_path) if args.best_path else src.parent / "best.pt"
+            if not src.is_file() or src.name == "best.pt":
+                raise SystemExit(f"invalid immutable D1c candidate checkpoint: {src}")
+            expected = str(result["selected"]["checkpoint_sha256"])
+            if _sha256_file(src) != expected:
+                raise SystemExit("candidate checkpoint SHA differs from evaluator report")
+            shutil.copy2(src, dest)
+            if _sha256_file(dest) != expected:
+                raise SystemExit("promoted best.pt SHA verification failed")
+            result["promotion"] = {"path": str(dest), "sha256": expected, "verified": True}
+            out_path.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        print(json.dumps({"wrote": str(out_path), "selected": result["selected"]}, indent=2))
         return 0
 
     candidates = _load_candidates(args)

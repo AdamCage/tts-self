@@ -1,0 +1,8 @@
+{
+  "scripts/74_eval_discrete_lm.py": "f6c59fbf64f1b1d62d29949ec52706b2f4f68a8b06fc0979f330d7d19bb9809c",
+  "scripts/76_select_discrete_checkpoint.py": "a5824c6f8218d43f8b77bafbadce013d67720d09500d1da04cdb12258eecf09e",
+  "src/minispeech/eval/discrete_report_schema.py": "62ac323301c66bdab0e10718f7e4a2cb23f4cfecad4881a493cc6f5ccd27f400",
+  "src/minispeech/eval/discrete_n2.py": "7d85475e6ab3db1919833d64dfcee57e13d5875823934ca82a0ab76beceb8d31",
+  "tests/test_d1c_infra_repair.py": "b54f7ebe6bc3102ed1acd239114e8fd4d580ac0b17ff6e0c23b7ad881b387253",
+  "configs/eval_contracts/d1c_semantic_eos_v2_0_0.json": "e39461d5e70979973d345f189f0d2bd37cfa54c28fff1f6b28d0f02f556c70a2"
+}

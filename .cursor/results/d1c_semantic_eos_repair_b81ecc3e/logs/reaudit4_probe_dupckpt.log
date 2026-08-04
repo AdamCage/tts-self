@@ -1,0 +1,5 @@
+N1 INFO five reports produced from ONE file: steps=[250, 375, 500, 625, 750] distinct_ckpt_sha256=1
+N2 FAIL SELECTOR ACCEPTED five reports that all point at the SAME checkpoint sha256=578374ee87e8a69a (selected step=250) — plan §8.4 'one checkpoint hash/step match per report' is NOT enforced
+N3 FAIL schema accepted a checkpoint.sha256 that does not match the file at checkpoint.path (no on-disk hash verification)
+
+SUMMARY fails=2 total=3

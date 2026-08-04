@@ -1,0 +1,54 @@
+Traceback (most recent call last):
+  File "/mnt/c/projects/tts-self-d1c/.cursor/results/d1c_semantic_eos_repair_b81ecc3e/logs/reaudit4_probe_dupckpt.py", line 193, in main
+    mod.main()
+  File "/mnt/c/projects/tts-self-d1c/scripts/74_eval_discrete_lm.py", line 1641, in main
+    checkpoint_step = resolve_checkpoint_step(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/scripts/74_eval_discrete_lm.py", line 215, in resolve_checkpoint_step
+    raise SystemExit(
+SystemExit: --checkpoint-step=250 cannot invent a step for /tmp/tmp95dcx456/best.pt: formal D1c requires payload['step'] and/or candidate_step_XXXX.pt; CLI may only confirm a derived step
+
+Traceback (most recent call last):
+  File "/mnt/c/projects/tts-self-d1c/.cursor/results/d1c_semantic_eos_repair_b81ecc3e/logs/reaudit4_probe_dupckpt.py", line 193, in main
+    mod.main()
+  File "/mnt/c/projects/tts-self-d1c/scripts/74_eval_discrete_lm.py", line 1641, in main
+    checkpoint_step = resolve_checkpoint_step(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/scripts/74_eval_discrete_lm.py", line 215, in resolve_checkpoint_step
+    raise SystemExit(
+SystemExit: --checkpoint-step=375 cannot invent a step for /tmp/tmp95dcx456/best.pt: formal D1c requires payload['step'] and/or candidate_step_XXXX.pt; CLI may only confirm a derived step
+
+Traceback (most recent call last):
+  File "/mnt/c/projects/tts-self-d1c/.cursor/results/d1c_semantic_eos_repair_b81ecc3e/logs/reaudit4_probe_dupckpt.py", line 193, in main
+    mod.main()
+  File "/mnt/c/projects/tts-self-d1c/scripts/74_eval_discrete_lm.py", line 1641, in main
+    checkpoint_step = resolve_checkpoint_step(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/scripts/74_eval_discrete_lm.py", line 215, in resolve_checkpoint_step
+    raise SystemExit(
+SystemExit: --checkpoint-step=500 cannot invent a step for /tmp/tmp95dcx456/best.pt: formal D1c requires payload['step'] and/or candidate_step_XXXX.pt; CLI may only confirm a derived step
+
+Traceback (most recent call last):
+  File "/mnt/c/projects/tts-self-d1c/.cursor/results/d1c_semantic_eos_repair_b81ecc3e/logs/reaudit4_probe_dupckpt.py", line 193, in main
+    mod.main()
+  File "/mnt/c/projects/tts-self-d1c/scripts/74_eval_discrete_lm.py", line 1641, in main
+    checkpoint_step = resolve_checkpoint_step(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/scripts/74_eval_discrete_lm.py", line 215, in resolve_checkpoint_step
+    raise SystemExit(
+SystemExit: --checkpoint-step=625 cannot invent a step for /tmp/tmp95dcx456/best.pt: formal D1c requires payload['step'] and/or candidate_step_XXXX.pt; CLI may only confirm a derived step
+
+Traceback (most recent call last):
+  File "/mnt/c/projects/tts-self-d1c/.cursor/results/d1c_semantic_eos_repair_b81ecc3e/logs/reaudit4_probe_dupckpt.py", line 193, in main
+    mod.main()
+  File "/mnt/c/projects/tts-self-d1c/scripts/74_eval_discrete_lm.py", line 1641, in main
+    checkpoint_step = resolve_checkpoint_step(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/scripts/74_eval_discrete_lm.py", line 215, in resolve_checkpoint_step
+    raise SystemExit(
+SystemExit: --checkpoint-step=750 cannot invent a step for /tmp/tmp95dcx456/best.pt: formal D1c requires payload['step'] and/or candidate_step_XXXX.pt; CLI may only confirm a derived step
+
+N1 INFO five reports produced from ONE file: steps=[] distinct_ckpt_sha256=0
+N2 INFO only 0 reports emitted; cannot test
+
+SUMMARY fails=0 total=2

@@ -1,0 +1,21 @@
+F1a PASS residual params with live grads (cb0_w=0, eos_w=0): 45/45
+F1b PASS loss['total'].requires_grad=True
+F2a PASS generate() immediate EOS -> codes.shape=(1, 0, 16) lengths=[0]
+F2b PASS lengths==[0] (no phantom frame) lengths=[0]
+F2c INFO rows[0]={"termination_mode": "semantic_eos_v1", "termination_reason": "learned_eos", "termination_step": 0, "n_decoded_frames": 0, "eos_selected": true, "eos_logit_at_stop": 1000000000.0, "eos_probability_at_stop": 1.0, "eos_margin_to_best_real_cb0": 2000000000.0, "max_eos_probability_before_stop": 1.0, "early_eos_suppressed_count": 0, "max_cb0_run": 0, "safety_max_frames": 4, "safety_max_cb0_repeat": 100, "decode_seed": null, "generated_codes_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"}
+F3-dev32 PASS formal load dev32: n=32 split=full32 formal_eligible=True file_sha256=f9f82b708b23ab61
+F3-select8 PASS formal load select8: n=8 split=select8 formal_eligible=True file_sha256=f9f82b708b23ab61
+F3-gate24 PASS formal load gate24: n=24 split=gate24 formal_eligible=True file_sha256=f9f82b708b23ab61
+F3-full32 PASS formal load full32: n=32 split=full32 formal_eligible=True file_sha256=f9f82b708b23ab61
+F3-comp PASS select8 composition = 2 RUSLAN + 6 CV
+F3-part PASS select8 | gate24 == full32 and disjoint (|s|=8 |g|=24 |f|=32)
+F4a PASS _sha256_file matches hashlib on a 3 MiB+ blob (chunk loop iterates)
+F5a PASS contract self-check holds
+F5b PASS contract infer keys=['max_cb0_repeat', 'max_frames', 'min_frames', 'repetition_penalty', 'temperature', 'top_k'] legacy_present=[]
+F6a PASS post-probe recipe_source_manifest mismatches=[] (n_locked=19)
+F7a INFO emitted report gates keys=['criteria', 'eligible', 'verdict']
+F7b INFO emitted report summaries keys=['max_abs_log_duration_error', 'mean_abs_log_duration_error', 'model_macro_cer', 'n_catastrophic']
+F7c INFO §11 terms never populated by the emitter -> always vacuous: gates.text_usage missing=True, summaries.phrase_loop_repetition missing=True, gates/summaries.runaway_or_repetition missing=True
+
+=== SUMMARY F ===
+F_total=18 F_fail=0

@@ -303,17 +303,49 @@ def text_usage_acceptance(
     paired_ci95_high: float | None,
     margin: float = TEXT_USAGE_CER_MARGIN,
     change_frac: float = TEXT_USAGE_PREFIX_CHANGE_FRAC,
+    require_utt_id_pairing: bool = False,
 ) -> dict[str, Any]:
-    """D1b text-usage: shuffle/mask ≥ model+0.05; ≥25% hyp change; paired CI high < 0."""
+    """D1b/D1c text-usage: shuffle/mask ≥ model+0.05; ≥25% hyp change; paired CI high < 0.
+
+    When rows carry ``utt_id`` values, pair by id (and require identical ordered unique
+    ids). Legacy unit tests without ids keep positional pairing. Formal D1c callers
+    should pass ``require_utt_id_pairing=True``.
+    """
     shuffle_ok = (not math.isnan(shuffle_cer)) and shuffle_cer >= model_cer + margin
     mask_ok = (not math.isnan(mask_cer)) and mask_cer >= model_cer + margin
-    n = min(len(model_rows), len(shuffle_rows))
-    content_change = 0
-    for i in range(n):
-        a = (model_rows[i].get("hyp") or "").strip()
-        b = (shuffle_rows[i].get("hyp") or "").strip()
-        if a and a != b:
-            content_change += 1
+    model_ids = [str(r.get("utt_id") or "") for r in model_rows]
+    shuffle_ids = [str(r.get("utt_id") or "") for r in shuffle_rows]
+    has_ids = bool(model_ids) and all(model_ids) and all(shuffle_ids)
+    if require_utt_id_pairing or has_ids:
+        model_by_id = {str(r.get("utt_id") or ""): r for r in model_rows}
+        shuffle_by_id = {str(r.get("utt_id") or ""): r for r in shuffle_rows}
+        if (
+            not model_ids
+            or "" in model_by_id
+            or "" in shuffle_by_id
+            or len(model_by_id) != len(model_rows)
+            or len(shuffle_by_id) != len(shuffle_rows)
+            or set(model_by_id) != set(shuffle_by_id)
+            or model_ids != shuffle_ids
+        ):
+            raise ValueError("text-usage requires identical ordered unique utt_ids")
+        ordered_ids = model_ids
+        n = len(ordered_ids)
+        content_change = 0
+        for uid in ordered_ids:
+            a = (model_by_id[uid].get("hyp") or "").strip()
+            b = (shuffle_by_id[uid].get("hyp") or "").strip()
+            if a and a != b:
+                content_change += 1
+    else:
+        # Legacy positional pairing (D1b unit tests / historical reports).
+        n = min(len(model_rows), len(shuffle_rows))
+        content_change = 0
+        for i in range(n):
+            a = (model_rows[i].get("hyp") or "").strip()
+            b = (shuffle_rows[i].get("hyp") or "").strip()
+            if a and a != b:
+                content_change += 1
     need = max(1, int(math.ceil(n * change_frac))) if n else 0
     prefix_ok = content_change >= need if n else False
     paired_ok = paired_ci95_high is not None and float(paired_ci95_high) < 0.0
@@ -329,6 +361,7 @@ def text_usage_acceptance(
         "prefix_cf_ok": bool(prefix_ok),
         "paired_ci95_high": paired_ci95_high,
         "paired_ci_lt_zero": bool(paired_ok),
+        "pairing": "utt_id" if (require_utt_id_pairing or has_ids) else "positional_legacy",
         "pass": bool(shuffle_ok and mask_ok and prefix_ok and paired_ok),
     }
 
@@ -671,6 +704,52 @@ def paired_bootstrap_model_vs_wrong(
     }
 
 
+def _edits_by_utt_id(rows: Sequence[Mapping[str, Any]], edits: Sequence[Any]) -> dict[str, Any]:
+    """Bind edit counts by utt_id; positional pairing is never an authority."""
+    if len(rows) != len(edits):
+        raise ValueError(f"row/edit mismatch: {len(rows)} rows != {len(edits)} edits")
+    result: dict[str, Any] = {}
+    for row, edit in zip(rows, edits):
+        uid = str(row.get("utt_id") or "")
+        if not uid or uid in result:
+            raise ValueError("paired bootstrap requires unique nonempty utt_ids")
+        result[uid] = edit
+    return result
+
+
+def paired_bootstrap_model_vs_shuffle(
+    model_rows: Sequence[Mapping[str, Any]],
+    model_edits: Sequence[Any],
+    shuffle_rows: Sequence[Mapping[str, Any]],
+    shuffle_edits: Sequence[Any],
+    *,
+    n_boot: int = 1000,
+    seed: int = 42,
+) -> dict[str, Any] | None:
+    """Bootstrap model-minus-shuffle CER with exact utt_id pairing."""
+    if not model_rows or not shuffle_rows:
+        return None
+    model = _edits_by_utt_id(model_rows, model_edits)
+    shuffle = _edits_by_utt_id(shuffle_rows, shuffle_edits)
+    ordered = [str(row.get("utt_id") or "") for row in model_rows]
+    if set(model) != set(shuffle) or ordered != [str(row.get("utt_id") or "") for row in shuffle_rows]:
+        raise ValueError("model/shuffle paired bootstrap requires identical ordered utt_ids")
+    paired = paired_bootstrap_delta(
+        [shuffle[uid] for uid in ordered],
+        [model[uid] for uid in ordered],
+        n_boot=n_boot,
+        threshold_pp=0.0,
+        seed=seed,
+    )
+    return {
+        "pairing": "utt_id_exact_ordered",
+        "delta_pp_model_minus_shuffle": paired.delta_pp,
+        "ci95_low": paired.ci95_low,
+        "ci95_high": paired.ci95_high,
+        "separated": paired.ci95_high < 0.0,
+    }
+
+
 def evaluate_n2_gate_d1b(
     model_report: Mapping[str, Any],
     copy_report: Mapping[str, Any],
@@ -718,11 +797,22 @@ def evaluate_n2_gate_d1b(
     # Legacy soft text-usage (methodology continuity)
     text_shuffle_hurts = float(shuffle["macro_cer"]) > fr_cer + 0.02
     text_mask_hurts = float(mask["macro_cer"]) > fr_cer + 0.02
-    content_change = 0
-    for a, b in zip(model["rows"], shuffle["rows"]):
-        if (a.get("hyp") or "").strip() and (a.get("hyp") or "") != (b.get("hyp") or ""):
-            content_change += 1
-    prefix_cf_pass = content_change >= max(1, len(model["rows"]) // 4)
+    model_ids = [str(row.get("utt_id") or "") for row in model["rows"]]
+    shuffle_ids = [str(row.get("utt_id") or "") for row in shuffle["rows"]]
+    if not model_ids or len(model_ids) != len(set(model_ids)) or model_ids != shuffle_ids:
+        raise ValueError("D1c text-usage requires exact model/shuffle utt_id ordering")
+    shuffle_by_id = {str(row["utt_id"]): row for row in shuffle["rows"]}
+    content_change = sum(
+        1
+        for row in model["rows"]
+        if (row.get("hyp") or "").strip()
+        and (row.get("hyp") or "") != (shuffle_by_id[str(row["utt_id"])].get("hyp") or "")
+    )
+    prefix_cf_pass = content_change >= max(1, len(model_ids) // 4)
+    paired_shuffle = paired_bootstrap_model_vs_shuffle(
+        model["rows"], model.get("edit_counts") or [], shuffle["rows"], shuffle.get("edit_counts") or [],
+        n_boot=n_boot, seed=seed,
+    )
 
     text_usage = text_usage_acceptance(
         model_cer=fr_cer,
@@ -730,7 +820,8 @@ def evaluate_n2_gate_d1b(
         mask_cer=float(mask["macro_cer"]),
         model_rows=model["rows"],
         shuffle_rows=shuffle["rows"],
-        paired_ci95_high=None if paired is None else float(paired["ci95_high"]),
+        paired_ci95_high=None if paired_shuffle is None else float(paired_shuffle["ci95_high"]),
+        require_utt_id_pairing=True,
     )
     stability = stability_acceptance(model)
     cb0_ok = bool((model.get("cb0") or {}).get("healthy"))
@@ -750,6 +841,7 @@ def evaluate_n2_gate_d1b(
         "bootstrap_sep_wrong_utt": sep_wrong,
         "bootstrap_sep_random": sep_random,
         "paired_vs_wrong": paired,
+        "paired_vs_shuffle": paired_shuffle,
         "no_runaway_repetition": no_runaway,
         "cb0_healthy": cb0_ok,
         "cb0": model.get("cb0"),
@@ -805,6 +897,41 @@ def evaluate_n2_gate_d1b(
         "model_rows": model["rows"],
         "catastrophic_rows": model.get("catastrophic_rows") or [],
     }
+
+
+def evaluate_n2_gate_d1c(
+    *args: Any,
+    teacher_forced_metrics: Mapping[str, Any],
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """D1c gate extends content checks with non-negotiable EOS termination."""
+    gate = evaluate_n2_gate_d1b(*args, **kwargs)
+    rows = gate.get("model_rows") or []
+    reasons = [
+        str((row.get("generation") or {}).get("termination_reason", row.get("termination_reason") or ""))
+        for row in rows
+    ]
+    final_top1 = teacher_forced_metrics.get("tf_eos_final_top1_accuracy")
+    early_false_positives = teacher_forced_metrics.get("tf_eos_early_top1_false_positive_count")
+    termination = {
+        "learned_eos_count": reasons.count("learned_eos"),
+        "safety_max_frames_count": reasons.count("safety_max_frames"),
+        "safety_cb0_repeat_count": reasons.count("safety_cb0_repeat"),
+        "expected_rows": len(rows),
+        "tf_eos_final_top1_accuracy": final_top1,
+        "tf_eos_early_top1_false_positive_count": early_false_positives,
+    }
+    termination["pass"] = bool(
+        termination["learned_eos_count"] == len(rows)
+        and termination["safety_max_frames_count"] == 0
+        and termination["safety_cb0_repeat_count"] == 0
+        and final_top1 == 1.0
+        and early_false_positives == 0
+    )
+    gate["gate"] = "N2_D1c_semantic_eos_v1"
+    gate["criteria"]["termination_d1c"] = termination
+    gate["verdict"] = "PASS" if gate["verdict"] == "PASS" and termination["pass"] else "FAIL"
+    return gate
 
 
 def load_utt_ids_from_subset(

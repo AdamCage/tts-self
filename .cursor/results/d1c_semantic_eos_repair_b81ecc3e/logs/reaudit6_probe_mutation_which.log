@@ -1,0 +1,8 @@
+W0 PASS unmutated D1c test files: rc=0 '53 passed, 1 skipped in 38.76s'
+N2 PASS MUTATION selector tolerates missing/placeholder checkpoint.hashes -> caught by ['tests/test_d1c_infra_repair.py::test_recipe_source_manifest_includes_critical_modules_and_matches']
+N3 PASS MUTATION selector accepts mixed checkpoint.hashes across candidates -> caught by ['tests/test_d1c_infra_repair.py::test_recipe_source_manifest_includes_critical_modules_and_matches']
+N7 PASS MUTATION emitter fabricates checkpoint.hashes when provenance lacks them -> caught by ['tests/test_d1c_infra_repair.py::test_recipe_source_manifest_includes_critical_modules_and_matches']
+N8 PASS MUTATION schema drops the checkpoint.hashes requirement -> caught by ['tests/test_d1c_infra_repair.py::test_recipe_source_manifest_includes_critical_modules_and_matches']
+N9 PASS MUTATION schema drops the cross-wired basename check -> caught by ['tests/test_d1c_infra_repair.py::test_recipe_source_manifest_includes_critical_modules_and_matches']
+W10 PASS post-mutation source integrity: 74_eval_discrete_lm.py=OK 76_select_discrete_checkpoint.py=OK discrete_report_schema.py=OK
+SUMMARY fails=0 total=7

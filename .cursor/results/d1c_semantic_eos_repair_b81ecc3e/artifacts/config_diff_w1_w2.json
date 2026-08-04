@@ -1,0 +1,19 @@
+{
+  "all_diffs": {
+    "loss.eos_loss_weight": {
+      "w1": 1.0,
+      "w2": 2.0
+    },
+    "train.run_name": {
+      "w1": "d1c_eos_dev_w1_seed101",
+      "w2": "d1c_eos_dev_w2_seed101"
+    }
+  },
+  "recipe_effective_diffs": {
+    "loss.eos_loss_weight": {
+      "w1": 1.0,
+      "w2": 2.0
+    }
+  },
+  "pass": true
+}

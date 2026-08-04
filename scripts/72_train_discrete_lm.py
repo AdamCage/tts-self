@@ -433,10 +433,23 @@ def main() -> int:
     )
     cfg_name = str(args.config).replace("\\", "/")
     is_d1b_cfg = "d1b_443m" in cfg_name or "d1b_n2" in cfg_name
-    if is_d1b_cfg and utt_ids is None:
+    is_d1c_cfg = (
+        "d1c_semantic_eos" in cfg_name
+        or "d1c_eos" in cfg_name
+        or str((cfg.get("model") or {}).get("termination", {}) or {}).get("mode")
+        == "semantic_eos_v1"
+    )
+    is_formal_cfg = is_d1b_cfg or is_d1c_cfg
+    if is_formal_cfg and utt_ids is None:
+        label = "D1c" if is_d1c_cfg else "D1b"
         raise SystemExit(
-            "D1b config requires --subset (dev32|confirm32|path); "
+            f"{label} config requires --subset (dev32|confirm32|path); "
             "silent first-N is forbidden"
+        )
+    if is_d1c_cfg and args.skip_eval_contract:
+        raise SystemExit(
+            "D1c formal path forbids --skip-eval-contract; "
+            "eval-contract enforcement is mandatory"
         )
     if utt_ids is not None:
         tcfg["subset"] = subset_label
@@ -444,17 +457,35 @@ def main() -> int:
         tcfg["subset_split"] = args.subset_split or tcfg.get("subset_split") or "full32"
         tcfg["subset_hash"] = subset_digest
 
-    if not args.skip_eval_contract and (is_d1b_cfg or utt_ids is not None):
+    if not args.skip_eval_contract and (is_formal_cfg or utt_ids is not None):
+        declared_hash = tcfg.get("eval_contract_hash")
         contract = enforce_eval_contract(
             cfg,
             contract_path=tcfg.get("eval_contract_path"),
             subset_items_sha256=subset_digest,
             subset_label=subset_label,
-            require_clean_sha=False,  # flipped true after clean commit lands in contract
+            require_clean_sha=bool(is_d1c_cfg and not args.allow_dirty),
+            expected_contract_sha256=str(declared_hash) if declared_hash else None,
         )
-        tcfg["eval_contract_hash"] = contract.get("sha256") or tcfg.get(
-            "eval_contract_hash"
+        live_sha = str(contract.get("sha256") or "")
+        if is_d1c_cfg and not declared_hash:
+            raise SystemExit(
+                "D1c recipe must declare train.eval_contract_hash; "
+                "refusing silent overwrite"
+            )
+        if declared_hash and str(declared_hash) != live_sha:
+            raise SystemExit(
+                "eval_contract_hash mismatch (fail-closed): "
+                f"declared={declared_hash} live={live_sha}"
+            )
+        # Stamp provenance from contract; never overwrite a mismatched declared hash.
+        tcfg["eval_contract_hash"] = live_sha or str(declared_hash)
+        tcfg["recipe_hash"] = str(contract.get("recipe_sha256") or "") or tcfg.get(
+            "recipe_hash"
         )
+        tcfg["recipe_source_manifest_hash"] = str(
+            contract.get("recipe_source_manifest_sha256") or ""
+        ) or tcfg.get("recipe_source_manifest_hash")
         # Prefer content hash recorded in contract.
         sp = contract.get("speaker_map") or {}
         if sp.get("sha256"):
@@ -506,9 +537,10 @@ def main() -> int:
         import os
 
         os.environ.setdefault("MINISPEECH_ALLOW_DIRTY", "1")
-        if is_d1b_cfg:
+        if is_d1b_cfg or is_d1c_cfg:
+            label = "D1c" if is_d1c_cfg else "D1b"
             print(
-                "WARNING: --allow-dirty set with D1b config; "
+                f"WARNING: --allow-dirty set with {label} config; "
                 "canonical gates forbid MINISPEECH_ALLOW_DIRTY=1"
             )
 

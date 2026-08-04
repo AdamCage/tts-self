@@ -1,0 +1,43 @@
+G0a PASS main() calls aggregate_teacher_forced_batches
+G0b PASS main() calls teacher_forced_metrics_for_emitter
+G0c PASS tf_ce := teacher_forced_metrics_for_emitter()
+G0d PASS main() emit call kwarg teacher_forced_ce=["Name(id='tf_ce', ctx=Load())"]
+G0e PASS decode bundle carries tf_ce dict
+G0f PASS old bare-float reduction 'tf_ce = summary.get("loss")' absent
+G1a PASS main(--n2-gate) rc=0 traceback=False
+G1b PASS production main() wrote discrete_eval_report_v2.json
+G1c PASS formal_eligible=True
+G1d PASS teacher_forced_ce_source='eval_computed'
+G1e PASS tf_eos_final_top1_accuracy=0.0
+G1f PASS tf_eos_early_fp=0
+G1g PASS ce_semantic_eos=3.6959688663482666
+G1h PASS total_ce=10.86877727508545
+G1i PASS untrained model does not report the 1.0/0 default (acc=0.0, fp=0)
+G1j PASS unpatched validate_formal_report accepts the report
+G1k PASS §11 fields present: gates.text_usage / summaries.phrase_loop_repetition / runaway_or_repetition
+G1l PASS gates.text_usage.pass mirrors the live gate acceptance block (report=True, gate=True)
+G1m PASS eval_summary teacher_forced_ce_source='eval_computed' n_batches=1
+G1o FAIL checkpoint.step stamped by the REAL main() run: 0 (0 => the selector's five-step requirement can never be met)
+G1n PASS emitted EOS metrics reproduce an independent recompute (acc 0.0 vs 0.0; fp 0 vs 0)
+G2a PASS bare-float injection: rc=0 unhandled_traceback=False
+G2b PASS gate JSON still written before the refusal
+G2c PASS no formal v2 report emitted from a bare float (fail-closed)
+G2d PASS refusal reason printed: D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+G3a PASS legacy discarding aggregation => NO formal report (the new aggregation is load-bearing, not decorative)
+G3b PASS legacy aggregation still fails soft: rc=0 traceback=False
+G4a PASS decode-only bundle written
+G4b PASS bundle.teacher_forced_ce is a measured dict: dict source='eval_computed'
+G5a PASS --score-only measured rc=0 traceback=False
+G5b PASS --score-only + measured TF => formal v2 report
+G5c PASS score-only report is stamped eval_computed with score_only provenance
+G5d PASS score-only report passes unpatched validation
+G6a PASS --score-only bare float rc=0 traceback=False
+G6b PASS --score-only bare float: no formal report, gate JSON intact
+G6c PASS skip message: D1c v2 formal report skipped: --score-only without measured eval_computed teacher-forced EOS metrics in decode bundle (source='unavailable')
+G7a PASS --score-only decode_bundle rc=0 traceback=False
+G7b PASS decode_bundle provenance never yields a formal report
+G8a PASS --score-only eval_computed w/o EOS rc=0 traceback=False
+G8b PASS eval_computed source without measured EOS is still refused (no fabricated 1.0/0)
+
+SUMMARY pass=39 fail=1
+ROUND3_REAUDIT_MAINPATH_FAIL

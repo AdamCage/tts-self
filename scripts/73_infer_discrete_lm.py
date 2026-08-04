@@ -23,7 +23,11 @@ from minispeech.data.d1b_oracles import (
 )
 from minispeech.data.speaker_registry import SpeakerRegistry
 from minispeech.infer.discrete_config import resolve_discrete_infer_settings
-from minispeech.models.discrete_speech_lm import DiscreteSpeechLM, build_discrete_speech_lm
+from minispeech.models.discrete_speech_lm import (
+    DiscreteGenerationOutput,
+    DiscreteSpeechLM,
+    build_discrete_speech_lm,
+)
 from minispeech.utils import expand, load_yaml, set_seed
 
 
@@ -305,16 +309,37 @@ def main() -> int:
         input_ids = ids.unsqueeze(0).to(device)
         speaker_id = torch.tensor([spk], device=device)
         with torch.no_grad():
-            codes = model.generate(input_ids, speaker_id=speaker_id, **gen_kw)
+            gen_out = model.generate(input_ids, speaker_id=speaker_id, **gen_kw)
+        if isinstance(gen_out, DiscreteGenerationOutput):
+            codes = gen_out.codes
+            gen_meta = gen_out.rows[0] if gen_out.rows else {}
+        else:
+            codes = gen_out
+            gen_meta = {}
         stem = _ascii_utt(uid, i)
         codes_path = out_dir / f"{stem}_codes.pt"
-        torch.save({"codes": codes.cpu(), "input_ids": ids.cpu(), "utt_id": uid}, codes_path)
+        torch.save(
+            {
+                "codes": codes.cpu(),
+                "input_ids": ids.cpu(),
+                "utt_id": uid,
+                "generation": gen_meta,
+            },
+            codes_path,
+        )
         entry: dict = {
             "utt_id": uid,
             "codes": str(codes_path),
             "n_frames": int(codes.shape[1]),
+            "termination_reason": gen_meta.get("termination_reason"),
+            "n_decoded_frames": gen_meta.get("n_decoded_frames", int(codes.shape[1])),
         }
         if codec is not None:
+            if int(codes.shape[1]) == 0:
+                raise SystemExit(
+                    f"refusing codec decode of empty generation for {uid!r} "
+                    f"(termination={gen_meta.get('termination_reason')})"
+                )
             dec = codec.decode([codes[0].cpu()])
             wav_path = out_dir / f"{stem}.wav"
             _write_wav(wav_path, np.asarray(dec.audio[0], dtype=np.float32), dec.sample_rate)

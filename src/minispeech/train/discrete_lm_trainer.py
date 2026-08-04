@@ -149,6 +149,33 @@ def resolve_speaker_map_path(cfg: dict[str, Any]) -> Path | None:
     return None
 
 
+def _stable_config_for_hash(cfg: dict[str, Any]) -> dict[str, Any]:
+    """Drop volatile run paths / separately-tracked hashes for resume config digest."""
+    from copy import deepcopy
+
+    out = deepcopy(cfg)
+    train = out.get("train")
+    if isinstance(train, dict):
+        for key in (
+            "run_dir",
+            "resume",
+            "log_dir",
+            "output_dir",
+            "allow_legacy_microbatch_resume",
+            # Separately enforced via repro_hashes entries:
+            "speaker_map_hash",
+            "subset_hash",
+            "eval_contract_hash",
+            "recipe_hash",
+            "recipe_sha256",
+            "recipe_source_manifest_hash",
+            "recipe_source_manifest_sha256",
+            "run_manifest_hash",
+        ):
+            train.pop(key, None)
+    return out
+
+
 def resolve_repro_hashes(cfg: dict[str, Any]) -> dict[str, str | None]:
     """Collect hashes stored in checkpoints / checked on resume."""
     tcfg = cfg.get("train", {}) or {}
@@ -217,27 +244,76 @@ def resolve_repro_hashes(cfg: dict[str, Any]) -> dict[str, str | None]:
                     break
 
     out: dict[str, str | None] = {
-        "config": config_hash(cfg),
+        "config": config_hash(_stable_config_for_hash(cfg)),
         "model_config": config_hash(model_cfg),
         "speaker_map": speaker_hash,
         "subset": subset_hash,
         "eval_contract": _pick("eval_contract_hash", path_keys=()),
+        "recipe": _pick("recipe_hash", "recipe_sha256", path_keys=()),
+        "recipe_source_manifest": _pick(
+            "recipe_source_manifest_hash",
+            "recipe_source_manifest_sha256",
+            path_keys=("recipe_source_manifest_path",),
+        ),
+        "run_manifest": _pick("run_manifest_hash", path_keys=("run_manifest_path",)),
     }
-    if out["eval_contract"] is None:
-        for pk in ("eval_contract_path", "eval_contract"):
-            raw = repro.get(pk) or tcfg.get(pk) or data.get(pk)
-            if not raw:
-                continue
-            try:
-                from minispeech.data.d1b_oracles import load_eval_contract
+    # Always attempt contract load for backfill + declared-hash verification.
+    # Previously recipe/manifest were only filled when eval_contract was unset,
+    # which left D1c W1/W2 resume checks inert whenever a (possibly stale)
+    # eval_contract_hash was declared.
+    contract = None
+    for pk in ("eval_contract_path", "eval_contract"):
+        raw = repro.get(pk) or tcfg.get(pk) or data.get(pk)
+        if not raw:
+            continue
+        try:
+            from minispeech.data.d1b_oracles import load_eval_contract
 
-                out["eval_contract"] = str(load_eval_contract(raw).get("sha256") or "")
-                if out["eval_contract"]:
-                    break
-            except Exception:
+            contract = load_eval_contract(raw)
+            break
+        except Exception:
+            if out["eval_contract"] is None:
                 out["eval_contract"] = _file_sha256(raw)
-                if out["eval_contract"] is not None:
-                    break
+            break
+    if contract is not None:
+        live_sha = str(
+            contract.get("sha256")
+            or contract.get("_content_sha256")
+            or ""
+        ) or None
+        if out["eval_contract"] is None:
+            out["eval_contract"] = live_sha
+        elif live_sha and str(out["eval_contract"]) != live_sha:
+            raise ValueError(
+                "eval_contract_hash mismatch: "
+                f"declared={out['eval_contract']} live={live_sha}"
+            )
+        if out["recipe"] is None:
+            out["recipe"] = str(contract.get("recipe_sha256") or "") or None
+        if out["recipe_source_manifest"] is None:
+            out["recipe_source_manifest"] = (
+                str(contract.get("recipe_source_manifest_sha256") or "") or None
+            )
+    # D1c formal runs: derive a stable run-identity digest when no live
+    # run_manifest.json exists yet (resolve must not leave the key as None).
+    term = (cfg.get("model") or {}).get("termination") or {}
+    if out["run_manifest"] is None and str(term.get("mode") or "") == "semantic_eos_v1":
+        identity = {
+            "plan_slug": str(
+                (contract or {}).get("plan_slug")
+                or "d1c_semantic_eos_repair_b81ecc3e"
+            ),
+            "run_name": str(tcfg.get("run_name") or ""),
+            "seed": tcfg.get("seed"),
+            "subset_hash": out.get("subset") or tcfg.get("subset_hash"),
+            "eos_loss_weight": (cfg.get("loss") or {}).get("eos_loss_weight"),
+            "eval_contract": out.get("eval_contract"),
+            "recipe": out.get("recipe"),
+        }
+        blob = json.dumps(
+            identity, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+        ).encode("utf-8")
+        out["run_manifest"] = hashlib.sha256(blob).hexdigest()
     return out
 
 
@@ -424,6 +500,14 @@ class DiscreteLMTrainer:
         self.cb0_weight = float(cfg.get("loss", {}).get("cb0_weight", 1.0))
         self.stop_weight = float(cfg.get("loss", {}).get("stop_weight", 1.0))
         self.stop_pos_weight = float(cfg.get("loss", {}).get("stop_pos_weight", 20.0))
+        self.eos_loss_weight = float(cfg.get("loss", {}).get("eos_loss_weight", 1.0))
+        bare_termination = unwrap_model(self.model)
+        self.termination = {
+            "mode": str(getattr(bare_termination, "termination_mode", "frame_stop_v1")),
+            "eos_id": int(getattr(bare_termination, "eos_id", 0)),
+            "semantic_vocab_size": int(getattr(bare_termination, "semantic_vocab_size", 0)),
+            "codec_vocab_size": int(getattr(bare_termination, "codec_vocab_size", 0)),
+        }
         bare_m = unwrap_model(self.model)
         n_residual = int(getattr(getattr(bare_m, "heads", None), "n_residual", 15))
         self._residual_w = residual_weights_from_cfg(cfg, n_residual).to(self.device)
@@ -552,6 +636,9 @@ class DiscreteLMTrainer:
         if isinstance(sampler, DistributedSampler):
             sampler_state["distributed_sampler_epoch"] = int(getattr(sampler, "epoch", self._epoch))
         return {
+            "schema": "minispeech.discrete_lm_checkpoint",
+            "schema_version": "2.0.0" if self.termination["mode"] == "semantic_eos_v1" else "1.0.0",
+            "termination": dict(self.termination),
             "model": self._bare().state_dict(),
             "optimizer": self.opt.state_dict(),
             "cfg": self.cfg,
@@ -615,6 +702,16 @@ class DiscreteLMTrainer:
     def _validate_resume(self, ckpt: dict[str, Any]) -> tuple[str, int, int]:
         """Return ``(step_unit_resolved, optimizer_step, microbatch_step)``."""
         tcfg = self.cfg.get("train", {}) or {}
+        if self.termination["mode"] == "semantic_eos_v1":
+            if ckpt.get("schema") != "minispeech.discrete_lm_checkpoint" or ckpt.get("schema_version") != "2.0.0":
+                raise ResumeMismatchError("semantic_eos_v1 requires checkpoint schema 2.0.0")
+            if ckpt.get("termination") != self.termination:
+                raise ResumeMismatchError("termination or vocabulary mismatch")
+            state = ckpt.get("model") or {}
+            if any(str(key).startswith("stop_head.") for key in state):
+                raise ResumeMismatchError("semantic EOS checkpoint contains legacy stop_head")
+        elif (ckpt.get("termination") or {}).get("mode") == "semantic_eos_v1":
+            raise ResumeMismatchError("semantic EOS checkpoint requires semantic_eos_v1 config")
         step_unit = ckpt.get("step_unit")
         legacy = ckpt.get("legacy_step_unit")
         ckpt_accum = ckpt.get("grad_accum")
@@ -668,9 +765,30 @@ class DiscreteLMTrainer:
 
         ckpt_hashes = ckpt.get("hashes") or {}
         current = self.repro_hashes
-        for key in ("model_config", "speaker_map", "subset", "eval_contract"):
+        # Check fine-grained keys before the aggregate config digest so a
+        # model/recipe/subset mismatch surfaces the specific field.
+        required_keys = (
+            "model_config",
+            "speaker_map",
+            "subset",
+            "eval_contract",
+            "recipe",
+            "recipe_source_manifest",
+            "run_manifest",
+            "config",
+        )
+        # D1c semantic-EOS formal path: never skip a required key just because
+        # the current value is None (that previously made resume checks no-ops).
+        d1c_required = self.termination["mode"] == "semantic_eos_v1"
+        d1c_required_keys = frozenset(required_keys)
+        for key in required_keys:
             cur_v = current.get(key)
             if cur_v is None:
+                if d1c_required and key in d1c_required_keys:
+                    raise ResumeMismatchError(
+                        f"resume fail-closed: D1c requires {key} but current "
+                        "repro hash is missing (None)"
+                    )
                 continue
             ck_v = ckpt_hashes.get(key)
             if ck_v is None:
@@ -779,6 +897,9 @@ class DiscreteLMTrainer:
             residual_weights=self._residual_w,
             stop_weight=self.stop_weight,
             stop_pos_weight=self.stop_pos_weight,
+            semantic_targets=batch.get("semantic_targets"),
+            semantic_mask=batch.get("semantic_mask"),
+            eos_loss_weight=self.eos_loss_weight,
         )
         assert out.loss is not None
         loss = out.loss["total"]
@@ -792,6 +913,13 @@ class DiscreteLMTrainer:
         }
         if "stop" in out.loss:
             out_losses["stop"] = out.loss["stop"]
+        for key in (
+            "ce_cb0_frame", "ce_semantic_eos", "loss_total",
+            "tf_eos_final_top1_accuracy", "tf_eos_early_top1_false_positive_count",
+            "tf_eos_final_probability_mean", "tf_eos_final_probability_min",
+        ):
+            if key in out.loss:
+                out_losses[key] = out.loss[key]
         return out_losses
 
     def _val_ce(self) -> dict[str, float]:
