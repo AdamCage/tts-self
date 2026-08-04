@@ -67,6 +67,7 @@ class MultiCodebookHead(nn.Module):
         *,
         n_codebooks: int = 16,
         codebook_size: int = 2048,
+        semantic_vocab_size: int | None = None,
         mtp_hidden: int | None = None,
         dropout: float = 0.0,
     ):
@@ -75,8 +76,12 @@ class MultiCodebookHead(nn.Module):
             raise ValueError("n_codebooks must be >= 1")
         self.n_codebooks = int(n_codebooks)
         self.codebook_size = int(codebook_size)
+        self.semantic_vocab_size = int(semantic_vocab_size or codebook_size)
+        if self.semantic_vocab_size < self.codebook_size:
+            raise ValueError("semantic_vocab_size must be >= codebook_size")
         self.n_residual = self.n_codebooks - 1
-        self.semantic = SemanticCodebookHead(d_model, codebook_size)
+        # EOS is semantic-only: residual codec codebooks remain real-token sized.
+        self.semantic = SemanticCodebookHead(d_model, self.semantic_vocab_size)
         self.residuals = nn.ModuleList(
             [
                 ResidualMTPHead(
@@ -165,10 +170,13 @@ class MultiCodebookHead(nn.Module):
             loss_res = torch.stack(res_losses).sum()
 
         total = float(cb0_weight) * loss_cb0 + loss_res
+        # Keep live tensors for callers that compose training losses (e.g. semantic
+        # EOS path uses ce_residual in the backward graph). Logging paths must
+        # detach explicitly.
         return {
             "total": total,
-            "ce_cb0": loss_cb0.detach(),
-            "ce_residual": loss_res.detach()
+            "ce_cb0": loss_cb0,
+            "ce_residual": loss_res
             if torch.is_tensor(loss_res)
-            else torch.tensor(0.0),
+            else codes.new_zeros(()),
         }

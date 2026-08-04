@@ -1,0 +1,15 @@
+H1 per-batch keys ['ce_cb0', 'ce_residual', 'ce_semantic_eos', 'loss', 'teacher_forced_ce_source', 'tf_eos_early_top1_false_positive_count', 'tf_eos_final_top1_accuracy']
+H2 legacy bare float 11.235611915588379 float
+H3 aggregated {'teacher_forced_ce_source': 'eval_computed', 'tf_eos_final_top1_accuracy': 0.0, 'tf_eos_early_top1_false_positive_count': 4, 'ce_semantic_eos': 3.736557960510254, 'total_ce': 11.235611915588379}
+wrote /tmp/tmpg8x0akov/ok/discrete_eval_report_v2.json
+H4 MAIN measured path OK /tmp/tmpg8x0akov/ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+H5 bare-float soft-refuse True
+D1c v2 formal report skipped: --score-only without measured eval_computed teacher-forced EOS metrics in decode bundle (source='unavailable')
+H6 score-only bare skip True
+wrote /tmp/tmpg8x0akov/score_ok/discrete_eval_report_v2.json
+H7 score-only measured OK
+H8 §11 fields True True True
+H9 d1c aliases ['d1c_dev32', 'd1c_full32', 'd1c_select8', 'd1c_gate24']
+H10 manifest mismatches [] sha 25c370a94f589127
+ROUND3_PROBE_PASS

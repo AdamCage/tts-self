@@ -1,0 +1,291 @@
+=== git status (src scripts configs tests) ===
+ M configs/asr.yaml
+ M configs/codec.yaml
+ M configs/data_common_voice_ru17.yaml
+ M configs/data_corpus_template.yaml
+ M configs/data_multicorpus.yaml
+ M configs/data_ruslan.yaml
+ M configs/data_ruslan_local.yaml
+ M configs/data_synth.yaml
+ M configs/discrete_speech_lm_300m.yaml
+ M configs/discrete_speech_lm_d1b_443m.yaml
+ M configs/eval_contracts/d1b_n2_reliability.json
+ M configs/eval_contracts/d1b_n2_reliability.sha256
+ M configs/eval_mel_suite.yaml
+ M configs/eval_set_hashes.json
+ M configs/eval_sets/bank_entity.json
+ M configs/eval_sets/demo5.json
+ M configs/eval_sets/homograph.json
+ M configs/eval_sets/latin.json
+ M configs/eval_sets/telephony.json
+ M configs/eval_sets/trackn_review.json
+ M configs/eval_sets/trackn_test.json
+ M configs/eval_sets/trackn_train.json
+ M configs/eval_sets/trackn_val.json
+ M configs/eval_sets/val100.json
+ M configs/flow_v02.yaml
+ M configs/infer.yaml
+ M configs/mel_baseline_v01.yaml
+ M configs/mel_cfm_v01.yaml
+ M configs/mel_hifigan_v01.yaml
+ M configs/mel_stress_v01.yaml
+ M configs/mel_variance_v01.yaml
+ M configs/n2_qwen_latent_v01.yaml
+ M configs/qwen.yaml
+ M configs/qwen_local.yaml
+ M configs/speaker_maps/trackn_v2.json
+ M configs/talker_v01.yaml
+ M configs/talker_v01_direct.yaml
+ M configs/tokenizer_t0.yaml
+ M configs/tokenizer_t0_small.yaml
+ M configs/train_subsets/d1b_confirm32.json
+ M configs/train_subsets/d1b_confirm32_v2.json
+ M configs/train_subsets/d1b_dev32.json
+ M configs/train_v01.yaml
+ M configs/train_v02.yaml
+ M configs/vocoder_ft_v01.yaml
+ M scripts/00_env_check.py
+ M scripts/01_download.sh
+ M scripts/02_build_manifest.py
+ M scripts/03_verify_text_asr.py
+ M scripts/03b_apply_qc.py
+ M scripts/04_encode_latents.py
+ M scripts/05_cache_text_hidden.py
+ M scripts/06_align.py
+ M scripts/07_train.py
+ M scripts/08_infer.py
+ M scripts/09_eval.py
+ M scripts/09b_eval_free_running.py
+ M scripts/10_smoke_e2e.py
+ M scripts/11_phase0_feasibility.py
+ M scripts/12_lora_ablation.py
+ M scripts/13_make_synth_data.py
+ M scripts/14_enable_nonar_fallback.py
+ M scripts/15_multispeaker_scaffold.py
+ M scripts/16_extract_ruslan_subset.py
+ M scripts/17_demo_phrases.py
+ M scripts/18_measure_ttfb.py
+ M scripts/20_trivial_baselines.py
+ M scripts/21_latent_error_calibration.py
+ M scripts/22_head_diagnostics.py
+ M scripts/23_eval_intelligibility.py
+ M scripts/24_align_audit.py
+ M scripts/25_qc_revision.py
+ M scripts/26_build_forced_align.py
+ M scripts/27_train_mel.py
+ M scripts/28_infer_mel.py
+ M scripts/29_cache_mels.py
+ M scripts/30_mel_copy_synth_eval.py
+ M scripts/31_train_mel_cfm.py
+ M scripts/32_eval_mel_suite.py
+ M scripts/33_download_hifigan.py
+ M scripts/34_vocoder_domain_probe.py
+ M scripts/35_paper2_seeds.py
+ M scripts/36_cache_f0_energy.py
+ M scripts/37_paper2_threeway.py
+ M scripts/38_paper1_figure_stubs.py
+ M scripts/39_external_baseline_eval.py
+ M scripts/40_probe_tokenizers.py
+ M scripts/41_probe_ref_tokenizer.py
+ M scripts/42_probe_backbone.py
+ M scripts/43_train_tokenizer.py
+ M scripts/44_eval_mel_val100.py
+ M scripts/45_eval_free_vs_oracle.py
+ M scripts/46_score_mel_wavs.py
+ M scripts/47_summarize_mel_gates.py
+ M scripts/48_install_mfa.sh
+ M scripts/49_fix_crlf.py
+ M scripts/50_train_vocoder.py
+ M scripts/51_preference_test.py
+ M scripts/52_probe_lm_budget.py
+ M scripts/53_calibrate_acoustic_sa.py
+ M scripts/54_eval_sets.py
+ M scripts/55_corpus_registry.py
+ M scripts/56_ingest_corpus.py
+ M scripts/57_merge_manifests.py
+ M scripts/58_freeze_trackn_sets.py
+ M scripts/59_pilot_download.py
+ M scripts/60_summarize_pilot_qc.py
+ M scripts/61_recheck_excluded_ctc.py
+ M scripts/62_eval_telephony_channels.py
+ M scripts/63_audit_bank_entity.py
+ M scripts/64_audit_homograph.py
+ M scripts/68_paper1_figures.py
+ M scripts/70_probe_qwen3_tts_tokenizer.py
+ M scripts/70b_external_baselines_d1.py
+ M scripts/71_encode_codec_tokens.py
+ M scripts/72_train_discrete_lm.py
+ M scripts/73_infer_discrete_lm.py
+ M scripts/74_eval_discrete_lm.py
+ M scripts/75_freeze_d1b_oracles.py
+ M scripts/76_select_discrete_checkpoint.py
+ M src/minispeech/__init__.py
+ M src/minispeech/codec/__init__.py
+ M src/minispeech/codec/cache_check.py
+ M src/minispeech/codec/qwen3_tts_wrapper.py
+ M src/minispeech/codec/stats.py
+ M src/minispeech/codec/wrapper.py
+ M src/minispeech/constants.py
+ M src/minispeech/data/__init__.py
+ M src/minispeech/data/alignment.py
+ M src/minispeech/data/channel.py
+ M src/minispeech/data/codec_seq_protocol.py
+ M src/minispeech/data/codec_tokens.py
+ M src/minispeech/data/collate_codec_seq.py
+ M src/minispeech/data/collate_latent_seq.py
+ M src/minispeech/data/corpus_registry.py
+ M src/minispeech/data/d1b_oracles.py
+ M src/minispeech/data/dataset.py
+ M src/minispeech/data/forced_align.py
+ M src/minispeech/data/frame_projection.py
+ M src/minispeech/data/ingest.py
+ M src/minispeech/data/manifest.py
+ M src/minispeech/data/mel.py
+ M src/minispeech/data/mel_dataset.py
+ M src/minispeech/data/merge.py
+ M src/minispeech/data/shards.py
+ M src/minispeech/data/speaker_registry.py
+ M src/minispeech/eval/__init__.py
+ M src/minispeech/eval/alignment_metrics.py
+ M src/minispeech/eval/asr.py
+ M src/minispeech/eval/asr_wer.py
+ M src/minispeech/eval/bootstrap.py
+ M src/minispeech/eval/critical_spans.py
+ M src/minispeech/eval/discrete_n2.py
+ M src/minispeech/eval/dtw.py
+ M src/minispeech/eval/free_running.py
+ M src/minispeech/eval/head_diagnostics.py
+ M src/minispeech/eval/latency.py
+ M src/minispeech/eval/latent_perturb.py
+ M src/minispeech/eval/optional_metrics.py
+ M src/minispeech/eval/preference.py
+ M src/minispeech/eval/stress_acc.py
+ M src/minispeech/eval/stress_acoustic.py
+ M src/minispeech/eval/stress_classifier.py
+ M src/minispeech/eval/test_sets.py
+ M src/minispeech/eval/text_usage.py
+ M src/minispeech/eval/trivial_baselines.py
+ M src/minispeech/eval/utmos.py
+ M src/minispeech/frontend/__init__.py
+ M src/minispeech/frontend/durations.py
+ M src/minispeech/frontend/g2p.py
+ M src/minispeech/frontend/normalize.py
+ M src/minispeech/frontend/phone_vocab.py
+ M src/minispeech/frontend/stress.py
+ M src/minispeech/frontend/translit.py
+ M src/minispeech/frontend/verbalize.py
+ M src/minispeech/infer/__init__.py
+ M src/minispeech/infer/cfg.py
+ M src/minispeech/infer/discrete_config.py
+ M src/minispeech/infer/generate.py
+ M src/minispeech/infer/hifigan.py
+ M src/minispeech/infer/stream.py
+ M src/minispeech/infer/vocoder.py
+ M src/minispeech/models/__init__.py
+ M src/minispeech/models/discrete_speech_lm.py
+ M src/minispeech/models/heads_flow.py
+ M src/minispeech/models/heads_regression.py
+ M src/minispeech/models/hifigan_disc.py
+ M src/minispeech/models/latent_io.py
+ M src/minispeech/models/layer_mix.py
+ M src/minispeech/models/mel_baseline.py
+ M src/minispeech/models/mel_cfm.py
+ M src/minispeech/models/minispeech.py
+ M src/minispeech/models/multi_codebook_head.py
+ M src/minispeech/models/projector.py
+ M src/minispeech/models/russian_conditioning.py
+ M src/minispeech/models/stop_duration.py
+ M src/minispeech/models/talker.py
+ M src/minispeech/models/text_init.py
+ M src/minispeech/models/tokenizer/__init__.py
+ M src/minispeech/models/tokenizer/blocks.py
+ M src/minispeech/models/tokenizer/decoder.py
+ M src/minispeech/models/tokenizer/encoder.py
+ M src/minispeech/models/tokenizer/losses.py
+ M src/minispeech/models/tokenizer/model.py
+ M src/minispeech/train/__init__.py
+ M src/minispeech/train/discrete_lm_trainer.py
+ M src/minispeech/train/distributed.py
+ M src/minispeech/train/ema.py
+ M src/minispeech/train/guided_attn.py
+ M src/minispeech/train/logging.py
+ M src/minispeech/train/losses.py
+ M src/minispeech/train/mel_cfm_trainer.py
+ M src/minispeech/train/mel_trainer.py
+ M src/minispeech/train/schedule.py
+ M src/minispeech/train/trainer.py
+ M src/minispeech/train/vocoder_trainer.py
+ M src/minispeech/utils.py
+ M tests/_discrete_lm_trainer_fakes.py
+ M tests/test_cache_check.py
+ M tests/test_channel.py
+ M tests/test_codec_tokens_pack.py
+ M tests/test_core.py
+ M tests/test_critical_spans.py
+ M tests/test_d1b_oracles.py
+ M tests/test_dataset_multicorpus.py
+ M tests/test_discrete_lm_resume.py
+ M tests/test_discrete_lm_trainer_steps.py
+ M tests/test_discrete_n2_protocol.py
+ M tests/test_discrete_speech_lm.py
+ M tests/test_discrete_stop_config.py
+ M tests/test_eval_mel_suite.py
+ M tests/test_eval_sets_version.py
+ M tests/test_external_baseline.py
+ M tests/test_frontend_track_a.py
+ M tests/test_ingest_corpus.py
+ M tests/test_manifest_multi.py
+ M tests/test_mel_baseline.py
+ M tests/test_mel_cfm.py
+ M tests/test_mel_target_registry.py
+ M tests/test_merge_manifests.py
+ M tests/test_n2_collate_latent_seq.py
+ M tests/test_plan_scaffolding.py
+ M tests/test_preference.py
+ M tests/test_qwen3_tts_geometry.py
+ M tests/test_recovery_metrics.py
+ M tests/test_speaker_registry.py
+ M tests/test_stress_acoustic.py
+ M tests/test_stress_classifier.py
+ M tests/test_stress_ctc_labels.py
+ M tests/test_stress_overlay.py
+ M tests/test_track_a_projection.py
+ M tests/test_trackn_eval_sets.py
+ M tests/test_translit.py
+ M tests/test_utmos_backend.py
+ M tests/test_verbalize_r3.py
+?? configs/discrete_speech_lm_d1c_semantic_eos_w1.yaml
+?? configs/discrete_speech_lm_d1c_semantic_eos_w2.yaml
+?? configs/eval_contracts/d1c_semantic_eos_v2_0_0.json
+?? configs/eval_contracts/d1c_semantic_eos_v2_0_1.json
+?? configs/eval_contracts/schemas/
+?? configs/train_subsets/d1_oracle_burn_registry.json
+?? configs/train_subsets/d1c_confirm_seed_commitment.json
+?? configs/train_subsets/d1c_dev32.json
+?? scripts/77_freeze_d1c_oracles.py
+?? src/minispeech/data/discrete_oracles.py
+?? src/minispeech/eval/discrete_report_schema.py
+?? tests/test_d1c_infra_repair.py
+?? tests/test_d1c_oracles.py
+?? tests/test_d1c_selector_integration.py
+?? tests/test_d1c_semantic_eos.py
+?? tests/test_discrete_eval_report_schema.py
+=== HEAD ===
+0661d10eb616362e74dc1750e03cf25c33a7943e
+=== recipe_source_manifest verify AFTER all probes ===
+n_locked = 19
+mismatches = []
+contract sha256 = 25c370a94f589127913623cc04db61d1fd593d4b4158f692ded9e72408006f82
+=== checkpoint payload carries the step (fix is one line) ===
+690:                self.run_dir / f"candidate_step_{int(step):04d}.pt",
+=== evaluator discards the loaded payload step ===
+def _load_model(ckpt: Path, device: torch.device):
+    payload = torch.load(ckpt, map_location=device, weights_only=False)
+    cfg = payload.get("cfg") or load_yaml("configs/discrete_speech_lm_d1b_443m.yaml")
+    model = build_discrete_speech_lm(cfg)
+    sd = payload.get("model") or payload
+    if isinstance(sd, dict) and any(k.startswith("module.") for k in sd):
+        sd = {k.removeprefix("module."): v for k, v in sd.items()}
+    model.load_state_dict(sd, strict=True)
+    model.to(device).eval()
+    return model, cfg

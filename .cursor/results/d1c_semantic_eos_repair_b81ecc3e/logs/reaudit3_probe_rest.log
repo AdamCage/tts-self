@@ -1,0 +1,72 @@
+M1a PASS n_batches=3
+M1b PASS multi-batch EOS accuracy is the batch mean (0.11111111442248027)
+M1c PASS early-EOS false positives are summed (1)
+M1d PASS source=eval_computed for a fully-measured multi-batch run
+M1e INFO CAVEAT: batch-mean is UNWEIGHTED by utterances (batches of 2/3/1 here); the published accuracy is not the corpus mean when the last batch is partial. The strict ==1.0 selector predicate is unaffected.
+M2a PASS one batch missing EOS accuracy => whole run unavailable (no partial credit)
+M2b PASS mixed per-batch sources => unavailable
+M2c PASS empty batch list => unavailable (not a fabricated 0.0 pass)
+M2d PASS projection preserves unavailable
+wrote /tmp/tmp__b5bwou/emit/discrete_eval_report_v2.json
+M3a PASS emitter produced /tmp/tmp__b5bwou/emit/discrete_eval_report_v2.json
+M3b FAIL checkpoint.step stamped by the PRODUCTION provenance shape (main() never sets checkpoint_step, evaluate_n2_gate_d1b never sets gate['step']) -> step=0
+wrote /tmp/tmp__b5bwou/emit_250/discrete_eval_report_v2.json
+wrote /tmp/tmp__b5bwou/emit_375/discrete_eval_report_v2.json
+wrote /tmp/tmp__b5bwou/emit_500/discrete_eval_report_v2.json
+wrote /tmp/tmp__b5bwou/emit_625/discrete_eval_report_v2.json
+wrote /tmp/tmp__b5bwou/emit_750/discrete_eval_report_v2.json
+M3c INFO steps stamped on five production-shaped reports: [0, 0, 0, 0, 0]
+M3d FAIL evaluator -> selector (plan §8.4) STILL cannot run end-to-end: ValueError: D1c candidate steps must be exactly [250, 375, 500, 625, 750]
+M3f PASS scripts/74 exposes NO CLI flag to supply the candidate step (found []); nothing in production sets provenance['checkpoint_step'] or gate['step']
+M3g INFO other scripts referencing checkpoint_step: []
+M3e PASS CONTROL: identical reports with step hand-patched + EOS==1.0 select -> step=250 (isolates the missing step stamp)
+M4a PASS absent gates.text_usage refused: D1c formal selection found no eligible candidate; refusing least-bad selection
+M5a PASS manifest verify from repo root: n_locked=19 mismatches=[]
+M5b PASS enforce_eval_contract passes from repo root
+M5c PASS manifest verify fires at runtime (foreign cwd -> refused)
+M5d INFO CAVEAT: verify_recipe_source_manifest() is called with root=cwd, so enforce_eval_contract hard-fails whenever the job is launched outside the repo root (fail-closed, but an operator foot-gun).
+M6a PASS d1c aliases: ['d1c_dev32', 'd1c_full32', 'd1c_gate24', 'd1c_select8']
+M6-d1c_dev32 PASS d1c_dev32 -> n=32 items_sha256=501330481c07d928 contract[dev32]=501330481c07d928 match=True
+M6-d1c_full32 PASS d1c_full32 -> n=32 items_sha256=501330481c07d928 contract[full32]=501330481c07d928 match=True
+M6-d1c_select8 PASS d1c_select8 -> n=8 items_sha256=882691c9fa7e799b contract[select8]=882691c9fa7e799b match=True
+M6-d1c_gate24 PASS d1c_gate24 -> n=24 items_sha256=5485d37be12342d1 contract[gate24]=5485d37be12342d1 match=True
+M6b-dev32 PASS D1b alias dev32 -> configs/train_subsets/d1b_dev32.json
+M6b-select8 PASS D1b alias select8 -> configs/train_subsets/d1b_confirm32_v2.json
+M6b-gate24 PASS D1b alias gate24 -> configs/train_subsets/d1b_confirm32_v2.json
+M6b-full32 PASS D1b alias full32 -> configs/train_subsets/d1b_confirm32_v2.json
+H0 INFO live d1c_dev32: {"file_sha256": "f9f82b708b23ab61", "items_sha256": "501330481c07d928", "select8": "882691c9fa7e799b", "gate24": "5485d37be12342d1"}
+H1 PASS WAVE1_REPORT.md contains every live DEV32 digest: {"file_sha256": true, "items_sha256": true, "select8": true, "gate24": true}
+H2 PASS round-2 stale digests absent from WAVE1_REPORT.md: []
+H3 PASS oracle_overlap_report.json matches live: {"file_sha256": true, "items_sha256": true, "select8": true, "gate24": true}
+H4 PASS stale digests absent from oracle_overlap_report.json: []
+H5 PASS WAVE1_REPORT.md states the file_sha256 redefinition caveat
+H6 PASS WAVE1_REPORT.md carries live contract sha 25c370a94f589127
+H7 PASS repair_round3_hashes.json carries live contract sha 25c370a94f589127
+H8 PASS REPAIR_ROUND3.md quotes the live contract sha
+H9 PASS REPAIR_ROUND3.md quotes live recipe_source_manifest_sha256 2d31bb9b0b37d548
+R2a PASS independent content recompute 25c370a94f589127 == declared 25c370a94f589127
+R2b PASS library recompute agrees
+R2c PASS tampering infer.max_frames changes the content sha
+R2d PASS recipe_source_manifest n_locked=19 mismatches=[]
+R2e PASS manifest dict sha 2d31bb9b0b37d548 == declared 2d31bb9b0b37d548
+R2f-w1 PASS w1 binds contract=25c370a94f589127 recipe=25c370a94f589127 manifest=2d31bb9b0b37d548
+R2f-w2 PASS w2 binds contract=25c370a94f589127 recipe=25c370a94f589127 manifest=2d31bb9b0b37d548
+R2g PASS v2.0.1 parent pointers repointed at the live 2.0.0 digests (25c370a94f589127)
+R2h PASS scripts/72 no longer silently overwrites eval_contract_hash
+R2i PASS scripts/72 still asserts the declared contract hash before stamping
+R2j INFO RESIDUAL (low, unchanged from round 2): scripts/72 still silently overwrites tcfg["recipe_hash"] / tcfg["recipe_source_manifest_hash"] from the contract instead of asserting equality with the declared values
+R7a-w1 PASS w1 resolve_repro_hashes inert keys=[] (n=8)
+R7a-w2 PASS w2 resolve_repro_hashes inert keys=[] (n=8)
+R7b PASS stale eval_contract_hash raises: eval_contract_hash mismatch: declared=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa live=25
+R7c-run_manifest_hash PASS dropping train.run_manifest_hash still resolves all keys (None=[])
+R7c-recipe_hash PASS dropping train.recipe_hash still resolves all keys (None=[])
+R7c-recipe_source_manifest_hash PASS dropping train.recipe_source_manifest_hash still resolves all keys (None=[])
+R7c-eval_contract_hash PASS dropping train.eval_contract_hash still resolves all keys (None=[])
+R7d PASS D1c resume fail-closed message still present in the trainer
+RXa PASS residual params with grads (cb0_w=0, eos_w=0): 45/45
+RXb PASS immediate EOS -> codes.shape=(1, 0, 16) lengths=[0] (no phantom frame)
+RXc PASS select8 composition: 2 RUSLAN + 6 CV
+RXd PASS select8 | gate24 == full32 and disjoint (|s|=8 |g|=24 |f|=32)
+
+SUMMARY pass=55 fail=2
+ROUND3_REAUDIT_REST_FAIL

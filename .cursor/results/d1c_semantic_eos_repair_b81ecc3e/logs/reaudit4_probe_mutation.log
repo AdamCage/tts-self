@@ -1,0 +1,16 @@
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+X0 PASS unmutated source: test_main_stamps_checkpoint_step_and_selector_e2e -> PASSED
+X1 PASS MUTATION drop provenance['checkpoint_step'] + gate['step'] in main() -> AssertionError: main() must emit formal v2 report
+X2 PASS MUTATION round-2 main() bare-float rewire (round-3 X3/X4 blind spot) -> AssertionError: main() must emit formal v2 report
+X3 PASS MUTATION main() uses evaluate_n2_gate_d1b on a D1c contract -> AssertionError: <no message>
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+X4 INFO MUTATION _load_model discards payload -> PASSED (INFO: test stubs _load_model, and the candidate_step_XXXX.pt filename is a second independent source, so this is expected not to be caught here)
+X5 PASS MUTATION round-3 schema (step=0 allowed) -> step-zero test Failed: DID NOT RAISE ValueError
+wrote /tmp/tmpr9yt0cpr/out_ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+D1c v2 formal report skipped: --score-only without measured eval_computed teacher-forced EOS metrics in decode bundle (source='unavailable')
+wrote /tmp/tmpr9yt0cpr/out_score_ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: checkpoint.step missing or zero (evaluator must stamp candidate step from payload/filename/--checkpoint-step)
+X6 PASS round-3 helper test still green on unmutated source: PASSED
+
+SUMMARY fails=0 total=7

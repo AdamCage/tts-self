@@ -1,0 +1,10 @@
+{
+  "schema": "minispeech.discrete_eval_contract",
+  "id": "d1c_semantic_eos_v2_0_1",
+  "version": "2.0.1",
+  "status": "not_materialized",
+  "note": "Created after confirmation seed reveal + CONFIRM32 freeze; must preserve recipe_sha256 from 2.0.0.",
+  "parent_contract": "configs/eval_contracts/d1c_semantic_eos_v2_0_0.json",
+  "parent_sha256": "c9fd265ac715b3d600dab1fcdf3d0b941d8db6b6fb3d9c9495728c0c55e124cf",
+  "parent_recipe_sha256": "c9fd265ac715b3d600dab1fcdf3d0b941d8db6b6fb3d9c9495728c0c55e124cf"
+}

@@ -1,0 +1,12 @@
+{
+  "scripts/74_eval_discrete_lm.py": "7361cd65886f2317211e42420e6cf2834bfcb5abfd899e0507fbcc1ec46ff049",
+  "scripts/76_select_discrete_checkpoint.py": "fe529dda61c0f4507672f4f74395cd2ec1aae22dc6381cfa9e3717434db6e46a",
+  "src/minispeech/eval/discrete_report_schema.py": "49dffe0e8a9e7fbdced2294abba257bebf58082299168495568d21a09111dd70",
+  "src/minispeech/eval/discrete_n2.py": "7d85475e6ab3db1919833d64dfcee57e13d5875823934ca82a0ab76beceb8d31",
+  "src/minispeech/train/discrete_lm_trainer.py": "8b665b8c9faf830451a27e535350c31dd6e153179dad5a3e0641f8f44f5f316d",
+  "tests/test_d1c_infra_repair.py": "77e0d30f12ef2a2d56ac33505fdf94499b2b25f14f98a036af524153262357b1",
+  "configs/eval_contracts/d1c_semantic_eos_v2_0_0.json": "4a55bba4eaf5ebbc386375f865f67a520307018b0fd953ead3e32987bc3f503c",
+  "configs/eval_contracts/d1c_semantic_eos_v2_0_1.json": "7c77590723a1d00254b5902f2cb82f02de2ec09c03bdc091c99fbd00be27bc33",
+  "configs/discrete_speech_lm_d1c_semantic_eos_w1.yaml": "0b8954784e67fe758f6364653453d48da8d27ada0e0846ab029d90635c327db6",
+  "configs/discrete_speech_lm_d1c_semantic_eos_w2.yaml": "73ac1e27ecd5ddbe31c59d6f9769c456b2ffa3584a08fb20e1900da238000fa4"
+}

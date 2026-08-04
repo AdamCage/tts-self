@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "minispeech.discrete_eval_report/2.0.0",
+  "title": "MiniSpeech formal discrete evaluation report",
+  "type": "object",
+  "required": ["schema", "schema_version", "formal_eligible", "checkpoint", "provenance", "infer", "teacher_forced_metrics", "row_binding", "conditions", "report_sha256"],
+  "properties": {
+    "schema": {"const": "minispeech.discrete_eval_report"},
+    "schema_version": {"const": "2.0.0"},
+    "formal_eligible": {"const": true},
+    "checkpoint": {
+      "type": "object",
+      "required": ["path", "sha256", "step", "schema", "schema_version"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "step": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": true
+    },
+    "teacher_forced_metrics": {
+      "type": "object",
+      "required": ["teacher_forced_ce_source", "total_ce"],
+      "properties": {
+        "teacher_forced_ce_source": {"const": "eval_computed"},
+        "total_ce": {"type": "number"}
+      },
+      "additionalProperties": true
+    },
+    "row_binding": {
+      "type": "object",
+      "required": ["ordered_utt_ids", "ordered_utt_ids_sha256"],
+      "properties": {
+        "ordered_utt_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "ordered_utt_ids_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      },
+      "additionalProperties": true
+    },
+    "conditions": {
+      "type": "object",
+      "required": ["model", "copy_synth", "wrong_utt", "random_codes", "shuffle_text", "mask_text"],
+      "additionalProperties": false,
+      "properties": {
+        "model": {"$ref": "#/$defs/condition"},
+        "copy_synth": {"$ref": "#/$defs/condition"},
+        "wrong_utt": {"$ref": "#/$defs/condition"},
+        "random_codes": {"$ref": "#/$defs/condition"},
+        "shuffle_text": {"$ref": "#/$defs/condition"},
+        "mask_text": {"$ref": "#/$defs/condition"}
+      }
+    },
+    "report_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  },
+  "$defs": {
+    "condition": {
+      "type": "object",
+      "required": ["subset_key", "subset_path", "subset_file_sha256", "expected_count", "evaluated_count", "ordered_utt_ids_sha256", "rows", "rows_sha256"],
+      "properties": {
+        "rows": {"type": "array", "items": {"$ref": "#/$defs/row"}},
+        "rows_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      },
+      "additionalProperties": true
+    },
+    "row": {
+      "type": "object",
+      "required": ["ordinal", "utt_id", "normalized_reference_sha256", "generated_codes_sha256", "generation", "wav", "cer"],
+      "properties": {
+        "ordinal": {"type": "integer", "minimum": 0},
+        "utt_id": {"type": "string", "minLength": 1},
+        "generated_codes_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "wav": {
+          "type": "object",
+          "required": ["path", "file_sha256", "pcm_sha256"],
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

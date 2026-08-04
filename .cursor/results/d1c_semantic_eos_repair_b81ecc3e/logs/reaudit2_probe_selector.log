@@ -1,0 +1,30 @@
+wrote /tmp/reaudit2sel_kt_mcid3/base/discrete_eval_report_v2.json
+E0a INFO baseline emitted; formal_eligible=True macro rows=8
+E1 PASS §11-clean baseline IS selectable -> SELECTED step=250
+E2 PASS early_eos_suppressed_count=7 -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+E3 PASS max_cb0_run=99 -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+E4 PASS max_cb0_run=13 (boundary >12) -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+E5 PASS zero-frame generation -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+E6 PASS per-row duration ratio 9.5x -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+E7 PASS mean duration ratio 1.43 -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+E8 PASS catastrophic row -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+E9 PASS termination_reason=safety_max_frames -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+E10 PASS tf_eos_final_top1_accuracy=0.9 -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+E11 PASS tf_eos_early_top1_false_positive_count=3 -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+E12 PASS tf_eos metrics = 'unavailable' -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+E13 PASS model CER 0.40 vs copy 0.05 -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+E14 PASS model CER 0.09 vs copy 0.05 (+0.04 > +0.03) -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+E15 PASS text_usage.pass=False -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+E16 PASS phrase_loop_repetition=True -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+E17 PASS runaway_or_repetition=True -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+E18 PASS formal_eligible=False -> REFUSED: formal D1c report refused: formal_eligible must be true
+E19 PASS teacher_forced_ce_source=decode_bundle -> REFUSED: formal D1c report refused: teacher_forced_ce_source must be eval_computed
+E20 PASS max_cb0_run=12 (at the allowed bound) -> SELECTED step=250
+E21 FAIL model CER 0.08 vs copy 0.05 (exactly +0.03) -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+E22 INFO copy_synth untouched control -> SELECTED step=250
+E23 INFO text_usage block ABSENT (vacuous pass by design, scripts/76:144-146) -> SELECTED step=250
+E24 INFO copy_synth CERs all None (copy_macro=None -> cer_vs_copy vacuous) -> REFUSED: formal D1c report refused: conditions.copy_synth.rows[0].cer missing
+
+=== SUMMARY E ===
+FAIL E21: model CER 0.08 vs copy 0.05 (exactly +0.03) -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+E_total=25 E_fail=1

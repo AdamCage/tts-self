@@ -1,0 +1,19 @@
+S0a PASS main() calls resolve_checkpoint_step
+S0b PASS main() calls evaluate_n2_gate_d1c
+S0c PASS CLI exposes --checkpoint-step
+S1a PASS payload step extractor → 750
+S1b PASS filename candidate_step_0750.pt → 750
+S1c PASS resolve_checkpoint_step cross-checks payload+filename → 750
+S1d PASS _load_model returns 3-tuple (model, cfg, payload)
+S2a PASS main() rc=0 traceback=False
+S2b PASS formal v2 report written
+S2c PASS gate id=N2_D1c_semantic_eos_v1
+S2d PASS gate.step=750
+S2e PASS provenance.checkpoint_step=750
+S2f PASS report checkpoint.step=750
+S2g PASS validate_formal_report accepts non-zero step
+S3a PASS step=0 refused: formal D1c report refused: checkpoint.step must be a positive integer (not 0/missing)
+S4a PASS selector accepted steps=[250, 375, 500, 625, 750]
+S4b PASS selected step=250
+
+SUMMARY fails=0 total=17

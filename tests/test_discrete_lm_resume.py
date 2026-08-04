@@ -247,6 +247,83 @@ def test_resume_fail_closed_on_model_config_hash(tmp_path: Path):
         _trainer(tmp_path / "r2", cfg2)
 
 
+def test_resume_fail_closed_on_config_hash(tmp_path: Path):
+    cfg = _tiny_cfg(tmp_path)
+    t = _trainer(tmp_path, cfg)
+    t.train_steps(1, stage="S1")
+    path = tmp_path / "run" / "last.pt"
+
+    cfg2 = _tiny_cfg(tmp_path / "r2", lr=9e-4)
+    cfg2["train"]["resume"] = str(path)
+    with pytest.raises(ResumeMismatchError, match="config"):
+        _trainer(tmp_path / "r2", cfg2)
+
+
+def test_resume_fail_closed_on_recipe_hash(tmp_path: Path):
+    cfg = _tiny_cfg(tmp_path, recipe_hash="recipe_a")
+    t = _trainer(tmp_path, cfg)
+    t.train_steps(1, stage="S1")
+    path = tmp_path / "run" / "last.pt"
+    assert t.repro_hashes.get("recipe") == "recipe_a"
+
+    cfg2 = _tiny_cfg(tmp_path / "r2", recipe_hash="recipe_b")
+    cfg2["train"]["resume"] = str(path)
+    with pytest.raises(ResumeMismatchError, match="recipe"):
+        _trainer(tmp_path / "r2", cfg2)
+
+
+def test_resume_fail_closed_on_recipe_source_manifest_hash(tmp_path: Path):
+    cfg = _tiny_cfg(tmp_path, recipe_source_manifest_hash="src_a")
+    t = _trainer(tmp_path, cfg)
+    t.train_steps(1, stage="S1")
+    path = tmp_path / "run" / "last.pt"
+
+    cfg2 = _tiny_cfg(tmp_path / "r2", recipe_source_manifest_hash="src_b")
+    cfg2["train"]["resume"] = str(path)
+    with pytest.raises(ResumeMismatchError, match="recipe_source_manifest"):
+        _trainer(tmp_path / "r2", cfg2)
+
+
+def test_resume_fail_closed_on_run_manifest_hash(tmp_path: Path):
+    cfg = _tiny_cfg(tmp_path, run_manifest_hash="rm_a")
+    t = _trainer(tmp_path, cfg)
+    t.train_steps(1, stage="S1")
+    path = tmp_path / "run" / "last.pt"
+
+    cfg2 = _tiny_cfg(tmp_path / "r2", run_manifest_hash="rm_b")
+    cfg2["train"]["resume"] = str(path)
+    with pytest.raises(ResumeMismatchError, match="run_manifest"):
+        _trainer(tmp_path / "r2", cfg2)
+
+
+def test_d1c_resume_fails_when_required_hash_missing(tmp_path: Path):
+    """Dropping a D1c required repro hash must not silently skip the check."""
+    cfg = _tiny_cfg(
+        tmp_path,
+        recipe_hash="recipe_a",
+        recipe_source_manifest_hash="src_a",
+        run_manifest_hash="rm_a",
+    )
+    t = _trainer(tmp_path, cfg)
+    t.termination = {
+        "mode": "semantic_eos_v1",
+        "eos_id": 32,
+        "semantic_vocab_size": 33,
+        "codec_vocab_size": 32,
+    }
+    t.train_steps(1, stage="S1")
+    path = tmp_path / "run" / "last.pt"
+    ckpt = torch.load(path, map_location="cpu", weights_only=False)
+    ckpt["schema"] = "minispeech.discrete_lm_checkpoint"
+    ckpt["schema_version"] = "2.0.0"
+    ckpt["termination"] = dict(t.termination)
+    torch.save(ckpt, path)
+
+    t.repro_hashes["recipe_source_manifest"] = None
+    with pytest.raises(ResumeMismatchError, match="recipe_source_manifest"):
+        t._validate_resume(torch.load(path, map_location="cpu", weights_only=False))
+
+
 def test_checkpoint_stores_both_counters_and_hashes(tmp_path: Path):
     cfg = _tiny_cfg(tmp_path, save_every=1)
     t = _trainer(tmp_path, cfg)

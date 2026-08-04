@@ -1,0 +1,71 @@
+synthetic contract sha: 2ec7060e86a246af06bd99e333bb6a9dc7b428e8f15ba0ae67c54253b397d42f
+wrote /tmp/reaudit2/cfg/discrete_speech_lm_d1c_semantic_eos_ok.yaml
+wrote /tmp/reaudit2/cfg/discrete_speech_lm_d1c_semantic_eos_nohash2.yaml
+wrote /tmp/reaudit2/cfg/discrete_speech_lm_d1c_semantic_eos_stale2.yaml
+======== CASE D1 clean-sha contract, declared hash correct, NO --allow-dirty (must pass contract, stop later)
+CMD: python scripts/72_train_discrete_lm.py --config /tmp/reaudit2/cfg/discrete_speech_lm_d1c_semantic_eos_ok.yaml --subset configs/train_subsets/d1c_dev32.json --subset-split full32 --codec-tokens-dir /tmp/reaudit2/nonexistent
+param_count={'total': 443245568, 'trainable': 443245568, 'text_blocks_and_emb': 373665792, 'speech_heads_adapters': 69579776}
+speaker_registry n_speakers=1088 max_speakers=1089 sha256=64e7cdc5c3447a43...
+frozen_subset=configs/train_subsets/d1c_dev32.json split=full32 n=32 items_sha256=501330481c07d928d0fe6b86395355aea1410a680a4020c73b602df5cc3d9b40
+Traceback (most recent call last):
+  File "/mnt/c/projects/tts-self-d1c/scripts/72_train_discrete_lm.py", line 610, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/scripts/72_train_discrete_lm.py", line 562, in main
+    train_loader, val_loader = make_loaders(
+                               ^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/scripts/72_train_discrete_lm.py", line 348, in make_loaders
+    ds = CodecTokenShardDataset(codec_tokens_dir, **ds_kwargs)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/scripts/72_train_discrete_lm.py", line 129, in __init__
+    raise FileNotFoundError(
+FileNotFoundError: codec tokens dir not found: /tmp/reaudit2/nonexistent. Run Wave-1 scripts/71_encode_codec_tokens.py first.
+EXIT=1
+
+======== CASE D2 clean-sha contract, MISSING declared eval_contract_hash (must refuse silent overwrite)
+CMD: python scripts/72_train_discrete_lm.py --config /tmp/reaudit2/cfg/discrete_speech_lm_d1c_semantic_eos_nohash2.yaml --subset configs/train_subsets/d1c_dev32.json --subset-split full32 --codec-tokens-dir /tmp/reaudit2/nonexistent
+D1c recipe must declare train.eval_contract_hash; refusing silent overwrite
+EXIT=1
+
+======== CASE D3 clean-sha contract, STALE declared hash (must fail closed)
+CMD: python scripts/72_train_discrete_lm.py --config /tmp/reaudit2/cfg/discrete_speech_lm_d1c_semantic_eos_stale2.yaml --subset configs/train_subsets/d1c_dev32.json --subset-split full32 --codec-tokens-dir /tmp/reaudit2/nonexistent
+Traceback (most recent call last):
+  File "/mnt/c/projects/tts-self-d1c/scripts/72_train_discrete_lm.py", line 610, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/scripts/72_train_discrete_lm.py", line 462, in main
+    contract = enforce_eval_contract(
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/src/minispeech/data/d1b_oracles.py", line 491, in enforce_eval_contract
+    raise RuntimeError(
+RuntimeError: D1b eval_contract enforcement failed:
+- eval_contract hash mismatch: expected=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa got=2ec7060e86a246af06bd99e333bb6a9dc7b428e8f15ba0ae67c54253b397d42f
+EXIT=1
+
+======== CASE D4 clean-sha contract + --allow-dirty (must print WARNING about MINISPEECH_ALLOW_DIRTY)
+CMD: python scripts/72_train_discrete_lm.py --config /tmp/reaudit2/cfg/discrete_speech_lm_d1c_semantic_eos_ok.yaml --subset configs/train_subsets/d1c_dev32.json --subset-split full32 --allow-dirty --codec-tokens-dir /tmp/reaudit2/nonexistent
+param_count={'total': 443245568, 'trainable': 443245568, 'text_blocks_and_emb': 373665792, 'speech_heads_adapters': 69579776}
+WARNING: --allow-dirty set with D1c config; canonical gates forbid MINISPEECH_ALLOW_DIRTY=1
+speaker_registry n_speakers=1088 max_speakers=1089 sha256=64e7cdc5c3447a43...
+frozen_subset=configs/train_subsets/d1c_dev32.json split=full32 n=32 items_sha256=501330481c07d928d0fe6b86395355aea1410a680a4020c73b602df5cc3d9b40
+Traceback (most recent call last):
+  File "/mnt/c/projects/tts-self-d1c/scripts/72_train_discrete_lm.py", line 610, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/scripts/72_train_discrete_lm.py", line 562, in main
+    train_loader, val_loader = make_loaders(
+                               ^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/scripts/72_train_discrete_lm.py", line 348, in make_loaders
+    ds = CodecTokenShardDataset(codec_tokens_dir, **ds_kwargs)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/scripts/72_train_discrete_lm.py", line 129, in __init__
+    raise FileNotFoundError(
+FileNotFoundError: codec tokens dir not found: /tmp/reaudit2/nonexistent. Run Wave-1 scripts/71_encode_codec_tokens.py first.
+EXIT=1
+
+======== CLI alias check: does --subset dev32 point at D1b or D1c?
+alias 'dev32' -> /mnt/c/projects/tts-self-d1c/configs/train_subsets/d1b_dev32.json split=full32 items_sha256=c886ba31f3305546d9b4938e1cd0b7a2fa4fce738d7da342e9da2a30a28b172c n=32
+alias 'select8' -> /mnt/c/projects/tts-self-d1c/configs/train_subsets/d1b_confirm32_v2.json split=select8 items_sha256=6667da2f8fc2c3706deff48a79489103f739419041f3fb492f5822647075a0ed n=8
+alias 'gate24' -> /mnt/c/projects/tts-self-d1c/configs/train_subsets/d1b_confirm32_v2.json split=gate24 items_sha256=68f8d98738114761cee86bc336be5313f3ad550519a4b6764adbdc0c4b32eda8 n=24
+alias 'full32' -> /mnt/c/projects/tts-self-d1c/configs/train_subsets/d1b_confirm32_v2.json split=full32 items_sha256=63d7e351602e62d26196d944cd1f7a9e928a241e70d968f6eb58c0d1b7a746b9 n=32
+d1c aliases present: NONE

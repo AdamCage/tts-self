@@ -1,0 +1,8 @@
+{
+  "path": "/mnt/c/projects/tts-self-d1c/configs/eval_contracts/d1c_semantic_eos_v2_0_0.json",
+  "sha256": "a59ada9c1e0a64f067b27dd2b4d93ca270702bd41881746d1bb9a437d2f33772",
+  "recipe_sha256": "a59ada9c1e0a64f067b27dd2b4d93ca270702bd41881746d1bb9a437d2f33772",
+  "recipe_source_manifest_sha256": "667ac408444b1d524a45c459a05faed5d1d29a682415c14d5d9d18d628c4ce96",
+  "dev_items_sha256": "501330481c07d928d0fe6b86395355aea1410a680a4020c73b602df5cc3d9b40",
+  "asr_raw_sha256": "f5d2b1b8ae80e76f4c585cc5dd3411732617ebc539fb8a97b975f025efbcfdb9"
+}

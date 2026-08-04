@@ -1,0 +1,14 @@
+........................................................................ [ 18%]
+.............s..........s............................................... [ 37%]
+........................................................................ [ 55%]
+........................................................................ [ 74%]
+........................................................................ [ 92%]
+.............................                                            [100%]
+=============================== warnings summary ===============================
+tests/test_eval_mel_suite.py::test_optional_metrics_skip_missing
+tests/test_utmos_backend.py::test_utmos_score_range_when_backend_present
+  /home/adam/projects/tts-self/.venv/lib/python3.11/site-packages/torch/nn/utils/weight_norm.py:144: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+    WeightNorm.apply(module, name, dim)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+387 passed, 2 skipped, 2 warnings in 51.65s

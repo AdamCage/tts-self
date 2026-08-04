@@ -1,0 +1,92 @@
+M0 INFO test_d1c_infra_repair.py exposes 29 test functions
+wrote /tmp/tmp82h_ptoc/out/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+wrote /tmp/tmpjavjf2g9/out_ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+D1c v2 formal report skipped: --score-only without measured eval_computed teacher-forced EOS metrics in decode bundle (source='unavailable')
+wrote /tmp/tmpjavjf2g9/out_score_ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: checkpoint.step missing or zero (evaluator must stamp candidate step from payload/filename; --checkpoint-step may only confirm a derived step)
+M0a PASS unmutated baseline: 29/29 green; red=[]
+wrote /tmp/tmpatkr1fu8/out/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+wrote /tmp/tmpyhvf8w75/out_ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+D1c v2 formal report skipped: --score-only without measured eval_computed teacher-forced EOS metrics in decode bundle (source='unavailable')
+wrote /tmp/tmpyhvf8w75/out_score_ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: checkpoint.step missing or zero (evaluator must stamp candidate step from payload/filename; --checkpoint-step may only confirm a derived step)
+M1 PASS MUTATION selector drops candidate_step_<step:04d>.pt basename rule -> caught by ['test_main_stamps_checkpoint_step_and_selector_e2e', 'test_selector_refuses_checkpoint_basename_mismatch']
+M1a PASS test_selector_refuses_checkpoint_basename_mismatch is the guard's dedicated test (caught=True)
+wrote /tmp/tmpz_u80vv6/out/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+wrote /tmp/tmpx8c7plry/out_ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+D1c v2 formal report skipped: --score-only without measured eval_computed teacher-forced EOS metrics in decode bundle (source='unavailable')
+wrote /tmp/tmpx8c7plry/out_score_ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: checkpoint.step missing or zero (evaluator must stamp candidate step from payload/filename; --checkpoint-step may only confirm a derived step)
+M2 FAIL MUTATION selector tolerates missing/placeholder checkpoint.hashes -> caught by NOTHING
+wrote /tmp/tmp1q6uwdlw/out/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+wrote /tmp/tmpfifh_cey/out_ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+D1c v2 formal report skipped: --score-only without measured eval_computed teacher-forced EOS metrics in decode bundle (source='unavailable')
+wrote /tmp/tmpfifh_cey/out_score_ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: checkpoint.step missing or zero (evaluator must stamp candidate step from payload/filename; --checkpoint-step may only confirm a derived step)
+M3 FAIL MUTATION selector accepts mixed checkpoint.hashes across candidates -> caught by NOTHING
+wrote /tmp/tmph873vlrm/out/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+wrote /tmp/tmp8yruevyd/out_ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+D1c v2 formal report skipped: --score-only without measured eval_computed teacher-forced EOS metrics in decode bundle (source='unavailable')
+wrote /tmp/tmp8yruevyd/out_score_ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: checkpoint.step missing or zero (evaluator must stamp candidate step from payload/filename; --checkpoint-step may only confirm a derived step)
+M4 PASS MUTATION selector accepts duplicate checkpoint.sha256 (round-5 guard) -> caught by ['test_main_stamps_checkpoint_step_and_selector_e2e', 'test_selector_refuses_duplicate_checkpoint_hashes']
+wrote /tmp/tmpzal0qdvj/out/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+wrote /tmp/tmpxor7u9f_/out_ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+D1c v2 formal report skipped: --score-only without measured eval_computed teacher-forced EOS metrics in decode bundle (source='unavailable')
+wrote /tmp/tmpxor7u9f_/out_score_ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: checkpoint.step missing or zero (evaluator must stamp candidate step from payload/filename; --checkpoint-step may only confirm a derived step)
+M5 PASS MUTATION resolve_checkpoint_step no longer requires payload['step'] -> caught by ['test_main_stamps_checkpoint_step_and_selector_e2e', 'test_resolve_checkpoint_step_payload_filename_cli']
+M5a PASS test_resolve_checkpoint_step_payload_filename_cli catches the rename fix removal (caught=True)
+wrote /tmp/tmp7cjjvu3r/out/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+wrote /tmp/tmpcfuv0cpo/out_ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+D1c v2 formal report skipped: --score-only without measured eval_computed teacher-forced EOS metrics in decode bundle (source='unavailable')
+wrote /tmp/tmpcfuv0cpo/out_score_ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: checkpoint.step missing or zero (evaluator must stamp candidate step from payload/filename; --checkpoint-step may only confirm a derived step)
+M6 PASS MUTATION require_checkpoint_payload_hashes made permissive -> caught by ['test_require_checkpoint_payload_hashes_fail_closed']
+M6a PASS test_require_checkpoint_payload_hashes_fail_closed catches it (caught=True)
+wrote /tmp/tmpybhpvqon/out/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+wrote /tmp/tmpckt1prs5/out_ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+D1c v2 formal report skipped: --score-only without measured eval_computed teacher-forced EOS metrics in decode bundle (source='unavailable')
+wrote /tmp/tmpckt1prs5/out_score_ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: checkpoint.step missing or zero (evaluator must stamp candidate step from payload/filename; --checkpoint-step may only confirm a derived step)
+M7 FAIL MUTATION emitter stamps synthetic checkpoint.hashes when provenance lacks them -> caught by NOTHING
+wrote /tmp/tmpdjd7anvv/out/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+wrote /tmp/tmpnzl_wz9g/out_ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+D1c v2 formal report skipped: --score-only without measured eval_computed teacher-forced EOS metrics in decode bundle (source='unavailable')
+wrote /tmp/tmpnzl_wz9g/out_score_ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: checkpoint.step missing or zero (evaluator must stamp candidate step from payload/filename; --checkpoint-step may only confirm a derived step)
+M8 FAIL MUTATION schema drops checkpoint.hashes requirement -> caught by NOTHING
+wrote /tmp/tmpuo1rz79s/out/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+wrote /tmp/tmpmmwok8t7/out_ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+D1c v2 formal report skipped: --score-only without measured eval_computed teacher-forced EOS metrics in decode bundle (source='unavailable')
+wrote /tmp/tmpmmwok8t7/out_score_ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: checkpoint.step missing or zero (evaluator must stamp candidate step from payload/filename; --checkpoint-step may only confirm a derived step)
+M9 FAIL MUTATION schema drops cross-wired basename check -> caught by NOTHING
+M10 INFO shipped tests monkeypatch validate_formal_report to a pass-through at 5 sites; real-schema attack coverage present in test_main_stamps_checkpoint_step_and_selector_e2e: True
+
+SUMMARY fails=5 total=15
+  FAILED M2: MUTATION selector tolerates missing/placeholder checkpoint.hashes -> caught by NOTHING
+  FAILED M3: MUTATION selector accepts mixed checkpoint.hashes across candidates -> caught by NOTHING
+  FAILED M7: MUTATION emitter stamps synthetic checkpoint.hashes when provenance lacks them -> caught by NOTHING
+  FAILED M8: MUTATION schema drops checkpoint.hashes requirement -> caught by NOTHING
+  FAILED M9: MUTATION schema drops cross-wired basename check -> caught by NOTHING

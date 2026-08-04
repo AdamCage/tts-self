@@ -1,0 +1,17 @@
+﻿# Wave 0 foreign change inventory (authoring tree C:\projects\tts-self)
+
+Captured before D1c isolation. These files were NOT brought into the clean worktree.
+Baseline tip: 0661d10eb616362e74dc1750e03cf25c33a7943e
+
+## Modified (unrelated / do-not-touch for D1c)
+- .cursor/methodology/* (10 files)
+- .cursor/results/d1b_hardstop_closure_48a251f5/logs/* (3 logs)
+
+## Untracked (unrelated)
+- .cursor/plans/d1-discrete-speech-lm_860c29d5.plan.md
+- .cursor/plans/d1c_semantic_eos_repair_b81ecc3e.plan.md (copied into worktree for reference only)
+- .cursor/results/d1_discrete_speech_lm/
+- .cursor/results/n2_first_execution/
+- configs/_tmp_discrete_s1*.yaml
+
+Isolation: git worktree at C:\projects\tts-self-d1c on branch d1c/semantic-eos @ 0661d10

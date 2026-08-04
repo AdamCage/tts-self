@@ -1,0 +1,23 @@
+Y0a PASS unmutated: test_selector_refuses_duplicate_checkpoint_hashes -> PASSED
+Y0b PASS unmutated: test_selector_refuses_checkpoint_hash_mismatch -> PASSED
+Y0c PASS unmutated: test_validate_formal_report_rejects_checkpoint_hash_mismatch -> PASSED
+Y0d PASS unmutated: test_resolve_checkpoint_step_payload_filename_cli -> PASSED
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+Y0e PASS unmutated: test_main_stamps_checkpoint_step_and_selector_e2e -> PASSED
+Y1a PASS MUTATION selector skips _require_distinct_checkpoint_identities -> test_selector_refuses_duplicate_checkpoint_hashes Failed: DID NOT RAISE ValueError
+Y1b PASS MUTATION selector skips _require_distinct_checkpoint_identities -> test_selector_refuses_checkpoint_hash_mismatch Failed: DID NOT RAISE ValueError
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+Y1c PASS MUTATION selector skips _require_distinct_checkpoint_identities -> test_main_stamps_checkpoint_step_and_selector_e2e Failed: DID NOT RAISE ValueError
+Y2a PASS MUTATION drop on-disk verify -> test_selector_refuses_duplicate_checkpoint_hashes PASSED (expected still green: different guard)
+Y2b PASS MUTATION drop on-disk verify -> test_selector_refuses_checkpoint_hash_mismatch Failed: DID NOT RAISE ValueError
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+Y3 FAIL MUTATION drop candidate_step_<step>.pt basename rule -> caught by NOTHING
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+Y4 PASS MUTATION drop distinct-sha rule -> caught by ['test_selector_refuses_duplicate_checkpoint_hashes: Failed: DID NOT RAISE ValueError', 'test_main_stamps_checkpoint_step_and_selector_e2e: Failed: DID NOT RAISE ValueError']
+Y5 PASS MUTATION schema skips on-disk checkpoint hash -> test_validate_formal_report_rejects_checkpoint_hash_mismatch Failed: DID NOT RAISE ValueError
+Y6 PASS MUTATION restore round-4 --checkpoint-step invent -> test_resolve_checkpoint_step_payload_filename_cli Failed: DID NOT RAISE SystemExit
+Y7 PASS at least one attack test runs the REAL schema before the selector (test_main_stamps_checkpoint_step_and_selector_e2e)
+Y8 INFO test_selector_refuses_duplicate_checkpoint_hashes / test_selector_refuses_checkpoint_hash_mismatch stub validate_formal_report to a pass-through (schema-bypassed unit tests): 3 occurrences
+
+SUMMARY fails=1 total=16
+  FAILED Y3: MUTATION drop candidate_step_<step>.pt basename rule -> caught by NOTHING

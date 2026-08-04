@@ -1,0 +1,9 @@
+K1 PASS CLI accepts the legit set: rc=0 wrote=True selected_step=250 msg='{\n  "wrote": "/tmp/reaudit5_cli_cd7xzq41/sel_ok.json",\n  "selected": {\n    "repo'
+K2 PASS CLI refuses the duplicate-checkpoint set: rc=1 msg='D1c formal selection refuses duplicate checkpoint.sha256 across candidates (distinct=1, n=5); plan §8.4 requires one checkpoint ha'
+K3 PASS no checkpoint_selection.json written on refusal (exists=False)
+K4 PASS CLI refuses a forged checkpoint.sha256: rc=1 msg='formal D1c report refused: checkpoint.sha256 does not match file at checkpoint.path (claimed=fffffffffffffffffffffffffffffffffffff'
+K5 PASS no selection written (exists=False)
+K6 PASS CLI refuses an unreachable checkpoint.path: rc=1 msg='checkpoint.path not readable for hash verification: /tmp/reaudit5_cli_cd7xzq41/gone/candidate_step_0625.pt'
+K7 PASS formal mode still refuses flat/manual candidate inputs: rc=1 msg='D1c formal mode accepts only --formal-reports; flat/manual candidate inputs are refused'
+
+SUMMARY fails=0 total=7

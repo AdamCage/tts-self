@@ -1,0 +1,16 @@
+wrote /tmp/tmpqauk610x/out_ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+D1c v2 formal report skipped: --score-only without measured eval_computed teacher-forced EOS metrics in decode bundle (source='unavailable')
+wrote /tmp/tmpqauk610x/out_score_ok/discrete_eval_report_v2.json
+X0 PASS unmutated source: test PASSED
+X1 PASS round-2 discarding aggregation spliced back in -> the new test FAILS as required: KeyError: 'teacher_forced_ce_source'
+X2 PASS round-2 bare-float projection spliced back in -> the new test FAILS as required: TypeError: 'float' object is not subscriptable
+wrote /tmp/tmpmji2vb64/out_ok/discrete_eval_report_v2.json
+D1c v2 formal report refused (non-fatal after gate write): formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+D1c v2 formal report skipped: --score-only without measured eval_computed teacher-forced EOS metrics in decode bundle (source='unavailable')
+wrote /tmp/tmpmji2vb64/out_score_ok/discrete_eval_report_v2.json
+X3 INFO main() rewired back to `tf_ce = summary.get("loss")` (helpers untouched) -> the new test STILL PASSES: test PASSED
+X4 FAIL COVERAGE: does the new test protect the production wiring in main()? NO — it only covers the helper chain; a main() regression would ship green. My AST/main() probes cover this gap.
+
+SUMMARY pass=3 fail=1
+ROUND3_REAUDIT_MUTATION_DONE

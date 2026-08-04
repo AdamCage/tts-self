@@ -1,0 +1,120 @@
+ROOT=/mnt/c/projects/tts-self-d1c
+REAUDIT B1 PASS residual params without grad: 0/45 (default cb0_w=1 eos_w=1)
+REAUDIT B1 PASS residual params without grad with cb0_w=0,eos_w=0: 0/45 (proves residual CE alone drives residual grads)
+REAUDIT B1 PASS loss['total'].requires_grad=True
+REAUDIT B1 PASS MultiCodebookHead.loss ce_residual.requires_grad=True ce_cb0.requires_grad=True
+REAUDIT B1 INFO trainer detaches only for logging: True
+REAUDIT B2 PASS declared=c636562ee0f158f722dc02d2161ea3dac6424c58f5404e7f346cc10f9cc76f71 computed=c636562ee0f158f722dc02d2161ea3dac6424c58f5404e7f346cc10f9cc76f71
+REAUDIT B2 PASS raw-file recompute=c636562ee0f158f722dc02d2161ea3dac6424c58f5404e7f346cc10f9cc76f71
+REAUDIT B2 INFO recipe_sha256=c636562ee0f158f722dc02d2161ea3dac6424c58f5404e7f346cc10f9cc76f71
+REAUDIT B2 INFO recipe_source_manifest_sha256=15869c58ecd1f01dc33a3c8b5f8432c8c303c47d34243cbb0bc2fbc3e76ec261
+REAUDIT B2 PASS infer keys=['max_cb0_repeat', 'max_frames', 'min_frames', 'repetition_penalty', 'temperature', 'top_k'] legacy_present=[]
+REAUDIT B2 PASS contract.inference keys=[] legacy_declared=[]
+REAUDIT B2 PASS tamper(max_frames=999) still matches declared sha: False
+REAUDIT B3 INFO contract subsets=['dev32', 'full32', 'gate24', 'select8']
+REAUDIT B3 PASS registry entries lacking file_sha256=[]
+REAUDIT B3 PASS formal load dev32: n=32 split=full32 formal_eligible=True file_sha256=f9f82b708b23ab61…
+REAUDIT B3 PASS formal load select8: n=8 split=select8 formal_eligible=True file_sha256=f9f82b708b23ab61…
+REAUDIT B3 PASS formal load gate24: n=24 split=gate24 formal_eligible=True file_sha256=f9f82b708b23ab61…
+REAUDIT B3 PASS formal load full32: n=32 split=full32 formal_eligible=True file_sha256=f9f82b708b23ab61…
+REAUDIT B3 PASS select8 composition = 2 RUSLAN + 6 CV
+REAUDIT B3 PASS select8|gate24 == full32 and disjoint (|s|=8 |g|=24 |f|=32)
+REAUDIT B3 INFO real-file-bytes sha256=88518b178f39185c… content-body sha256=f9f82b708b23ab61… equal=False
+REAUDIT B3 PASS select8 stratification: buckets=['long', 'medium', 'short'] n_low_ratio=2 n_high_ratio=3
+REAUDIT B4 PASS 73 unwraps DiscreteGenerationOutput before .shape/.cpu use
+REAUDIT B4 PASS 74 _unwrap_generation ok=True rejects_non_tensor=True
+REAUDIT B4 PASS teacher_forced_ce refuses missing semantic targets: semantic_eos_v1 teacher-forced CE requires semantic_targets/semantic_m
+REAUDIT B4 INFO estimate_stop_reason( call sites in 74: lines [378]
+REAUDIT B4 PASS semantic branch bypasses estimate_stop_reason
+REAUDIT B4 PASS emit_d1c_v2_report is exported/callable
+REAUDIT B4 PASS _emit_d1c_v2_from_gate call sites: lines [690, 907, 1426]
+REAUDIT B4 FAIL tf_eos_final_top1_accuracy measured_by_evaluator=False hardcoded_default_1.0=True
+REAUDIT B4 INFO placeholder '0'*64 hash literals in 74: 10
+REAUDIT B5 PASS generate() dispatch: codes.shape=(1, 0, 16) lengths=[0] mask=(1, 0) reason=learned_eos
+REAUDIT b5_immediate_eos ERROR IndexError: index 1 is out of bounds for dimension 0 with size 1
+Traceback (most recent call last):
+  File "/mnt/c/projects/tts-self-d1c/.cursor/results/d1c_semantic_eos_repair_b81ecc3e/logs/reaudit_probe.py", line 567, in main
+    fn()
+  File "/mnt/c/projects/tts-self-d1c/.cursor/results/d1c_semantic_eos_repair_b81ecc3e/logs/reaudit_probe.py", line 412, in b5_immediate_eos
+    out2 = m.generate(
+           ^^^^^^^^^^^
+  File "/home/adam/projects/tts-self/.venv/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/src/minispeech/models/discrete_speech_lm.py", line 906, in generate
+    return self.generate_semantic_eos(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adam/projects/tts-self/.venv/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/src/minispeech/models/discrete_speech_lm.py", line 830, in generate_semantic_eos
+    residual = self.heads(h[b:b + 1], self.speech_emb(cb0).unsqueeze(1)).residual_logits
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adam/projects/tts-self/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adam/projects/tts-self/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/src/minispeech/models/multi_codebook_head.py", line 110, in forward
+    cb0_logits = self.semantic(hidden)
+                 ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adam/projects/tts-self/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adam/projects/tts-self/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/.cursor/results/d1c_semantic_eos_repair_b81ecc3e/logs/reaudit_probe.py", line 408, in forward
+    lg[1, ..., 7] = 1e9
+    ~~^^^^^^^^^^^
+IndexError: index 1 is out of bounds for dimension 0 with size 1
+REAUDIT B6 PASS _sha256_file 3MiB: match=True
+REAUDIT B6 INFO selector source mentions copied gate flags: False
+REAUDIT B6 PASS selector has eligibility recompute logic
+REAUDIT B7 FAIL resume hash keys present: {'config_sha256': False, 'recipe_sha256': True, 'recipe_source_manifest_sha256': True, 'run_manifest_sha256': False, 'model_config_sha256': False, 'speaker_map_sha256': False, 'subset_items_sha256': False, 'eval_contract_sha256': False}
+REAUDIT B7 INFO ResumeMismatchError sites: 12 (first 12: [69, 672, 674, 677, 679, 686, 719, 727, 751, 756, 771, 1125])
+REAUDIT B8 FAIL recipe_source_manifest.files malformed: NoneType
+
+=== REAUDIT PROBE SUMMARY ===
+PASS  B1   residual params without grad: 0/45 (default cb0_w=1 eos_w=1)
+PASS  B1   residual params without grad with cb0_w=0,eos_w=0: 0/45 (proves residual CE alone drives residual grads)
+PASS  B1   loss['total'].requires_grad=True
+PASS  B1   MultiCodebookHead.loss ce_residual.requires_grad=True ce_cb0.requires_grad=True
+INFO  B1   trainer detaches only for logging: True
+PASS  B2   declared=c636562ee0f158f722dc02d2161ea3dac6424c58f5404e7f346cc10f9cc76f71 computed=c636562ee0f158f722dc02d2161ea3dac6424c58f5404e7f346cc10f9cc76f71
+PASS  B2   raw-file recompute=c636562ee0f158f722dc02d2161ea3dac6424c58f5404e7f346cc10f9cc76f71
+INFO  B2   recipe_sha256=c636562ee0f158f722dc02d2161ea3dac6424c58f5404e7f346cc10f9cc76f71
+INFO  B2   recipe_source_manifest_sha256=15869c58ecd1f01dc33a3c8b5f8432c8c303c47d34243cbb0bc2fbc3e76ec261
+PASS  B2   infer keys=['max_cb0_repeat', 'max_frames', 'min_frames', 'repetition_penalty', 'temperature', 'top_k'] legacy_present=[]
+PASS  B2   contract.inference keys=[] legacy_declared=[]
+PASS  B2   tamper(max_frames=999) still matches declared sha: False
+INFO  B3   contract subsets=['dev32', 'full32', 'gate24', 'select8']
+PASS  B3   registry entries lacking file_sha256=[]
+PASS  B3   formal load dev32: n=32 split=full32 formal_eligible=True file_sha256=f9f82b708b23ab61…
+PASS  B3   formal load select8: n=8 split=select8 formal_eligible=True file_sha256=f9f82b708b23ab61…
+PASS  B3   formal load gate24: n=24 split=gate24 formal_eligible=True file_sha256=f9f82b708b23ab61…
+PASS  B3   formal load full32: n=32 split=full32 formal_eligible=True file_sha256=f9f82b708b23ab61…
+PASS  B3   select8 composition = 2 RUSLAN + 6 CV
+PASS  B3   select8|gate24 == full32 and disjoint (|s|=8 |g|=24 |f|=32)
+INFO  B3   real-file-bytes sha256=88518b178f39185c… content-body sha256=f9f82b708b23ab61… equal=False
+PASS  B3   select8 stratification: buckets=['long', 'medium', 'short'] n_low_ratio=2 n_high_ratio=3
+PASS  B4   73 unwraps DiscreteGenerationOutput before .shape/.cpu use
+PASS  B4   74 _unwrap_generation ok=True rejects_non_tensor=True
+PASS  B4   teacher_forced_ce refuses missing semantic targets: semantic_eos_v1 teacher-forced CE requires semantic_targets/semantic_m
+INFO  B4   estimate_stop_reason( call sites in 74: lines [378]
+PASS  B4   semantic branch bypasses estimate_stop_reason
+PASS  B4   emit_d1c_v2_report is exported/callable
+PASS  B4   _emit_d1c_v2_from_gate call sites: lines [690, 907, 1426]
+FAIL  B4   tf_eos_final_top1_accuracy measured_by_evaluator=False hardcoded_default_1.0=True
+INFO  B4   placeholder '0'*64 hash literals in 74: 10
+PASS  B5   generate() dispatch: codes.shape=(1, 0, 16) lengths=[0] mask=(1, 0) reason=learned_eos
+ERROR b5_immediate_eos IndexError: index 1 is out of bounds for dimension 0 with size 1
+PASS  B6   _sha256_file 3MiB: match=True
+INFO  B6   selector source mentions copied gate flags: False
+PASS  B6   selector has eligibility recompute logic
+FAIL  B7   resume hash keys present: {'config_sha256': False, 'recipe_sha256': True, 'recipe_source_manifest_sha256': True, 'run_manifest_sha256': False, 'model_config_sha256': False, 'speaker_map_sha256': False, 'subset_items_sha256': False, 'eval_contract_sha256': False}
+INFO  B7   ResumeMismatchError sites: 12 (first 12: [69, 672, 674, 677, 679, 686, 719, 727, 751, 756, 771, 1125])
+FAIL  B8   recipe_source_manifest.files malformed: NoneType
+
+TOTAL checks=39 fail_or_error=4

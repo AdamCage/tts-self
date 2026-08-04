@@ -1,0 +1,6 @@
+post_probe_manifest_mismatches=[]
+post_probe_contract_selfcheck_ok=True
+post_probe_formal_load dev32: n=32 ok=True
+post_probe_formal_load select8: n=8 ok=True
+post_probe_formal_load gate24: n=24 ok=True
+post_probe_formal_load full32: n=32 ok=True

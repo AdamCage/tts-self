@@ -1,0 +1,65 @@
+{
+  "pool_meta": {
+    "codec_indexes": {
+      "ruslan": {
+        "path": "/home/adam/datasets/tts/ruslan/codec_tokens/codec_tokens_index.json",
+        "file_sha256": "6626988fca5c6ee90dc4fa00831956a7b5e17e1cf269cc1e0304a2ecb36c3ad1",
+        "n": 12035
+      },
+      "common_voice_ru_17_hf_mirror": {
+        "path": "/home/adam/datasets/tts/common_voice_ru17/codec_tokens/codec_tokens_index.json",
+        "file_sha256": "5a98b7253c675e69f4c6d2eb683524bd4baf59b30c49e4e4d2f6e57a25fb6e3e",
+        "n": 39199
+      }
+    },
+    "n_train": 51234,
+    "n_codec_intersection": 51234,
+    "n_eligible": 51129,
+    "skipped": {
+      "burned_or_heldout": 96,
+      "exact_text_dup": 9
+    },
+    "heldout_sizes": {
+      "val": 2961,
+      "test": 3276,
+      "review": 2430
+    },
+    "n_burned": 96
+  }
+}
+{
+  "path": "/mnt/c/projects/tts-self-d1c/configs/train_subsets/d1c_dev32.json",
+  "items_sha256": "501330481c07d928d0fe6b86395355aea1410a680a4020c73b602df5cc3d9b40",
+  "file_sha256": "4f57a222f47384642f34acbc1c6d29623d96aa3fc39f1c9152c14ab5ba2a83eb",
+  "split_hashes": {
+    "select8": "e32d70aebe34284eb015413b86a4bc4d0e654b848d98aeec5854dc616600e123",
+    "gate24": "832ce5fafe2cf9eed9bff7b940cca1fbb8f9e54a21ad41807618f804cec6b57a",
+    "full32": "501330481c07d928d0fe6b86395355aea1410a680a4020c73b602df5cc3d9b40"
+  },
+  "selection": {
+    "duration_edges_s": {
+      "short_lt": 4.1835,
+      "medium_lt": 5.9475
+    },
+    "ratio_quartiles": {
+      "q1": 2.6842105263157894,
+      "q3": 4.625
+    },
+    "ratio_extremes": {
+      "low": 6,
+      "high": 9
+    },
+    "bucket_counts": {
+      "short": 10,
+      "medium": 11,
+      "long": 11
+    },
+    "corpus_counts": {
+      "ruslan": 6,
+      "common_voice_ru_17_hf_mirror": 26
+    },
+    "cv_speaker_unique": true,
+    "n_cv_speakers": 26
+  },
+  "pool_n_eligible": 51129
+}

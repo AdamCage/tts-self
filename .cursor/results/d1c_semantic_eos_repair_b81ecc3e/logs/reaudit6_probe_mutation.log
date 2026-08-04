@@ -1,0 +1,16 @@
+M0 INFO test_d1c_infra_repair.py exposes 29 test functions
+M0a PASS unmutated baseline: 29/29 green; red=[]
+M1 PASS MUTATION selector drops candidate_step_<step:04d>.pt basename rule -> caught by ['test_main_stamps_checkpoint_step_and_selector_e2e', 'test_selector_refuses_checkpoint_basename_mismatch']
+M1a PASS test_selector_refuses_checkpoint_basename_mismatch is the guard's dedicated test (caught=True)
+M2 FAIL MUTATION selector tolerates missing/placeholder checkpoint.hashes -> caught by NOTHING
+M3 FAIL MUTATION selector accepts mixed checkpoint.hashes across candidates -> caught by NOTHING
+M4 PASS MUTATION selector accepts duplicate checkpoint.sha256 (round-5 guard) -> caught by ['test_main_stamps_checkpoint_step_and_selector_e2e', 'test_selector_refuses_duplicate_checkpoint_hashes']
+M5 PASS MUTATION resolve_checkpoint_step no longer requires payload['step'] -> caught by ['test_main_stamps_checkpoint_step_and_selector_e2e', 'test_resolve_checkpoint_step_payload_filename_cli']
+M5a PASS test_resolve_checkpoint_step_payload_filename_cli catches the rename fix removal (caught=True)
+M6 PASS MUTATION require_checkpoint_payload_hashes made permissive -> caught by ['test_require_checkpoint_payload_hashes_fail_closed']
+M6a PASS test_require_checkpoint_payload_hashes_fail_closed catches it (caught=True)
+M7 FAIL MUTATION emitter stamps synthetic checkpoint.hashes when provenance lacks them -> caught by NOTHING
+M8 FAIL MUTATION schema drops checkpoint.hashes requirement -> caught by NOTHING
+M9 FAIL MUTATION schema drops cross-wired basename check -> caught by NOTHING
+M10 INFO shipped tests monkeypatch validate_formal_report to a pass-through at 5 sites; real-schema attack coverage present in test_main_stamps_checkpoint_step_and_selector_e2e: True
+SUMMARY fails=5 total=15

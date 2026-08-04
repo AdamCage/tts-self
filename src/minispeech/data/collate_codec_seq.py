@@ -28,6 +28,7 @@ def collate_codec_seq(
     pad_token_id: int = 0,
     speech_eos_id: int = SPEECH_EOS_ID,
     target: str = QWEN3TTS_12HZ.name,
+    termination_mode: str = "frame_stop_v1",
 ) -> dict[str, Any]:
     """Pad text ids + ``[T, C]`` codes; build modality / AR-shift masks.
 
@@ -96,7 +97,10 @@ def collate_codec_seq(
     acoustic_lens = torch.zeros(B, dtype=torch.long)
     sample_weight = torch.ones(B)
     durations = torch.zeros(B)
-    eos_targets = torch.zeros(B, T + 1, dtype=torch.float32)  # stop on final + EOS slot
+    eos_targets = torch.zeros(B, T + 1, dtype=torch.float32)  # deprecated legacy diagnostic
+    semantic_targets = torch.full((B, T + 1), -100, dtype=torch.long)
+    semantic_mask = torch.zeros(B, T + 1, dtype=torch.bool)
+    eos_positions = torch.zeros(B, dtype=torch.long)
 
     for i, (b, p) in enumerate(zip(batch, packed_list)):
         tl, al = p.text_lens, p.acoustic_lens
@@ -118,6 +122,10 @@ def collate_codec_seq(
         # EOS supervision: 1 on the EOS position relative to acoustic stream
         if al >= 0:
             eos_targets[i, al] = 1.0
+            semantic_targets[i, :al] = p.codes_target[:, 0]
+            semantic_targets[i, al] = int(speech_eos_id)
+            semantic_mask[i, : al + 1] = True
+            eos_positions[i] = al
 
         stress[i, :tl] = p.stress
         phoneme[i, :tl] = p.phoneme
@@ -148,6 +156,11 @@ def collate_codec_seq(
         "codes_input": codes_input,
         "speaker_id": speaker_id,
         "frame_mask": frame_mask,
+        "codec_frame_mask": frame_mask,
+        "residual_mask": frame_mask,
+        "semantic_targets": semantic_targets,
+        "semantic_mask": semantic_mask,
+        "eos_positions": eos_positions,
         "seq_mask": seq_mask,
         "is_text": is_text,
         "is_acoustic": is_acoustic,
@@ -165,6 +178,7 @@ def collate_codec_seq(
         "pad_token_id": pad_token_id,
         "speech_eos_id": speech_eos_id,
         "target": target,
+        "termination_mode": termination_mode,
         "n_codebooks": n_codebooks,
     }
     if "corpus" in batch[0]:

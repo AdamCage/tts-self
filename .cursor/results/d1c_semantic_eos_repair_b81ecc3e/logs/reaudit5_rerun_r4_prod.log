@@ -1,0 +1,45 @@
+A1 PASS main() calls resolve_checkpoint_step
+A2 PASS main() calls evaluate_n2_gate_d1c
+A3 PASS CLI exposes --checkpoint-step
+A4 PASS _load_model returns 3-tuple on every return path (n_returns=1)
+B1 PASS REAL _load_model returned tuple len=3
+B2 PASS REAL _load_model 3rd element carries payload step=750 (NOT stubbed - this is the check the repair probe could not make)
+B3 PASS REAL _load_model rebuilt a live model (DiscreteSpeechLM)
+B4 PASS filename parse -> 750
+B5 PASS best.pt -> None
+C1a PASS main() rc=0 tb=False exit=''
+C1b PASS production main() emitted formal v2 report
+C1c PASS REAL _load_model + REAL tf metrics -> report checkpoint.step=750
+C1d PASS gate.step=750
+C1e PASS provenance.checkpoint_step=750
+C1f PASS gate id=N2_D1c_semantic_eos_v1 (evaluate_n2_gate_d1c, not D1b)
+C1g PASS criteria.termination_d1c present=['learned_eos_count', 'safety_max_frames_count', 'safety_cb0_repeat_count']
+C1h PASS tf source=eval_computed acc=0.0 fp=0
+C1i PASS unpatched validate_formal_report accepts the report
+C2a PASS CONTROL different real ckpt -> step=250 (not a hardcoded 750)
+D1 PASS five REAL main() runs stamped steps=[250, 375, 500, 625, 750] (expected [250, 375, 500, 625, 750])
+D2 PASS five untouched production reports on disk: 5
+D3 PASS selector accepted UNTOUCHED production reports steps=[250, 375, 500, 625, 750]
+D4 PASS selector selected step=250
+D5 PASS CONTROL step=0 refused: ValueError: formal D1c report refused: checkpoint.step must be a positive integer (not 0/missing)
+E1 PASS payload/filename mismatch fails closed: exit='checkpoint step mismatch: payload step=500 != filename step=750 (/tmp/tmpec4x1re9/ckpts_mm/candidate_step_0750.pt)'
+E2 PASS missing payload step + non-candidate filename fails closed: exit="checkpoint step unresolved: evaluate candidate_step_XXXX.pt with payload['step'] stamped by the trainer (--checkpoint-step may only confirm a derived step)"
+E3 PASS --checkpoint-step conflict fails closed: exit='--checkpoint-step=375 conflicts with inferred step=750 (/tmp/tmpec4x1re9/ckpts/candidate_step_0750.pt)'
+E4 FAIL --checkpoint-step outside candidate_steps fails closed: exit="--checkpoint-step=999 cannot invent a step for /tmp/tmpec4x1re9/ckpts_ns/best.pt: formal D1c requires payload['step'] and/or candidate_step_XXXX.pt; CLI may only confirm a derived step"
+E5 FAIL --checkpoint-step override on best.pt -> step=None
+E6 PASS payload optimizer_step fallback -> step=500 exit=''
+F1 PASS step=0 refused: formal D1c report refused: checkpoint.step must be a positive integer (not 0/missing)
+F2 PASS step=-5 refused: formal D1c report refused: checkpoint.step must be a positive integer (not 0/missing)
+F3 PASS step=True refused: formal D1c report refused: checkpoint.step must be a positive integer (not 0/missing)
+F4 PASS step='750' refused: formal D1c report refused: checkpoint.step must be a positive integer (not 0/missing)
+F5 PASS step=750.0 refused: formal D1c report refused: checkpoint.step must be a positive integer (not 0/missing)
+F6 PASS missing step refused: formal D1c report refused: checkpoint.step missing
+F7 PASS membership enforced: formal D1c report refused: checkpoint.step=750 not in allowed candidate_steps=[250, 375]
+G1 PASS D1c gate flags all-safety_max_frames run: d1b_verdict=FAIL d1c_verdict=FAIL term_pass=False
+G2 PASS D1c termination passes on a clean learned_eos run (verdict=FAIL)
+G3 PASS D1b contract keeps the D1b gate: gate='N2_D1b' formal_v2_emitted=False
+H1 PASS --decode-only bundle carries checkpoint_step=625
+
+SUMMARY fails=2 total=41
+  FAILED E4: --checkpoint-step outside candidate_steps fails closed: exit="--checkpoint-step=999 cannot invent a step for /tmp/tmpec4x1re9/ckpts_ns/best.pt: formal D1c requires payload['step'] and/or candidate_step_XXXX.pt; CLI may only confirm a derived step"
+  FAILED E5: --checkpoint-step override on best.pt -> step=None
