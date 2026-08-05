@@ -33,6 +33,11 @@ SUBSET_ALIASES: dict[str, tuple[str, str]] = {
     "select8": ("configs/train_subsets/d1b_confirm32_v2.json", "select8"),
     "gate24": ("configs/train_subsets/d1b_confirm32_v2.json", "gate24"),
     "full32": ("configs/train_subsets/d1b_confirm32_v2.json", "full32"),
+    # D1c semantic-EOS DEV oracle (explicit prefixes — do not override D1b aliases).
+    "d1c_dev32": ("configs/train_subsets/d1c_dev32.json", "full32"),
+    "d1c_full32": ("configs/train_subsets/d1c_dev32.json", "full32"),
+    "d1c_select8": ("configs/train_subsets/d1c_dev32.json", "select8"),
+    "d1c_gate24": ("configs/train_subsets/d1c_dev32.json", "gate24"),
 }
 
 # Content sha256 of configs/speaker_maps/trackn_v2.json (SpeakerRegistry.sha256).
@@ -49,6 +54,74 @@ def _canonical_json(value: Any) -> bytes:
 
 def items_sha256(items: Sequence[str]) -> str:
     return hashlib.sha256(_canonical_json(list(items))).hexdigest()
+
+
+# Train-config fields that bind *to* contract/manifest digests. Including them in
+# the recipe_source_manifest digest of W1/W2 YAMLs creates a cyclic seal
+# (YAML declares contract sha → YAML bytes change → manifest changes → contract sha
+# changes). Strip these before hashing recipe YAML sources.
+_RECIPE_YAML_BINDING_KEYS = (
+    "eval_contract_hash",
+    "recipe_hash",
+    "recipe_sha256",
+    "recipe_source_manifest_hash",
+    "recipe_source_manifest_sha256",
+    "run_manifest_hash",
+)
+
+
+def _is_d1c_recipe_yaml(path: Path | str) -> bool:
+    name = Path(path).name.lower()
+    return name.startswith("discrete_speech_lm_d1c_semantic_eos_w") and name.endswith(
+        (".yaml", ".yml")
+    )
+
+
+def recipe_source_file_sha256(path: Path | str) -> str:
+    """SHA256 for ``recipe_source_manifest`` entries.
+
+    Recipe YAMLs (W1/W2) are hashed with train binding-hash fields stripped so
+    declaring ``eval_contract_hash`` / recipe / manifest digests cannot invalidate
+    the seal. All other locked sources use raw file bytes.
+    """
+    p = Path(path)
+    if not _is_d1c_recipe_yaml(p):
+        return file_sha256(p)
+    try:
+        import yaml
+    except ImportError as exc:  # pragma: no cover
+        raise RuntimeError("PyYAML required to hash D1c recipe YAMLs") from exc
+    data = yaml.safe_load(p.read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        return file_sha256(p)
+    body = dict(data)
+    train = dict(body.get("train") or {})
+    for key in _RECIPE_YAML_BINDING_KEYS:
+        train.pop(key, None)
+    body["train"] = train
+    blob = yaml.safe_dump(body, allow_unicode=True, sort_keys=True)
+    return hashlib.sha256(blob.encode("utf-8")).hexdigest()
+
+
+def verify_recipe_source_manifest(
+    manifest: Mapping[str, Any],
+    *,
+    root: Path | str | None = None,
+) -> list[str]:
+    """Return mismatch descriptions; empty list means all declared digests match."""
+    root_path = Path(root) if root is not None else Path.cwd()
+    errors: list[str] = []
+    if not isinstance(manifest, Mapping):
+        return ["recipe_source_manifest must be an object"]
+    for rel, expected in manifest.items():
+        path = root_path / str(rel)
+        if not path.is_file():
+            errors.append(f"missing:{rel}")
+            continue
+        got = recipe_source_file_sha256(path)
+        if str(expected) != got:
+            errors.append(f"mismatch:{rel}: declared={expected} got={got}")
+    return errors
 
 
 def file_sha256(path: Path | str) -> str:
@@ -175,11 +248,15 @@ def expand_path_template(path: str | Path, mapping: Mapping[str, Any]) -> Path:
 
 
 def eval_contract_content_sha256(contract: Mapping[str, Any]) -> str:
-    """Content sha256 of eval_contract body (excluding ``sha256`` / private keys)."""
+    """Content sha256 of eval_contract body.
+
+    Excludes the self-hash field ``sha256``, the recipe projection hash
+    ``recipe_sha256`` (stored alongside for recipe lock), and private ``_`` keys.
+    """
     body = {
         k: v
         for k, v in contract.items()
-        if k != "sha256" and not str(k).startswith("_")
+        if k not in {"sha256", "recipe_sha256"} and not str(k).startswith("_")
     }
     return hashlib.sha256(_canonical_json(body)).hexdigest()
 
@@ -215,17 +292,23 @@ def resolve_subset_alias(subset_label: str | None) -> str | None:
     alias_map = {
         "dev32": "dev32",
         "d1b_dev32": "dev32",
+        "d1c_dev32": "dev32",
+        "d1c_full32": "full32",
         "confirm32": "confirm32",
         "d1b_confirm32": "confirm32",
         "confirm32_v2": "confirm32",
         "d1b_confirm32_v2": "confirm32",
         "full32": "confirm32",
         "select8": "select8",
+        "d1c_select8": "select8",
         "gate24": "gate24",
+        "d1c_gate24": "gate24",
     }
     alias = alias_map.get(key)
     if alias is not None:
         return alias
+    if "d1c_dev32" in key or key.endswith("/d1c_dev32.json"):
+        return "dev32"
     if "d1b_dev32" in key or key.endswith("/d1b_dev32.json"):
         return "dev32"
     if "confirm32_v2" in key or "d1b_confirm32_v2" in key:
@@ -331,9 +414,35 @@ def enforce_eval_contract(
 
     try:
         from_contract = contract_infer_from_eval_contract(contract)
-        diffs = infer_settings_match_wave3c(from_contract, ignore_max_frames=False)
-        if diffs:
-            errors.append(f"eval_contract infer knobs != WAVE3c: {diffs}")
+        term = contract.get("termination") or {}
+        semantic = isinstance(term, Mapping) and term.get("mode") == "semantic_eos_v1"
+        if semantic:
+            # Canonical semantic-EOS infer must not reintroduce legacy stop knobs.
+            legacy_stop_keys = (
+                "stop_threshold",
+                "stop_consecutive",
+                "frames_per_text_token",
+                "stop_overrun_bias",
+                "stop_earliest_frac",
+            )
+            bad = [k for k in legacy_stop_keys if k in from_contract]
+            if bad:
+                errors.append(
+                    f"semantic_eos_v1 contract infer still exposes legacy stop keys: {bad}"
+                )
+            block = contract.get("infer") or {}
+            if isinstance(block, Mapping):
+                forbidden = set(block.get("forbidden_success_paths") or [])
+                missing = [k for k in legacy_stop_keys if k not in forbidden]
+                if forbidden and missing:
+                    errors.append(
+                        "semantic_eos_v1 forbidden_success_paths incomplete: "
+                        f"missing {missing}"
+                    )
+        else:
+            diffs = infer_settings_match_wave3c(from_contract, ignore_max_frames=False)
+            if diffs:
+                errors.append(f"eval_contract infer knobs != WAVE3c: {diffs}")
         live = live_infer
         if live is None and cfg is not None:
             live = resolve_discrete_infer_settings(cfg)
@@ -389,6 +498,20 @@ def enforce_eval_contract(
         if not bool(repro.get("clean_sha_available")):
             errors.append("eval_contract.repro.clean_sha_available is false")
 
+    # D1c formal path: verify locked recipe_source_manifest digests at runtime.
+    term = contract.get("termination") or {}
+    if isinstance(term, Mapping) and term.get("mode") == "semantic_eos_v1":
+        manifest = contract.get("recipe_source_manifest") or {}
+        if not isinstance(manifest, Mapping) or not manifest:
+            errors.append("D1c eval_contract missing recipe_source_manifest")
+        else:
+            mismatches = verify_recipe_source_manifest(manifest)
+            if mismatches:
+                errors.append(
+                    "recipe_source_manifest verify failed: " + "; ".join(mismatches[:8])
+                    + (f" (+{len(mismatches) - 8} more)" if len(mismatches) > 8 else "")
+                )
+
     if errors:
         raise RuntimeError(
             "D1b eval_contract enforcement failed:\n- " + "\n- ".join(errors)
@@ -409,8 +532,10 @@ __all__ = [
     "load_eval_contract",
     "load_frozen_utt_ids",
     "load_subset_payload",
+    "recipe_source_file_sha256",
     "resolve_subset_alias",
     "resolve_subset_spec",
     "utt_ids_from_payload",
     "verify_items_sha256",
+    "verify_recipe_source_manifest",
 ]

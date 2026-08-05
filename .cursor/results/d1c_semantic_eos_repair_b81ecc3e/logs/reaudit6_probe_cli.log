@@ -1,0 +1,12 @@
+K0 PASS five legit reports emitted by production main()
+K1 PASS CLI accepts the legit set: rc=0 wrote=True step=250
+K2 PASS CLI refuses mixed run identity: rc=1 wrote=False
+K2a PASS message: 'D1c formal selection refuses mixed checkpoint.hashes across candidates; all five must share one sealed run ide'
+K3 PASS CLI refuses report without checkpoint.hashes: rc=1 wrote=False
+K3a PASS message: 'formal D1c report refused: checkpoint.hashes missing'
+K4 PASS CLI refuses best.pt basename alias: rc=1 wrote=False
+K4a PASS message: "checkpoint path basename 'best.pt' does not match expected 'candidate_step_0250.pt' for step=250"
+K5 PASS CLI refuses duplicate checkpoint.sha256: rc=1 wrote=False
+K6 PASS CLI refuses flat/manual inputs in formal mode: rc=1
+K7 INFO RESIDUAL at production CLI: five re-saves of ONE weight state with fabricated payload steps -> rc=0 wrote=True
+SUMMARY pass=10 fail=0

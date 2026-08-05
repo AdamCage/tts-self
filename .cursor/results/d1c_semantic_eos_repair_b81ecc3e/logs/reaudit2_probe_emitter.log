@@ -1,0 +1,64 @@
+D0a PASS contract 2.0.0 recognised as D1c semantic contract
+D0b INFO select8 n=8 file_sha256=f9f82b708b23ab61
+D1a INFO teacher_forced_ce keys=['ce_cb0', 'ce_residual', 'ce_semantic_eos', 'loss', 'teacher_forced_ce_source', 'tf_eos_early_top1_false_positive_count', 'tf_eos_final_top1_accuracy']
+D1b PASS teacher_forced_ce returns MEASURED EOS metrics (acc=0.0, fp=0)
+D1c PASS untrained tiny model does NOT report a perfect 1.0/0 EOS result (would indicate a hardcoded default); got acc=0.0 fp=0
+wrote /tmp/reaudit2_2b0dn8o6/ok/discrete_eval_report_v2.json
+D2a PASS _emit_d1c_v2_from_gate SUCCEEDED on evaluator-shaped rows -> discrete_eval_report_v2.json
+D2b PASS ordinal stamped 0..n-1 on every emitted row
+D2c PASS catastrophic stamped on every emitted row
+D2d PASS pcm_sha256 != file_sha256 for all rows (offenders=[])
+D2e PASS pcm_sha256 independently reproduces from float32 samples
+D2f PASS file_sha256 independently reproduces from container bytes
+D2g INFO emitted teacher_forced_metrics={"ce_cb0": 3.873472213745117, "ce_residual": 3.4649808406829834, "ce_semantic_eos": 3.3075146675109863, "loss": 10.645967483520508, "teacher_forced_ce_source": "eval_computed", "tf_eos_early_top1_false_positive_count": 0, "tf_eos_final_top1_accuracy": 0.0, "total_ce": 10.645967483520508}
+D2h PASS emitted EOS TF accuracy equals the MEASURED value (not a 1.0 default)
+D2i PASS teacher_forced_ce_source=eval_computed from the real measurement
+D2j PASS report formal_eligible=True on the fully-measured path
+D3a PASS emitter refuses unmeasured EOS TF metrics: formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+D3b PASS emitter refuses decode_bundle provenance: formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='decode_bundle', eos_measured=True)
+D3c PASS caller-forced formal_eligible=True still refused: formal D1c report refused: tf_eos_final_top1_accuracy / tf_eos_early_top1_false_positive_count were not measur
+D4a PASS missing wav refused: formal D1c report refused: missing wav for row 0: /tmp/reaudit2_2b0dn8o6/wavs/__does_not_exist__.wav
+D4b PASS placeholder wav hashes refused: formal D1c report refused: missing wav for row 0: /tmp/reaudit2_2b0dn8o6/wavs/0000_23101813.wav
+wrote /tmp/reaudit2_2b0dn8o6/copiedpcm/discrete_eval_report_v2.json
+D4c PASS pcm_sha256==file_sha256 shortcut is recomputed from real PCM
+D4d PASS placeholder generated_codes_sha256 refused: formal D1c report refused: generated_codes_sha256 missing for row 0
+wrote /tmp/reaudit2_2b0dn8o6/nosubset/discrete_eval_report_v2.json
+D4e INFO placeholder subset_file_sha256 fell back to the contract entry (accepted)
+D5a FAIL baseline clean report is selectable -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+D5b PASS early_eos_suppressed_count=7 -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+D5c PASS max_cb0_run=99 -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+D5d PASS zero-frame generation -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+D5e PASS per-row duration ratio ~9.5x -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+D5f PASS catastrophic row -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+D5g PASS termination_reason=safety_max_frames -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+D5h PASS tf_eos_final_top1_accuracy=0.9 -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+D5i PASS tf_eos_early_top1_false_positive_count=3 -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+D5j PASS model CER 0.40 vs copy 0.05 (>+0.03) -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+D5k PASS mean duration ratio 1.43 -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+D5l PASS text_usage.pass=False -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+D5m PASS phrase_loop_repetition=True -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+D5n PASS stale hashes refused: formal D1c report refused: conditions.model.rows_sha256 mismatch
+D5o FAIL clean report still selectable after all mutations (no side effects)
+D6a INFO score-only sets teacher_forced_ce_source=decode_bundle when the bundle lacks it (scripts/74:848-850) and emit_d1c_v2_report refuses anything but eval_computed (scripts/74:117-131) -> --score-only cannot produce a formal v2 report
+D6b INFO call sites (check for try/except wrapping):
+798-    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+799-
+800-
+801:def _emit_d1c_v2_from_gate(
+--
+1036-            contract_for_emit = load_eval_contract(eval_contract)
+1037-        except Exception:
+1038-            contract_for_emit = None
+1039:    _emit_d1c_v2_from_gate(
+--
+1555-                )
+1556-            )
+1557-            print(f"wrote {gate_path}")
+1558:            _emit_d1c_v2_from_gate(
+
+
+=== SUMMARY D ===
+FAIL D5a: baseline clean report is selectable -> REFUSED: D1c formal selection found no eligible candidate; refusing least-bad selection
+FAIL D5o: clean report still selectable after all mutations (no side effects)
+D_total=40 D_fail=2
+tmpdir=/tmp/reaudit2_2b0dn8o6

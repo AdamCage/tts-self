@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import hashlib
+import importlib.metadata
+import inspect
 import json
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -16,6 +18,79 @@ from minispeech.utils import expand, load_yaml
 
 
 ASR_SR = 16000
+
+
+def _sha256_file(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def _package_version(name: str) -> str | None:
+    try:
+        return importlib.metadata.version(name)
+    except importlib.metadata.PackageNotFoundError:
+        return None
+
+
+def asr_provenance(
+    config_path: str | Path = "configs/asr.yaml",
+    *,
+    device: str | torch.device | None = None,
+    weight_artifact: str | Path | None = None,
+    expected_weight_sha256: str | None = None,
+) -> dict[str, Any]:
+    """Return canonical ASR/normalizer provenance for formal score reports.
+
+    ``expected_weight_sha256`` supports immutable backend registries when model
+    weights are managed outside the repository; callers must not silently omit
+    both a local artifact hash and an expected registry hash in formal mode.
+    """
+    path = expand(config_path)
+    if not path.is_file():
+        raise FileNotFoundError(f"ASR config missing: {path}")
+    cfg = AsrConfig.from_yaml(path)
+    parsed = asdict(cfg)
+    normalizer_path = Path(inspect.getsourcefile(normalize_for_asr) or "")
+    normalizer_sha = _sha256_file(normalizer_path) if normalizer_path.is_file() else None
+    artifact_path = expand(weight_artifact) if weight_artifact is not None else None
+    artifact_sha = _sha256_file(artifact_path) if artifact_path and artifact_path.is_file() else None
+    backend_pkg = "openai-whisper" if cfg.backend == "openai_whisper" else "faster-whisper"
+    return {
+        "asr_config_path": str(path),
+        "asr_config_raw_sha256": _sha256_file(path),
+        "asr_config_parsed_sha256": hashlib.sha256(
+            json.dumps(parsed, sort_keys=True, separators=(",", ":")).encode("utf-8")
+        ).hexdigest(),
+        "backend": cfg.backend,
+        "model": cfg.model,
+        "language": cfg.language,
+        "decoding": {
+            "temperature": cfg.temperature,
+            "beam_size": cfg.beam_size,
+            "condition_on_previous_text": cfg.condition_on_previous_text,
+            "vad_filter": cfg.vad_filter,
+        },
+        "device_policy": str(device or ("cuda" if torch.cuda.is_available() else "cpu")),
+        "precision_policy": cfg.compute_type,
+        "package": {"name": backend_pkg, "version": _package_version(backend_pkg)},
+        "weight_artifact_sha256": artifact_sha,
+        "expected_weight_sha256": expected_weight_sha256,
+        "normalizer": {
+            "id": "minispeech.frontend.normalize.normalize_for_asr_v1",
+            "module": normalize_for_asr.__module__,
+            "source_path": str(normalizer_path),
+            "source_sha256": normalizer_sha,
+        },
+        "scoring_packages": {
+            "jiwer": _package_version("jiwer"),
+            "torch": _package_version("torch"),
+            "torchaudio": _package_version("torchaudio"),
+            "soundfile": _package_version("soundfile"),
+        },
+    }
 
 
 def _ensure_ctranslate2_cuda_libs() -> None:

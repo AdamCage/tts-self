@@ -1,0 +1,19 @@
+wrote /tmp/tmpbkeca8j_/eval_2776482632256410968/discrete_eval_report_v2.json
+REAUDIT B6 PASS all-safety candidates refused: D1c formal selection found no eligible candidate; refusing least-bad selection
+wrote /tmp/tmpbkeca8j_/eval_7648716085535999490/discrete_eval_report_v2.json
+REAUDIT B6 FAIL selector SELECTED a candidate with early_eos_suppressed_count=7 and max_cb0_run=99: step=250 (plan 11 requires early_eos_suppressed_count==0 and CB0 run<=12)
+wrote /tmp/tmpbkeca8j_/eval_850058972172524468/discrete_eval_report_v2.json
+REAUDIT B6 FAIL selector SELECTED a candidate with zero-frame generations: step=250
+wrote /tmp/tmpbkeca8j_/eval_359058488631297845/discrete_eval_report_v2.json
+REAUDIT B6 FAIL selector SELECTED a candidate with per-row duration ratio ~9.5x (plan 11 requires [0.5,2.0]): step=250
+wrote /tmp/tmpbkeca8j_/eval_359058488631297845/discrete_eval_report_v2.json
+REAUDIT B6 PASS catastrophic rows refused: D1c formal selection found no eligible candidate; refusing least-bad selection
+
+=== REAUDIT PROBE6 SUMMARY ===
+PASS  B6   all-safety candidates refused: D1c formal selection found no eligible candidate; refusing least-bad selection
+FAIL  B6   selector SELECTED a candidate with early_eos_suppressed_count=7 and max_cb0_run=99: step=250 (plan 11 requires early_eos_suppressed_count==0 and CB0 run<=12)
+FAIL  B6   selector SELECTED a candidate with zero-frame generations: step=250
+FAIL  B6   selector SELECTED a candidate with per-row duration ratio ~9.5x (plan 11 requires [0.5,2.0]): step=250
+PASS  B6   catastrophic rows refused: D1c formal selection found no eligible candidate; refusing least-bad selection
+
+TOTAL checks=5 fail_or_error=3

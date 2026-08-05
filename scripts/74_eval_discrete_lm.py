@@ -15,7 +15,7 @@ import json
 import math
 import re
 from pathlib import Path
-from typing import Any
+from typing import Any, Mapping, Sequence
 
 import numpy as np
 import torch
@@ -35,18 +35,34 @@ from minispeech.eval.asr import load_asr_engine
 from minispeech.eval.asr_wer import compute_cer
 from minispeech.eval.bootstrap import edits_from_jiwer_chars
 from minispeech.eval.discrete_n2 import (
+    FR_CANDIDATE_STEPS_BASE,
     bootstrap_mean_cer,
     cb0_stats,
     enrich_model_report,
     estimate_stop_reason,
     evaluate_n2_gate_d1b,
+    evaluate_n2_gate_d1c,
     resolve_infer_settings,
     stability_acceptance,
     text_usage_acceptance,
 )
+from minispeech.eval.discrete_report_schema import (
+    CONDITIONS as V2_CONDITIONS,
+    build_formal_report,
+    ordered_utt_ids_sha256,
+)
 from minispeech.frontend.normalize import normalize_for_asr
-from minispeech.infer.discrete_config import GENERATE_INFER_KEYS, wave3c_infer_defaults
-from minispeech.models.discrete_speech_lm import build_discrete_speech_lm
+from minispeech.models.discrete_speech_lm import (
+    DiscreteGenerationOutput,
+    build_discrete_speech_lm,
+)
+from minispeech.utils import expand, git_is_dirty, git_sha, load_yaml, set_seed
+from minispeech.frontend.normalize import normalize_for_asr
+from minispeech.infer.discrete_config import GENERATE_INFER_KEYS, SEMANTIC_EOS_INFER_DEFAULTS, wave3c_infer_defaults
+from minispeech.models.discrete_speech_lm import (
+    DiscreteGenerationOutput,
+    build_discrete_speech_lm,
+)
 from minispeech.utils import expand, git_is_dirty, git_sha, load_yaml, set_seed
 
 _REQUIRED_N2_SCORE_REPORTS = (
@@ -59,6 +75,234 @@ _REQUIRED_N2_SCORE_REPORTS = (
 )
 
 
+def emit_d1c_v2_report(
+    *,
+    out_path: Path,
+    checkpoint: dict[str, Any],
+    provenance: dict[str, Any],
+    infer: dict[str, Any],
+    teacher_forced_metrics: dict[str, Any],
+    ordered_utt_ids: list[str],
+    conditions: dict[str, Any],
+    summaries: dict[str, Any],
+    gates: dict[str, Any],
+    formal_eligible: bool | None = None,
+) -> dict[str, Any]:
+    """Write the selector-consumable formal v2 report after score-only checks.
+
+    Callers supply exact row artifacts from decoding; unlike D1b's aggregate
+    reports, this path cannot synthesize rows or copy train-loss TF CE.
+    """
+    if set(conditions) != set(V2_CONDITIONS):
+        raise ValueError("D1c v2 report requires all six canonical conditions")
+    for name, condition in conditions.items():
+        condition.setdefault("expected_count", len(ordered_utt_ids))
+        condition.setdefault("evaluated_count", len(condition.get("rows") or []))
+        condition.setdefault("ordered_utt_ids_sha256", ordered_utt_ids_sha256(ordered_utt_ids))
+    teacher_forced_metrics = dict(teacher_forced_metrics)
+    source = teacher_forced_metrics.get("teacher_forced_ce_source")
+    if source is None:
+        raise ValueError(
+            "teacher_forced_ce_source must be set by the caller "
+            "(eval_computed | decode_bundle | unavailable); refusing fabricated provenance"
+        )
+    # EOS TF metrics must be measured or explicitly marked unavailable — never
+    # silently default to passing values (1.0 / 0).
+    eos_acc = teacher_forced_metrics.get("tf_eos_final_top1_accuracy")
+    eos_fp = teacher_forced_metrics.get("tf_eos_early_top1_false_positive_count")
+    eos_measured = (
+        isinstance(eos_acc, (int, float))
+        and math.isfinite(float(eos_acc))
+        and eos_fp is not None
+        and str(eos_fp) != "unavailable"
+    )
+    if formal_eligible is None:
+        formal_eligible = bool(
+            source == "eval_computed"
+            and eos_measured
+            and all(
+                (conditions[name].get("rows"))
+                and all(r.get("ordinal") is not None for r in conditions[name]["rows"])
+                for name in V2_CONDITIONS
+            )
+        )
+    if not formal_eligible:
+        raise ValueError(
+            "formal D1c report refused: formal_eligible=False "
+            f"(teacher_forced_ce_source={source!r}, eos_measured={eos_measured})"
+        )
+    if formal_eligible and not eos_measured:
+        raise ValueError(
+            "formal D1c report refused: tf_eos_final_top1_accuracy / "
+            "tf_eos_early_top1_false_positive_count were not measured"
+        )
+    report = build_formal_report(
+        formal_eligible=True,
+        checkpoint=checkpoint,
+        provenance=provenance,
+        infer=infer,
+        teacher_forced_metrics=teacher_forced_metrics,
+        row_binding={
+            "ordered_utt_ids": ordered_utt_ids,
+            "ordered_utt_ids_sha256": ordered_utt_ids_sha256(ordered_utt_ids),
+        },
+        conditions=conditions,
+        summaries=summaries,
+        gates=gates,
+    )
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    return report
+
+
+_CANDIDATE_STEP_NAME_RE = re.compile(r"candidate_step_(\d+)\.pt$", re.IGNORECASE)
+
+# Trainer-stamped run / recipe / contract digests required on the D1c formal path.
+_REQUIRED_CHECKPOINT_HASH_KEYS = (
+    "eval_contract",
+    "recipe",
+    "recipe_source_manifest",
+    "run_manifest",
+)
+
+
+def parse_candidate_step_from_path(ckpt: Path | str) -> int | None:
+    """Parse immutable ``candidate_step_XXXX.pt`` filename; else ``None``."""
+    match = _CANDIDATE_STEP_NAME_RE.search(Path(ckpt).name)
+    return int(match.group(1)) if match else None
+
+
+def checkpoint_step_from_payload(payload: Mapping[str, Any] | None) -> int | None:
+    """Read trainer-stamped step from a checkpoint payload."""
+    if not isinstance(payload, Mapping):
+        return None
+    for key in ("step", "optimizer_step", "global_step"):
+        raw = payload.get(key)
+        if raw is not None:
+            return int(raw)
+    return None
+
+
+def checkpoint_hashes_from_payload(
+    payload: Mapping[str, Any] | None,
+) -> dict[str, str] | None:
+    """Extract trainer-stamped run/recipe/contract hashes, or ``None`` if incomplete."""
+    if not isinstance(payload, Mapping):
+        return None
+    raw = payload.get("hashes")
+    if not isinstance(raw, Mapping):
+        return None
+    out: dict[str, str] = {}
+    for key in _REQUIRED_CHECKPOINT_HASH_KEYS:
+        value = raw.get(key)
+        if value is None or not str(value).strip() or str(value) == ("0" * 64):
+            return None
+        out[key] = str(value)
+    return out
+
+
+def require_checkpoint_payload_hashes(
+    payload: Mapping[str, Any] | None,
+    *,
+    expected_eval_contract: str | None = None,
+) -> dict[str, str]:
+    """Fail-closed: formal D1c requires payload['hashes'] bound to the sealed run."""
+    hashes = checkpoint_hashes_from_payload(payload)
+    if hashes is None:
+        raise SystemExit(
+            "formal D1c requires payload['hashes'] with eval_contract/recipe/"
+            "recipe_source_manifest/run_manifest stamped by the trainer"
+        )
+    if expected_eval_contract and hashes["eval_contract"] != str(expected_eval_contract):
+        raise SystemExit(
+            "checkpoint hashes.eval_contract mismatch: "
+            f"payload={hashes['eval_contract']} expected={expected_eval_contract}"
+        )
+    return hashes
+
+
+def resolve_checkpoint_step(
+    *,
+    ckpt_path: Path | str,
+    payload: Mapping[str, Any] | None = None,
+    cli_step: int | None = None,
+    allowed_steps: Sequence[int] | None = None,
+    require: bool = False,
+) -> int | None:
+    """Resolve candidate step from payload, optionally confirmed by filename/CLI.
+
+    Contract (fail-closed for D1c formal, ``require=True``):
+
+    * Step is derived from checkpoint ``payload['step']`` (or optimizer/global
+      aliases). The immutable ``candidate_step_XXXX.pt`` filename may **confirm**
+      that payload step; it must not invent a step when the payload lacks one.
+    * ``--checkpoint-step`` may only **confirm** a derived step. It must not
+      invent a foreign step for a file that has no payload step
+      (e.g. ``best.pt`` + ``--checkpoint-step 625`` is refused when
+      ``require=True``).
+    * When both payload and filename steps are present they must agree; a
+      conflicting CLI value is also refused.
+    * When ``allowed_steps`` is set the resolved step must be a member.
+    """
+    payload_step = checkpoint_step_from_payload(payload)
+    name_step = parse_candidate_step_from_path(ckpt_path)
+    if (
+        payload_step is not None
+        and name_step is not None
+        and int(payload_step) != int(name_step)
+    ):
+        raise SystemExit(
+            f"checkpoint step mismatch: payload step={payload_step} "
+            f"!= filename step={name_step} ({ckpt_path})"
+        )
+    if require and payload_step is None:
+        if cli_step is not None:
+            raise SystemExit(
+                f"--checkpoint-step={cli_step} cannot invent a step for "
+                f"{ckpt_path}: formal D1c requires payload['step']; "
+                "CLI may only confirm a derived step"
+            )
+        raise SystemExit(
+            f"checkpoint step unresolved: formal D1c requires payload['step'] "
+            f"stamped by the trainer for {ckpt_path}; filename may only confirm "
+            "(got no payload step)"
+        )
+    # Formal path: payload is authoritative. Non-formal may fall back to filename.
+    inferred = payload_step if payload_step is not None else name_step
+    if cli_step is not None:
+        if inferred is None:
+            if require:
+                raise SystemExit(
+                    f"--checkpoint-step={cli_step} cannot invent a step for "
+                    f"{ckpt_path}: formal D1c requires payload['step']; "
+                    "CLI may only confirm a derived step"
+                )
+            step: int | None = int(cli_step)
+        elif int(cli_step) != int(inferred):
+            raise SystemExit(
+                f"--checkpoint-step={cli_step} conflicts with inferred step={inferred} "
+                f"({ckpt_path})"
+            )
+        else:
+            step = int(cli_step)
+    else:
+        step = int(inferred) if inferred is not None else None
+    if step is None:
+        if require:
+            raise SystemExit(
+                "checkpoint step unresolved: formal D1c requires payload['step'] "
+                "stamped by the trainer "
+                "(--checkpoint-step may only confirm a derived step)"
+            )
+        return None
+    if allowed_steps is not None and int(step) not in {int(s) for s in allowed_steps}:
+        raise SystemExit(
+            f"checkpoint step {step} not in contract.train.candidate_steps "
+            f"{list(allowed_steps)}"
+        )
+    return int(step)
+
+
 def _load_model(ckpt: Path, device: torch.device):
     payload = torch.load(ckpt, map_location=device, weights_only=False)
     cfg = payload.get("cfg") or load_yaml("configs/discrete_speech_lm_d1b_443m.yaml")
@@ -68,7 +312,7 @@ def _load_model(ckpt: Path, device: torch.device):
         sd = {k.removeprefix("module."): v for k, v in sd.items()}
     model.load_state_dict(sd, strict=True)
     model.to(device).eval()
-    return model, cfg
+    return model, cfg, payload if isinstance(payload, dict) else {}
 
 
 def _resolve_speaker_registry(
@@ -156,21 +400,152 @@ def teacher_forced_ce(
     model, batch: dict[str, Any], device: torch.device
 ) -> dict[str, float]:
     batch = {k: v.to(device) if torch.is_tensor(v) else v for k, v in batch.items()}
-    with torch.no_grad():
-        out = model(
-            batch["input_ids"],
-            batch["codes"],
-            text_mask=batch.get("text_mask"),
-            frame_mask=batch.get("frame_mask"),
-            speaker_id=batch.get("speaker_id"),
-            compute_loss=True,
-        )
-    assert out.loss is not None
-    return {
-        "loss": float(out.loss["total"].cpu()),
-        "ce_cb0": float(out.loss["ce_cb0"].cpu()),
-        "ce_residual": float(out.loss["ce_residual"].cpu()),
+    kw: dict[str, Any] = {
+        "text_mask": batch.get("text_mask"),
+        "speaker_id": batch.get("speaker_id"),
+        "compute_loss": True,
     }
+    frame_mask = batch.get("frame_mask")
+    if frame_mask is None:
+        frame_mask = batch.get("codec_frame_mask")
+    kw["frame_mask"] = frame_mask
+    # Semantic-EOS mode requires collated semantic targets/masks.
+    if getattr(model, "termination_mode", "frame_stop_v1") == "semantic_eos_v1":
+        if batch.get("semantic_targets") is None or batch.get("semantic_mask") is None:
+            raise ValueError(
+                "semantic_eos_v1 teacher-forced CE requires semantic_targets/semantic_mask "
+                "(collate with termination_mode=semantic_eos_v1)"
+            )
+        kw["semantic_targets"] = batch["semantic_targets"]
+        kw["semantic_mask"] = batch["semantic_mask"]
+    with torch.no_grad():
+        out = model(batch["input_ids"], batch["codes"], **kw)
+    assert out.loss is not None
+    loss = out.loss
+    result: dict[str, Any] = {
+        "loss": float(loss["total"].cpu()),
+        "ce_cb0": float(loss["ce_cb0"].cpu()),
+        "ce_residual": float(loss["ce_residual"].cpu()),
+        "teacher_forced_ce_source": "eval_computed",
+    }
+    if "ce_semantic_eos" in loss:
+        result["ce_semantic_eos"] = float(loss["ce_semantic_eos"].cpu())
+    if "tf_eos_final_top1_accuracy" in loss:
+        result["tf_eos_final_top1_accuracy"] = float(
+            loss["tf_eos_final_top1_accuracy"].cpu()
+        )
+    if "tf_eos_early_top1_false_positive_count" in loss:
+        result["tf_eos_early_top1_false_positive_count"] = int(
+            loss["tf_eos_early_top1_false_positive_count"].cpu()
+        )
+    return result
+
+
+def aggregate_teacher_forced_batches(
+    batch_metrics: list[Mapping[str, Any]],
+) -> dict[str, Any]:
+    """Aggregate per-batch ``teacher_forced_ce()`` outputs for the emitter.
+
+    Mean CE terms across batches; mean EOS final-top1 accuracy; **sum** early-EOS
+    false-positive counts. Preserves ``teacher_forced_ce_source`` only when every
+    batch is ``eval_computed`` and EOS metrics are present.
+    """
+    n = len(batch_metrics)
+    if n == 0:
+        return {
+            "loss": 0.0,
+            "ce_cb0": 0.0,
+            "ce_residual": 0.0,
+            "total_ce": 0.0,
+            "n_batches": 0,
+            "teacher_forced_ce_source": "unavailable",
+            "tf_eos_final_top1_accuracy": "unavailable",
+            "tf_eos_early_top1_false_positive_count": "unavailable",
+        }
+    out: dict[str, Any] = {"n_batches": n}
+    for key in ("loss", "ce_cb0", "ce_residual", "ce_semantic_eos"):
+        vals = [
+            float(m[key])
+            for m in batch_metrics
+            if key in m and isinstance(m[key], (int, float))
+        ]
+        if vals:
+            out[key] = float(sum(vals) / len(vals))
+    out["total_ce"] = float(out.get("loss", 0.0))
+    accs = [
+        float(m["tf_eos_final_top1_accuracy"])
+        for m in batch_metrics
+        if isinstance(m.get("tf_eos_final_top1_accuracy"), (int, float))
+    ]
+    fps: list[int] = []
+    for m in batch_metrics:
+        fp = m.get("tf_eos_early_top1_false_positive_count")
+        if fp is None or str(fp) == "unavailable":
+            continue
+        fps.append(int(fp))
+    sources = {m.get("teacher_forced_ce_source") for m in batch_metrics}
+    if accs and len(accs) == n and fps and len(fps) == n and sources == {"eval_computed"}:
+        out["tf_eos_final_top1_accuracy"] = float(sum(accs) / len(accs))
+        out["tf_eos_early_top1_false_positive_count"] = int(sum(fps))
+        out["teacher_forced_ce_source"] = "eval_computed"
+    else:
+        out["tf_eos_final_top1_accuracy"] = "unavailable"
+        out["tf_eos_early_top1_false_positive_count"] = "unavailable"
+        out["teacher_forced_ce_source"] = "unavailable"
+    return out
+
+
+def teacher_forced_metrics_for_emitter(summary: Mapping[str, Any]) -> dict[str, Any]:
+    """Project an aggregated TF summary into the dict the v2 emitter consumes."""
+    keys = (
+        "loss",
+        "ce_cb0",
+        "ce_residual",
+        "ce_semantic_eos",
+        "total_ce",
+        "tf_eos_final_top1_accuracy",
+        "tf_eos_early_top1_false_positive_count",
+        "teacher_forced_ce_source",
+    )
+    out = {k: summary[k] for k in keys if k in summary}
+    if "total_ce" not in out and "loss" in out:
+        out["total_ce"] = out["loss"]
+    if "teacher_forced_ce_source" not in out:
+        out["teacher_forced_ce_source"] = "unavailable"
+    return out
+
+
+def _pcm_sha256_from_wav(path: Path) -> str:
+    """SHA256 of float32 little-endian PCM samples (not the container file bytes)."""
+    import hashlib
+
+    try:
+        import soundfile as sf
+
+        audio, _sr = sf.read(str(path), dtype="float32", always_2d=False)
+    except Exception as exc:  # noqa: BLE001
+        raise ValueError(f"cannot read wav for pcm_sha256: {path}: {exc}") from exc
+    arr = np.asarray(audio, dtype=np.float32).reshape(-1)
+    return hashlib.sha256(arr.tobytes()).hexdigest()
+
+
+def _unwrap_generation(out: Any) -> tuple[torch.Tensor, dict[str, Any]]:
+    """Normalize generate() return to ``(codes[B,T,C], first-row metadata)``."""
+    if isinstance(out, DiscreteGenerationOutput):
+        row = out.rows[0] if out.rows else {}
+        return out.codes, dict(row)
+    if torch.is_tensor(out):
+        return out, {}
+    raise TypeError(f"unexpected generate() output type: {type(out)!r}")
+
+
+def _gen_kw_from_infer(icfg: dict[str, Any], *, max_frames: int) -> dict[str, Any]:
+    """Pass-through generate kwargs from shared resolver (no forked defaults)."""
+    semantic = str(icfg.get("termination_mode") or "") == "semantic_eos_v1"
+    keys = tuple(SEMANTIC_EOS_INFER_DEFAULTS) if semantic else GENERATE_INFER_KEYS
+    out = {k: icfg[k] for k in keys if k in icfg}
+    out["max_frames"] = int(max_frames)
+    return out
 
 
 def _write_wav(path: Path, audio: np.ndarray, sr: int) -> None:
@@ -194,13 +569,6 @@ def _write_wav(path: Path, audio: np.ndarray, sr: int) -> None:
 def _ascii_utt(uid: str, i: int) -> str:
     safe = re.sub(r"[^A-Za-z0-9._-]+", "_", uid)[:48]
     return f"{i:04d}_{safe}"
-
-
-def _gen_kw_from_infer(icfg: dict[str, Any], *, max_frames: int) -> dict[str, Any]:
-    """Pass-through generate kwargs from shared resolver (no forked defaults)."""
-    out = {k: icfg[k] for k in GENERATE_INFER_KEYS if k in icfg}
-    out["max_frames"] = int(max_frames)
-    return out
 
 
 def free_running_asr_eval(
@@ -230,6 +598,12 @@ def free_running_asr_eval(
         max_frames_override=max_frames,
         codebook_size=codebook_size,
     )
+    term = ((cfg.get("model") or {}).get("termination") or {})
+    if getattr(model, "termination_mode", None) == "semantic_eos_v1" or (
+        isinstance(term, dict) and term.get("mode") == "semantic_eos_v1"
+    ):
+        icfg = dict(icfg)
+        icfg["termination_mode"] = "semantic_eos_v1"
     gen_kw = _gen_kw_from_infer(icfg, max_frames=int(icfg["max_frames"]))
 
     rows_out: list[dict[str, Any]] = []
@@ -251,105 +625,106 @@ def free_running_asr_eval(
             gt_codes = torch.as_tensor(gt_codes)
         gt_codes = gt_codes.long()
 
+        semantic_mode = getattr(model, "termination_mode", "frame_stop_v1") == "semantic_eos_v1"
+        gen_meta: dict[str, Any] = {}
         with torch.no_grad():
             if condition == "copy_synth":
                 codes = gt_codes.unsqueeze(0).to(device)
                 stop_reason = "copy_synth"
-            elif condition == "wrong_utt":
-                other = rows[(i + 1) % n]
-                oids = other["input_ids"]
-                if not torch.is_tensor(oids):
-                    oids = torch.tensor(oids, dtype=torch.long)
-                oids_b = oids.long().view(1, -1).to(device)
-                codes = model.generate(oids_b, speaker_id=spk, **gen_kw)
-                stop_reason = estimate_stop_reason(
-                    n_frames=int(codes.shape[1]),
-                    text_len=int((oids_b != 0).sum().item()),
-                    cb0_ids=codes[0, :, 0].detach().cpu().tolist(),
-                    max_frames=max_frames,
-                    min_frames=int(gen_kw["min_frames"]),
-                    max_cb0_repeat=int(gen_kw["max_cb0_repeat"]),
-                    frames_per_text_token=float(gen_kw["frames_per_text_token"]),
-                )
             elif condition == "random_codes":
                 T = min(max_frames, max(8, int(gt_codes.shape[0])))
                 codes = torch.randint(0, 2048, (1, T, 16), device=device)
                 stop_reason = "random_codes"
-            elif condition == "shuffle_text":
-                other = rows[(i + max(1, n // 3)) % n]
-                oids = other["input_ids"]
-                if not torch.is_tensor(oids):
-                    oids = torch.tensor(oids, dtype=torch.long)
-                oids_b = oids.long().view(1, -1).to(device)
-                codes = model.generate(oids_b, speaker_id=spk, **gen_kw)
-                stop_reason = estimate_stop_reason(
-                    n_frames=int(codes.shape[1]),
-                    text_len=int((oids_b != 0).sum().item()),
-                    cb0_ids=codes[0, :, 0].detach().cpu().tolist(),
-                    max_frames=max_frames,
-                    min_frames=int(gen_kw["min_frames"]),
-                    max_cb0_repeat=int(gen_kw["max_cb0_repeat"]),
-                    frames_per_text_token=float(gen_kw["frames_per_text_token"]),
-                )
-            elif condition == "mask_text":
-                masked = torch.zeros_like(ids)
-                codes = model.generate(masked, speaker_id=spk, **gen_kw)
-                stop_reason = estimate_stop_reason(
-                    n_frames=int(codes.shape[1]),
-                    text_len=text_len,
-                    cb0_ids=codes[0, :, 0].detach().cpu().tolist(),
-                    max_frames=max_frames,
-                    min_frames=int(gen_kw["min_frames"]),
-                    max_cb0_repeat=int(gen_kw["max_cb0_repeat"]),
-                    frames_per_text_token=float(gen_kw["frames_per_text_token"]),
-                )
-            else:  # model
-                codes = model.generate(ids, speaker_id=spk, **gen_kw)
-                stop_reason = estimate_stop_reason(
-                    n_frames=int(codes.shape[1]),
-                    text_len=text_len,
-                    cb0_ids=codes[0, :, 0].detach().cpu().tolist(),
-                    max_frames=max_frames,
-                    min_frames=int(gen_kw["min_frames"]),
-                    max_cb0_repeat=int(gen_kw["max_cb0_repeat"]),
-                    frames_per_text_token=float(gen_kw["frames_per_text_token"]),
-                )
+            else:
+                if condition == "wrong_utt":
+                    other = rows[(i + 1) % n]
+                    oids = other["input_ids"]
+                    if not torch.is_tensor(oids):
+                        oids = torch.tensor(oids, dtype=torch.long)
+                    prompt = oids.long().view(1, -1).to(device)
+                    prompt_text_len = int((prompt != 0).sum().item())
+                elif condition == "shuffle_text":
+                    other = rows[(i + max(1, n // 3)) % n]
+                    oids = other["input_ids"]
+                    if not torch.is_tensor(oids):
+                        oids = torch.tensor(oids, dtype=torch.long)
+                    prompt = oids.long().view(1, -1).to(device)
+                    prompt_text_len = int((prompt != 0).sum().item())
+                elif condition == "mask_text":
+                    prompt = torch.zeros_like(ids)
+                    prompt_text_len = text_len
+                else:  # model
+                    prompt = ids
+                    prompt_text_len = text_len
+                gen_out = model.generate(prompt, speaker_id=spk, **gen_kw)
+                codes, gen_meta = _unwrap_generation(gen_out)
+                if semantic_mode:
+                    # Formal D1c path: never call estimate_stop_reason.
+                    stop_reason = str(gen_meta.get("termination_reason") or "unknown")
+                else:
+                    stop_reason = estimate_stop_reason(
+                        n_frames=int(codes.shape[1]),
+                        text_len=prompt_text_len,
+                        cb0_ids=codes[0, :, 0].detach().cpu().tolist() if codes.shape[1] else [],
+                        max_frames=max_frames,
+                        min_frames=int(gen_kw["min_frames"]),
+                        max_cb0_repeat=int(gen_kw["max_cb0_repeat"]),
+                        frames_per_text_token=float(gen_kw["frames_per_text_token"]),
+                    )
 
-        gen_codes.append(codes[0].detach().cpu())
+        gen_codes.append(codes[0].detach().cpu() if codes.numel() else codes.new_zeros((0, codes.shape[-1] if codes.ndim == 3 else 16)).cpu())
+        # Normalize empty tensor shape for cb0_stats.
+        if codes.ndim == 3 and codes.shape[1] == 0:
+            gen_codes[-1] = torch.zeros(0, int(codes.shape[-1]), dtype=torch.long)
         ref = refs.get(uid, "")
         hyp_raw = ""
         cer_v = None
         wav_path = None
         if decode and codec is not None:
-            dec = codec.decode([codes[0].detach().cpu()])
-            audio = np.asarray(dec.audio[0], dtype=np.float32)
-            sr = int(dec.sample_rate)
-            stem = _ascii_utt(uid, i)
-            wav_path = out_wav_dir / f"{stem}.wav"
-            _write_wav(wav_path, audio, sr)
-            if asr is not None:
-                hyp_raw = asr.transcribe(audio, sr, use_cache=False)
-                if ref:
-                    ref_n = normalize_for_asr(ref)
-                    hyp_n = normalize_for_asr(hyp_raw)
-                    cer_v = float(compute_cer([ref_n], [hyp_n])) if ref_n else None
-                    if cer_v is not None:
-                        cers.append(cer_v)
-                        edit_counts.append(edits_from_jiwer_chars(ref_n, hyp_n))
+            if int(codes.shape[1]) == 0:
+                # Empty immediate-EOS: skip codec decode; leave blank hyp.
+                audio = np.zeros(0, dtype=np.float32)
+                sr = 24000
+                stem = _ascii_utt(uid, i)
+                wav_path = out_wav_dir / f"{stem}.wav"
+                _write_wav(wav_path, audio, sr)
+            else:
+                dec = codec.decode([codes[0].detach().cpu()])
+                audio = np.asarray(dec.audio[0], dtype=np.float32)
+                sr = int(dec.sample_rate)
+                stem = _ascii_utt(uid, i)
+                wav_path = out_wav_dir / f"{stem}.wav"
+                _write_wav(wav_path, audio, sr)
+                if asr is not None and audio.size:
+                    hyp_raw = asr.transcribe(audio, sr, use_cache=False)
+                    if ref:
+                        ref_n = normalize_for_asr(ref)
+                        hyp_n = normalize_for_asr(hyp_raw)
+                        cer_v = float(compute_cer([ref_n], [hyp_n])) if ref_n else None
+                        if cer_v is not None:
+                            cers.append(cer_v)
+                            edit_counts.append(edits_from_jiwer_chars(ref_n, hyp_n))
 
-        rows_out.append(
-            {
-                "utt_id": uid,
-                "condition": condition,
-                "n_frames": int(codes.shape[1]),
-                "gt_frames": int(gt_codes.shape[0]),
-                "cer": cer_v,
-                "ref": ref,
-                "hyp": hyp_raw,
-                "wav": str(wav_path) if wav_path else None,
-                "stop_reason": stop_reason,
-            }
-        )
+        row_out: dict[str, Any] = {
+            "utt_id": uid,
+            "ordinal": len(rows_out),
+            "condition": condition,
+            "n_frames": int(codes.shape[1]),
+            "gt_frames": int(gt_codes.shape[0]),
+            "cer": cer_v,
+            "ref": ref,
+            "hyp": hyp_raw,
+            "wav": str(wav_path) if wav_path else None,
+            "stop_reason": stop_reason,
+        }
+        if gen_meta:
+            row_out["generation"] = gen_meta
+        # Stable codes digest for formal binding (empty generation → empty hash input).
+        import hashlib as _hl
+
+        codes_bytes = codes.detach().cpu().numpy().astype(np.int32).tobytes()
+        row_out["generated_codes_sha256"] = _hl.sha256(codes_bytes).hexdigest()
+        rows_out.append(row_out)
 
     boot = bootstrap_mean_cer(cers)
     cb0 = cb0_stats(gen_codes)
@@ -532,6 +907,380 @@ def assert_score_only_wavs_present(
         )
 
 
+def _is_d1c_semantic_contract(contract: Mapping[str, Any] | None) -> bool:
+    if not isinstance(contract, Mapping):
+        return False
+    term = contract.get("termination") or {}
+    return isinstance(term, Mapping) and term.get("mode") == "semantic_eos_v1"
+
+
+def _enrich_v2_condition_rows(
+    rows: list[dict[str, Any]],
+    *,
+    subset_key: str,
+    subset_path: str,
+    subset_file_sha256: str,
+    ordered_utt_ids: list[str],
+) -> dict[str, Any]:
+    """Stamp missing formal-row fields so emit_d1c_v2_report can validate."""
+    from minispeech.eval.discrete_n2 import annotate_catastrophic_rows
+    from minispeech.eval.discrete_report_schema import file_sha256 as _fsha
+
+    if not subset_file_sha256 or subset_file_sha256 == ("0" * 64):
+        raise ValueError(
+            "formal D1c report refused: subset_file_sha256 missing or placeholder"
+        )
+    annotated = annotate_catastrophic_rows(rows)
+    enriched: list[dict[str, Any]] = []
+    for ordinal, row in enumerate(annotated):
+        r = dict(row)
+        r["ordinal"] = ordinal
+        wav_raw = r.get("wav")
+        if isinstance(wav_raw, str):
+            wav_path = Path(wav_raw)
+            if not wav_path.is_file():
+                raise ValueError(
+                    f"formal D1c report refused: missing wav for row {ordinal}: {wav_path}"
+                )
+            file_digest = _fsha(wav_path)
+            pcm_digest = _pcm_sha256_from_wav(wav_path)
+            if pcm_digest == file_digest:
+                # Extremely unlikely for float32 PCM vs container; still refuse equality
+                # only when the shortcut was used historically — keep both distinct paths.
+                pass
+            r["wav"] = {
+                "path": str(wav_raw),
+                "file_sha256": file_digest,
+                "pcm_sha256": pcm_digest,
+            }
+        elif isinstance(wav_raw, dict):
+            r["wav"] = dict(wav_raw)
+            if not r["wav"].get("path"):
+                raise ValueError(
+                    f"formal D1c report refused: wav.path missing for row {ordinal}"
+                )
+            wav_path = Path(str(r["wav"]["path"]))
+            if not r["wav"].get("file_sha256") or r["wav"]["file_sha256"] == ("0" * 64):
+                if not wav_path.is_file():
+                    raise ValueError(
+                        f"formal D1c report refused: missing wav for row {ordinal}: {wav_path}"
+                    )
+                r["wav"]["file_sha256"] = _fsha(wav_path)
+            if not r["wav"].get("pcm_sha256") or r["wav"]["pcm_sha256"] == ("0" * 64):
+                if not wav_path.is_file():
+                    raise ValueError(
+                        f"formal D1c report refused: missing wav for pcm hash row {ordinal}"
+                    )
+                r["wav"]["pcm_sha256"] = _pcm_sha256_from_wav(wav_path)
+            if r["wav"].get("pcm_sha256") == r["wav"].get("file_sha256"):
+                # Recompute PCM if a caller copied file_sha into pcm_sha.
+                if wav_path.is_file():
+                    r["wav"]["pcm_sha256"] = _pcm_sha256_from_wav(wav_path)
+        else:
+            raise ValueError(
+                f"formal D1c report refused: wav missing for row {ordinal} utt={r.get('utt_id')}"
+            )
+        gen = r.get("generation")
+        if not isinstance(gen, dict):
+            gen = {
+                "termination_reason": r.get("stop_reason") or "unknown",
+                "n_decoded_frames": r.get("n_frames") or 0,
+            }
+        r["generation"] = gen
+        r.setdefault(
+            "normalized_reference_sha256",
+            hashlib_sha256_text(normalize_for_asr(str(r.get("ref") or ""))),
+        )
+        codes_digest = r.get("generated_codes_sha256") or gen.get("generated_codes_sha256")
+        if not codes_digest or codes_digest == ("0" * 64):
+            raise ValueError(
+                f"formal D1c report refused: generated_codes_sha256 missing for row {ordinal}"
+            )
+        r["generated_codes_sha256"] = str(codes_digest)
+        if r.get("cer") is None:
+            r["cer"] = float("nan")
+        if "catastrophic" not in r:
+            raise ValueError(
+                f"formal D1c report refused: catastrophic not stamped for row {ordinal}"
+            )
+        enriched.append(r)
+    return {
+        "subset_key": subset_key,
+        "subset_path": subset_path,
+        "subset_file_sha256": subset_file_sha256,
+        "expected_count": len(ordered_utt_ids),
+        "evaluated_count": len(enriched),
+        "ordered_utt_ids_sha256": ordered_utt_ids_sha256(ordered_utt_ids),
+        "rows": enriched,
+        "rows_sha256": "",
+    }
+
+
+def hashlib_sha256_text(text: str) -> str:
+    import hashlib
+
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def _emit_d1c_v2_from_gate(
+    *,
+    out_dir: Path,
+    contract: Mapping[str, Any] | None,
+    ckpt: str,
+    provenance: dict[str, Any],
+    infer: dict[str, Any],
+    teacher_forced_ce: Any,
+    ordered_utt_ids: list[str],
+    condition_reports: dict[str, Any],
+    gate: dict[str, Any],
+) -> Path | None:
+    """Emit selector-consumable v2 report when the active contract is D1c semantic EOS.
+
+    Contract after gate JSON is written
+    ------------------------------------
+    - Succeed when measured TF EOS metrics are present (``eval_computed``).
+    - Soft-refuse (return ``None``, print reason) when metrics are genuinely
+      unavailable — never raise an unhandled traceback after ``n2_gate.json``.
+    - ``--score-only`` is formal **only** when the decode bundle already carries
+      measured ``eval_computed`` TF metrics from ``--decode-only``. Otherwise it
+      skips formal emit (diagnostic gate artifacts remain). Never stamps
+      ``decode_bundle`` as a formal provenance source.
+    """
+    if not _is_d1c_semantic_contract(contract):
+        return None
+    try:
+        return _emit_d1c_v2_from_gate_impl(
+            out_dir=out_dir,
+            contract=contract,
+            ckpt=ckpt,
+            provenance=provenance,
+            infer=infer,
+            teacher_forced_ce=teacher_forced_ce,
+            ordered_utt_ids=ordered_utt_ids,
+            condition_reports=condition_reports,
+            gate=gate,
+        )
+    except Exception as exc:  # noqa: BLE001 — soft-refuse after gate JSON is durable
+        print(f"D1c v2 formal report refused (non-fatal after gate write): {exc}")
+        return None
+
+
+def _emit_d1c_v2_from_gate_impl(
+    *,
+    out_dir: Path,
+    contract: Mapping[str, Any] | None,
+    ckpt: str,
+    provenance: dict[str, Any],
+    infer: dict[str, Any],
+    teacher_forced_ce: Any,
+    ordered_utt_ids: list[str],
+    condition_reports: dict[str, Any],
+    gate: dict[str, Any],
+) -> Path | None:
+    ids = list(ordered_utt_ids) or [
+        str(r.get("utt_id"))
+        for r in (condition_reports.get("model") or {}).get("rows") or []
+    ]
+    subset_key = str(provenance.get("subset_label") or "unknown")
+    subset_path = str(provenance.get("subset_path") or "")
+    subset_file = str(provenance.get("subset_file_sha256") or "")
+    if not subset_file or subset_file == ("0" * 64):
+        subsets = (contract or {}).get("subsets") or {}
+        entry = subsets.get(subset_key) or subsets.get("select8") or subsets.get("full32") or {}
+        subset_file = str(entry.get("file_sha256") or "")
+        if not subset_path:
+            subset_path = str(entry.get("path") or "")
+    if not subset_file or subset_file == ("0" * 64):
+        raise ValueError(
+            "formal D1c report refused: subset_file_sha256 missing from provenance/contract"
+        )
+    conditions: dict[str, Any] = {}
+    for name in V2_CONDITIONS:
+        rep = condition_reports.get(name) or {}
+        conditions[name] = _enrich_v2_condition_rows(
+            list(rep.get("rows") or []),
+            subset_key=subset_key,
+            subset_path=subset_path,
+            subset_file_sha256=subset_file,
+            ordered_utt_ids=ids,
+        )
+    if isinstance(teacher_forced_ce, dict):
+        tf = dict(teacher_forced_ce)
+    elif teacher_forced_ce is None:
+        tf = {"total_ce": None, "teacher_forced_ce_source": "unavailable"}
+    else:
+        # Bare float / scalar — the round-2 plumbing bug. Never fabricate EOS.
+        tf = {
+            "total_ce": teacher_forced_ce,
+            "teacher_forced_ce_source": "unavailable",
+            "tf_eos_final_top1_accuracy": "unavailable",
+            "tf_eos_early_top1_false_positive_count": "unavailable",
+        }
+    if "total_ce" not in tf and "loss" in tf:
+        tf["total_ce"] = tf["loss"]
+    # Propagate measured EOS TF metrics only; never fabricate passing defaults
+    # and never stamp decode_bundle as a formal-eligible source.
+    if "teacher_forced_ce_source" not in tf:
+        eos_ready = (
+            isinstance(tf.get("tf_eos_final_top1_accuracy"), (int, float))
+            and tf.get("tf_eos_early_top1_false_positive_count") is not None
+            and str(tf.get("tf_eos_early_top1_false_positive_count")) != "unavailable"
+        )
+        tf["teacher_forced_ce_source"] = "eval_computed" if eos_ready else "unavailable"
+    if "tf_eos_final_top1_accuracy" not in tf:
+        tf["tf_eos_final_top1_accuracy"] = "unavailable"
+    if "tf_eos_early_top1_false_positive_count" not in tf:
+        tf["tf_eos_early_top1_false_positive_count"] = "unavailable"
+
+    # --score-only: formal only if decode bundle carried measured eval_computed TF.
+    if provenance.get("score_only") and tf.get("teacher_forced_ce_source") != "eval_computed":
+        print(
+            "D1c v2 formal report skipped: --score-only without measured "
+            "eval_computed teacher-forced EOS metrics in decode bundle "
+            f"(source={tf.get('teacher_forced_ce_source')!r})"
+        )
+        return None
+
+    ckpt_path = Path(str(ckpt))
+    from minispeech.eval.discrete_report_schema import file_sha256 as _fsha
+
+    if not ckpt_path.is_file():
+        raise ValueError(f"checkpoint missing for formal report: {ckpt_path}")
+    ckpt_sha = _fsha(ckpt_path)
+    report_path = out_dir / "discrete_eval_report_v2.json"
+
+    step_raw = provenance.get("checkpoint_step", gate.get("step"))
+    try:
+        checkpoint_step = int(step_raw) if step_raw is not None else 0
+    except (TypeError, ValueError) as exc:
+        raise ValueError(
+            f"formal D1c report refused: checkpoint.step not an integer ({step_raw!r})"
+        ) from exc
+    if checkpoint_step <= 0:
+        raise ValueError(
+            "formal D1c report refused: checkpoint.step missing or zero "
+            "(evaluator must stamp candidate step from payload/filename; "
+            "--checkpoint-step may only confirm a derived step)"
+        )
+    allowed = None
+    train_block = (contract or {}).get("train") or {}
+    if isinstance(train_block, Mapping) and train_block.get("candidate_steps"):
+        allowed = [int(s) for s in train_block["candidate_steps"]]
+    elif _is_d1c_semantic_contract(contract):
+        allowed = list(FR_CANDIDATE_STEPS_BASE)
+    if allowed is not None and checkpoint_step not in allowed:
+        raise ValueError(
+            f"formal D1c report refused: checkpoint.step={checkpoint_step} "
+            f"not in candidate_steps={allowed}"
+        )
+
+    raw_hashes = provenance.get("checkpoint_hashes")
+    if not isinstance(raw_hashes, Mapping):
+        raise ValueError(
+            "formal D1c report refused: checkpoint hashes missing from provenance "
+            "(evaluator must stamp payload['hashes'] from the trainer)"
+        )
+    ckpt_hashes: dict[str, str] = {}
+    for key in _REQUIRED_CHECKPOINT_HASH_KEYS:
+        value = raw_hashes.get(key)
+        if value is None or not str(value).strip() or str(value) == ("0" * 64):
+            raise ValueError(
+                f"formal D1c report refused: checkpoint.hashes.{key} missing"
+            )
+        ckpt_hashes[key] = str(value)
+    live_contract = str((contract or {}).get("sha256") or "")
+    if live_contract and ckpt_hashes["eval_contract"] != live_contract:
+        raise ValueError(
+            "formal D1c report refused: checkpoint.hashes.eval_contract mismatch "
+            f"(payload={ckpt_hashes['eval_contract']} contract={live_contract})"
+        )
+
+    criteria = gate.get("criteria") or {}
+    text_usage = (
+        gate.get("text_usage_acceptance")
+        or criteria.get("text_usage_d1b")
+        or {}
+    )
+    if not isinstance(text_usage, Mapping):
+        text_usage = {}
+    stability = (
+        gate.get("stability_acceptance")
+        or criteria.get("stability_d1b")
+        or {}
+    )
+    if not isinstance(stability, Mapping):
+        stability = {}
+    model_rep = condition_reports.get("model") or {}
+    phrase_loop = bool(
+        model_rep.get("phrase_loop_repetition")
+        or stability.get("phrase_loop_repetition")
+    )
+    runaway = bool(
+        model_rep.get("runaway_or_repetition")
+        or stability.get("runaway_or_repetition")
+        or (not stability.get("no_runaway", True) if stability else False)
+    )
+    text_usage_block = {
+        "pass": bool(text_usage.get("pass")) if "pass" in text_usage else False,
+        **{k: v for k, v in text_usage.items() if k != "pass"},
+    }
+    if "pass" not in text_usage:
+        text_usage_block["reason"] = "absent_from_gate"
+
+    emit_d1c_v2_report(
+        out_path=report_path,
+        checkpoint={
+            "path": str(ckpt),
+            "sha256": ckpt_sha,
+            "step": int(checkpoint_step),
+            "schema": "minispeech.discrete_lm_checkpoint",
+            "schema_version": "2.0.0",
+            "hashes": dict(ckpt_hashes),
+        },
+        provenance={
+            **provenance,
+            "eval_contract_sha256": str(
+                (contract or {}).get("sha256")
+                or provenance.get("eval_contract_sha256")
+                or ""
+            ),
+            "recipe_sha256": str(
+                (contract or {}).get("recipe_sha256")
+                or provenance.get("recipe_sha256")
+                or ""
+            ),
+            "asr_sha256": str(
+                ((contract or {}).get("asr") or {}).get("file_sha256")
+                or provenance.get("asr_sha256")
+                or ""
+            ),
+            "subset_file_sha256": subset_file,
+            "checkpoint_hashes": dict(ckpt_hashes),
+        },
+        infer=infer,
+        teacher_forced_metrics=tf,
+        ordered_utt_ids=ids,
+        conditions=conditions,
+        summaries={
+            "model_macro_cer": criteria.get("macro_cer") or criteria.get("fr_cer"),
+            "n_catastrophic": criteria.get("n_catastrophic", 0),
+            "max_abs_log_duration_error": criteria.get("max_abs_log_duration_error", 0.0),
+            "mean_abs_log_duration_error": criteria.get("mean_abs_log_duration_error", 0.0),
+            "phrase_loop_repetition": phrase_loop,
+            "runaway_or_repetition": runaway,
+        },
+        gates={
+            "eligible": bool(gate.get("verdict") == "PASS"),
+            "verdict": gate.get("verdict"),
+            "criteria": criteria,
+            "text_usage": text_usage_block,
+            "runaway_or_repetition": runaway,
+        },
+    )
+    print(f"wrote {report_path}")
+    return report_path
+
+
 def _score_n2_bundle(
     bundle_path: Path,
     *,
@@ -590,15 +1339,40 @@ def _score_n2_bundle(
         )
 
     if d1b:
-        gate = evaluate_n2_gate_d1b(
-            scored["model"],
-            scored["copy_synth"],
-            scored["wrong_utt"],
-            scored["random_codes"],
-            scored["shuffle_text"],
-            scored["mask_text"],
-            copy_synth_ceiling=copy_synth_ceiling,
-        )
+        tf_metrics = bundle.get("teacher_forced_ce")
+        if not isinstance(tf_metrics, Mapping):
+            tf_metrics = (
+                {"total_ce": tf_metrics}
+                if tf_metrics is not None
+                else {"teacher_forced_ce_source": "unavailable"}
+            )
+        contract_for_gate = None
+        if eval_contract and not skip_eval_contract:
+            try:
+                contract_for_gate = load_eval_contract(eval_contract)
+            except Exception:
+                contract_for_gate = None
+        if _is_d1c_semantic_contract(contract_for_gate):
+            gate = evaluate_n2_gate_d1c(
+                scored["model"],
+                scored["copy_synth"],
+                scored["wrong_utt"],
+                scored["random_codes"],
+                scored["shuffle_text"],
+                scored["mask_text"],
+                teacher_forced_metrics=tf_metrics,
+                copy_synth_ceiling=copy_synth_ceiling,
+            )
+        else:
+            gate = evaluate_n2_gate_d1b(
+                scored["model"],
+                scored["copy_synth"],
+                scored["wrong_utt"],
+                scored["random_codes"],
+                scored["shuffle_text"],
+                scored["mask_text"],
+                copy_synth_ceiling=copy_synth_ceiling,
+            )
     else:
         gate = evaluate_n2_gate(
             scored["model"],
@@ -616,12 +1390,30 @@ def _score_n2_bundle(
         "eval_out": str(out_dir),
     }
     gate["teacher_forced_ce"] = bundle.get("teacher_forced_ce")
+    # Ensure score-only path carries checkpoint_step when decode stamped it,
+    # or recover from the checkpoint filename / --checkpoint-step via caller.
+    score_prov = dict(provenance)
+    if score_prov.get("checkpoint_step") is None and bundle.get("ckpt"):
+        recovered = resolve_checkpoint_step(
+            ckpt_path=str(bundle.get("ckpt")),
+            require=False,
+        )
+        if recovered is not None:
+            score_prov["checkpoint_step"] = int(recovered)
+    if score_prov.get("checkpoint_step") is not None:
+        gate["step"] = int(score_prov["checkpoint_step"])
     gate["provenance"] = {
-        **provenance,
+        **score_prov,
         "git_sha_score": git_sha(),
         "git_dirty_score": git_is_dirty(),
         "score_only": True,
     }
+    # Promote D1b acceptance blocks so the v2 emitter can stamp §11 fields.
+    criteria = gate.get("criteria") or {}
+    if "text_usage_acceptance" not in gate and criteria.get("text_usage_d1b"):
+        gate["text_usage_acceptance"] = criteria["text_usage_d1b"]
+    if "stability_acceptance" not in gate and criteria.get("stability_d1b"):
+        gate["stability_acceptance"] = criteria["stability_d1b"]
     if "enriched_reports" not in gate:
         gate["reports"] = {
             k: {kk: vv for kk, vv in rep.items() if kk not in ("rows", "edit_counts")}
@@ -643,6 +1435,23 @@ def _score_n2_bundle(
     )
     print(json.dumps({"n2_verdict": gate["verdict"], **gate["criteria"]}, indent=2, default=str))
     print(f"wrote {gate_path}")
+    contract_for_emit = None
+    if eval_contract and not skip_eval_contract:
+        try:
+            contract_for_emit = load_eval_contract(eval_contract)
+        except Exception:
+            contract_for_emit = None
+    _emit_d1c_v2_from_gate(
+        out_dir=out_dir,
+        contract=contract_for_emit,
+        ckpt=str(bundle.get("ckpt") or ""),
+        provenance=dict(gate.get("provenance") or provenance),
+        infer=dict((scored.get("model") or {}).get("infer") or {}),
+        teacher_forced_ce=bundle.get("teacher_forced_ce"),
+        ordered_utt_ids=[str(r.get("utt_id")) for r in (scored.get("model") or {}).get("rows") or []],
+        condition_reports=scored,
+        gate=gate,
+    )
     return 0
 
 
@@ -813,6 +1622,17 @@ def main() -> int:
         action="store_true",
         help="Skip fail-closed eval-contract checks (non-canonical only)",
     )
+    ap.add_argument(
+        "--checkpoint-step",
+        type=int,
+        default=None,
+        help=(
+            "Confirm candidate optimizer step for formal D1c reports. Step is "
+            "derived from payload['step'] (filename may only confirm); this "
+            "flag may only agree with that derived value (cannot invent a "
+            "foreign step for best.pt / unbound files)."
+        ),
+    )
     args = ap.parse_args()
     d1b = not bool(args.legacy_n2)
 
@@ -842,7 +1662,7 @@ def main() -> int:
         raise SystemExit("Pass --ckpt and --codec-tokens-dir (or --score-only)")
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model, cfg = _load_model(expand(args.ckpt), device)
+    model, cfg, ckpt_payload = _load_model(expand(args.ckpt), device)
     # CLI yaml infer knobs override frozen ckpt snapshot (e.g. WAVE3c stop prior).
     file_cfg = load_yaml(args.config)
     if isinstance(file_cfg.get("infer"), dict):
@@ -890,6 +1710,33 @@ def main() -> int:
             require_clean_sha=False,
             speaker_map_path=speaker_map_resolved,
         )
+
+    d1c_contract = _is_d1c_semantic_contract(contract_payload)
+    allowed_steps = None
+    if d1c_contract:
+        train_block = (contract_payload or {}).get("train") or {}
+        raw_steps = train_block.get("candidate_steps") if isinstance(train_block, Mapping) else None
+        allowed_steps = (
+            [int(s) for s in raw_steps]
+            if raw_steps
+            else list(FR_CANDIDATE_STEPS_BASE)
+        )
+    checkpoint_step = resolve_checkpoint_step(
+        ckpt_path=expand(args.ckpt),
+        payload=ckpt_payload if isinstance(ckpt_payload, Mapping) else None,
+        cli_step=args.checkpoint_step,
+        allowed_steps=allowed_steps,
+        require=bool(d1c_contract),
+    )
+    checkpoint_hashes: dict[str, str] | None = None
+    if d1c_contract:
+        checkpoint_hashes = require_checkpoint_payload_hashes(
+            ckpt_payload if isinstance(ckpt_payload, Mapping) else None,
+            expected_eval_contract=(
+                str((contract_payload or {}).get("sha256") or "") or None
+            ),
+        )
+
     rows = load_codec_items(
         args.codec_tokens_dir,
         args.max_utts,
@@ -911,21 +1758,27 @@ def main() -> int:
             json.dumps(summary_note, indent=2) + "\n", encoding="utf-8"
         )
 
+    term = ((cfg.get("model") or {}).get("termination") or {})
+    semantic_mode = (
+        getattr(model, "termination_mode", None) == "semantic_eos_v1"
+        or (isinstance(term, dict) and term.get("mode") == "semantic_eos_v1")
+    )
+    eos_id = int(getattr(model, "eos_id", 2048))
     loader = DataLoader(
         rows,
         batch_size=args.batch_size,
         shuffle=False,
-        collate_fn=lambda b: collate(b, pad_token_id=pad_id),
+        collate_fn=lambda b: collate(
+            b,
+            pad_token_id=pad_id,
+            speech_eos_id=eos_id,
+            termination_mode="semantic_eos_v1" if semantic_mode else "frame_stop_v1",
+        ),
     )
-    totals = {"loss": 0.0, "ce_cb0": 0.0, "ce_residual": 0.0}
-    n = 0
+    totals_batches: list[dict[str, Any]] = []
     for batch in loader:
-        m = teacher_forced_ce(model, batch, device)
-        for k in totals:
-            totals[k] += m[k]
-        n += 1
-    summary: dict[str, Any] = {k: v / max(n, 1) for k, v in totals.items()}
-    summary["n_batches"] = n
+        totals_batches.append(teacher_forced_ce(model, batch, device))
+    summary: dict[str, Any] = aggregate_teacher_forced_batches(totals_batches)
     summary["n_utts"] = len(rows)
     summary["note"] = (
         "Teacher-forced CE is diagnostic only; promotion uses free-running CER/DER."
@@ -1008,7 +1861,7 @@ def main() -> int:
             model, rows, out_wav_dir=wav_root / "mask_text", condition="mask_text", **common
         )
 
-        tf_ce = summary.get("loss")
+        tf_ce = teacher_forced_metrics_for_emitter(summary)
         provenance = {
             "git_sha": git_sha(),
             "git_dirty": git_is_dirty(),
@@ -1032,6 +1885,10 @@ def main() -> int:
             "max_frames": int(max_frames),
             "teacher_forced_ce": tf_ce,
         }
+        if checkpoint_step is not None:
+            provenance["checkpoint_step"] = int(checkpoint_step)
+        if checkpoint_hashes is not None:
+            provenance["checkpoint_hashes"] = dict(checkpoint_hashes)
 
         if args.decode_only:
             bundle = {
@@ -1061,15 +1918,28 @@ def main() -> int:
             print(f"wrote decode bundle {bundle_path} (run --score-only next)")
         else:
             if d1b:
-                gate = evaluate_n2_gate_d1b(
-                    model_rep,
-                    copy_rep,
-                    wrong_rep,
-                    rand_rep,
-                    shuf_rep,
-                    mask_rep,
-                    copy_synth_ceiling=float(args.copy_synth_ceiling),
-                )
+                tf_for_gate = tf_ce if isinstance(tf_ce, Mapping) else {"total_ce": tf_ce}
+                if d1c_contract:
+                    gate = evaluate_n2_gate_d1c(
+                        model_rep,
+                        copy_rep,
+                        wrong_rep,
+                        rand_rep,
+                        shuf_rep,
+                        mask_rep,
+                        teacher_forced_metrics=tf_for_gate,
+                        copy_synth_ceiling=float(args.copy_synth_ceiling),
+                    )
+                else:
+                    gate = evaluate_n2_gate_d1b(
+                        model_rep,
+                        copy_rep,
+                        wrong_rep,
+                        rand_rep,
+                        shuf_rep,
+                        mask_rep,
+                        copy_synth_ceiling=float(args.copy_synth_ceiling),
+                    )
                 model_rows = gate.pop("model_rows")
                 cat_rows = gate.pop("catastrophic_rows", [])
                 gate["reports"] = gate.pop("enriched_reports")
@@ -1103,6 +1973,8 @@ def main() -> int:
                 "tf_summary": str(out_dir / "eval_summary.json"),
             }
             gate["teacher_forced_ce"] = tf_ce
+            if checkpoint_step is not None:
+                gate["step"] = int(checkpoint_step)
             gate["provenance"] = provenance
             # Attach acceptance helpers explicitly for consumers / selection
             gate["text_usage_acceptance"] = text_usage_acceptance(
@@ -1140,6 +2012,24 @@ def main() -> int:
                 )
             )
             print(f"wrote {gate_path}")
+            _emit_d1c_v2_from_gate(
+                out_dir=out_dir,
+                contract=contract_payload,
+                ckpt=str(expand(args.ckpt)),
+                provenance=dict(provenance),
+                infer=dict(model_rep.get("infer") or {}),
+                teacher_forced_ce=tf_ce,
+                ordered_utt_ids=[str(r.get("utt_id")) for r in model_rows],
+                condition_reports={
+                    "model": {**model_rep, "rows": model_rows},
+                    "copy_synth": copy_rep,
+                    "wrong_utt": wrong_rep,
+                    "random_codes": rand_rep,
+                    "shuffle_text": shuf_rep,
+                    "mask_text": mask_rep,
+                },
+                gate=gate,
+            )
 
     out_path = out_dir / "eval_summary.json"
     out_path.write_text(json.dumps(summary, indent=2), encoding="utf-8")

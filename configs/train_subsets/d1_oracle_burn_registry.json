@@ -1,0 +1,52 @@
+{
+  "schema": "minispeech.d1_oracle_burn_registry",
+  "schema_version": "1.0.0",
+  "append_only": true,
+  "description": "Historical D1/D1b oracle inventory. Entries are never reusable for D1c tuning or confirmation.",
+  "entries": [
+    {
+      "id": "d1b_dev32",
+      "role": "development_oracle",
+      "version": "historical",
+      "path": "configs/train_subsets/d1b_dev32.json",
+      "file_or_items_hash": "c886ba31f3305546d9b4938e1cd0b7a2fa4fce738d7da342e9da2a30a28b172c",
+      "hash_kind": "items_sha256",
+      "status": "burned",
+      "first_output_time": "pre-D1c",
+      "supersession_reason": "D1c requires a fresh independent DEV oracle."
+    },
+    {
+      "id": "d1b_confirm32_v1",
+      "role": "confirmation_oracle",
+      "version": "1",
+      "path": "configs/train_subsets/d1b_confirm32.json",
+      "file_or_items_hash": "232df2786859820298271a4845006bbcd4f9b78cfd9fb37872da90d0eee7265c",
+      "hash_kind": "items_sha256",
+      "status": "burned_superseded",
+      "first_output_time": "pre-D1c",
+      "supersession_reason": "Superseded by D1b confirmation v2; both remain burned."
+    },
+    {
+      "id": "d1b_confirm32_v2",
+      "role": "confirmation_oracle",
+      "version": "2",
+      "path": "configs/train_subsets/d1b_confirm32_v2.json",
+      "file_or_items_hash": "63d7e351602e62d26196d944cd1f7a9e928a241e70d968f6eb58c0d1b7a746b9",
+      "hash_kind": "items_sha256",
+      "status": "burned",
+      "first_output_time": "pre-D1c",
+      "supersession_reason": "D1b termination HARD-STOP; invalid as D1c authority."
+    },
+    {
+      "id": "d1b_eval_contract",
+      "role": "evaluation_contract",
+      "version": "1.2.0",
+      "path": "configs/eval_contracts/d1b_n2_reliability.json",
+      "file_or_items_hash": "d04295d3ac9864afe5002a8470baead8f5f57a3c8f8d38831fe134aa7feada92",
+      "hash_kind": "content_sha256",
+      "status": "historical_only",
+      "first_output_time": "pre-D1c",
+      "supersession_reason": "Incompatible frame-stop semantics; D1c uses contract 2.x."
+    }
+  ]
+}

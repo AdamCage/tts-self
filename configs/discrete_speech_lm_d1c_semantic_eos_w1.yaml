@@ -1,0 +1,61 @@
+model:
+  target: qwen3tts_12hz
+  d_model: 1024
+  n_layers: 12
+  n_heads: 16
+  ffn_dim: 2816
+  vocab_size: 248077
+  max_speakers: 1089
+  dropout: 0.0
+  max_seq: 8192
+  rope_theta: 10000.0
+  n_codebooks: 16
+  codebook_size: 2048
+  mtp_hidden: 1024
+  pad_token_id: 248044
+  termination: {mode: semantic_eos_v1, eos_id: 2048, semantic_vocab_size: 2049, codec_vocab_size: 2048}
+  russian_conditioning: {enabled: false, phoneme_vocab: 256, stress_vocab: 4, span_vocab: 16}
+  text_init: {enabled: false, model_id: Qwen/Qwen3-0.6B, allow_unsafe_vocab_truncation: false,
+    min_coverage: 0.05}
+  speaker: {type: id_embedding, map_path: configs/speaker_maps/trackn_v2.json}
+  text_tokenizer_id: /home/adam/datasets/tts/models/Qwen3.5-0.8B-Base
+loss: {cb0_weight: 1.0, residual_weights: null, eos_loss_weight: 1.0}
+train:
+  seed: 101
+  step_unit: optimizer_step
+  optimizer_steps: 750
+  speaker_map_path: configs/speaker_maps/trackn_v2.json
+  subset: configs/train_subsets/d1c_dev32.json
+  subset_split: full32
+  subset_hash: 501330481c07d928d0fe6b86395355aea1410a680a4020c73b602df5cc3d9b40
+  eval_contract_path: configs/eval_contracts/d1c_semantic_eos_v2_0_0.json
+  eval_contract_hash: c9fd265ac715b3d600dab1fcdf3d0b941d8db6b6fb3d9c9495728c0c55e124cf
+  speaker_map_hash: 64e7cdc5c3447a43d7484b7538f9fd5df88551650d7b95ddb23110f9c36dca6e
+  batch:
+    mode: fixed
+    size: 4
+    candidates: [1, 2, 4, 8]
+    target_vram_gb: 14.5
+  grad_accum: 4
+  lr: 0.0002
+  weight_decay: 0.01
+  grad_clip: 1.0
+  warmup_steps: 50
+  lr_schedule: cosine
+  min_lr_ratio: 0.05
+  precision: bf16
+  log_every: 10
+  eval_every: 125
+  save_every: 250
+  candidate_steps: [250, 375, 500, 625, 750]
+  run_name: d1c_eos_dev_w1_seed101
+  run_dir: runs/${run_name}
+  resume: false
+  ddp: {enabled: false, find_unused_parameters: false}
+  recipe_hash: c9fd265ac715b3d600dab1fcdf3d0b941d8db6b6fb3d9c9495728c0c55e124cf
+  recipe_source_manifest_hash: 85b896a907769af467f9e76d11b2347849b1c7fb776fcd7a6104d1885877ebbd
+  run_manifest_hash: 6e8e3ce9931e361799b3700dd405266581dff6677a25b9f42216171635214798
+infer: {max_frames: 750, temperature: 0.0, top_k: 0, min_frames: 4, max_cb0_repeat: 12,
+  repetition_penalty: 2.0, sampler: greedy}
+data: {target: qwen3tts_12hz, codec_tokens_dir: '~/datasets/tts/ruslan/codec_tokens,~/datasets/tts/common_voice_ru17/codec_tokens',
+  pad_token_id: 248044, speaker_map: configs/speaker_maps/trackn_v2.json}

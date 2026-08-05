@@ -1,0 +1,24 @@
+=== REAUDIT ROUND2 independent full-suite reproduction (GIT_DIR override) ===
+2026-08-04T10:09:40+03:00
+rootdir=/mnt/c/projects/tts-self-d1c
+GIT_DIR=/mnt/c/projects/tts-self/.git/worktrees/tts-self-d1c
+GIT_WORK_TREE=/mnt/c/projects/tts-self-d1c
+git_sha=0661d10eb616362e74dc1750e03cf25c33a7943e
+git_sha_short=0661d10
+dirty_attested_paths=271
+python 3.11.15
+
+........................................................................ [ 18%]
+.......................s..........s..................................s.. [ 36%]
+........................................................................ [ 54%]
+........................................................................ [ 72%]
+........................................................................ [ 90%]
+.......................................                                  [100%]
+=============================== warnings summary ===============================
+tests/test_eval_mel_suite.py::test_optional_metrics_skip_missing
+tests/test_utmos_backend.py::test_utmos_score_range_when_backend_present
+  /home/adam/projects/tts-self/.venv/lib/python3.11/site-packages/torch/nn/utils/weight_norm.py:144: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+    WeightNorm.apply(module, name, dim)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+396 passed, 3 skipped, 2 warnings in 51.13s

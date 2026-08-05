@@ -1,0 +1,267 @@
+{
+  "schema": "minispeech.discrete_eval_contract",
+  "id": "d1c_semantic_eos_v2_0_0",
+  "version": "2.0.0",
+  "plan_slug": "d1c_semantic_eos_repair_b81ecc3e",
+  "description": "D1c DEV-bound formal contract for semantic_eos_v1. Confirmation subset/seed reveal fields are intentionally absent until recipe lock.",
+  "gate_id": "N2_D1c_semantic_eos_v1",
+  "termination": {
+    "mode": "semantic_eos_v1",
+    "eos_id": 2048,
+    "semantic_vocab_size": 2049,
+    "codec_vocab_size": 2048
+  },
+  "loss": {
+    "cb0_weight": 1.0,
+    "eos_loss_weight_primary": 1.0,
+    "eos_loss_weight_fallback": 2.0,
+    "allowed_recipes": [
+      "w1",
+      "w2_conditional"
+    ]
+  },
+  "train": {
+    "optimizer_steps": 750,
+    "grad_accum": 4,
+    "candidate_steps": [
+      250,
+      375,
+      500,
+      625,
+      750
+    ],
+    "dev_train_seeds": [
+      101,
+      102
+    ],
+    "confirm_train_seeds": [
+      201,
+      202
+    ],
+    "batch_size": 4,
+    "lr": 0.0002,
+    "precision": "bf16",
+    "resume": false
+  },
+  "asr": {
+    "config_path": "configs/asr.yaml",
+    "file_sha256": "f5d2b1b8ae80e76f4c585cc5dd3411732617ebc539fb8a97b975f025efbcfdb9",
+    "parsed_sha256": "5f7c44eb6e3cf470d7de7f1355892a875acb1cd8c899a4bf09406f9610b2d497",
+    "backend": "openai_whisper",
+    "model": "large-v3",
+    "language": "ru",
+    "decoding": {
+      "temperature": 0.0,
+      "beam_size": null,
+      "condition_on_previous_text": false,
+      "vad_filter": false
+    },
+    "package": {
+      "name": "openai-whisper",
+      "version": "20250625"
+    },
+    "expected_weight_sha256": null,
+    "normalizer": {
+      "id": "minispeech.frontend.normalize.normalize_for_asr_v1",
+      "module": "minispeech.frontend.normalize",
+      "source_path": "/mnt/c/projects/tts-self-d1c/src/minispeech/frontend/normalize.py",
+      "source_sha256": "bd93d6c3bea0a4560695c2f39c14faaa78791b296103759a864a5827dbaf795e"
+    },
+    "scoring_packages": {
+      "jiwer": "4.0.0",
+      "torch": "2.13.0",
+      "torchaudio": "2.11.0",
+      "soundfile": "0.14.0"
+    }
+  },
+  "codec": {
+    "id": "qwen3tts_12hz",
+    "model_id": "Qwen/Qwen3-TTS-Tokenizer-12Hz",
+    "fingerprint": {
+      "status": "ok",
+      "partial_sha256_16": "7030d98a18ae5968",
+      "license": "Apache-2.0",
+      "target": "qwen3tts_12hz"
+    },
+    "codec_hash": "7030d98a18ae5968",
+    "sample_rate": 24000,
+    "frame_rate": 12.5,
+    "n_codebooks": 16,
+    "codebook_size": 2048
+  },
+  "text_tokenizer": {
+    "local_path": "/home/adam/datasets/tts/models/Qwen3.5-0.8B-Base",
+    "fingerprint_note": "local path recorded; weight digest measured at train time"
+  },
+  "speaker_map": {
+    "path": "configs/speaker_maps/trackn_v2.json",
+    "version": "2.0.0",
+    "n_speakers": 1088,
+    "max_speakers": 1089,
+    "sha256": "64e7cdc5c3447a43d7484b7538f9fd5df88551650d7b95ddb23110f9c36dca6e"
+  },
+  "infer": {
+    "termination_mode": "semantic_eos_v1",
+    "temperature": 0.0,
+    "top_k": 0,
+    "min_frames": 4,
+    "max_cb0_repeat": 12,
+    "repetition_penalty": 2.0,
+    "max_frames": 750,
+    "sampler": "greedy",
+    "forbidden_success_paths": [
+      "text_length_hard_cap",
+      "frames_per_text_token",
+      "stop_threshold",
+      "stop_consecutive",
+      "stop_earliest_frac",
+      "stop_overrun_bias"
+    ],
+    "shared_resolver_module": "minispeech.infer.discrete_config"
+  },
+  "cer_normalization": {
+    "version": "normalize_for_asr_v1",
+    "module": "minispeech.frontend.normalize.normalize_for_asr"
+  },
+  "bootstrap": {
+    "seed": 42,
+    "n_resamples": 1000
+  },
+  "random_code_baseline": {
+    "base_seed": 42001
+  },
+  "catastrophic": {
+    "definition_version": "d1b_v1",
+    "cer_ge": 0.5,
+    "cer_and_jaccard_cer": 0.35,
+    "jaccard_lt": 0.2
+  },
+  "runaway": {
+    "definition_version": "d1c_v1",
+    "cb0_max_run": 12,
+    "mean_duration_ratio_range": [
+      0.9,
+      1.1
+    ],
+    "utt_duration_ratio_range": [
+      0.5,
+      2.0
+    ],
+    "require_learned_eos": true,
+    "allow_safety_as_pass": false
+  },
+  "text_usage": {
+    "shuffle_mask_margin": 0.05,
+    "prefix_change_frac": 0.25,
+    "paired_model_minus_shuffle_ci95_high_lt": 0.0,
+    "pairing": "utt_id"
+  },
+  "candidate_selection": {
+    "subset": "select8",
+    "steps": [
+      250,
+      375,
+      500,
+      625,
+      750
+    ],
+    "require_all_learned_eos": true,
+    "no_eligible_policy": "error",
+    "lexicographic": [
+      "macro_cer",
+      "catastrophic_count",
+      "max_abs_log_dur_error",
+      "mean_abs_log_dur_error",
+      "tf_total_ce",
+      "optimizer_step",
+      "checkpoint_sha256"
+    ]
+  },
+  "formal_mode_bypass_prohibitions": [
+    "skip_eval_contract",
+    "legacy_n2",
+    "gt_derived_max_frames",
+    "manual_tf_ce",
+    "hand_authored_flat_candidates",
+    "dirty_tree"
+  ],
+  "burn_registry": {
+    "path": "configs/train_subsets/d1_oracle_burn_registry.json",
+    "file_sha256": "a9235e6cafa521daef33c091f69c3c74153a978d54d6ce8bcd52aae55a25358b"
+  },
+  "confirm_seed_commitment": {
+    "path": "configs/train_subsets/d1c_confirm_seed_commitment.json",
+    "status": "awaiting_external_commitment"
+  },
+  "subsets": {
+    "dev32": {
+      "path": "configs/train_subsets/d1c_dev32.json",
+      "role": "development_oracle",
+      "split": "full32",
+      "n": 32,
+      "file_sha256": "f9f82b708b23ab61af1ee3ffc493b1c064998a14eb2edcab4d7020483bb3c574",
+      "items_sha256": "501330481c07d928d0fe6b86395355aea1410a680a4020c73b602df5cc3d9b40",
+      "split_hashes": {
+        "select8": "882691c9fa7e799b3e49e8dbde6ef8cfa7226aecdf18bf77110ebee424b62e05",
+        "gate24": "5485d37be12342d187cef264fa5626e58edee3c821737dada26418142223b1ad",
+        "full32": "501330481c07d928d0fe6b86395355aea1410a680a4020c73b602df5cc3d9b40"
+      }
+    },
+    "select8": {
+      "path": "configs/train_subsets/d1c_dev32.json",
+      "role": "checkpoint_selection",
+      "split": "select8",
+      "n": 8,
+      "parent": "dev32",
+      "items_sha256": "882691c9fa7e799b3e49e8dbde6ef8cfa7226aecdf18bf77110ebee424b62e05",
+      "file_sha256": "f9f82b708b23ab61af1ee3ffc493b1c064998a14eb2edcab4d7020483bb3c574"
+    },
+    "gate24": {
+      "path": "configs/train_subsets/d1c_dev32.json",
+      "role": "heldout_gate",
+      "split": "gate24",
+      "n": 24,
+      "parent": "dev32",
+      "items_sha256": "5485d37be12342d187cef264fa5626e58edee3c821737dada26418142223b1ad",
+      "file_sha256": "f9f82b708b23ab61af1ee3ffc493b1c064998a14eb2edcab4d7020483bb3c574"
+    },
+    "full32": {
+      "path": "configs/train_subsets/d1c_dev32.json",
+      "role": "full_oracle",
+      "split": "full32",
+      "n": 32,
+      "parent": "dev32",
+      "items_sha256": "501330481c07d928d0fe6b86395355aea1410a680a4020c73b602df5cc3d9b40",
+      "file_sha256": "f9f82b708b23ab61af1ee3ffc493b1c064998a14eb2edcab4d7020483bb3c574"
+    }
+  },
+  "repro": {
+    "dev_subset_selection_seed": 20260805,
+    "bootstrap_seed": 42,
+    "random_baseline_base_seed": 42001
+  },
+  "recipe_source_manifest": {
+    "configs/discrete_speech_lm_d1c_semantic_eos_w1.yaml": "91125b5abfed71c8160e374b8e21a593cd4495d15c888ccd4e7f7b82dec4d768",
+    "configs/discrete_speech_lm_d1c_semantic_eos_w2.yaml": "4890e51af27150996a1a80a3cdba1af92d0e6de27230b536fb55cde65c79660e",
+    "src/minispeech/models/discrete_speech_lm.py": "d7c8b4fcd158f59b658622dcae4b25d9c3c33ee2f6e55fc3b81fe710aba3f437",
+    "src/minispeech/models/multi_codebook_head.py": "0b851d2f8ae4aba324300d2d99973f4701ad2522b605939b4745a445e4505aa4",
+    "src/minispeech/data/collate_codec_seq.py": "236dfb459b3bc18676e6949073fe224ffb63ddac683ffa21656ebd3f48a81132",
+    "src/minispeech/data/discrete_oracles.py": "90c844e350c7d488c8c8c69dad4e2a525f0d0b09135bc4cedc8026c5e956630d",
+    "src/minispeech/data/d1b_oracles.py": "9604d3aad48d7731fb77177cc9344b15fc38a73fa8946503263447d8b557e2da",
+    "src/minispeech/data/codec_seq_protocol.py": "8092f697776d3d42033c37748bfb22ccd1afcb99db273e54519c790d3b95c7b2",
+    "src/minispeech/constants.py": "26596763f9b50a949f6c209beef2f611ea24bec98f4e8ff5815a185f44f15a29",
+    "src/minispeech/train/discrete_lm_trainer.py": "8b665b8c9faf830451a27e535350c31dd6e153179dad5a3e0641f8f44f5f316d",
+    "src/minispeech/infer/discrete_config.py": "b900f5252a5d481c58e6661f49f7fd00dc5970a9044ba7340f427decd026c18c",
+    "src/minispeech/eval/discrete_n2.py": "7d85475e6ab3db1919833d64dfcee57e13d5875823934ca82a0ab76beceb8d31",
+    "src/minispeech/eval/discrete_report_schema.py": "37fac4058b99eae8e64ae053029c5ac3b901d33a414587157a9bd8e3b10094ed",
+    "src/minispeech/eval/asr.py": "32ec6bee88c3ca7f91210d6c566214dff1c0e54d2dccc25d735005f2432b2da1",
+    "scripts/72_train_discrete_lm.py": "8d931876e166fd27e16596f37029981fa0e6d268a968d7f5aa6ff188eba1d7ab",
+    "scripts/73_infer_discrete_lm.py": "1d1cecd246866bd360fb92141477f39f9cd4af89be1d9ecb1ba77aab304529e4",
+    "scripts/74_eval_discrete_lm.py": "8a94899ce9637691054b36d2a48d63efde58786f13e231ec9894a567496c4674",
+    "scripts/76_select_discrete_checkpoint.py": "b2513ec49b141bab39135128e8ea2b936d613f9b93b92ede2e463a656436958a",
+    "scripts/77_freeze_d1c_oracles.py": "065c607b9d59d4e4d4eae4db49ead3fcae0cca6d6aafcab6443f0216bc91e7ed"
+  },
+  "recipe_source_manifest_sha256": "85b896a907769af467f9e76d11b2347849b1c7fb776fcd7a6104d1885877ebbd",
+  "recipe_sha256": "c9fd265ac715b3d600dab1fcdf3d0b941d8db6b6fb3d9c9495728c0c55e124cf",
+  "sha256": "c9fd265ac715b3d600dab1fcdf3d0b941d8db6b6fb3d9c9495728c0c55e124cf"
+}

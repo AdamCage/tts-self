@@ -1,0 +1,42 @@
+B1a PASS independent content recompute=32f0ea2b16fabb0a16086754d28e4f8986efa78735658de43769c172d13aac5c == declared sha256 (True)
+B1b INFO contract top keys: ['asr', 'bootstrap', 'burn_registry', 'candidate_selection', 'catastrophic', 'cer_normalization', 'codec', 'confirm_seed_commitment', 'description', 'formal_mode_bypass_prohibitions', 'gate_id', 'id', 'infer', 'loss', 'plan_slug', 'random_code_baseline', 'recipe_sha256', 'recipe_source_manifest', 'recipe_source_manifest_sha256', 'repro', 'runaway', 'schema', 'sha256', 'speaker_map', 'subsets', 'termination', 'text_tokenizer', 'text_usage', 'train', 'version']
+B1c INFO repro block: {"bootstrap_seed": 42, "dev_subset_selection_seed": 20260805, "random_baseline_base_seed": 42001}
+B1d INFO termination: {"codec_vocab_size": 2048, "eos_id": 2048, "mode": "semantic_eos_v1", "semantic_vocab_size": 2049}
+B1e INFO subsets: ['dev32', 'full32', 'gate24', 'select8']
+B1f INFO contract.recipe_sha256 is EXCLUDED from sha256 -> tampering it keeps sha valid (same=True)
+B1g PASS tamper(infer.max_frames=999) changes content sha (True)
+B2a PASS enforce_eval_contract accepts correct declared hash (sha=32f0ea2b16fabb0a)
+B2b PASS enforce_eval_contract refuses stale expected hash: D1b eval_contract enforcement failed:
+- eval_contract hash mismatch: expected=a59ada9c1e0a64f067b27dd2b4d93ca2
+B2c PASS require_clean_sha=True refuses (no clean SHA yet): D1b eval_contract enforcement failed:
+- eval_contract.repro.clean_sha_available is false
+B3a PASS happy-path D1c resume accepted (err=None)
+B3b-model_config PASS current model_config=None refused -> ResumeMismatchError: resume fail-closed: D1c requires model_config but current repro hash is mi
+B3b-speaker_map PASS current speaker_map=None refused -> ResumeMismatchError: resume fail-closed: D1c requires speaker_map but current repro hash is mis
+B3b-subset PASS current subset=None refused -> ResumeMismatchError: resume fail-closed: D1c requires subset but current repro hash is missing 
+B3b-eval_contract PASS current eval_contract=None refused -> ResumeMismatchError: resume fail-closed: D1c requires eval_contract but current repro hash is m
+B3b-recipe PASS current recipe=None refused -> ResumeMismatchError: resume fail-closed: D1c requires recipe but current repro hash is missing 
+B3b-recipe_source_manifest PASS current recipe_source_manifest=None refused -> ResumeMismatchError: resume fail-closed: D1c requires recipe_source_manifest but current repro 
+B3b-run_manifest PASS current run_manifest=None refused -> ResumeMismatchError: resume fail-closed: D1c requires run_manifest but current repro hash is mi
+B3b-config PASS current config=None refused -> ResumeMismatchError: resume fail-closed: D1c requires config but current repro hash is missing 
+B3c-model_config PASS ckpt model_config mismatch refused -> ResumeMismatchError: resume fail-closed: model_config mismatch ckpt=deadbeef cur
+B3c-speaker_map PASS ckpt speaker_map mismatch refused -> ResumeMismatchError: resume fail-closed: speaker_map mismatch ckpt=deadbeef curr
+B3c-subset PASS ckpt subset mismatch refused -> ResumeMismatchError: resume fail-closed: subset mismatch ckpt=deadbeef current=5
+B3c-eval_contract PASS ckpt eval_contract mismatch refused -> ResumeMismatchError: resume fail-closed: eval_contract mismatch ckpt=deadbeef cu
+B3c-recipe PASS ckpt recipe mismatch refused -> ResumeMismatchError: resume fail-closed: recipe mismatch ckpt=deadbeef current=3
+B3c-recipe_source_manifest PASS ckpt recipe_source_manifest mismatch refused -> ResumeMismatchError: resume fail-closed: recipe_source_manifest mismatch ckpt=de
+B3c-run_manifest PASS ckpt run_manifest mismatch refused -> ResumeMismatchError: resume fail-closed: run_manifest mismatch ckpt=deadbeef cur
+B3c-config PASS ckpt config mismatch refused -> ResumeMismatchError: resume fail-closed: config mismatch ckpt=deadbeef current=8
+B3d-recipe PASS ckpt missing recipe refused -> ResumeMismatchError: resume fail-closed: current recipe=32f0ea2b16fabb0a16086754
+B3d-recipe_source_manifest PASS ckpt missing recipe_source_manifest refused -> ResumeMismatchError: resume fail-closed: current recipe_source_manifest=cb697d4f
+B3d-run_manifest PASS ckpt missing run_manifest refused -> ResumeMismatchError: resume fail-closed: current run_manifest=e0e7b95cf5367dd954
+B3e INFO non-D1c frame_stop_v1 with run_manifest=None -> SKIPPED (fail-open)
+B3f-run_manifest_hash PASS dropping train.run_manifest_hash still resolves all keys (None=[])
+B3f-recipe_hash PASS dropping train.recipe_hash still resolves all keys (None=[])
+B3f-recipe_source_manifest_hash PASS dropping train.recipe_source_manifest_hash still resolves all keys (None=[])
+B3f-eval_contract_hash PASS dropping train.eval_contract_hash still resolves all keys (None=[])
+B3g PASS missing contract -> unresolvable keys ['recipe', 'recipe_source_manifest']; D1c resume refuses: ResumeMismatchError: resume fail-closed: D1c requires recipe but current repro hash is mis
+B4a INFO runtime callers of verify_recipe_source_manifest outside its own module: NONE
+
+=== SUMMARY B ===
+B_total=37 B_fail=0

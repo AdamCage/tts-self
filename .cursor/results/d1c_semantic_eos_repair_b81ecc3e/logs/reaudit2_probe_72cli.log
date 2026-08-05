@@ -1,0 +1,96 @@
+wrote /tmp/reaudit2/cfg/discrete_speech_lm_d1c_semantic_eos_stale.yaml
+wrote /tmp/reaudit2/cfg/discrete_speech_lm_d1c_semantic_eos_nohash.yaml
+======== CASE C1 canonical w1, no --allow-dirty (expect require_clean_sha refusal)
+CMD: python scripts/72_train_discrete_lm.py --config configs/discrete_speech_lm_d1c_semantic_eos_w1.yaml --subset dev32 --subset-split full32 --codec-tokens-dir /tmp/reaudit2/nonexistent
+Traceback (most recent call last):
+  File "/mnt/c/projects/tts-self-d1c/scripts/72_train_discrete_lm.py", line 610, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/scripts/72_train_discrete_lm.py", line 462, in main
+    contract = enforce_eval_contract(
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/src/minispeech/data/d1b_oracles.py", line 491, in enforce_eval_contract
+    raise RuntimeError(
+RuntimeError: D1b eval_contract enforcement failed:
+- subset dev32 items_sha256 mismatch: got=c886ba31f3305546d9b4938e1cd0b7a2fa4fce738d7da342e9da2a30a28b172c contract=501330481c07d928d0fe6b86395355aea1410a680a4020c73b602df5cc3d9b40
+- eval_contract.repro.clean_sha_available is false
+EXIT=1
+
+======== CASE C2 canonical w1 + --skip-eval-contract (expect D1c refusal)
+CMD: python scripts/72_train_discrete_lm.py --config configs/discrete_speech_lm_d1c_semantic_eos_w1.yaml --subset dev32 --subset-split full32 --skip-eval-contract --codec-tokens-dir /tmp/reaudit2/nonexistent
+D1c formal path forbids --skip-eval-contract; eval-contract enforcement is mandatory
+EXIT=1
+
+======== CASE C3 canonical w1, NO --subset (expect silent-first-N refusal or cfg subset)
+CMD: python scripts/72_train_discrete_lm.py --config configs/discrete_speech_lm_d1c_semantic_eos_w1.yaml --codec-tokens-dir /tmp/reaudit2/nonexistent
+Traceback (most recent call last):
+  File "/mnt/c/projects/tts-self-d1c/scripts/72_train_discrete_lm.py", line 610, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/scripts/72_train_discrete_lm.py", line 462, in main
+    contract = enforce_eval_contract(
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/src/minispeech/data/d1b_oracles.py", line 491, in enforce_eval_contract
+    raise RuntimeError(
+RuntimeError: D1b eval_contract enforcement failed:
+- eval_contract.repro.clean_sha_available is false
+EXIT=1
+
+======== CASE C4 stale eval_contract_hash + --allow-dirty (expect fail-closed mismatch)
+CMD: python scripts/72_train_discrete_lm.py --config /tmp/reaudit2/cfg/discrete_speech_lm_d1c_semantic_eos_stale.yaml --subset dev32 --subset-split full32 --allow-dirty --codec-tokens-dir /tmp/reaudit2/nonexistent
+Traceback (most recent call last):
+  File "/mnt/c/projects/tts-self-d1c/scripts/72_train_discrete_lm.py", line 610, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/scripts/72_train_discrete_lm.py", line 462, in main
+    contract = enforce_eval_contract(
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/src/minispeech/data/d1b_oracles.py", line 491, in enforce_eval_contract
+    raise RuntimeError(
+RuntimeError: D1b eval_contract enforcement failed:
+- eval_contract hash mismatch: expected=a59ada9c1e0a64f067b27dd2b4d93ca270702bd41881746d1bb9a437d2f33772 got=32f0ea2b16fabb0a16086754d28e4f8986efa78735658de43769c172d13aac5c
+- subset dev32 items_sha256 mismatch: got=c886ba31f3305546d9b4938e1cd0b7a2fa4fce738d7da342e9da2a30a28b172c contract=501330481c07d928d0fe6b86395355aea1410a680a4020c73b602df5cc3d9b40
+EXIT=1
+
+======== CASE C5 missing eval_contract_hash + --allow-dirty (expect refuse silent overwrite)
+CMD: python scripts/72_train_discrete_lm.py --config /tmp/reaudit2/cfg/discrete_speech_lm_d1c_semantic_eos_nohash.yaml --subset dev32 --subset-split full32 --allow-dirty --codec-tokens-dir /tmp/reaudit2/nonexistent
+Traceback (most recent call last):
+  File "/mnt/c/projects/tts-self-d1c/scripts/72_train_discrete_lm.py", line 610, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/scripts/72_train_discrete_lm.py", line 462, in main
+    contract = enforce_eval_contract(
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/src/minispeech/data/d1b_oracles.py", line 491, in enforce_eval_contract
+    raise RuntimeError(
+RuntimeError: D1b eval_contract enforcement failed:
+- subset dev32 items_sha256 mismatch: got=c886ba31f3305546d9b4938e1cd0b7a2fa4fce738d7da342e9da2a30a28b172c contract=501330481c07d928d0fe6b86395355aea1410a680a4020c73b602df5cc3d9b40
+EXIT=1
+
+======== CASE C6 canonical w1 + --allow-dirty (expect WARNING + proceed past contract)
+CMD: python scripts/72_train_discrete_lm.py --config configs/discrete_speech_lm_d1c_semantic_eos_w1.yaml --subset dev32 --subset-split full32 --allow-dirty --codec-tokens-dir /tmp/reaudit2/nonexistent
+Traceback (most recent call last):
+  File "/mnt/c/projects/tts-self-d1c/scripts/72_train_discrete_lm.py", line 610, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/scripts/72_train_discrete_lm.py", line 462, in main
+    contract = enforce_eval_contract(
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/src/minispeech/data/d1b_oracles.py", line 491, in enforce_eval_contract
+    raise RuntimeError(
+RuntimeError: D1b eval_contract enforcement failed:
+- subset dev32 items_sha256 mismatch: got=c886ba31f3305546d9b4938e1cd0b7a2fa4fce738d7da342e9da2a30a28b172c contract=501330481c07d928d0fe6b86395355aea1410a680a4020c73b602df5cc3d9b40
+EXIT=1
+
+======== static: is_d1c_cfg detection
+435:    is_d1b_cfg = "d1b_443m" in cfg_name or "d1b_n2" in cfg_name
+436:    is_d1c_cfg = (
+442:    is_formal_cfg = is_d1b_cfg or is_d1c_cfg
+443:    if is_formal_cfg and utt_ids is None:
+444:        label = "D1c" if is_d1c_cfg else "D1b"
+449:    if is_d1c_cfg and args.skip_eval_contract:
+460:    if not args.skip_eval_contract and (is_formal_cfg or utt_ids is not None):
+467:            require_clean_sha=bool(is_d1c_cfg and not args.allow_dirty),
+471:        if is_d1c_cfg and not declared_hash:
+540:        if is_d1b_cfg or is_d1c_cfg:
+541:            label = "D1c" if is_d1c_cfg else "D1b"

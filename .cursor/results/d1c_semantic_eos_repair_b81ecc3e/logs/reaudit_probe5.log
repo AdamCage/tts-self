@@ -1,0 +1,21 @@
+wrote /tmp/tmpkggb4p1w/eval_out/discrete_eval_report_v2.json
+REAUDIT B4 INFO with ordinal stamped, emitter succeeded -> discrete_eval_report_v2.json
+REAUDIT B4 FAIL fabricated TF provenance: teacher_forced_ce_source='eval_computed' tf_eos_final_top1_accuracy=1.0 tf_eos_early_top1_false_positive_count=0 (never measured by the evaluator)
+REAUDIT B4 FAIL formal_eligible hardcoded True by emitter: True
+REAUDIT B4 FAIL pcm_sha256 is a copy of file_sha256 (no real PCM hash): 8ca070238507… == 8ca070238507…
+REAUDIT B4 FAIL row.catastrophic never stamped by evaluator -> selector n_catastrophic always 0 (got None)
+REAUDIT B6 FAIL selector declared candidate ELIGIBLE from a report with zero measured EOS-TF metrics: step=250 gate_eligible=True macro_cer=0.08
+REAUDIT B6 PASS selector refuses all-safety candidates: formal D1c report refused: conditions.model.rows_sha256 mismatch
+REAUDIT B6 PASS selector refuses suppression/repeat violations: formal D1c report refused: conditions.model.rows_sha256 mismatch
+
+=== REAUDIT PROBE5 SUMMARY ===
+INFO  B4   with ordinal stamped, emitter succeeded -> discrete_eval_report_v2.json
+FAIL  B4   fabricated TF provenance: teacher_forced_ce_source='eval_computed' tf_eos_final_top1_accuracy=1.0 tf_eos_early_top1_false_positive_count=0 (never measured by the evaluator)
+FAIL  B4   formal_eligible hardcoded True by emitter: True
+FAIL  B4   pcm_sha256 is a copy of file_sha256 (no real PCM hash): 8ca070238507… == 8ca070238507…
+FAIL  B4   row.catastrophic never stamped by evaluator -> selector n_catastrophic always 0 (got None)
+FAIL  B6   selector declared candidate ELIGIBLE from a report with zero measured EOS-TF metrics: step=250 gate_eligible=True macro_cer=0.08
+PASS  B6   selector refuses all-safety candidates: formal D1c report refused: conditions.model.rows_sha256 mismatch
+PASS  B6   selector refuses suppression/repeat violations: formal D1c report refused: conditions.model.rows_sha256 mismatch
+
+TOTAL checks=8 fail_or_error=5

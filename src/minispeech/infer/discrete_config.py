@@ -43,6 +43,15 @@ WAVE3C_INFER_DEFAULTS: dict[str, Any] = {
     "stop_earliest_frac": 0.7,
 }
 
+SEMANTIC_EOS_INFER_DEFAULTS: dict[str, Any] = {
+    "max_frames": 750,
+    "temperature": 0.0,
+    "top_k": 0,
+    "min_frames": 4,
+    "max_cb0_repeat": 12,
+    "repetition_penalty": 2.0,
+}
+
 # Keys passed through to ``DiscreteSpeechLM.generate``.
 GENERATE_INFER_KEYS: tuple[str, ...] = (
     "max_frames",
@@ -102,7 +111,10 @@ def resolve_discrete_infer_settings(
     Precedence: ``WAVE3C_INFER_DEFAULTS`` < ``cfg['infer']`` < ``overrides``
     < ``max_frames_override`` (when not None).
     """
-    out = wave3c_infer_defaults()
+    model = (cfg or {}).get("model", {}) if isinstance(cfg, Mapping) else {}
+    termination = model.get("termination", {}) if isinstance(model, Mapping) else {}
+    eos_mode = isinstance(termination, Mapping) and termination.get("mode") == "semantic_eos_v1"
+    out = deepcopy(SEMANTIC_EOS_INFER_DEFAULTS) if eos_mode else wave3c_infer_defaults()
     if cfg is not None:
         icfg = cfg.get("infer") if isinstance(cfg, Mapping) else None
         if isinstance(icfg, Mapping):
@@ -120,6 +132,19 @@ def resolve_discrete_infer_settings(
         out["max_frames"] = int(max_frames_override)
 
     # Typed coerce for generate().
+    if eos_mode:
+        forbidden = {"eos_cb0", "stop_threshold", "stop_consecutive", "frames_per_text_token",
+                     "stop_overrun_bias", "stop_earliest_frac"}
+        supplied = set((cfg or {}).get("infer", {}) or {}) | set(overrides or {})
+        bad = sorted(forbidden & supplied)
+        if bad:
+            raise DiscreteConfigError(
+                f"semantic_eos_v1 forbids legacy success-path infer keys: {', '.join(bad)}"
+            )
+        resolved = {key: out[key] for key in SEMANTIC_EOS_INFER_DEFAULTS}
+        if validate:
+            validate_discrete_infer_settings(resolved, codebook_size=codebook_size)
+        return resolved
     resolved = {
         "max_frames": int(out["max_frames"]),
         "temperature": float(out["temperature"]),
@@ -194,6 +219,21 @@ def validate_discrete_lm_config(cfg: Mapping[str, Any]) -> None:
         raise DiscreteConfigError("model: must be a mapping")
 
     codebook_size = int(model.get("codebook_size", 2048))
+    termination = model.get("termination") or {}
+    if termination:
+        if not isinstance(termination, Mapping):
+            raise DiscreteConfigError("model.termination must be a mapping")
+        mode = termination.get("mode", "frame_stop_v1")
+        if mode not in {"frame_stop_v1", "semantic_eos_v1"}:
+            raise DiscreteConfigError(f"unknown termination.mode={mode!r}")
+        eos_id = int(termination.get("eos_id", codebook_size))
+        semantic_vocab = int(termination.get("semantic_vocab_size", codebook_size))
+        codec_vocab = int(termination.get("codec_vocab_size", codebook_size))
+        if eos_id != codebook_size or codec_vocab != codebook_size:
+            raise DiscreteConfigError("termination eos_id/codec_vocab_size must equal codebook_size")
+        expected = codebook_size + 1 if mode == "semantic_eos_v1" else codebook_size
+        if semantic_vocab != expected:
+            raise DiscreteConfigError("termination semantic_vocab_size incompatible with mode")
     vocab = int(model.get("vocab_size", 0))
     pad_id = model.get("pad_token_id")
     if vocab <= 0:
@@ -275,6 +315,17 @@ def contract_infer_from_eval_contract(contract: Mapping[str, Any]) -> dict[str, 
     block = contract.get("infer") or {}
     if not isinstance(block, Mapping):
         raise DiscreteConfigError("eval_contract.infer must be a mapping")
+    term = contract.get("termination") or {}
+    semantic = isinstance(term, Mapping) and term.get("mode") == "semantic_eos_v1"
+    if semantic:
+        merged = deepcopy(SEMANTIC_EOS_INFER_DEFAULTS)
+        for key in SEMANTIC_EOS_INFER_DEFAULTS:
+            if key in block:
+                merged[key] = block[key]
+        return resolve_discrete_infer_settings(
+            {"model": {"termination": dict(term)}, "infer": merged},
+            validate=True,
+        )
     # Contract may omit max_frames / eos_cb0; fill from WAVE3c defaults.
     merged = wave3c_infer_defaults()
     for key in GENERATE_INFER_KEYS:
@@ -287,6 +338,7 @@ __all__ = [
     "DiscreteConfigError",
     "GENERATE_INFER_KEYS",
     "WAVE3C_INFER_DEFAULTS",
+    "SEMANTIC_EOS_INFER_DEFAULTS",
     "contract_infer_from_eval_contract",
     "infer_settings_match_wave3c",
     "resolve_discrete_infer_settings",

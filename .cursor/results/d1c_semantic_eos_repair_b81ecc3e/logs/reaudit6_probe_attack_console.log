@@ -1,0 +1,43 @@
+F0 PASS REAL _load_model returns payload with step=500 hashes_keys=['eval_contract', 'recipe', 'recipe_source_manifest', 'run_manifest'] (round-5 LOW #6 now covered live)
+F1 PASS real payload resolves step=500 on the formal path
+A1 PASS refused (payload['step']): "checkpoint step unresolved: formal D1c requires payload['step'] stamped by the trainer for runs/x/candidate_st"
+A2 PASS refused (payload['step']): "checkpoint step unresolved: formal D1c requires payload['step'] stamped by the trainer for runs/x/candidate_st"
+A3 PASS refused (mismatch): 'checkpoint step mismatch: payload step=250 != filename step=625 (runs/x/candidate_step_0625.pt)'
+A4 PASS refused (cannot invent): "--checkpoint-step=625 cannot invent a step for runs/x/candidate_step_0625.pt: formal D1c requires payload['ste"
+A5 PASS documented: require=False still derives 625 from filename (non-formal)
+B1 PASS refused: "formal D1c requires payload['hashes'] with eval_contract/recipe/recipe_source_manifest/run_manifest stamped by"
+B2 PASS refused: "formal D1c requires payload['hashes'] with eval_contract/recipe/recipe_source_manifest/run_manifest stamped by"
+B3 PASS refused: "formal D1c requires payload['hashes'] with eval_contract/recipe/recipe_source_manifest/run_manifest stamped by"
+B4 PASS refused: "formal D1c requires payload['hashes'] with eval_contract/recipe/recipe_source_manifest/run_manifest stamped by"
+B5 PASS refused: "formal D1c requires payload['hashes'] with eval_contract/recipe/recipe_source_manifest/run_manifest stamped by"
+B6 PASS contract mismatch refused: 'checkpoint hashes.eval_contract mismatch: payload=999999999999999999999999999999999999999999999999999999999999'
+B7 PASS legit hashes accepted (not a blanket refusal)
+C1 PASS rename attack (no payload step): 0/5 reports
+C1a PASS all five refusals cite payload['step']: "checkpoint step unresolved: formal D1c requires payload['step'] stampe"
+C1b PASS no n2_gate.json leaked from refused runs: []
+C2 PASS wrong payload step: only the self-consistent 250 survives; emitted_steps=[250]
+C2a PASS 4/5 refused with payload-vs-filename mismatch
+C3 PASS payload hashes missing: 0/5 reports
+C3a PASS refusal cites hashes: "formal D1c requires payload['hashes'] with eval_contract/recipe/recipe_source_ma"
+C4 PASS foreign eval_contract refused: 'checkpoint hashes.eval_contract mismatch: payload=99999999999999999999999999999999999999999999999999'
+C5 PASS placeholder run_manifest refused: "formal D1c requires payload['hashes'] with eval_contract/recipe/recipe_source_manifest/run_manifest "
+C6 PASS round-4 CLI invent attack still closed: 0/5
+C6a PASS cites 'cannot invent': '--checkpoint-step=250 cannot invent a step for /tmp/d1c_r6_atk_jgocshn'
+D1 PASS legit main() stamped steps=[250, 375, 500, 625, 750]
+D1a PASS five legit candidate files are byte-distinct
+D2 PASS selector ACCEPTS legit set -> step=250
+D3 PASS 5 distinct checkpoint sha256
+E0 INFO schema ACCEPTS a best.pt alias (no candidate_step in name) — selector is the only layer
+E1 PASS selector refused basename alias: checkpoint path basename 'best.pt' does not match expected 'candidate_step_0250.pt' for step=250
+E2 PASS schema refused cross-wired basename: formal D1c report refused: checkpoint.path step=750 != checkpoint.step=250
+F2 INFO 5/5 mixed-identity reports pass the REAL schema — selector is the only layer
+F3 PASS selector refused mixed run identity: D1c formal selection refuses mixed checkpoint.hashes across candidates; all five must share one sealed run identity (distinct_run_ids=5, n=5)
+F4 PASS selector refused 1-of-5 foreign identity: D1c formal selection refuses mixed checkpoint.hashes across candidates; all five must shar
+F5 PASS schema refused report w/o hashes: formal D1c report refused: checkpoint.hashes missing
+G1 INFO 5/5 duplicate-sha reports pass the REAL schema
+G2 PASS selector refused duplicate sha: D1c formal selection refuses duplicate checkpoint.sha256 across candidates (distinct=1, n=
+H1 PASS schema refused forged sha: formal D1c report refused: checkpoint.sha256 does not match file at checkpoint.p
+H2 PASS schema_let_through=True; selector refused unreachable path
+I1 INFO RESIDUAL: five re-saves of ONE weight state with fabricated payload steps ACCEPTED (selected step=250, distinct_weight_digests=1/5)
+J1 INFO OBSERVATION: selector does not cross-check checkpoint.hashes.eval_contract against provenance.eval_contract_sha256 (consistent forgery accepted)
+SUMMARY pass=37 fail=0 info=5

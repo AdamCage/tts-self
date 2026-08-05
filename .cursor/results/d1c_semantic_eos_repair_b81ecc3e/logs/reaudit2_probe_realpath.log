@@ -1,0 +1,28 @@
+H1a INFO scripts/74:1335 -> totals = {"loss": 0.0, "ce_cb0": 0.0, "ce_residual": 0.0}
+H1b INFO scripts/74:1338-1340 -> m = teacher_forced_ce(model, batch, device) / for k in totals: / totals[k] += m[k]
+H1c INFO scripts/74:1342 -> summary: dict[str, Any] = {k: v / max(n, 1) for k, v in totals.items()}
+H1d INFO scripts/74:1426 -> tf_ce = summary.get("loss")
+H1e FAIL main() teacher-forced aggregation includes tf_eos_final_top1_accuracy (actual totals init: totals = {"loss": 0.0, "ce_cb0": 0.0, "ce_residual": 0.0})
+H1f FAIL main() passes a full TF metrics dict to the emitter (actual: tf_ce = summary.get("loss"))
+H2a INFO teacher_forced_ce() per-batch keys = ['ce_cb0', 'ce_residual', 'ce_semantic_eos', 'loss', 'teacher_forced_ce_source', 'tf_eos_early_top1_false_positive_count', 'tf_eos_final_top1_accuracy']
+H2b INFO aggregated summary keys = ['ce_cb0', 'ce_residual', 'loss', 'n_batches', 'n_utts', 'note']
+H2c FAIL aggregated summary retains the measured EOS TF metrics (dropped keys: ['ce_semantic_eos', 'teacher_forced_ce_source', 'tf_eos_early_top1_false_positive_count', 'tf_eos_final_top1_accuracy'])
+H2d INFO tf_ce passed to the emitter = 10.645967483520508 (type=float)
+H2e FAIL tf_ce is a metrics dict, not a bare scalar (got float)
+H3a FAIL MAIN eval path (tf_ce=summary['loss'] float) emits a v2 report -> ValueError: formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+H3b FAIL --score-only path (bundle tf float + score_only=True) emits a v2 report -> ValueError: formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='decode_bundle', eos_measured=False)
+wrote /tmp/reaudit2real_ni66ed3z/control/discrete_eval_report_v2.json
+H3c PASS CONTROL: same rows + full measured TF dict emits fine -> OK (isolates the defect to TF plumbing)
+H4-1039 PASS call site at scripts/74:1039 is wrapped in try/except (guarded=True)
+H4-1558 FAIL call site at scripts/74:1558 is wrapped in try/except (guarded=False)
+H4c INFO unguarded => the ValueError aborts the run AFTER n2_gate.json is written, producing no v2 report
+
+=== SUMMARY H ===
+FAIL H1e: main() teacher-forced aggregation includes tf_eos_final_top1_accuracy (actual totals init: totals = {"loss": 0.0, "ce_cb0": 0.0, "ce_residual": 0.0})
+FAIL H1f: main() passes a full TF metrics dict to the emitter (actual: tf_ce = summary.get("loss"))
+FAIL H2c: aggregated summary retains the measured EOS TF metrics (dropped keys: ['ce_semantic_eos', 'teacher_forced_ce_source', 'tf_eos_early_top1_false_positive_count', 'tf_eos_final_top1_accuracy'])
+FAIL H2e: tf_ce is a metrics dict, not a bare scalar (got float)
+FAIL H3a: MAIN eval path (tf_ce=summary['loss'] float) emits a v2 report -> ValueError: formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='unavailable', eos_measured=False)
+FAIL H3b: --score-only path (bundle tf float + score_only=True) emits a v2 report -> ValueError: formal D1c report refused: formal_eligible=False (teacher_forced_ce_source='decode_bundle', eos_measured=False)
+FAIL H4-1558: call site at scripts/74:1558 is wrapped in try/except (guarded=False)
+H_total=17 H_fail=7

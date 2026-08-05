@@ -1,0 +1,28 @@
+REAUDIT B4 PASS contract 2.0.0 recognised as D1c semantic contract
+Traceback (most recent call last):
+  File "/mnt/c/projects/tts-self-d1c/.cursor/results/d1c_semantic_eos_repair_b81ecc3e/logs/reaudit_probe4.py", line 107, in main
+    out = m74._emit_d1c_v2_from_gate(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/scripts/74_eval_discrete_lm.py", line 735, in _emit_d1c_v2_from_gate
+    emit_d1c_v2_report(
+  File "/mnt/c/projects/tts-self-d1c/scripts/74_eval_discrete_lm.py", line 101, in emit_d1c_v2_report
+    report = build_formal_report(
+             ^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self-d1c/src/minispeech/eval/discrete_report_schema.py", line 183, in build_formal_report
+    validate_formal_report(report)
+  File "/mnt/c/projects/tts-self-d1c/src/minispeech/eval/discrete_report_schema.py", line 164, in validate_formal_report
+    _validate_condition(name, _require_mapping(conditions[name], f"conditions.{name}"), report_ids)
+  File "/mnt/c/projects/tts-self-d1c/src/minispeech/eval/discrete_report_schema.py", line 116, in _validate_condition
+    validate_bound_rows(rows, expected_utt_ids, condition=f"conditions.{name}")
+  File "/mnt/c/projects/tts-self-d1c/src/minispeech/eval/discrete_report_schema.py", line 85, in validate_bound_rows
+    _fail(f"{condition}.rows[{ordinal}].ordinal must equal {ordinal}")
+  File "/mnt/c/projects/tts-self-d1c/src/minispeech/eval/discrete_report_schema.py", line 55, in _fail
+    raise ValueError(f"formal D1c report refused: {message}")
+ValueError: formal D1c report refused: conditions.model.rows[0].ordinal must equal 0
+REAUDIT B4 FAIL _emit_d1c_v2_from_gate RAISED on evaluator-shaped rows: ValueError: formal D1c report refused: conditions.model.rows[0].ordinal must equal 0
+
+=== REAUDIT PROBE4 SUMMARY ===
+PASS  B4   contract 2.0.0 recognised as D1c semantic contract
+FAIL  B4   _emit_d1c_v2_from_gate RAISED on evaluator-shaped rows: ValueError: formal D1c report refused: conditions.model.rows[0].ordinal must equal 0
+
+TOTAL checks=2 fail_or_error=1
