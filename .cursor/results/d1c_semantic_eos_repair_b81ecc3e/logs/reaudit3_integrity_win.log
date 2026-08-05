@@ -1,0 +1,33 @@
+﻿=== REAUDIT round3 post-probe integrity (Windows-side git; authoritative) ===
+NOTE: reaudit3_integrity.log ran git under WSL with GIT_DIR override; that view reports every
+file as modified purely because of CRLF/core.autocrlf differences across /mnt/c. Use this file.
+ M scripts/72_train_discrete_lm.py
+ M scripts/73_infer_discrete_lm.py
+ M scripts/74_eval_discrete_lm.py
+ M scripts/76_select_discrete_checkpoint.py
+ M src/minispeech/data/collate_codec_seq.py
+ M src/minispeech/data/d1b_oracles.py
+ M src/minispeech/eval/asr.py
+ M src/minispeech/eval/discrete_n2.py
+ M src/minispeech/infer/discrete_config.py
+ M src/minispeech/models/discrete_speech_lm.py
+ M src/minispeech/models/multi_codebook_head.py
+ M src/minispeech/train/discrete_lm_trainer.py
+ M tests/test_discrete_lm_resume.py
+?? configs/discrete_speech_lm_d1c_semantic_eos_w1.yaml
+?? configs/discrete_speech_lm_d1c_semantic_eos_w2.yaml
+?? configs/eval_contracts/d1c_semantic_eos_v2_0_0.json
+?? configs/eval_contracts/d1c_semantic_eos_v2_0_1.json
+?? configs/eval_contracts/schemas/
+?? configs/train_subsets/d1_oracle_burn_registry.json
+?? configs/train_subsets/d1c_confirm_seed_commitment.json
+?? configs/train_subsets/d1c_dev32.json
+?? scripts/77_freeze_d1c_oracles.py
+?? src/minispeech/data/discrete_oracles.py
+?? src/minispeech/eval/discrete_report_schema.py
+?? tests/test_d1c_infra_repair.py
+?? tests/test_d1c_oracles.py
+?? tests/test_d1c_selector_integration.py
+?? tests/test_d1c_semantic_eos.py
+?? tests/test_discrete_eval_report_schema.py
+HEAD=0661d10eb616362e74dc1750e03cf25c33a7943e

@@ -1,0 +1,36 @@
+{
+  "plan": "n2_first_execution",
+  "updated": "2026-08-01",
+  "n2_gate": "FAIL",
+  "demo5_side_by_side": {
+    "n2_s1": "C:/projects/tts-self/out/n2_first_execution/n2_s1_listen_demo/",
+    "silero_frontend": "C:/projects/tts-self/out/n2_first_execution/silero_frontend/demo5/",
+    "silero_raw": "C:/projects/tts-self/out/n2_first_execution/silero_raw/demo5/",
+    "track_a": "C:/projects/tts-self/out/n2_first_execution/track_a/demo5/"
+  },
+  "n2_s1_wavs": [
+    "C:/projects/tts-self/out/n2_first_execution/n2_s1_listen_demo/01_demo.wav",
+    "C:/projects/tts-self/out/n2_first_execution/n2_s1_listen_demo/02_demo.wav",
+    "C:/projects/tts-self/out/n2_first_execution/n2_s1_listen_demo/03_demo.wav",
+    "C:/projects/tts-self/out/n2_first_execution/n2_s1_listen_demo/04_demo.wav",
+    "C:/projects/tts-self/out/n2_first_execution/n2_s1_listen_demo/05_demo.wav"
+  ],
+  "ckpt": {
+    "n2_s1": "~/projects/tts-self/runs/n2_s1_ruslan/best.pt",
+    "track_a": "runs/mel_stress_v01_s4/best.pt"
+  },
+  "linux_full_suite_wav_roots": {
+    "silero_raw": "~/projects/tts-self/out/n2_first_execution/silero_raw/",
+    "silero_frontend": "~/projects/tts-self/out/n2_first_execution/silero_frontend/",
+    "track_a": "~/projects/tts-self/out/n2_first_execution/track_a/"
+  },
+  "metrics_json": {
+    "n2_gate": "out/n2_gate.json",
+    "n2_s1": "out/n2_s1_ruslan.json",
+    "text_usage": "out/n2_text_usage.json",
+    "silero_v3": "out/external_baseline_silero_v3.json",
+    "bank_delta_2x2": "out/bank_delta_2x2.json",
+    "c1_copysynth": "out/c1_copysynth_cer.json",
+    "c3_align": "out/c3_align_cv17.json"
+  }
+}

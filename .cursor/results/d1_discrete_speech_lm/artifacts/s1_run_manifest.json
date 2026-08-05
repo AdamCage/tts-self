@@ -1,0 +1,40 @@
+{
+  "timestamp": "2026-08-02T15:50:58.497658+00:00",
+  "git_sha": "dce4f456b0757fb63da4cf014188ff4e474bdbe9",
+  "git_dirty": true,
+  "config_hash": "6c5f379c3313ff7d",
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "python": "3.11.15",
+  "hostname": "DESKTOP-VII9120",
+  "torch": "2.13.0+cu130",
+  "cuda_available": true,
+  "gpu": "NVIDIA GeForce RTX 4080 SUPER",
+  "vram_gb": 17.17,
+  "transformers": "5.14.1",
+  "param_count": {
+    "total": 442391552,
+    "trainable": 442391552,
+    "text_blocks_and_emb": 373665792,
+    "speech_heads_adapters": 68725760
+  },
+  "distributed": false,
+  "world_size": 1,
+  "rank": 0,
+  "use_bf16": true,
+  "grad_accum": 4,
+  "trainable_modules": [
+    "text_emb",
+    "blocks",
+    "speech_emb",
+    "speech_start",
+    "speaker_emb",
+    "heads",
+    "ru_cond"
+  ],
+  "frozen_modules": [
+    "qwen3_tts_tokenizer (external codec)"
+  ],
+  "text_init": {
+    "enabled": false
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "plan_slug": "d1_discrete_speech_lm",
+  "date": "2026-08-02",
+  "git_sha": "dce4f456b0757fb63da4cf014188ff4e474bdbe9",
+  "status": "HARD_STOP_N2_FAIL_NEAR_MISS",
+  "d2_verdict": "NO-GO",
+  "n2_verdict": "FAIL",
+  "fr_cer": 0.05335121751047036,
+  "ceiling_copy_plus_margin": 0.052842029147292385,
+  "prior_fr_cer": {
+    "wave3": 0.45136982951585847,
+    "wave3b": 0.06414863898738764,
+    "wave3c": 0.05335121751047036
+  },
+  "gates": {
+    "d0_gate": "out/d1_discrete_speech_lm/d0_gate.json",
+    "n2_gate": "out/d1_discrete_speech_lm/n2_gate.json",
+    "n2_eval_dir": "out/d1_discrete_speech_lm/n2_eval_stop_3c"
+  },
+  "ckpt": "/home/adam/projects/tts-self/runs/discrete_speech_lm_300m_s1_stop_3k/last.pt",
+  "reports": {
+    "results": ".cursor/results/d1_discrete_speech_lm/RESULTS.md",
+    "wave0": ".cursor/results/d1_discrete_speech_lm/WAVE0_REPORT.md",
+    "wave1": ".cursor/results/d1_discrete_speech_lm/WAVE1_REPORT.md",
+    "wave3": ".cursor/results/d1_discrete_speech_lm/WAVE3_REPORT.md",
+    "wave3b": ".cursor/results/d1_discrete_speech_lm/WAVE3b_REPORT.md",
+    "wave3c": ".cursor/results/d1_discrete_speech_lm/WAVE3c_REPORT.md"
+  },
+  "play": {
+    "note": "Windows / Cursor playback paths under C:\\projects\\tts-self\\. Prefer ASCII-named files.",
+    "primary_listen_demo_dir": "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\s1_listen_demo",
+    "primary_n2_model_dir": "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\s1_n2_wavs_stop_3c\\model",
+    "s1_listen_demo": [
+      "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\s1_listen_demo\\0000_ruslan_000418_RUSLAN.wav",
+      "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\s1_listen_demo\\0001_ruslan_006437_RUSLAN.wav",
+      "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\s1_listen_demo\\0002_ruslan_016544_RUSLAN.wav",
+      "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\s1_listen_demo\\0003_ruslan_017729_RUSLAN.wav",
+      "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\s1_listen_demo\\0004_ruslan_019874_RUSLAN.wav",
+      "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\s1_listen_demo\\0005_ruslan_019969_RUSLAN.wav",
+      "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\s1_listen_demo\\0006_common_voice_ru_17_hf_mirror__099f4be73f6f3585f1.wav",
+      "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\s1_listen_demo\\0007_common_voice_ru_17_hf_mirror__1d1d705e4a340e27c1.wav"
+    ],
+    "n2_wave3c_model_dir": "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\s1_n2_wavs_stop_3c\\model",
+    "n2_wave3c_conditions": {
+      "model": "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\s1_n2_wavs_stop_3c\\model",
+      "copy_synth": "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\s1_n2_wavs_stop_3c\\copy_synth",
+      "wrong_utt": "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\s1_n2_wavs_stop_3c\\wrong_utt",
+      "random_codes": "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\s1_n2_wavs_stop_3c\\random_codes",
+      "shuffle_text": "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\s1_n2_wavs_stop_3c\\shuffle_text",
+      "mask_text": "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\s1_n2_wavs_stop_3c\\mask_text"
+    },
+    "hallucination_worst_utt": {
+      "utt_id": "common_voice_ru_17_hf_mirror__ba1a4089af87b3ebc90db07d",
+      "cer": 0.9090909090909091,
+      "wav": "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\s1_n2_wavs_stop_3c\\model\\0022_common_voice_ru_17_hf_mirror__ba1a4089af87b3ebc9.wav",
+      "note": "Content hallucination dominates residual N2 gap; zeroing this utt drops mean CER to ~0.0249."
+    },
+    "related_prior": {
+      "n2_wave3b_model_dir": "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\s1_n2_wavs_stop_3k\\model",
+      "s1_1utt_listen": "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\s1_1utt_listen_demo",
+      "s1_1utt_stop_listen": "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\s1_1utt_stop_listen"
+    },
+    "baselines": {
+      "qwen3tts_12hz_copysynth_e2": "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\qwen3tts_12hz_copysynth\\e2",
+      "silero_frontend_demo5": "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\silero_frontend\\demo5",
+      "silero_raw_demo5": "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\silero_raw\\demo5",
+      "track_a_demo5": "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\track_a\\demo5",
+      "qwen3_tts_0.6b_demo5": "C:\\projects\\tts-self\\out\\d1_discrete_speech_lm\\qwen3_tts_0.6b\\demo5"
+    }
+  },
+  "relative_play": {
+    "s1_listen_demo": [
+      "out/d1_discrete_speech_lm/s1_listen_demo/0000_ruslan_000418_RUSLAN.wav",
+      "out/d1_discrete_speech_lm/s1_listen_demo/0001_ruslan_006437_RUSLAN.wav",
+      "out/d1_discrete_speech_lm/s1_listen_demo/0002_ruslan_016544_RUSLAN.wav",
+      "out/d1_discrete_speech_lm/s1_listen_demo/0003_ruslan_017729_RUSLAN.wav",
+      "out/d1_discrete_speech_lm/s1_listen_demo/0004_ruslan_019874_RUSLAN.wav",
+      "out/d1_discrete_speech_lm/s1_listen_demo/0005_ruslan_019969_RUSLAN.wav",
+      "out/d1_discrete_speech_lm/s1_listen_demo/0006_common_voice_ru_17_hf_mirror__099f4be73f6f3585f1.wav",
+      "out/d1_discrete_speech_lm/s1_listen_demo/0007_common_voice_ru_17_hf_mirror__1d1d705e4a340e27c1.wav"
+    ],
+    "n2_model_dir": "out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model",
+    "hallucination_wav": "out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0022_common_voice_ru_17_hf_mirror__ba1a4089af87b3ebc9.wav"
+  }
+}

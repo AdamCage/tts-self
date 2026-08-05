@@ -1,0 +1,11 @@
+A1 PASS filename-only require=True refused: got=None err="checkpoint step unresolved: formal D1c requires payload['step'] stamped by the trainer for runs/x/candidate_step_0625.pt"
+B1 PASS missing hashes refused: formal D1c requires payload['hashes'] with eval_contract/recipe/recipe_source_manifest/run_manifest stamped by the trainer
+B2 PASS eval_contract mismatch refused: checkpoint hashes.eval_contract mismatch: payload=c9fd265ac715b3d600dab1fcdf3d0b941d8db6b6fb3d9c9495728c0c55e124cf expected=0000000000000000000000000000000000000000000000000000000000000000
+B3 PASS legit hashes accepted
+C1 PASS rename attack emitted 0/5 reports; steps=["refused:checkpoint step unresolved: formal D1c requires payload['ste", "refused:checkpoint step unresolved: formal D1c requires payload['ste", "refused:checkpoint step unresolved: formal D1c requires payload['ste", "refused:checkpoint step unresolved: formal D1c requires payload['ste", "refused:checkpoint step unresolved: formal D1c requires payload['ste"]
+C2 PASS no reports to select (evaluator refused)
+D1 PASS legit main() stamped steps=[250, 375, 500, 625, 750]
+D2 PASS selector ACCEPTS legit set selected_step=250
+D3 PASS legit distinct sha count=5
+E1 PASS basename refused: checkpoint path basename 'best.pt' does not match expected 'candidate_step_0250.pt' for step=250
+SUMMARY pass=10 fail=0

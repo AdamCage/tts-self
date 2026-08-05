@@ -1,0 +1,6 @@
+# Discrete listen service — local artifacts / venv / outputs
+listen_service/.venv/
+listen_service/out/
+listen_service/artifacts/*
+!listen_service/artifacts/.gitkeep
+listen_service/.env

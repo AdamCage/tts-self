@@ -1,0 +1,36 @@
+/bin/sh: 1: sox: not found
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 3405.16it/s]
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+[qwen3_tts_0.6b/demo5] demo_01 cer=0.0847457627118644
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+[qwen3_tts_0.6b/demo5] demo_02 cer=0.0
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+[qwen3_tts_0.6b/demo5] demo_03 cer=0.0
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+[qwen3_tts_0.6b/demo5] demo_04 cer=0.0
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+[qwen3_tts_0.6b/demo5] demo_05 cer=0.0
+{
+  "plan_slug": "d1_discrete_speech_lm",
+  "sets": "demo5",
+  "git_sha": "dce4f456b0757fb63da4cf014188ff4e474bdbe9",
+  "git_dirty": true,
+  "systems": {
+    "qwen3_tts_0.6b": {
+      "returncode": 0
+    }
+  }
+}

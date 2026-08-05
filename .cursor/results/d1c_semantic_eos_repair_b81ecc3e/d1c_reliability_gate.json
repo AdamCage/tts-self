@@ -1,0 +1,46 @@
+{
+  "plan_slug": "d1c_semantic_eos_repair_b81ecc3e",
+  "terminal_result": "INVALID_RUN_OR_INFRA_STOP",
+  "formal_verdict": "INFRA_REPAIR_ROUND6_COMPLETE_AWAITING_HUMAN_REAUDIT",
+  "scientific_model_result": null,
+  "reason": "REAUDIT_ROUND5 MEDIUM rename/re-save gap closed: formal path requires payload['step'] (filename confirm-only) + payload['hashes'] run identity; selector refuses mixed/missing checkpoint.hashes and basename mismatch. WAVE1_REPORT synced to live digests. Waves 0-2 not PASS; Wave 3 still NO-GO.",
+  "waves": {
+    "0": "INVALID_PENDING_REAUDIT",
+    "1": "INVALID_REPAIRED_PENDING_REAUDIT",
+    "2": "INVALID_REPAIRED_PENDING_REAUDIT",
+    "3": "NO_GO",
+    "4_plus": "NO_GO"
+  },
+  "do_not_proceed_to": [
+    "wave3_smoke",
+    "1h",
+    "5h",
+    "full"
+  ],
+  "baseline_sha": "0661d10eb616362e74dc1750e03cf25c33a7943e",
+  "branch": "d1c/semantic-eos",
+  "worktree": "C:/projects/tts-self-d1c",
+  "dev32_items_sha256": "501330481c07d928d0fe6b86395355aea1410a680a4020c73b602df5cc3d9b40",
+  "dev32_file_sha256": "f9f82b708b23ab61af1ee3ffc493b1c064998a14eb2edcab4d7020483bb3c574",
+  "select8_items_sha256": "882691c9fa7e799b3e49e8dbde6ef8cfa7226aecdf18bf77110ebee424b62e05",
+  "contract_2_0_0_sha256": "c9fd265ac715b3d600dab1fcdf3d0b941d8db6b6fb3d9c9495728c0c55e124cf",
+  "recipe_source_manifest_sha256": "85b896a907769af467f9e76d11b2347849b1c7fb776fcd7a6104d1885877ebbd",
+  "pytest_full": "406 passed, 3 skipped",
+  "pytest_collected": 409,
+  "pytest_log": "logs/repair_round6_full_pytest.log",
+  "repair_audit": "REPAIR_ROUND6.md",
+  "prior_reaudit": "REAUDIT_ROUND5.md",
+  "required_to_resume": [
+    "human_reaudit_of_infra_repair_round6",
+    "user_authorize_commit_push_d1c_branch",
+    "external_confirm_seed_commitment"
+  ],
+  "live_probe": "logs/repair_round6_probe_rename.log",
+  "live_probe_summary": "pass=10 fail=0 (rename refuse + legit accept)",
+  "confirmations": {
+    "no_commit": true,
+    "no_push": true,
+    "no_gpu": true,
+    "no_seed_invented": true
+  }
+}

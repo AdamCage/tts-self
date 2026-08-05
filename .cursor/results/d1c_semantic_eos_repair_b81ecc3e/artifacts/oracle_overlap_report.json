@@ -1,0 +1,14 @@
+{
+  "dev_vs_burn": [],
+  "n_burned": 96,
+  "n_dev": 32,
+  "ok": true,
+  "split_hashes": {
+    "select8": "882691c9fa7e799b3e49e8dbde6ef8cfa7226aecdf18bf77110ebee424b62e05",
+    "gate24": "5485d37be12342d187cef264fa5626e58edee3c821737dada26418142223b1ad",
+    "full32": "501330481c07d928d0fe6b86395355aea1410a680a4020c73b602df5cc3d9b40"
+  },
+  "items_sha256": "501330481c07d928d0fe6b86395355aea1410a680a4020c73b602df5cc3d9b40",
+  "file_sha256": "f9f82b708b23ab61af1ee3ffc493b1c064998a14eb2edcab4d7020483bb3c574",
+  "file_sha256_note": "payload content digest (self-referential file_sha256 field stripped); raw on-disk bytes differ"
+}

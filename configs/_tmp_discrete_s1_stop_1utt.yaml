@@ -1,0 +1,80 @@
+model:
+  target: qwen3tts_12hz
+  d_model: 1024
+  n_layers: 12
+  n_heads: 16
+  ffn_dim: 2816
+  vocab_size: 248077
+  max_speakers: 256
+  dropout: 0.0
+  max_seq: 8192
+  rope_theta: 10000.0
+  n_codebooks: 16
+  codebook_size: 2048
+  mtp_hidden: 1024
+  pad_token_id: 248044
+  russian_conditioning:
+    enabled: false
+    phoneme_vocab: 256
+    stress_vocab: 4
+    span_vocab: 16
+  text_init:
+    enabled: false
+    model_id: Qwen/Qwen3-0.6B
+  speaker:
+    type: id_embedding
+  text_tokenizer_id: /home/adam/datasets/tts/models/Qwen3.5-0.8B-Base
+loss:
+  cb0_weight: 1.0
+  residual_weights: null
+  stop_weight: 1.0
+  stop_pos_weight: 20.0
+train:
+  seed: 42
+  stages:
+  - name: S1
+    max_utterances: 1
+    steps: 150
+  batch:
+    mode: fixed
+    size: 1
+    candidates:
+    - 1
+    - 2
+    - 4
+    - 8
+    target_vram_gb: 14.5
+  grad_accum: 1
+  lr: 0.0002
+  weight_decay: 0.01
+  grad_clip: 1.0
+  warmup_steps: 20
+  lr_schedule: cosine
+  min_lr_ratio: 0.05
+  precision: bf16
+  log_every: 25
+  eval_every: 50
+  save_every: 50
+  fr_checkpoint:
+    enabled: true
+    every: 50
+  ema: false
+  run_dir: /home/adam/projects/tts-self/runs/discrete_speech_lm_300m_s1_stop_1utt
+  resume: false
+  ddp:
+    enabled: false
+    find_unused_parameters: false
+infer:
+  max_frames: 750
+  temperature: 0.0
+  top_k: 0
+  eos_cb0: null
+  stop_threshold: 0.5
+  stop_consecutive: 2
+  min_frames: 4
+  max_cb0_repeat: 16
+  repetition_penalty: 1.5
+data:
+  target: qwen3tts_12hz
+  codec_tokens_dir: null
+  pad_token_id: 248044

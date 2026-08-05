@@ -1,0 +1,61 @@
+=== C1 copy-synth ===
+Loading weights:   0%|          | 0/552 [00:00<?, ?it/s]Loading weights:  60%|█████▉    | 330/552 [00:00<00:00, 3297.17it/s]Loading weights: 100%|██████████| 552/552 [00:00<00:00, 3439.71it/s]
+[1/50] common_voice_ru_17_hf_mirror__ebd1fa452631cd722742b085 cer=0.0000
+[2/50] common_voice_ru_17_hf_mirror__28c516a07e4b485c43722436 cer=0.0000
+[3/50] common_voice_ru_17_hf_mirror__090ba34fbad4d1b0b378f659 cer=0.0000
+[4/50] common_voice_ru_17_hf_mirror__655d4689659d06ea4b41787d cer=0.0000
+[5/50] common_voice_ru_17_hf_mirror__5a03ec1b7f3d1049c72a0e0c cer=0.0000
+[6/50] common_voice_ru_17_hf_mirror__52526b084395abdd2991c2cb cer=0.0000
+[7/50] common_voice_ru_17_hf_mirror__32fdac90cb3b5a66c100ad0b cer=0.0000
+[8/50] common_voice_ru_17_hf_mirror__256db8961487dad3b0abefb3 cer=0.0000
+[9/50] common_voice_ru_17_hf_mirror__f9cb945dd9b1b63d7ef07b8b cer=0.0000
+[10/50] common_voice_ru_17_hf_mirror__c8db43c184edafef864923aa cer=0.1500
+[11/50] common_voice_ru_17_hf_mirror__1fc159de79112fb30f48a8b2 cer=0.0000
+[12/50] common_voice_ru_17_hf_mirror__d99acd31e025889a92ce8926 cer=0.0000
+[13/50] common_voice_ru_17_hf_mirror__9bb815c51f82badb3d8a9faa cer=0.0900
+[14/50] common_voice_ru_17_hf_mirror__0b7ee5a6e8de34cbf373e6b3 cer=0.0000
+[15/50] common_voice_ru_17_hf_mirror__0ad67c9495a0d65ad849dc91 cer=0.0000
+[16/50] common_voice_ru_17_hf_mirror__22354f65990e84dc6f456bd9 cer=0.0000
+[17/50] common_voice_ru_17_hf_mirror__50a19431849809f7691139ce cer=0.0000
+[18/50] common_voice_ru_17_hf_mirror__55eb4f283af3ff1adc412e55 cer=0.0319
+[19/50] common_voice_ru_17_hf_mirror__b9bb7965ce530c0b211b4cba cer=0.0000
+[20/50] common_voice_ru_17_hf_mirror__de1d396137782d035a25a398 cer=0.2692
+[21/50] common_voice_ru_17_hf_mirror__09962214d9791236c7b9bfb9 cer=0.0000
+[22/50] common_voice_ru_17_hf_mirror__cf075092e989fa6173b8ad63 cer=0.0000
+[23/50] common_voice_ru_17_hf_mirror__494243d9160ed17ffc8dceba cer=0.0641
+[24/50] common_voice_ru_17_hf_mirror__efd989223dfde30101a37ac6 cer=0.0000
+[25/50] common_voice_ru_17_hf_mirror__c8a927668f46aa47000a252a cer=0.0000
+[26/50] common_voice_ru_17_hf_mirror__9adbf43151e7e8d592bddd3e cer=0.0000
+[27/50] common_voice_ru_17_hf_mirror__514a4880c7665997126997b3 cer=0.0000
+[28/50] common_voice_ru_17_hf_mirror__a5a5bfddf5866d0cc171a9f7 cer=0.0000
+[29/50] common_voice_ru_17_hf_mirror__d9136eb67c51f9ec3d961e66 cer=0.0000
+[30/50] common_voice_ru_17_hf_mirror__669ca0c45b0b0d0d596c13f7 cer=0.0000
+[31/50] common_voice_ru_17_hf_mirror__023eb708a55d096309459504 cer=0.0000
+[32/50] common_voice_ru_17_hf_mirror__3a948b4aaee91a52d068ddf0 cer=0.0000
+[33/50] common_voice_ru_17_hf_mirror__9bf831c6c3116bb767808b70 cer=0.0000
+[34/50] common_voice_ru_17_hf_mirror__7dbc376f1fe2f3b5ae86b192 cer=0.0526
+[35/50] common_voice_ru_17_hf_mirror__667c8fa54239d53c4680e19e cer=0.0000
+[36/50] common_voice_ru_17_hf_mirror__3945b1a58761813722315724 cer=0.0000
+[37/50] common_voice_ru_17_hf_mirror__4f6e1d081b1786e6e049413a cer=0.0000
+[38/50] common_voice_ru_17_hf_mirror__7c8aec1fa87c166faef3003d cer=0.0536
+[39/50] common_voice_ru_17_hf_mirror__2550622ad1deeedfc09578be cer=0.0000
+[40/50] common_voice_ru_17_hf_mirror__21ea510c4cb1b28562f5dd6c cer=0.0909
+[41/50] common_voice_ru_17_hf_mirror__8c12b4f1797dcdc88eb324e7 cer=0.0769
+[42/50] common_voice_ru_17_hf_mirror__23486e520e82a513c61a3714 cer=0.0211
+[43/50] common_voice_ru_17_hf_mirror__845e51c6153bb08af1e9cbcc cer=0.0000
+[44/50] common_voice_ru_17_hf_mirror__7f06d43795f57514beb446b5 cer=0.0000
+[45/50] common_voice_ru_17_hf_mirror__decb4f867fb4ff0bf999bd23 cer=0.0000
+[46/50] common_voice_ru_17_hf_mirror__6184617185006babcf879631 cer=0.0667
+[47/50] common_voice_ru_17_hf_mirror__0f93ddbd1a5afab52e712f3c cer=0.0000
+[48/50] common_voice_ru_17_hf_mirror__a9240c83d5fb0f767f52d4f1 cer=0.0000
+[49/50] common_voice_ru_17_hf_mirror__c561fdd6af16c1c40d733fe8 cer=0.0000
+[50/50] common_voice_ru_17_hf_mirror__2d79a554545441a7b74bcbd0 cer=0.0000
+{
+  "task": "C1_copysynth",
+  "n": 50,
+  "mean_cer": 0.019341536590627328,
+  "median_cer": 0.0,
+  "anchor_cer": 0.073,
+  "n_frames_match_rate_sample": 1.0,
+  "elapsed_s": 1.7326090335845947
+}

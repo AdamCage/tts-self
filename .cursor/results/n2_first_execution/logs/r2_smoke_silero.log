@@ -1,0 +1,20 @@
+[demo5] demo_01 cer=0.15254237288135594
+Loading weights:   0%|          | 0/424 [00:00<?, ?it/s]Loading weights: 100%|██████████| 424/424 [00:00<00:00, 15027.76it/s]
+{
+  "status": "ok",
+  "backend": "silero_tts",
+  "model_id": "v4_ru",
+  "voice": "xenia",
+  "n_errors": 0,
+  "sets": {
+    "demo5": {
+      "n": 1,
+      "mean_cer": 0.15254237288135594,
+      "median_cer": 0.15254237288135594,
+      "cer_ci95_low": 0.15254237288135594,
+      "cer_ci95_high": 0.15254237288135594,
+      "n_cer_gt_1": 0
+    }
+  }
+}
+WROTE /home/adam/projects/tts-self/out/n2_first_execution/_smoke_silero_raw.json

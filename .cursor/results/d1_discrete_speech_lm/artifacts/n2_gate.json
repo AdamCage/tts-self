@@ -1,0 +1,149 @@
+{
+  "gate": "N2",
+  "verdict": "FAIL",
+  "criteria": {
+    "fr_cer": 0.05335121751047036,
+    "copy_synth_cer_subset": 0.02284202914729239,
+    "ceiling_copy_plus_margin": 0.052842029147292385,
+    "cer_pass": false,
+    "bootstrap_sep_wrong_utt": true,
+    "bootstrap_sep_random": true,
+    "paired_vs_wrong": {
+      "delta_pp_model_minus_wrong": -94.33876811594203,
+      "ci95_low": -105.44556953363632,
+      "ci95_high": -85.99263299734623,
+      "separated": true
+    },
+    "no_runaway_repetition": true,
+    "cb0_healthy": true,
+    "cb0": {
+      "cb0_utilization": 0.38623046875,
+      "cb0_entropy": 6.254185908154309,
+      "cb0_unique": 791,
+      "cb0_total_frames": 2249,
+      "cb0_max_run": 6,
+      "healthy": true
+    },
+    "text_usage_shuffle_hurts": true,
+    "text_usage_mask_hurts": true,
+    "text_usage_prefix_cf_changes": true,
+    "shuffle_cer": 1.3946521566067114,
+    "mask_cer": 1.0059370339321687,
+    "wrong_utt_cer": 1.1233516731712,
+    "random_codes_cer": 0.9114087033477302
+  },
+  "artifacts": {
+    "ckpt": "/home/adam/projects/tts-self/runs/discrete_speech_lm_300m_s1_stop_3k/last.pt",
+    "wav_dir": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c",
+    "decode_bundle": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/n2_eval_stop_3c/n2_decode_bundle.json",
+    "eval_out": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/n2_eval_stop_3c"
+  },
+  "reports": {
+    "model": {
+      "condition": "model",
+      "n": 32,
+      "mean_cer": 0.05335121751047036,
+      "cer_ci95_low": 0.012576523049563724,
+      "cer_ci95_high": 0.11604183336836452,
+      "cb0": {
+        "cb0_utilization": 0.38623046875,
+        "cb0_entropy": 6.254185908154309,
+        "cb0_unique": 791,
+        "cb0_total_frames": 2249,
+        "cb0_max_run": 6,
+        "healthy": true
+      },
+      "runaway_or_repetition": false,
+      "mean_dur_ratio": 1.0004217798018165
+    },
+    "copy_synth": {
+      "condition": "copy_synth",
+      "n": 32,
+      "mean_cer": 0.02284202914729239,
+      "cer_ci95_low": 0.008455498901035368,
+      "cer_ci95_high": 0.0403912857247215,
+      "cb0": {
+        "cb0_utilization": 0.3916015625,
+        "cb0_entropy": 6.272936477449285,
+        "cb0_unique": 802,
+        "cb0_total_frames": 2236,
+        "cb0_max_run": 7,
+        "healthy": true
+      },
+      "runaway_or_repetition": false,
+      "mean_dur_ratio": 1.0
+    },
+    "wrong_utt": {
+      "condition": "wrong_utt",
+      "n": 32,
+      "mean_cer": 1.1233516731712,
+      "cer_ci95_low": 0.9669339658156527,
+      "cer_ci95_high": 1.3101851166661986,
+      "cb0": {
+        "cb0_utilization": 0.3828125,
+        "cb0_entropy": 6.24936905434082,
+        "cb0_unique": 784,
+        "cb0_total_frames": 2312,
+        "cb0_max_run": 6,
+        "healthy": true
+      },
+      "runaway_or_repetition": false,
+      "mean_dur_ratio": 1.119981685892671
+    },
+    "random_codes": {
+      "condition": "random_codes",
+      "n": 32,
+      "mean_cer": 0.9114087033477302,
+      "cer_ci95_low": 0.8762961619166031,
+      "cer_ci95_high": 0.957596079902861,
+      "cb0": {
+        "cb0_utilization": 0.66748046875,
+        "cb0_entropy": 7.096267928681796,
+        "cb0_unique": 1367,
+        "cb0_total_frames": 2236,
+        "cb0_max_run": 2,
+        "healthy": true
+      },
+      "runaway_or_repetition": false,
+      "mean_dur_ratio": 1.0
+    },
+    "shuffle_text": {
+      "condition": "shuffle_text",
+      "n": 32,
+      "mean_cer": 1.3946521566067114,
+      "cer_ci95_low": 1.0538482844919328,
+      "cer_ci95_high": 1.8118873467147336,
+      "cb0": {
+        "cb0_utilization": 0.365234375,
+        "cb0_entropy": 6.17373667530213,
+        "cb0_unique": 748,
+        "cb0_total_frames": 2300,
+        "cb0_max_run": 6,
+        "healthy": true
+      },
+      "runaway_or_repetition": true,
+      "mean_dur_ratio": 1.2060304509246058
+    },
+    "mask_text": {
+      "condition": "mask_text",
+      "n": 32,
+      "mean_cer": 1.0059370339321687,
+      "cer_ci95_low": 0.8933444428727566,
+      "cer_ci95_high": 1.1432390691253536,
+      "cb0": {
+        "cb0_utilization": 0.087890625,
+        "cb0_entropy": 4.722830384949521,
+        "cb0_unique": 180,
+        "cb0_total_frames": 1791,
+        "cb0_max_run": 4,
+        "healthy": true
+      },
+      "runaway_or_repetition": false,
+      "mean_dur_ratio": 0.8431787045456394
+    }
+  },
+  "ckpt_role": "last.pt@3000_stop + WAVE3c stop_overrun_bias=0",
+  "prior_fr_cer": 0.06414863898738764,
+  "wave3_prior_fr_cer": 0.45136982951585847,
+  "note": "WAVE3c: infer-only stop_overrun_bias 0.0 (kept fpt=2.5, earliest=0.7). Aggressive prior bumps regressed to 0.34/0.20. Near-miss vs ceiling."
+}

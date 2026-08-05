@@ -1,0 +1,61 @@
+{
+  "stage": "S1",
+  "steps": 3000,
+  "batch_size": 2,
+  "n_train": 32,
+  "run_dir": "/home/adam/projects/tts-self/runs/n2_s1_ruslan",
+  "final_train": {
+    "loss": 0.0560624934732914,
+    "lr": 1.0000059796704066e-05,
+    "max_dur_s": 15.0,
+    "loss_curve_points": 60,
+    "run_dir": "/home/adam/projects/tts-self/runs/n2_s1_ruslan"
+  },
+  "free_running": {
+    "n": 16,
+    "stability": {
+      "stop_success_rate": 1.0,
+      "runaway_rate": 0.0,
+      "nan_rate": 0.0,
+      "silence_rate": 0.0,
+      "mean_dtw_l1": 2.0758370233367125,
+      "duration_in_band_rate": 1.0,
+      "mean_duration_ratio": 1.0
+    },
+    "selection_key": [
+      1.0,
+      1.0,
+      -0.0,
+      -0.0,
+      -2.0758370233367125
+    ],
+    "head_diagnostics": {
+      "r2_overall": -6.644189357757568,
+      "var_ratio": 6.717758955995262,
+      "r2_per_dim_mean": -6.689279556274414,
+      "corr_gt_t": 0.010966591536998749,
+      "corr_gt_tm1": -0.0005044782301411033,
+      "hf_power_ratio": 6.444717042844431
+    },
+    "mean_dtw_l1": 2.0758370233367125,
+    "mean_duration_ratio": 1.0
+  },
+  "teacher_forced": {
+    "tf_loss_mean": 0.6472668536007404,
+    "r2_overall": -0.2810112237930298,
+    "var_ratio": 0.3318781307227193,
+    "r2_per_dim_mean": -0.2862929105758667,
+    "corr_gt_t": 0.042925454676151276,
+    "corr_gt_tm1": 0.010393905453383923,
+    "hf_power_ratio": 0.31488611096729213
+  },
+  "copy_synth_cer_topline": 0.073,
+  "listen_demo_recipe": "# After runs/n2_s1_*/best.pt appears:\ncd ~/projects/tts-self && source .venv/bin/activate\nexport HF_HOME=$HOME/hf_cache\nexport PYTHONPATH=/mnt/c/projects/tts-self/src\nexport MINISPEECH_ALLOW_DIRTY=1\npython /mnt/c/projects/tts-self/scripts/66_infer_n2.py \\\n  --ckpt runs/n2_s1_ruslan/best.pt \\\n  --demo \\\n  --out out/n2_first_execution/n2_s1_listen_demo",
+  "overfit_heuristic": {
+    "loss_curve": 60,
+    "tf_loss": 0.6472668536007404,
+    "fr_r2": -6.644189357757568,
+    "fr_var_ratio": 6.717758955995262,
+    "fr_mean_dtw_l1": 2.0758370233367125
+  }
+}

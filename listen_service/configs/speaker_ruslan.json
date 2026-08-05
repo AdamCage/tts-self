@@ -1,0 +1,9 @@
+{
+  "note": "Track N dense map uses max_speakers=1089 (id 0 = unknown). Default listen speaker is ruslan.",
+  "max_speakers": 1089,
+  "default_speaker": "ruslan",
+  "speakers": {
+    "unknown": 0,
+    "ruslan": 1088
+  }
+}

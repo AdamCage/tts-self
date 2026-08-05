@@ -1,0 +1,37 @@
+{
+  "parity_n": 20,
+  "parity_matches": 20,
+  "parity_pass": true,
+  "examples": [
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__5cdd3767152a8891b67772e3",
+      "frontend_text": "Он знал теперь то, что одно важно.",
+      "match": true
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__ebd10ad813492f92fe10ac71",
+      "frontend_text": "Я прошу тебя поверить мне в последний раз.",
+      "match": true
+    },
+    {
+      "utt_id": "common_voice_ru_17_hf_mirror__69e7d556483d34a8e80eb76e",
+      "frontend_text": "А для этого нам нужны интенсивные разоруженческие усилия, поддерживаемые всем международным сообществом.",
+      "match": true
+    }
+  ],
+  "meta": {
+    "n": 46070,
+    "layers": [
+      11,
+      17,
+      23
+    ],
+    "model_id": "/home/adam/datasets/tts/models/Qwen3.5-0.8B-Base",
+    "hidden_size": 1024,
+    "max_length": 256,
+    "n_at_max_length": 0,
+    "frac_at_max_length": 0.0,
+    "apply_frontend": true
+  },
+  "disk": "see du"
+}

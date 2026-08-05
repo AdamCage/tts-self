@@ -1,0 +1,35 @@
+A1 PASS round-4 attack: five main() runs on ONE best.pt emitted 0 formal reports (expect 0); steps_emitted=[]
+A2 PASS all five refusals are 'cannot invent': --checkpoint-step=250 cannot invent a step for /tmp/reaudit5_4mckga7a/attack/best.pt: formal D1c requires payload['step'] and/or c
+A3 PASS no n2_gate.json leaked from refused runs: []
+A4 PASS REAL _load_model + REAL tf metrics -> step=750 rc=0 exit=''
+A5 PASS FAIL#4 EOS plumbing: source=eval_computed acc=0.0 fp=0 (untrained -> not 1.0)
+A6 PASS evaluate_n2_gate_d1c wired: gate=N2_D1c_semantic_eos_v1 step=750
+L1 PASS five real main() runs stamped steps=[250, 375, 500, 625, 750]
+L2 PASS five real candidate files have 5 distinct sha256
+L3 PASS selector ACCEPTS untouched legitimate production reports steps=[250, 375, 500, 625, 750] (round-5 rules are not a blanket refusal)
+L4 PASS selector selected step=250
+D1 PASS 5/5 duplicate-identity reports pass the REAL schema (claimed sha == live sha of identical files) — so the selector is the only layer that can refuse this shape
+D2 PASS selector hard-refuses duplicate sha256: D1c formal selection refuses duplicate checkpoint.sha256 across candidates (distinct=1, n=5); plan §8.4 requires one checkpoint hash/step match per report
+D3 PASS partial duplicate (2 of 5) refused: D1c formal selection refuses duplicate checkpoint.sha256 across candidates (distinct=4, n=5); plan §8.4 requires one che
+H1 PASS schema refuses forged sha: formal D1c report refused: checkpoint.sha256 does not match file at checkpoint.path (claimed=0000000000000000000000000000000000000000000000000000000000000000 live=df4cda3cdb545c2fc9988442897e108165fd00e10a0cff4d8c800bb0f735b2ba)
+H2 PASS selector refuses forged sha end to end: formal D1c report refused: checkpoint.sha256 does not match file at checkpoint.path (claimed=000000000000000000000000000
+H3 PASS selector helper verifies live bytes: checkpoint sha256 mismatch: claimed=bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb live=dbcd8434cbf9820dc857d089
+H4 PASS unreadable path: schema_accepts=True selector_refuses (checkpoint.path not readable for hash verification: /tmp/reaudit5_4mckga7a/does_not_exist/)
+H5 PASS basename rule enforced: checkpoint path basename 'best.pt' does not match expected 'candidate_step_0250.pt' for step=250
+H6 PASS cross-wired basename refused: D1c formal selection refuses duplicate checkpoint.sha256 across candidates (distinct=4, n=5); plan §8.4 requires one che
+H7 PASS symlink aliasing refused: D1c formal selection refuses duplicate checkpoint.sha256 across candidates (distinct=1, n=5); plan §8.4 requir
+C1 PASS CLI confirm of derived step accepted -> step=500 exit=''
+C2 PASS foreign CLI step on a derived checkpoint refused: '--checkpoint-step=625 conflicts with inferred step=500 (/tmp/reaudit5_4mckga7a/legit/candidate_step_0500.pt)'
+C3 PASS CLI invent on best.pt refused: '--checkpoint-step=625 cannot invent a step for /tmp/reaudit5_4mckga7a/attack/best.pt: formal D1c requires payl'
+C4 PASS payload-derived step confirmed via CLI -> step=625
+C5 PASS documented: require=False still allows invent -> 750
+C6 PASS out-of-set step refused: 'checkpoint step 999 not in contract.train.candidate_steps [250, 375, 500, 625, 750]'
+C7 PASS payload/filename mismatch refused: 'checkpoint step mismatch: payload step=500 != filename step=750 (/tmp/reaudit5_4mckga7a/mm/candidate_step_0750'
+M1 INFO rename-only attack: five reports from ONE model state with NO payload step -> steps=[250, 375, 500, 625, 750] distinct_sha=5
+M2 FAIL SELECTOR ACCEPTED five renamed copies of ONE model state (selected step=250): the round-5 rules prove file distinctness, not training-step provenance; `--checkpoint-step` invent is closed but `mv`/re-save is not
+M3 INFO formal path with NO payload step: resolve -> 625 err='' (filename alone is authoritative)
+G1 PASS D1b contract keeps the D1b gate: gate='N2_D1b' formal_v2_emitted=False
+G2 INFO non-formal D1b + --checkpoint-step 625 -> gate.step=625 exit='' (documented require=False behaviour)
+
+SUMMARY fails=1 total=32
+  FAILED M2: SELECTOR ACCEPTED five renamed copies of ONE model state (selected step=250): the round-5 rules prove file distinctness, not training-step provenance; `--checkpoint-step` invent is closed but `mv`/re-save is not

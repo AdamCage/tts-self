@@ -1,0 +1,76 @@
++ /home/adam/projects/tts-self/.venv/bin/python /mnt/c/projects/tts-self/scripts/39_external_baseline_eval.py --sets demo5 --input-mode raw --wav-dir /mnt/c/projects/tts-self/out/d1_discrete_speech_lm/silero_raw --out /mnt/c/projects/tts-self/out/d1_discrete_speech_lm/silero_raw_metrics.json --allow-download
+[demo5] demo_01 cer=0.15254237288135594
+[demo5] demo_02 cer=0.0
+[demo5] demo_03 cer=0.0
+[demo5] demo_04 cer=0.0
+[demo5] demo_05 cer=0.0
+{
+  "status": "ok",
+  "backend": "silero_tts",
+  "model_id": "v4_ru",
+  "voice": "xenia",
+  "n_errors": 0,
+  "sets": {
+    "demo5": {
+      "n": 5,
+      "mean_cer": 0.030508474576271188,
+      "median_cer": 0.0,
+      "cer_ci95_low": 0.0,
+      "cer_ci95_high": 0.09152542372881356,
+      "n_cer_gt_1": 0
+    }
+  }
+}
+WROTE /mnt/c/projects/tts-self/out/d1_discrete_speech_lm/silero_raw_metrics.json
++ /home/adam/projects/tts-self/.venv/bin/python /mnt/c/projects/tts-self/scripts/39_external_baseline_eval.py --sets demo5 --input-mode frontend --wav-dir /mnt/c/projects/tts-self/out/d1_discrete_speech_lm/silero_frontend --out /mnt/c/projects/tts-self/out/d1_discrete_speech_lm/silero_frontend_metrics.json --allow-download
+[demo5] demo_01 cer=0.0847457627118644
+[demo5] demo_02 cer=0.0
+[demo5] demo_03 cer=0.0
+[demo5] demo_04 cer=0.0
+[demo5] demo_05 cer=0.0
+{
+  "status": "ok",
+  "backend": "silero_tts",
+  "model_id": "v4_ru",
+  "voice": "xenia",
+  "n_errors": 0,
+  "sets": {
+    "demo5": {
+      "n": 5,
+      "mean_cer": 0.01694915254237288,
+      "median_cer": 0.0,
+      "cer_ci95_low": 0.0,
+      "cer_ci95_high": 0.05084745762711864,
+      "n_cer_gt_1": 0
+    }
+  }
+}
+WROTE /mnt/c/projects/tts-self/out/d1_discrete_speech_lm/silero_frontend_metrics.json
++ /home/adam/projects/tts-self/.venv/bin/python /mnt/c/projects/tts-self/scripts/32_eval_mel_suite.py --ckpt runs/mel_stress_v01_s4/best.pt --sets demo5 --out /mnt/c/projects/tts-self/out/d1_discrete_speech_lm/track_a_metrics.json --wav-dir /mnt/c/projects/tts-self/out/d1_discrete_speech_lm/track_a
+/home/adam/projects/tts-self/.venv/lib/python3.11/site-packages/torch/nn/utils/weight_norm.py:144: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+Using cache found in /home/adam/models/utmos/hub/tarepan_SpeechMOS_v1.2.0
+[demo5] demo_01 cer=0.1694915254237288 backend=neural
+[demo5] demo_02 cer=0.0 backend=neural
+[demo5] demo_03 cer=0.18181818181818182 backend=neural
+[demo5] demo_04 cer=0.11627906976744186 backend=neural
+[demo5] demo_05 cer=0.0 backend=neural
+WROTE /mnt/c/projects/tts-self/out/d1_discrete_speech_lm/track_a_metrics.json
+  demo5: mean_cer=0.09351775540187049 median_cer=0.11627906976744186 ci95=[0.023255813953488372, 0.1662450281291432] n=5 n_cer_gt_1=0
+{
+  "plan_slug": "d1_discrete_speech_lm",
+  "sets": "demo5",
+  "git_sha": "dce4f456b0757fb63da4cf014188ff4e474bdbe9",
+  "git_dirty": true,
+  "systems": {
+    "silero_raw": {
+      "returncode": 0
+    },
+    "silero_frontend": {
+      "returncode": 0
+    },
+    "track_a": {
+      "returncode": 0
+    }
+  }
+}

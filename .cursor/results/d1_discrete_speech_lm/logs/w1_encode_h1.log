@@ -1,0 +1,115 @@
+WARNING: git worktree is dirty; continuing because MINISPEECH_ALLOW_DIRTY is set. run_manifest will have git_dirty=true.
+{
+  "trackn_leak_check": {
+    "ok": true,
+    "utt_overlaps": {
+      "train∩val": 0,
+      "train∩test": 0,
+      "val∩test": 0
+    },
+    "speaker_leaks_sample": {},
+    "n": {
+      "train": 51234,
+      "val": 2961,
+      "test": 3276,
+      "review": 2430
+    },
+    "hours": {
+      "train": 72.98358844907415,
+      "val": 4.81801762731481,
+      "test": 4.702707094907414,
+      "review": 3.5762245138888917
+    }
+  }
+}
+{
+  "manifest_n": 68425,
+  "encode_n": 691,
+  "encode_hours": 0.999042303240742,
+  "subset_tag": "h1",
+  "sample": false,
+  "target": "qwen3tts_12hz"
+}
+loading codec Qwen/Qwen3-TTS-Tokenizer-12Hz …
+/bin/sh: 1: sox: not found
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+encode_codec_tokens:   0%|          | 0/691 [00:00<?, ?it/s]encode_codec_tokens:   0%|          | 1/691 [00:00<07:02,  1.63it/s]encode_codec_tokens:   1%|          | 4/691 [00:00<01:44,  6.57it/s]encode_codec_tokens:   1%|          | 7/691 [00:00<01:02, 10.89it/s]encode_codec_tokens:   1%|▏         | 10/691 [00:00<00:45, 15.02it/s]encode_codec_tokens:   2%|▏         | 13/691 [00:01<00:37, 17.90it/s]encode_codec_tokens:   2%|▏         | 17/691 [00:01<00:31, 21.15it/s]encode_codec_tokens:   3%|▎         | 20/691 [00:01<00:30, 21.98it/s]encode_codec_tokens:   3%|▎         | 23/691 [00:01<00:28, 23.18it/s]encode_codec_tokens:   4%|▍         | 26/691 [00:01<00:27, 24.16it/s]encode_codec_tokens:   4%|▍         | 29/691 [00:01<00:26, 24.57it/s]encode_codec_tokens:   5%|▍         | 32/691 [00:01<00:26, 24.92it/s]encode_codec_tokens:   5%|▌         | 35/691 [00:01<00:25, 25.43it/s]encode_codec_tokens:   5%|▌         | 38/691 [00:02<00:25, 26.01it/s]encode_codec_tokens:   6%|▌         | 41/691 [00:02<00:24, 26.26it/s]encode_codec_tokens:   6%|▋         | 44/691 [00:02<00:25, 25.86it/s]encode_codec_tokens:   7%|▋         | 47/691 [00:02<00:24, 25.96it/s]encode_codec_tokens:   7%|▋         | 50/691 [00:02<00:24, 26.12it/s]encode_codec_tokens:   8%|▊         | 53/691 [00:02<00:24, 26.03it/s]encode_codec_tokens:   8%|▊         | 56/691 [00:02<00:24, 25.46it/s]encode_codec_tokens:   9%|▊         | 59/691 [00:02<00:24, 25.74it/s]encode_codec_tokens:   9%|▉         | 62/691 [00:02<00:23, 26.26it/s]encode_codec_tokens:   9%|▉         | 65/691 [00:03<00:24, 25.87it/s]encode_codec_tokens:  10%|▉         | 68/691 [00:03<00:23, 25.98it/s]encode_codec_tokens:  10%|█         | 71/691 [00:03<00:23, 26.36it/s]encode_codec_tokens:  11%|█         | 75/691 [00:03<00:22, 27.93it/s]encode_codec_tokens:  11%|█▏        | 78/691 [00:03<00:22, 27.47it/s]encode_codec_tokens:  12%|█▏        | 81/691 [00:03<00:22, 27.11it/s]encode_codec_tokens:  12%|█▏        | 84/691 [00:03<00:22, 26.79it/s]encode_codec_tokens:  13%|█▎        | 87/691 [00:03<00:22, 27.21it/s]encode_codec_tokens:  13%|█▎        | 90/691 [00:03<00:22, 27.31it/s]encode_codec_tokens:  14%|█▎        | 94/691 [00:04<00:20, 28.72it/s]encode_codec_tokens:  14%|█▍        | 97/691 [00:04<00:20, 28.70it/s]encode_codec_tokens:  14%|█▍        | 100/691 [00:04<00:20, 28.59it/s]encode_codec_tokens:  15%|█▌        | 104/691 [00:04<00:19, 29.56it/s]encode_codec_tokens:  15%|█▌        | 107/691 [00:04<00:19, 29.29it/s]encode_codec_tokens:  16%|█▌        | 111/691 [00:04<00:18, 30.92it/s]encode_codec_tokens:  17%|█▋        | 115/691 [00:04<00:18, 31.01it/s]encode_codec_tokens:  17%|█▋        | 119/691 [00:04<00:19, 29.68it/s]encode_codec_tokens:  18%|█▊        | 122/691 [00:05<00:19, 29.44it/s]encode_codec_tokens:  18%|█▊        | 125/691 [00:05<00:19, 28.56it/s]encode_codec_tokens:  19%|█▊        | 129/691 [00:05<00:19, 29.04it/s]encode_codec_tokens:  19%|█▉        | 133/691 [00:05<00:20, 27.34it/s]encode_codec_tokens:  20%|█▉        | 136/691 [00:05<00:20, 27.28it/s]encode_codec_tokens:  20%|██        | 140/691 [00:05<00:18, 29.41it/s]encode_codec_tokens:  21%|██        | 143/691 [00:05<00:19, 28.47it/s]encode_codec_tokens:  21%|██▏       | 147/691 [00:05<00:18, 29.13it/s]encode_codec_tokens:  22%|██▏       | 151/691 [00:06<00:18, 28.95it/s]encode_codec_tokens:  22%|██▏       | 154/691 [00:06<00:18, 29.09it/s]encode_codec_tokens:  23%|██▎       | 157/691 [00:06<00:18, 28.41it/s]encode_codec_tokens:  23%|██▎       | 161/691 [00:06<00:18, 29.14it/s]encode_codec_tokens:  24%|██▎       | 164/691 [00:06<00:18, 27.82it/s]encode_codec_tokens:  24%|██▍       | 167/691 [00:06<00:18, 27.64it/s]encode_codec_tokens:  25%|██▍       | 171/691 [00:06<00:18, 28.07it/s]encode_codec_tokens:  25%|██▌       | 175/691 [00:06<00:17, 28.67it/s]encode_codec_tokens:  26%|██▌       | 179/691 [00:07<00:17, 29.99it/s]encode_codec_tokens:  26%|██▋       | 182/691 [00:07<00:17, 28.88it/s]encode_codec_tokens:  27%|██▋       | 185/691 [00:07<00:17, 29.11it/s]encode_codec_tokens:  27%|██▋       | 188/691 [00:07<00:17, 29.04it/s]encode_codec_tokens:  28%|██▊       | 191/691 [00:07<00:18, 27.57it/s]encode_codec_tokens:  28%|██▊       | 194/691 [00:07<00:18, 27.05it/s]encode_codec_tokens:  29%|██▊       | 198/691 [00:07<00:16, 29.06it/s]encode_codec_tokens:  29%|██▉       | 202/691 [00:07<00:16, 29.70it/s]encode_codec_tokens:  30%|██▉       | 206/691 [00:07<00:15, 31.12it/s]encode_codec_tokens:  30%|███       | 210/691 [00:08<00:14, 32.76it/s]encode_codec_tokens:  31%|███       | 214/691 [00:08<00:15, 30.76it/s]encode_codec_tokens:  32%|███▏      | 218/691 [00:08<00:15, 30.83it/s]encode_codec_tokens:  32%|███▏      | 222/691 [00:08<00:16, 29.23it/s]encode_codec_tokens:  33%|███▎      | 225/691 [00:08<00:16, 28.86it/s]encode_codec_tokens:  33%|███▎      | 228/691 [00:08<00:16, 28.54it/s]encode_codec_tokens:  34%|███▎      | 232/691 [00:08<00:15, 30.10it/s]encode_codec_tokens:  34%|███▍      | 236/691 [00:08<00:14, 30.59it/s]encode_codec_tokens:  35%|███▍      | 240/691 [00:09<00:14, 31.14it/s]encode_codec_tokens:  35%|███▌      | 244/691 [00:09<00:14, 31.45it/s]encode_codec_tokens:  36%|███▌      | 248/691 [00:09<00:14, 29.70it/s]encode_codec_tokens:  36%|███▋      | 251/691 [00:09<00:14, 29.63it/s]encode_codec_tokens:  37%|███▋      | 255/691 [00:09<00:14, 29.48it/s]encode_codec_tokens:  37%|███▋      | 258/691 [00:09<00:14, 29.48it/s]encode_codec_tokens:  38%|███▊      | 261/691 [00:09<00:14, 29.07it/s]encode_codec_tokens:  38%|███▊      | 265/691 [00:09<00:14, 29.75it/s]encode_codec_tokens:  39%|███▉      | 268/691 [00:10<00:14, 29.70it/s]encode_codec_tokens:  39%|███▉      | 272/691 [00:10<00:13, 30.20it/s]encode_codec_tokens:  40%|███▉      | 276/691 [00:10<00:14, 28.78it/s]encode_codec_tokens:  41%|████      | 280/691 [00:10<00:14, 29.09it/s]encode_codec_tokens:  41%|████      | 283/691 [00:10<00:14, 28.78it/s]encode_codec_tokens:  41%|████▏     | 286/691 [00:10<00:13, 29.07it/s]encode_codec_tokens:  42%|████▏     | 289/691 [00:10<00:13, 29.05it/s]encode_codec_tokens:  42%|████▏     | 293/691 [00:10<00:13, 29.48it/s]encode_codec_tokens:  43%|████▎     | 296/691 [00:10<00:13, 29.29it/s]encode_codec_tokens:  43%|████▎     | 299/691 [00:11<00:13, 28.97it/s]encode_codec_tokens:  44%|████▍     | 303/691 [00:11<00:12, 30.02it/s]encode_codec_tokens:  44%|████▍     | 307/691 [00:11<00:12, 31.07it/s]encode_codec_tokens:  45%|████▌     | 311/691 [00:11<00:13, 28.73it/s]encode_codec_tokens:  46%|████▌     | 315/691 [00:11<00:12, 29.66it/s]encode_codec_tokens:  46%|████▌     | 319/691 [00:11<00:12, 30.26it/s]encode_codec_tokens:  47%|████▋     | 323/691 [00:11<00:12, 30.32it/s]encode_codec_tokens:  47%|████▋     | 327/691 [00:12<00:11, 30.44it/s]encode_codec_tokens:  48%|████▊     | 331/691 [00:12<00:11, 30.44it/s]encode_codec_tokens:  48%|████▊     | 335/691 [00:12<00:11, 29.89it/s]encode_codec_tokens:  49%|████▉     | 338/691 [00:12<00:12, 29.28it/s]encode_codec_tokens:  49%|████▉     | 342/691 [00:12<00:11, 30.38it/s]encode_codec_tokens:  50%|█████     | 346/691 [00:12<00:11, 29.92it/s]encode_codec_tokens:  51%|█████     | 350/691 [00:12<00:11, 30.19it/s]encode_codec_tokens:  51%|█████     | 354/691 [00:12<00:10, 30.82it/s]encode_codec_tokens:  52%|█████▏    | 358/691 [00:13<00:10, 31.06it/s]encode_codec_tokens:  52%|█████▏    | 362/691 [00:13<00:10, 32.04it/s]encode_codec_tokens:  53%|█████▎    | 366/691 [00:13<00:10, 30.92it/s]encode_codec_tokens:  54%|█████▎    | 370/691 [00:13<00:10, 29.82it/s]encode_codec_tokens:  54%|█████▍    | 374/691 [00:13<00:10, 29.50it/s]encode_codec_tokens:  55%|█████▍    | 378/691 [00:13<00:10, 30.41it/s]encode_codec_tokens:  55%|█████▌    | 382/691 [00:13<00:10, 30.04it/s]encode_codec_tokens:  56%|█████▌    | 386/691 [00:13<00:10, 29.91it/s]encode_codec_tokens:  56%|█████▋    | 390/691 [00:14<00:10, 29.70it/s]encode_codec_tokens:  57%|█████▋    | 393/691 [00:14<00:10, 29.71it/s]encode_codec_tokens:  57%|█████▋    | 397/691 [00:14<00:09, 30.79it/s]encode_codec_tokens:  58%|█████▊    | 401/691 [00:14<00:13, 22.00it/s]encode_codec_tokens:  58%|█████▊    | 404/691 [00:14<00:12, 23.40it/s]encode_codec_tokens:  59%|█████▉    | 407/691 [00:14<00:11, 24.83it/s]encode_codec_tokens:  59%|█████▉    | 411/691 [00:14<00:10, 27.07it/s]encode_codec_tokens:  60%|█████▉    | 414/691 [00:15<00:10, 27.30it/s]encode_codec_tokens:  60%|██████    | 417/691 [00:15<00:10, 26.90it/s]encode_codec_tokens:  61%|██████    | 421/691 [00:15<00:08, 30.11it/s]encode_codec_tokens:  62%|██████▏   | 425/691 [00:15<00:08, 30.12it/s]encode_codec_tokens:  62%|██████▏   | 429/691 [00:15<00:08, 30.77it/s]encode_codec_tokens:  63%|██████▎   | 433/691 [00:15<00:08, 30.89it/s]encode_codec_tokens:  63%|██████▎   | 437/691 [00:15<00:08, 31.41it/s]encode_codec_tokens:  64%|██████▍   | 441/691 [00:15<00:08, 31.00it/s]encode_codec_tokens:  64%|██████▍   | 445/691 [00:16<00:07, 32.47it/s]encode_codec_tokens:  65%|██████▍   | 449/691 [00:16<00:07, 31.59it/s]encode_codec_tokens:  66%|██████▌   | 453/691 [00:16<00:07, 30.43it/s]encode_codec_tokens:  66%|██████▌   | 457/691 [00:16<00:07, 29.96it/s]encode_codec_tokens:  67%|██████▋   | 461/691 [00:16<00:07, 30.78it/s]encode_codec_tokens:  67%|██████▋   | 465/691 [00:16<00:07, 29.93it/s]encode_codec_tokens:  68%|██████▊   | 469/691 [00:16<00:07, 30.64it/s]encode_codec_tokens:  68%|██████▊   | 473/691 [00:16<00:07, 30.03it/s]encode_codec_tokens:  69%|██████▉   | 477/691 [00:17<00:07, 30.44it/s]encode_codec_tokens:  70%|██████▉   | 481/691 [00:17<00:06, 32.00it/s]encode_codec_tokens:  70%|███████   | 485/691 [00:17<00:06, 33.08it/s]encode_codec_tokens:  71%|███████   | 489/691 [00:17<00:05, 33.98it/s]encode_codec_tokens:  71%|███████▏  | 493/691 [00:17<00:05, 33.03it/s]encode_codec_tokens:  72%|███████▏  | 497/691 [00:17<00:05, 33.23it/s]encode_codec_tokens:  73%|███████▎  | 501/691 [00:17<00:05, 31.77it/s]encode_codec_tokens:  73%|███████▎  | 505/691 [00:17<00:05, 32.80it/s]encode_codec_tokens:  74%|███████▎  | 509/691 [00:18<00:05, 32.27it/s]encode_codec_tokens:  74%|███████▍  | 513/691 [00:18<00:05, 31.07it/s]encode_codec_tokens:  75%|███████▍  | 517/691 [00:18<00:05, 32.49it/s]encode_codec_tokens:  75%|███████▌  | 521/691 [00:18<00:05, 32.77it/s]encode_codec_tokens:  76%|███████▌  | 525/691 [00:18<00:05, 33.07it/s]encode_codec_tokens:  77%|███████▋  | 529/691 [00:18<00:05, 32.03it/s]encode_codec_tokens:  77%|███████▋  | 533/691 [00:18<00:04, 33.75it/s]encode_codec_tokens:  78%|███████▊  | 537/691 [00:18<00:04, 32.61it/s]encode_codec_tokens:  78%|███████▊  | 541/691 [00:19<00:04, 30.57it/s]encode_codec_tokens:  79%|███████▉  | 545/691 [00:19<00:04, 31.75it/s]encode_codec_tokens:  79%|███████▉  | 549/691 [00:19<00:04, 32.45it/s]encode_codec_tokens:  80%|████████  | 553/691 [00:19<00:04, 33.25it/s]encode_codec_tokens:  81%|████████  | 557/691 [00:19<00:04, 31.98it/s]encode_codec_tokens:  81%|████████  | 561/691 [00:19<00:04, 32.23it/s]encode_codec_tokens:  82%|████████▏ | 565/691 [00:19<00:03, 31.77it/s]encode_codec_tokens:  82%|████████▏ | 569/691 [00:19<00:03, 30.83it/s]encode_codec_tokens:  83%|████████▎ | 573/691 [00:20<00:03, 31.68it/s]encode_codec_tokens:  84%|████████▎ | 577/691 [00:20<00:03, 31.49it/s]encode_codec_tokens:  84%|████████▍ | 581/691 [00:20<00:03, 31.18it/s]encode_codec_tokens:  85%|████████▍ | 585/691 [00:20<00:03, 30.72it/s]encode_codec_tokens:  85%|████████▌ | 589/691 [00:20<00:03, 32.45it/s]encode_codec_tokens:  86%|████████▌ | 593/691 [00:20<00:03, 31.66it/s]encode_codec_tokens:  86%|████████▋ | 597/691 [00:20<00:02, 32.73it/s]encode_codec_tokens:  87%|████████▋ | 601/691 [00:20<00:02, 32.43it/s]encode_codec_tokens:  88%|████████▊ | 605/691 [00:21<00:02, 31.78it/s]encode_codec_tokens:  88%|████████▊ | 609/691 [00:21<00:02, 32.27it/s]encode_codec_tokens:  89%|████████▊ | 613/691 [00:21<00:02, 31.36it/s]encode_codec_tokens:  89%|████████▉ | 617/691 [00:21<00:02, 30.55it/s]encode_codec_tokens:  90%|████████▉ | 621/691 [00:21<00:02, 30.67it/s]encode_codec_tokens:  90%|█████████ | 625/691 [00:21<00:02, 30.78it/s]encode_codec_tokens:  91%|█████████ | 629/691 [00:21<00:01, 31.20it/s]encode_codec_tokens:  92%|█████████▏| 633/691 [00:21<00:01, 31.31it/s]encode_codec_tokens:  92%|█████████▏| 637/691 [00:22<00:01, 32.48it/s]encode_codec_tokens:  93%|█████████▎| 641/691 [00:22<00:01, 31.30it/s]encode_codec_tokens:  93%|█████████▎| 645/691 [00:22<00:01, 32.02it/s]encode_codec_tokens:  94%|█████████▍| 649/691 [00:22<00:01, 30.45it/s]encode_codec_tokens:  95%|█████████▍| 653/691 [00:22<00:01, 30.70it/s]encode_codec_tokens:  95%|█████████▌| 657/691 [00:22<00:01, 30.32it/s]encode_codec_tokens:  96%|█████████▌| 661/691 [00:22<00:00, 31.00it/s]encode_codec_tokens:  96%|█████████▌| 665/691 [00:23<00:00, 29.62it/s]encode_codec_tokens:  97%|█████████▋| 669/691 [00:23<00:00, 29.84it/s]encode_codec_tokens:  97%|█████████▋| 673/691 [00:23<00:00, 30.10it/s]encode_codec_tokens:  98%|█████████▊| 677/691 [00:23<00:00, 30.55it/s]encode_codec_tokens:  99%|█████████▊| 681/691 [00:23<00:00, 30.30it/s]encode_codec_tokens:  99%|█████████▉| 685/691 [00:23<00:00, 31.27it/s]encode_codec_tokens: 100%|█████████▉| 689/691 [00:23<00:00, 32.19it/s]encode_codec_tokens: 100%|██████████| 691/691 [00:23<00:00, 28.99it/s]
+{
+  "plan_slug": "d1_discrete_speech_lm",
+  "target": "qwen3tts_12hz",
+  "codec_model_id": "Qwen/Qwen3-TTS-Tokenizer-12Hz",
+  "codec_fingerprint": {
+    "status": "ok",
+    "model_id": "Qwen/Qwen3-TTS-Tokenizer-12Hz",
+    "n_state_keys": 496,
+    "partial_sha256_16": "7030d98a18ae5968",
+    "partial_keys": [
+      "decoder.decoder.0.conv.bias",
+      "decoder.decoder.0.conv.weight",
+      "decoder.decoder.1.block.0.alpha",
+      "decoder.decoder.1.block.0.beta",
+      "decoder.decoder.1.block.1.conv.bias",
+      "decoder.decoder.1.block.1.conv.weight",
+      "decoder.decoder.1.block.2.act1.alpha",
+      "decoder.decoder.1.block.2.act1.beta"
+    ],
+    "license": "Apache-2.0",
+    "target": "qwen3tts_12hz"
+  },
+  "codec_hash": "7030d98a18ae5968",
+  "text_tokenizer_id": "/home/adam/datasets/tts/models/Qwen3.5-0.8B-Base",
+  "speech_eos_id": 2048,
+  "subset_tag": "h1",
+  "encode_n": 691,
+  "encode_hours": 0.999042303240742,
+  "newly_encoded": {
+    "common_voice_ru_17_hf_mirror": 534,
+    "ruslan": 157
+  },
+  "skipped_existing": 0,
+  "index_paths": {
+    "common_voice_ru_17_hf_mirror": "/home/adam/datasets/tts/common_voice_ru17/codec_tokens_h1/codec_tokens_index.json",
+    "ruslan": "/home/adam/datasets/tts/ruslan/codec_tokens_h1/codec_tokens_index.json"
+  },
+  "phone_vocab": "/home/adam/datasets/tts/multicorpus/phone_vocab_codec_h1.json",
+  "trackn_leak_check": {
+    "ok": true,
+    "utt_overlaps": {
+      "train∩val": 0,
+      "train∩test": 0,
+      "val∩test": 0
+    },
+    "speaker_leaks_sample": {},
+    "n": {
+      "train": 51234,
+      "val": 2961,
+      "test": 3276,
+      "review": 2430
+    },
+    "hours": {
+      "train": 72.98358844907415,
+      "val": 4.81801762731481,
+      "test": 4.702707094907414,
+      "review": 3.5762245138888917
+    }
+  },
+  "sample": false,
+  "apply_frontend": false,
+  "elapsed_s": 23.908701419830322,
+  "git_sha": "dce4f456b0757fb63da4cf014188ff4e474bdbe9",
+  "git_dirty": true,
+  "resume": "Re-run the same command; ShardWriter skips utt_ids already in codec_tokens_index.json."
+}
+wrote meta /mnt/c/projects/tts-self/out/d1_discrete_speech_lm/encode_meta_h1.json

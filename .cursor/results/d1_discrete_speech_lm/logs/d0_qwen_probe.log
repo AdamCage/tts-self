@@ -1,0 +1,42 @@
+/bin/sh: 1: sox: not found
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+Loading Qwen3-TTS Tokenizer-12Hz + ASR...
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+qwen_e2_copysynth:   0%|          | 0/50 [00:00<?, ?it/s]qwen_e2_copysynth:   2%|▏         | 1/50 [00:01<01:27,  1.79s/it]qwen_e2_copysynth:   4%|▍         | 2/50 [00:03<01:31,  1.90s/it]qwen_e2_copysynth:   6%|▌         | 3/50 [00:05<01:36,  2.04s/it]qwen_e2_copysynth:   8%|▊         | 4/50 [00:07<01:29,  1.95s/it]qwen_e2_copysynth:  10%|█         | 5/50 [00:09<01:18,  1.75s/it]qwen_e2_copysynth:  12%|█▏        | 6/50 [00:11<01:24,  1.92s/it]qwen_e2_copysynth:  14%|█▍        | 7/50 [00:13<01:19,  1.86s/it]qwen_e2_copysynth:  16%|█▌        | 8/50 [00:15<01:27,  2.07s/it]qwen_e2_copysynth:  18%|█▊        | 9/50 [00:17<01:24,  2.06s/it]qwen_e2_copysynth:  20%|██        | 10/50 [00:19<01:22,  2.06s/it]qwen_e2_copysynth:  22%|██▏       | 11/50 [00:21<01:17,  1.98s/it]qwen_e2_copysynth:  24%|██▍       | 12/50 [00:23<01:13,  1.94s/it]qwen_e2_copysynth:  26%|██▌       | 13/50 [00:25<01:13,  1.99s/it]qwen_e2_copysynth:  28%|██▊       | 14/50 [00:27<01:07,  1.86s/it]qwen_e2_copysynth:  30%|███       | 15/50 [00:28<01:03,  1.81s/it]qwen_e2_copysynth:  32%|███▏      | 16/50 [00:30<00:55,  1.64s/it]qwen_e2_copysynth:  34%|███▍      | 17/50 [00:32<00:57,  1.75s/it]qwen_e2_copysynth:  36%|███▌      | 18/50 [00:34<01:06,  2.07s/it]qwen_e2_copysynth:  38%|███▊      | 19/50 [00:36<01:00,  1.96s/it]qwen_e2_copysynth:  40%|████      | 20/50 [00:38<00:57,  1.93s/it]qwen_e2_copysynth:  42%|████▏     | 21/50 [00:40<01:00,  2.09s/it]qwen_e2_copysynth:  44%|████▍     | 22/50 [00:42<00:52,  1.88s/it]qwen_e2_copysynth:  46%|████▌     | 23/50 [00:43<00:48,  1.80s/it]qwen_e2_copysynth:  48%|████▊     | 24/50 [00:46<00:49,  1.92s/it]qwen_e2_copysynth:  50%|█████     | 25/50 [00:48<00:52,  2.11s/it]qwen_e2_copysynth:  52%|█████▏    | 26/50 [00:49<00:41,  1.72s/it]qwen_e2_copysynth:  54%|█████▍    | 27/50 [00:51<00:41,  1.82s/it]qwen_e2_copysynth:  56%|█████▌    | 28/50 [00:52<00:34,  1.58s/it]qwen_e2_copysynth:  58%|█████▊    | 29/50 [00:54<00:33,  1.61s/it]qwen_e2_copysynth:  60%|██████    | 30/50 [00:55<00:32,  1.61s/it]qwen_e2_copysynth:  62%|██████▏   | 31/50 [00:57<00:30,  1.63s/it]qwen_e2_copysynth:  64%|██████▍   | 32/50 [00:59<00:30,  1.67s/it]qwen_e2_copysynth:  66%|██████▌   | 33/50 [01:00<00:28,  1.67s/it]qwen_e2_copysynth:  68%|██████▊   | 34/50 [01:02<00:25,  1.61s/it]qwen_e2_copysynth:  70%|███████   | 35/50 [01:04<00:25,  1.68s/it]qwen_e2_copysynth:  72%|███████▏  | 36/50 [01:06<00:25,  1.81s/it]qwen_e2_copysynth:  74%|███████▍  | 37/50 [01:09<00:28,  2.22s/it]qwen_e2_copysynth:  76%|███████▌  | 38/50 [01:11<00:27,  2.27s/it]qwen_e2_copysynth:  78%|███████▊  | 39/50 [01:13<00:23,  2.12s/it]qwen_e2_copysynth:  80%|████████  | 40/50 [01:15<00:20,  2.01s/it]qwen_e2_copysynth:  82%|████████▏ | 41/50 [01:18<00:19,  2.22s/it]qwen_e2_copysynth:  84%|████████▍ | 42/50 [01:20<00:18,  2.35s/it]qwen_e2_copysynth:  86%|████████▌ | 43/50 [01:22<00:15,  2.21s/it]qwen_e2_copysynth:  88%|████████▊ | 44/50 [01:24<00:12,  2.12s/it]qwen_e2_copysynth:  90%|█████████ | 45/50 [01:26<00:10,  2.11s/it]qwen_e2_copysynth:  92%|█████████▏| 46/50 [01:28<00:07,  1.89s/it]qwen_e2_copysynth:  94%|█████████▍| 47/50 [01:29<00:05,  1.75s/it]qwen_e2_copysynth:  96%|█████████▌| 48/50 [01:31<00:03,  1.91s/it]qwen_e2_copysynth:  98%|█████████▊| 49/50 [01:33<00:01,  1.79s/it]qwen_e2_copysynth: 100%|██████████| 50/50 [01:34<00:00,  1.62s/it]qwen_e2_copysynth: 100%|██████████| 50/50 [01:34<00:00,  1.89s/it]
+qwen_bank_roundtrip:   0%|          | 0/40 [00:00<?, ?it/s]qwen_bank_roundtrip:   2%|▎         | 1/40 [00:00<00:14,  2.67it/s]qwen_bank_roundtrip:   5%|▌         | 2/40 [00:00<00:14,  2.66it/s]qwen_bank_roundtrip:   8%|▊         | 3/40 [00:01<00:15,  2.35it/s]qwen_bank_roundtrip:  10%|█         | 4/40 [00:01<00:16,  2.23it/s]qwen_bank_roundtrip:  12%|█▎        | 5/40 [00:02<00:15,  2.19it/s]qwen_bank_roundtrip:  15%|█▌        | 6/40 [00:02<00:15,  2.15it/s]qwen_bank_roundtrip:  18%|█▊        | 7/40 [00:03<00:15,  2.08it/s]qwen_bank_roundtrip:  20%|██        | 8/40 [00:03<00:14,  2.15it/s]qwen_bank_roundtrip:  22%|██▎       | 9/40 [00:04<00:14,  2.08it/s]qwen_bank_roundtrip:  25%|██▌       | 10/40 [00:04<00:13,  2.18it/s]qwen_bank_roundtrip:  28%|██▊       | 11/40 [00:04<00:12,  2.26it/s]qwen_bank_roundtrip:  30%|███       | 12/40 [00:05<00:12,  2.27it/s]qwen_bank_roundtrip:  32%|███▎      | 13/40 [00:05<00:12,  2.21it/s]qwen_bank_roundtrip:  35%|███▌      | 14/40 [00:06<00:12,  2.13it/s]qwen_bank_roundtrip:  38%|███▊      | 15/40 [00:06<00:12,  1.98it/s]qwen_bank_roundtrip:  40%|████      | 16/40 [00:07<00:11,  2.05it/s]qwen_bank_roundtrip:  42%|████▎     | 17/40 [00:07<00:10,  2.15it/s]qwen_bank_roundtrip:  45%|████▌     | 18/40 [00:08<00:12,  1.71it/s]qwen_bank_roundtrip:  48%|████▊     | 19/40 [00:09<00:14,  1.47it/s]qwen_bank_roundtrip:  50%|█████     | 20/40 [00:10<00:17,  1.12it/s]qwen_bank_roundtrip:  52%|█████▎    | 21/40 [00:11<00:15,  1.20it/s]qwen_bank_roundtrip:  55%|█████▌    | 22/40 [00:12<00:16,  1.07it/s]qwen_bank_roundtrip:  57%|█████▊    | 23/40 [00:13<00:13,  1.25it/s]qwen_bank_roundtrip:  60%|██████    | 24/40 [00:18<00:33,  2.07s/it]qwen_bank_roundtrip:  62%|██████▎   | 25/40 [00:18<00:23,  1.56s/it]qwen_bank_roundtrip:  65%|██████▌   | 26/40 [00:19<00:16,  1.20s/it]qwen_bank_roundtrip:  68%|██████▊   | 27/40 [00:19<00:12,  1.04it/s]qwen_bank_roundtrip:  70%|███████   | 28/40 [00:19<00:09,  1.27it/s]qwen_bank_roundtrip:  72%|███████▎  | 29/40 [00:20<00:07,  1.44it/s]qwen_bank_roundtrip:  75%|███████▌  | 30/40 [00:20<00:06,  1.59it/s]qwen_bank_roundtrip:  78%|███████▊  | 31/40 [00:21<00:05,  1.77it/s]qwen_bank_roundtrip:  80%|████████  | 32/40 [00:21<00:03,  2.02it/s]qwen_bank_roundtrip:  82%|████████▎ | 33/40 [00:21<00:03,  2.20it/s]qwen_bank_roundtrip:  85%|████████▌ | 34/40 [00:22<00:02,  2.30it/s]qwen_bank_roundtrip:  88%|████████▊ | 35/40 [00:22<00:02,  2.22it/s]qwen_bank_roundtrip:  90%|█████████ | 36/40 [00:23<00:01,  2.40it/s]qwen_bank_roundtrip:  92%|█████████▎| 37/40 [00:23<00:01,  2.51it/s]qwen_bank_roundtrip:  95%|█████████▌| 38/40 [00:23<00:00,  2.43it/s]qwen_bank_roundtrip:  98%|█████████▊| 39/40 [00:24<00:00,  2.34it/s]qwen_bank_roundtrip: 100%|██████████| 40/40 [00:25<00:00,  2.04it/s]qwen_bank_roundtrip: 100%|██████████| 40/40 [00:25<00:00,  1.60it/s]
+WARNING: git worktree is dirty; continuing because MINISPEECH_ALLOW_DIRTY is set. run_manifest will have git_dirty=true.
+{
+  "gate": "D0",
+  "verdict": "PASS",
+  "criteria": {
+    "copy_synth_cer_max": 0.073,
+    "copy_synth_cer": 0.06775864400254059,
+    "copy_synth_cer_pass": true,
+    "bit_identical_reencode": true,
+    "bit_identical_pass": true,
+    "bank_entity_der": 0.3253012048192771,
+    "continuous_bank_entity_der": 0.4457831325301205,
+    "bank_der_pass": true,
+    "bank_der_note": "qwen_der=0.325301 vs continuous_der=0.445783 (PASS)"
+  },
+  "artifacts": {
+    "probe_report": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/d0_probe_report.json",
+    "gate": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/d0_gate.json",
+    "wav_dir": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/qwen3tts_12hz_copysynth",
+    "continuous_anchor": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/continuous_codec_anchor.json"
+  },
+  "git_sha": "dce4f456b0757fb63da4cf014188ff4e474bdbe9",
+  "git_dirty": true
+}
+WROTE /mnt/c/projects/tts-self/out/d1_discrete_speech_lm/d0_gate.json

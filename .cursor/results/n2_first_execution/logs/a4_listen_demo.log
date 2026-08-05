@@ -1,0 +1,41 @@
+[transformers] The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+Loading weights:   0%|          | 0/320 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 70/320 [00:00<00:00, 698.86it/s]Loading weights:  44%|████▍     | 140/320 [00:00<00:00, 698.73it/s]Loading weights:  67%|██████▋   | 214/320 [00:00<00:00, 713.63it/s]Loading weights:  92%|█████████▎| 296/320 [00:00<00:00, 747.48it/s]Loading weights: 100%|██████████| 320/320 [00:00<00:00, 748.06it/s]
+[transformers] [1mQwen3_5TextModel LOAD REPORT[0m from: /home/adam/datasets/tts/models/Qwen3.5-0.8B-Base
+Key                                                | Status     |  | 
+---------------------------------------------------+------------+--+-
+model.visual.blocks.{0...11}.mlp.linear_fc2.weight | UNEXPECTED |  | 
+model.visual.blocks.{0...11}.mlp.linear_fc1.weight | UNEXPECTED |  | 
+model.visual.blocks.{0...11}.norm2.weight          | UNEXPECTED |  | 
+model.visual.blocks.{0...11}.attn.proj.bias        | UNEXPECTED |  | 
+model.visual.blocks.{0...11}.mlp.linear_fc1.bias   | UNEXPECTED |  | 
+model.visual.blocks.{0...11}.attn.proj.weight      | UNEXPECTED |  | 
+model.visual.blocks.{0...11}.mlp.linear_fc2.bias   | UNEXPECTED |  | 
+model.visual.blocks.{0...11}.attn.qkv.bias         | UNEXPECTED |  | 
+model.visual.blocks.{0...11}.norm1.bias            | UNEXPECTED |  | 
+model.visual.blocks.{0...11}.norm2.bias            | UNEXPECTED |  | 
+model.visual.blocks.{0...11}.attn.qkv.weight       | UNEXPECTED |  | 
+model.visual.blocks.{0...11}.norm1.weight          | UNEXPECTED |  | 
+model.visual.merger.linear_fc2.weight              | UNEXPECTED |  | 
+model.visual.merger.linear_fc2.bias                | UNEXPECTED |  | 
+model.visual.pos_embed.weight                      | UNEXPECTED |  | 
+model.visual.patch_embed.proj.bias                 | UNEXPECTED |  | 
+model.visual.merger.linear_fc1.weight              | UNEXPECTED |  | 
+model.visual.merger.norm.weight                    | UNEXPECTED |  | 
+model.visual.merger.norm.bias                      | UNEXPECTED |  | 
+model.visual.merger.linear_fc1.bias                | UNEXPECTED |  | 
+model.visual.patch_embed.proj.weight               | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+load_n2_checkpoint: missing=0 unexpected=0
+Loading weights:   0%|          | 0/552 [00:00<?, ?it/s]Loading weights:  35%|███▍      | 191/552 [00:00<00:00, 1790.55it/s]Loading weights:  67%|██████▋   | 371/552 [00:00<00:00, 1339.20it/s]Loading weights:  93%|█████████▎| 512/552 [00:00<00:00, 1001.13it/s]Loading weights: 100%|██████████| 552/552 [00:00<00:00, 1190.43it/s]
+Traceback (most recent call last):
+  File "/mnt/c/projects/tts-self/scripts/66_infer_n2.py", line 133, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/mnt/c/projects/tts-self/scripts/66_infer_n2.py", line 118, in main
+    "path": str(path.relative_to(expand("."))) if path.is_absolute() else str(path),
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adam/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/pathlib.py", line 730, in relative_to
+    raise ValueError("{!r} is not in the subpath of {!r}"
+ValueError: '/mnt/c/projects/tts-self/out/n2_first_execution/n2_s1_listen_demo/01______tts_.wav' is not in the subpath of '/home/adam/projects/tts-self' OR one path is relative and the other is absolute.

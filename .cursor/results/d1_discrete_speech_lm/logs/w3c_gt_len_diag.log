@@ -1,0 +1,23 @@
+/bin/sh: 1: sox: not found
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+Traceback (most recent call last):
+  File "/mnt/c/projects/tts-self/out/_tmp_gt_len_diag.py", line 84, in <module>
+    hyp = asr.transcribe(audio, sr, use_cache=False)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self/src/minispeech/eval/asr.py", line 172, in transcribe
+    self._load()
+  File "/mnt/c/projects/tts-self/src/minispeech/eval/asr.py", line 108, in _load
+    import whisper
+ModuleNotFoundError: No module named 'whisper'

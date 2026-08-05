@@ -1,0 +1,31 @@
+[n2] free-running model on 32 utts max_frames=278 skip_asr=True
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+/bin/sh: 1: sox: not found
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+[n2] copy_synth
+[n2] wrong_utt
+[n2] random_codes
+[n2] shuffle_text (text-usage)
+[n2] mask_text (text-usage)
+wrote decode bundle /mnt/c/projects/tts-self/out/d1_discrete_speech_lm/n2_eval_stop_3k/n2_decode_bundle.json (run --score-only next)
+{
+  "loss": 0.04707903857342899,
+  "ce_cb0": 0.024709782999707386,
+  "ce_residual": 0.022256583673879504,
+  "n_batches": 8,
+  "n_utts": 32,
+  "note": "Teacher-forced CE is diagnostic only; promotion uses free-running CER/DER.",
+  "n2_decode_bundle": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/n2_eval_stop_3k/n2_decode_bundle.json"
+}
+wrote /mnt/c/projects/tts-self/out/d1_discrete_speech_lm/n2_eval_stop_3k/eval_summary.json

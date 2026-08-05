@@ -1,0 +1,31 @@
+{
+  "stage": "S1",
+  "step": 3000,
+  "improved": true,
+  "selection_key": [
+    1.0,
+    1.0,
+    -0.0,
+    -0.0,
+    -2.1668922652248983
+  ],
+  "stability": {
+    "stop_success_rate": 1.0,
+    "runaway_rate": 0.0,
+    "nan_rate": 0.0,
+    "silence_rate": 0.0,
+    "mean_dtw_l1": 2.1668922652248983,
+    "duration_in_band_rate": 1.0,
+    "mean_duration_ratio": 1.0
+  },
+  "cer": null,
+  "head_diagnostics": {
+    "r2_overall": -7.388195037841797,
+    "var_ratio": 7.455860907837523,
+    "r2_per_dim_mean": -7.55919075012207,
+    "corr_gt_t": 0.009721541777253151,
+    "corr_gt_tm1": -0.0003702084068208933,
+    "hf_power_ratio": 7.30050773355578
+  },
+  "n": 4
+}

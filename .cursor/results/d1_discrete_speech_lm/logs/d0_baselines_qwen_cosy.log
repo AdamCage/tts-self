@@ -1,0 +1,42 @@
+/bin/sh: 1: sox: not found
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files:  25%|██▌       | 1/4 [00:00<00:01,  1.54it/s]Fetching 4 files: 100%|██████████| 4/4 [00:35<00:00,  8.86s/it]Fetching 4 files: 100%|██████████| 4/4 [00:35<00:00,  8.86s/it]
+[qwen3_tts_0.6b/demo5] demo_01 cer=None
+[qwen3_tts_0.6b/demo5] demo_02 cer=None
+[qwen3_tts_0.6b/demo5] demo_03 cer=None
+[qwen3_tts_0.6b/demo5] demo_04 cer=None
+[qwen3_tts_0.6b/demo5] demo_05 cer=None
+{
+  "status": "blocked",
+  "system": "cosyvoice3",
+  "reason": "CosyVoice3 not installed in this environment. Install separately if needed; Wave 0 continues without it.",
+  "sets_requested": "demo5",
+  "git_sha": "dce4f456b0757fb63da4cf014188ff4e474bdbe9",
+  "git_dirty": true
+}
+{
+  "plan_slug": "d1_discrete_speech_lm",
+  "sets": "demo5",
+  "git_sha": "dce4f456b0757fb63da4cf014188ff4e474bdbe9",
+  "git_dirty": true,
+  "systems": {
+    "qwen3_tts_0.6b": {
+      "returncode": 1
+    },
+    "cosyvoice3": {
+      "returncode": 2
+    }
+  }
+}

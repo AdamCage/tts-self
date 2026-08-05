@@ -1,0 +1,83 @@
+[transformers] The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+Loading weights:   0%|          | 0/320 [00:00<?, ?it/s]Loading weights:  15%|█▌        | 49/320 [00:00<00:00, 456.91it/s]Loading weights:  40%|████      | 129/320 [00:00<00:00, 638.33it/s]Loading weights:  61%|██████    | 194/320 [00:00<00:00, 631.53it/s]Loading weights:  87%|████████▋ | 279/320 [00:00<00:00, 708.16it/s]Loading weights: 100%|██████████| 320/320 [00:00<00:00, 707.98it/s]
+[transformers] [1mQwen3_5TextModel LOAD REPORT[0m from: /home/adam/datasets/tts/models/Qwen3.5-0.8B-Base
+Key                                                | Status     |  | 
+---------------------------------------------------+------------+--+-
+model.visual.blocks.{0...11}.norm1.weight          | UNEXPECTED |  | 
+model.visual.blocks.{0...11}.attn.proj.weight      | UNEXPECTED |  | 
+model.visual.blocks.{0...11}.norm2.weight          | UNEXPECTED |  | 
+model.visual.blocks.{0...11}.mlp.linear_fc2.bias   | UNEXPECTED |  | 
+model.visual.blocks.{0...11}.attn.qkv.weight       | UNEXPECTED |  | 
+model.visual.blocks.{0...11}.attn.proj.bias        | UNEXPECTED |  | 
+model.visual.blocks.{0...11}.attn.qkv.bias         | UNEXPECTED |  | 
+model.visual.blocks.{0...11}.mlp.linear_fc1.weight | UNEXPECTED |  | 
+model.visual.patch_embed.proj.weight               | UNEXPECTED |  | 
+model.visual.blocks.{0...11}.norm2.bias            | UNEXPECTED |  | 
+model.visual.blocks.{0...11}.norm1.bias            | UNEXPECTED |  | 
+model.visual.merger.norm.bias                      | UNEXPECTED |  | 
+model.visual.patch_embed.proj.bias                 | UNEXPECTED |  | 
+model.visual.blocks.{0...11}.mlp.linear_fc2.weight | UNEXPECTED |  | 
+model.visual.merger.linear_fc1.bias                | UNEXPECTED |  | 
+model.visual.merger.norm.weight                    | UNEXPECTED |  | 
+model.visual.blocks.{0...11}.mlp.linear_fc1.bias   | UNEXPECTED |  | 
+model.visual.pos_embed.weight                      | UNEXPECTED |  | 
+model.visual.merger.linear_fc1.weight              | UNEXPECTED |  | 
+model.visual.merger.linear_fc2.bias                | UNEXPECTED |  | 
+model.visual.merger.linear_fc2.weight              | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+stage=S1 n_train=32 batch=1
+n2-train-S1:   0%|          | 0/5 [00:00<?, ?it/s]n2-train-S1:   0%|          | 0/5 [00:01<?, ?it/s, dur=3.0, loss=1.3219]n2-train-S1:  20%|██        | 1/5 [00:01<00:06,  1.58s/it, dur=3.0, loss=1.3219]n2-train-S1:  20%|██        | 1/5 [00:02<00:06,  1.58s/it, dur=3.0, loss=1.4373]n2-train-S1:  40%|████      | 2/5 [00:02<00:02,  1.02it/s, dur=3.0, loss=1.4373]n2-train-S1:  40%|████      | 2/5 [00:02<00:02,  1.02it/s, dur=3.0, loss=1.4483]n2-train-S1:  60%|██████    | 3/5 [00:02<00:01,  1.36it/s, dur=3.0, loss=1.4483]n2-train-S1:  60%|██████    | 3/5 [00:03<00:01,  1.36it/s, dur=3.0, loss=1.3825]n2-train-S1:  80%|████████  | 4/5 [00:03<00:00,  1.61it/s, dur=3.0, loss=1.3825]n2-train-S1:  80%|████████  | 4/5 [00:03<00:00,  1.61it/s, dur=3.0, loss=1.3293]n2-train-S1: 100%|██████████| 5/5 [00:03<00:00,  1.78it/s, dur=3.0, loss=1.3293]n2-train-S1: 100%|██████████| 5/5 [00:03<00:00,  1.43it/s, dur=3.0, loss=1.3293]
+Traceback (most recent call last):
+  File "/mnt/c/projects/tts-self/scripts/65_train_n2.py", line 242, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/mnt/c/projects/tts-self/scripts/65_train_n2.py", line 174, in main
+    last = trainer.train_steps(steps, stage=stage["name"])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self/src/minispeech/train/n2_trainer.py", line 936, in train_steps
+    self._maybe_promote_fr_best(stage, steps)
+  File "/mnt/c/projects/tts-self/src/minispeech/train/n2_trainer.py", line 782, in _maybe_promote_fr_best
+    report = evaluate_n2_free_running(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adam/projects/tts-self/.venv/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self/src/minispeech/train/n2_trainer.py", line 558, in evaluate_n2_free_running
+    z_pred, info = model.generate(
+                   ^^^^^^^^^^^^^^^
+  File "/home/adam/projects/tts-self/.venv/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self/src/minispeech/train/n2_trainer.py", line 192, in generate
+    z_t = sample_ddim(
+          ^^^^^^^^^^^^
+  File "/home/adam/projects/tts-self/.venv/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self/src/minispeech/models/head_diffusion.py", line 259, in sample_ddim
+    eps = _cfg_eps(head, x, t, h, cfg_scale)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self/src/minispeech/models/head_diffusion.py", line 225, in _cfg_eps
+    eps_cond = head(x, t, h, cfg_drop_mask=None)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adam/projects/tts-self/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adam/projects/tts-self/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/projects/tts-self/src/minispeech/models/head_diffusion.py", line 170, in forward
+    x = self.in_proj(x_t)
+        ^^^^^^^^^^^^^^^^^
+  File "/home/adam/projects/tts-self/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adam/projects/tts-self/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adam/projects/tts-self/.venv/lib/python3.11/site-packages/torch/nn/modules/linear.py", line 134, in forward
+    return F.linear(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: mat1 and mat2 must have the same dtype, but got BFloat16 and Float

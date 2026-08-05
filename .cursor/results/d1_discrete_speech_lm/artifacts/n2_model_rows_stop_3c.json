@@ -1,0 +1,322 @@
+[
+  {
+    "utt_id": "ruslan_000418_RUSLAN",
+    "condition": "model",
+    "n_frames": 29,
+    "gt_frames": 29,
+    "cer": 0.12,
+    "ref": "Же́нщина в трамва́е На́йману",
+    "hyp": "женщинам трамвая найману.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0000_ruslan_000418_RUSLAN.wav"
+  },
+  {
+    "utt_id": "ruslan_006437_RUSLAN",
+    "condition": "model",
+    "n_frames": 71,
+    "gt_frames": 66,
+    "cer": 0.0,
+    "ref": "Изуча́ет санскри́т… Что́-то в э́том ду́хе. То́лько бо́лее значи́мое в социа́льном отноше́нии.",
+    "hyp": "Изучает санскрит, что-то в этом духе, только более значимое в социальном отношении.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0001_ruslan_006437_RUSLAN.wav"
+  },
+  {
+    "utt_id": "ruslan_016544_RUSLAN",
+    "condition": "model",
+    "n_frames": 102,
+    "gt_frames": 88,
+    "cer": 0.07547169811320754,
+    "ref": "Я́ всё жа́ловался на́ отсу́тствие перспекти́в. Ле́на говори́ла – Напиши́ две́ ты́сячи расска́зов. Хо́ть оди́н да́ напеча́тают…",
+    "hyp": "Я все жаловался на отсутствие перспектив. Лена говорила, напиши две тысячи рассказов. Хоть один, да напечатают. Я в раю.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0002_ruslan_016544_RUSLAN.wav"
+  },
+  {
+    "utt_id": "ruslan_017729_RUSLAN",
+    "condition": "model",
+    "n_frames": 94,
+    "gt_frames": 78,
+    "cer": 0.2413793103448276,
+    "ref": "ка́к о́н зашнуро́вывает кро́шечные боти́нки. И́ли застёгивает ускольза́ющие пу́говицы на́ ли́фчике.",
+    "hyp": "Например, как он зашнуровывает крошечные ботинки или застегивает ускользающие пуговицы на лифчике. Я напечатал.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0003_ruslan_017729_RUSLAN.wav"
+  },
+  {
+    "utt_id": "ruslan_019874_RUSLAN",
+    "condition": "model",
+    "n_frames": 98,
+    "gt_frames": 98,
+    "cer": 0.07216494845360824,
+    "ref": "Ли́нда говори́т о́ мои́х расска́зах, кото́рые «Ньюйо́ркер» вро́де бы́ хо́чет и́ да́льше печа́тать. Я́ в отве́т кива́ю.",
+    "hyp": "Слышу, Линда говорит о моих рассказах, которые Нью-Йоркер вроде бы хочет и дальше печатать. Я в ответ киваю.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0004_ruslan_019874_RUSLAN.wav"
+  },
+  {
+    "utt_id": "ruslan_019969_RUSLAN",
+    "condition": "model",
+    "n_frames": 70,
+    "gt_frames": 70,
+    "cer": 0.0,
+    "ref": "Э́то кака́я-то органи́ческая спосо́бность к перевоплоще́нию. Коро́че перево́ды – э́то судьба́.",
+    "hyp": "Это какая-то органическая способность к перевоплощению. Короче, переводы – это судьба.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0005_ruslan_019969_RUSLAN.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__099f4be73f6f3585f1fe4054",
+    "condition": "model",
+    "n_frames": 29,
+    "gt_frames": 29,
+    "cer": 0.0,
+    "ref": "Наши часы спешат.",
+    "hyp": "Наши часы спешат.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0006_common_voice_ru_17_hf_mirror__099f4be73f6f3585f1.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__1d1d705e4a340e27c125aa63",
+    "condition": "model",
+    "n_frames": 38,
+    "gt_frames": 49,
+    "cer": 0.0,
+    "ref": "Мы расстаемся до новых встреч.",
+    "hyp": "Мы расстаемся, до новых встреч!",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0007_common_voice_ru_17_hf_mirror__1d1d705e4a340e27c1.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__27a6f8faef04b371c458e340",
+    "condition": "model",
+    "n_frames": 59,
+    "gt_frames": 59,
+    "cer": 0.0,
+    "ref": "Латинская Америка — это не Африка и не Азиатско-Тихоокеанский регион.",
+    "hyp": "Латинская Америка это не Африка и не Азиатско-Тихоокеанский регион.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0008_common_voice_ru_17_hf_mirror__27a6f8faef04b371c4.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__27e32d21039446eaa6af1ff6",
+    "condition": "model",
+    "n_frames": 55,
+    "gt_frames": 55,
+    "cer": 0.0,
+    "ref": "Короче говоря, удар был нанесен по всем основам государства.",
+    "hyp": "Короче говоря, удар был нанесен по всем основам государства.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0009_common_voice_ru_17_hf_mirror__27e32d21039446eaa6.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__399d7f8c910663dc6faf9383",
+    "condition": "model",
+    "n_frames": 35,
+    "gt_frames": 35,
+    "cer": 0.0,
+    "ref": "Стук и вой повторился.",
+    "hyp": "Стук и вой повторился.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0010_common_voice_ru_17_hf_mirror__399d7f8c910663dc6f.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__45aa05b1b3395888ccf7ebba",
+    "condition": "model",
+    "n_frames": 37,
+    "gt_frames": 37,
+    "cer": 0.0,
+    "ref": "Краснодар - прекрасное место.",
+    "hyp": "Краснодар – прекрасное место.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0011_common_voice_ru_17_hf_mirror__45aa05b1b3395888cc.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__49f46351eee6509ee5c74d3e",
+    "condition": "model",
+    "n_frames": 89,
+    "gt_frames": 89,
+    "cer": 0.02127659574468085,
+    "ref": "Степан Аркадьич рассказал жене причину замедления, и гости улыбаясь перешептывались между собой.",
+    "hyp": "Степан Аркадьевич рассказал жене причину замедления и гости улыбаясь перешептывались между собой",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0012_common_voice_ru_17_hf_mirror__49f46351eee6509ee5.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__5534a8577c1543c9d46678f6",
+    "condition": "model",
+    "n_frames": 70,
+    "gt_frames": 70,
+    "cer": 0.0,
+    "ref": "Мы считаем, что тем самым мы можем обойтись в этом пункте без третьей фразы.",
+    "hyp": "Мы считаем, что тем самым мы можем обойтись в этом пункте без третьей фразы.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0013_common_voice_ru_17_hf_mirror__5534a8577c1543c9d4.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__64d2c3c11acd9214c2dd7c77",
+    "condition": "model",
+    "n_frames": 98,
+    "gt_frames": 98,
+    "cer": 0.06666666666666667,
+    "ref": "В-пятых, необходимо поднять уровни ядерной безопасности на глобальном уровне и уменьшить ядерную опасность.",
+    "hyp": "5. Необходимо поднять уровни ядерной безопасности на глобальном уровне и уменьшить ядерную опасность.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0014_common_voice_ru_17_hf_mirror__64d2c3c11acd9214c2.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__79a4d9667b4cbb870eb7d510",
+    "condition": "model",
+    "n_frames": 90,
+    "gt_frames": 90,
+    "cer": 0.0,
+    "ref": "Такой договор должен служить как разоруженческим, так и нераспространенческим целям.",
+    "hyp": "Такой договор должен служить как разоруженческим, так и нераспространенческим целям.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0015_common_voice_ru_17_hf_mirror__79a4d9667b4cbb870e.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__9264b83f6dfbf4cb9e6a9e70",
+    "condition": "model",
+    "n_frames": 90,
+    "gt_frames": 90,
+    "cer": 0.010869565217391304,
+    "ref": "Мы рассматриваем вопросы обеспечения ядерной безопасности в качестве безусловного приоритета.",
+    "hyp": "Мы рассматриваем вопрос обеспечения ядерной безопасности в качестве безусловного приоритета.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0016_common_voice_ru_17_hf_mirror__9264b83f6dfbf4cb9e.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__9d719811751b2bc399c61d2c",
+    "condition": "model",
+    "n_frames": 64,
+    "gt_frames": 64,
+    "cer": 0.0,
+    "ref": "Каждое общество, каждая культура предлагает свой путь для продвижения вперед человечества.",
+    "hyp": "Каждое общество, каждая культура предлагает свой путь для продвижения вперед человечества.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0017_common_voice_ru_17_hf_mirror__9d719811751b2bc399.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__a282a59221705be7a9485c63",
+    "condition": "model",
+    "n_frames": 98,
+    "gt_frames": 98,
+    "cer": 0.0,
+    "ref": "По странной прихоти истории угроза глобальной ядерной войны снизилась, однако риск ядерного нападения повысился\".",
+    "hyp": "По странной прихоти истории, угроза глобальной ядерной войны снизилась, однако риск ядерного нападения повысился.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0018_common_voice_ru_17_hf_mirror__a282a59221705be7a9.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__a4fa5023b26512cd6c69abe6",
+    "condition": "model",
+    "n_frames": 101,
+    "gt_frames": 103,
+    "cer": 0.0,
+    "ref": "Ясно также, что эту проблематику серьезно отягощают политические проблемы и проблемы безопасности.",
+    "hyp": "Ясно также, что эту проблематику серьезно отягощают политические проблемы и проблемы безопасности.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0019_common_voice_ru_17_hf_mirror__a4fa5023b26512cd6c.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__ac44ab53d7642471f6276d06",
+    "condition": "model",
+    "n_frames": 105,
+    "gt_frames": 105,
+    "cer": 0.0,
+    "ref": "Реформа Совета Безопасности — это вопрос, который беспокоит не только небольшое число государств-членов.",
+    "hyp": "Реформа Совета Безопасности – это вопрос, который беспокоит не только небольшое число государств-членов.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0020_common_voice_ru_17_hf_mirror__ac44ab53d7642471f6.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__b0f3d6d8dfb9d8e3e38a7e88",
+    "condition": "model",
+    "n_frames": 82,
+    "gt_frames": 86,
+    "cer": 0.02197802197802198,
+    "ref": "Авторы этого проекта резолюции высказали пожелание, чтобы Комитет принял его без голосования.",
+    "hyp": "Авторы этого проекта в резолюции высказали пожелание, чтобы комитет принял его без голосования.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0021_common_voice_ru_17_hf_mirror__b0f3d6d8dfb9d8e3e3.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__ba1a4089af87b3ebc90db07d",
+    "condition": "model",
+    "n_frames": 37,
+    "gt_frames": 44,
+    "cer": 0.9090909090909091,
+    "ref": "Подать, что обыкновенно.",
+    "hyp": "Краснодар – прекрасное место.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0022_common_voice_ru_17_hf_mirror__ba1a4089af87b3ebc9.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__bee4f920247afc2999d1e4a3",
+    "condition": "model",
+    "n_frames": 39,
+    "gt_frames": 39,
+    "cer": 0.0,
+    "ref": "Теперь я перехожу к четвертому моменту.",
+    "hyp": "Теперь я перехожу к четвертому моменту.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0023_common_voice_ru_17_hf_mirror__bee4f920247afc2999.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__c20ae785dedb3d3b6046b09e",
+    "condition": "model",
+    "n_frames": 63,
+    "gt_frames": 63,
+    "cer": 0.0,
+    "ref": "Благодарю посла Кеннеди за ее заявление.",
+    "hyp": "Благодарю посла Кеннеди за ее заявление.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0024_common_voice_ru_17_hf_mirror__c20ae785dedb3d3b60.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__c664546009afd97ebc3f9693",
+    "condition": "model",
+    "n_frames": 49,
+    "gt_frames": 49,
+    "cer": 0.0,
+    "ref": "Конечно, гипноз можно вызвать и другими путями.",
+    "hyp": "Конечно, гипноз можно вызвать и другими путями.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0025_common_voice_ru_17_hf_mirror__c664546009afd97ebc.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__c9116137e7ffe2c343d3e2f8",
+    "condition": "model",
+    "n_frames": 59,
+    "gt_frames": 59,
+    "cer": 0.0,
+    "ref": "Эта ситуация сказывается и на международном сообществе.",
+    "hyp": "Эта ситуация сказывается и на международном сообществе.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0026_common_voice_ru_17_hf_mirror__c9116137e7ffe2c343.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__d47a9fb0f4db13adf67db444",
+    "condition": "model",
+    "n_frames": 91,
+    "gt_frames": 91,
+    "cer": 0.05063291139240506,
+    "ref": "Оглядываясь назад, мы сейчас понимаем, что многое можно было бы сделать подругому.",
+    "hyp": "Оглядываясь назад, мы сейчас понимаем, что многое можно было сделать по-другому.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0027_common_voice_ru_17_hf_mirror__d47a9fb0f4db13adf6.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__d8a54ca9d0a23a92c8496ee1",
+    "condition": "model",
+    "n_frames": 64,
+    "gt_frames": 71,
+    "cer": 0.0,
+    "ref": "Александр Николаевич Император нас обдумал, он нас и обдумает во всех делах.",
+    "hyp": "Александр Николаевич Император нас обдумал. Он нас и обдумает во всех делах.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0028_common_voice_ru_17_hf_mirror__d8a54ca9d0a23a92c8.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__e04f3938c6beda375db74733",
+    "condition": "model",
+    "n_frames": 100,
+    "gt_frames": 100,
+    "cer": 0.008333333333333333,
+    "ref": "Поэтому Босния и Герцеговина выступает за многосекторальный подход, предполагающий совместную организованную деятельность.",
+    "hyp": "Поэтому Босния и Герцеговина выступают за многосекторальный подход, предполагающий совместную организованную деятельность.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0029_common_voice_ru_17_hf_mirror__e04f3938c6beda375d.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__f2e845f8645155e573d8e389",
+    "condition": "model",
+    "n_frames": 83,
+    "gt_frames": 74,
+    "cer": 0.109375,
+    "ref": "Ужасает беспрецедентно высокий процент детей среди всех погибших.",
+    "hyp": "Ужасает беспрецедентно высокий процент детей среди всех погибших. Гибших.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0030_common_voice_ru_17_hf_mirror__f2e845f8645155e573.wav"
+  },
+  {
+    "utt_id": "common_voice_ru_17_hf_mirror__f86b6f77ae7ffb4a62759e68",
+    "condition": "model",
+    "n_frames": 60,
+    "gt_frames": 60,
+    "cer": 0.0,
+    "ref": "Так сидела она долго и, кажется, ни о чем не думала.",
+    "hyp": "Так сидела она долго и, кажется, ни о чем не думала.",
+    "wav": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_stop_3c/model/0031_common_voice_ru_17_hf_mirror__f86b6f77ae7ffb4a62.wav"
+  }
+]

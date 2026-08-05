@@ -1,0 +1,66 @@
+{
+  "plan_slug": "d1_discrete_speech_lm",
+  "target": "qwen3tts_12hz",
+  "codec_model_id": "Qwen/Qwen3-TTS-Tokenizer-12Hz",
+  "codec_fingerprint": {
+    "status": "ok",
+    "model_id": "Qwen/Qwen3-TTS-Tokenizer-12Hz",
+    "n_state_keys": 496,
+    "partial_sha256_16": "7030d98a18ae5968",
+    "partial_keys": [
+      "decoder.decoder.0.conv.bias",
+      "decoder.decoder.0.conv.weight",
+      "decoder.decoder.1.block.0.alpha",
+      "decoder.decoder.1.block.0.beta",
+      "decoder.decoder.1.block.1.conv.bias",
+      "decoder.decoder.1.block.1.conv.weight",
+      "decoder.decoder.1.block.2.act1.alpha",
+      "decoder.decoder.1.block.2.act1.beta"
+    ],
+    "license": "Apache-2.0",
+    "target": "qwen3tts_12hz"
+  },
+  "codec_hash": "7030d98a18ae5968",
+  "text_tokenizer_id": "/home/adam/datasets/tts/models/Qwen3.5-0.8B-Base",
+  "speech_eos_id": 2048,
+  "subset_tag": null,
+  "encode_n": 51234,
+  "encode_hours": 72.98358844907537,
+  "newly_encoded": {
+    "common_voice_ru_17_hf_mirror": 39199,
+    "ruslan": 12035
+  },
+  "skipped_existing": 0,
+  "index_paths": {
+    "common_voice_ru_17_hf_mirror": "/home/adam/datasets/tts/common_voice_ru17/codec_tokens/codec_tokens_index.json",
+    "ruslan": "/home/adam/datasets/tts/ruslan/codec_tokens/codec_tokens_index.json"
+  },
+  "phone_vocab": "/home/adam/datasets/tts/multicorpus/phone_vocab_codec_default.json",
+  "trackn_leak_check": {
+    "ok": true,
+    "utt_overlaps": {
+      "train∩val": 0,
+      "train∩test": 0,
+      "val∩test": 0
+    },
+    "speaker_leaks_sample": {},
+    "n": {
+      "train": 51234,
+      "val": 2961,
+      "test": 3276,
+      "review": 2430
+    },
+    "hours": {
+      "train": 72.98358844907537,
+      "val": 4.818017627314806,
+      "test": 4.70270709490741,
+      "review": 3.5762245138888997
+    }
+  },
+  "sample": false,
+  "apply_frontend": false,
+  "elapsed_s": 1640.6675260066986,
+  "git_sha": "dce4f456b0757fb63da4cf014188ff4e474bdbe9",
+  "git_dirty": true,
+  "resume": "Re-run the same command; ShardWriter skips utt_ids already in codec_tokens_index.json."
+}

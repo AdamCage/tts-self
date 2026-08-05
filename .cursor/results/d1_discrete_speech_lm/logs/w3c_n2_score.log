@@ -1,0 +1,39 @@
+[score] model mean_cer=0.3412 n=32
+[score] copy_synth mean_cer=0.0228 n=32
+[score] wrong_utt mean_cer=1.3632 n=32
+[score] random_codes mean_cer=0.9114 n=32
+[score] shuffle_text mean_cer=1.6346 n=32
+[score] mask_text mean_cer=1.1189 n=32
+{
+  "n2_verdict": "FAIL",
+  "fr_cer": 0.34120959661898237,
+  "copy_synth_cer_subset": 0.02284202914729239,
+  "ceiling_copy_plus_margin": 0.052842029147292385,
+  "cer_pass": false,
+  "bootstrap_sep_wrong_utt": true,
+  "bootstrap_sep_random": true,
+  "paired_vs_wrong": {
+    "delta_pp_model_minus_wrong": -87.36413043478261,
+    "ci95_low": -135.7181797952826,
+    "ci95_high": -47.55310759718991,
+    "separated": true
+  },
+  "no_runaway_repetition": false,
+  "cb0_healthy": true,
+  "cb0": {
+    "cb0_utilization": 0.3876953125,
+    "cb0_entropy": 6.197751904731922,
+    "cb0_unique": 794,
+    "cb0_total_frames": 2812,
+    "cb0_max_run": 6,
+    "healthy": true
+  },
+  "text_usage_shuffle_hurts": true,
+  "text_usage_mask_hurts": true,
+  "text_usage_prefix_cf_changes": true,
+  "shuffle_cer": 1.6345800187555601,
+  "mask_cer": 1.1188528480475635,
+  "wrong_utt_cer": 1.3631692762467216,
+  "random_codes_cer": 0.9114087033477302
+}
+wrote /home/adam/projects/tts-self/out/d1_discrete_speech_lm/n2_gate.json

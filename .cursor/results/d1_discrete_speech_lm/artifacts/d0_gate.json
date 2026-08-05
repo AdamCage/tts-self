@@ -1,0 +1,23 @@
+{
+  "gate": "D0",
+  "verdict": "PASS",
+  "criteria": {
+    "copy_synth_cer_max": 0.073,
+    "copy_synth_cer": 0.06775864400254059,
+    "copy_synth_cer_pass": true,
+    "bit_identical_reencode": true,
+    "bit_identical_pass": true,
+    "bank_entity_der": 0.3253012048192771,
+    "continuous_bank_entity_der": 0.4457831325301205,
+    "bank_der_pass": true,
+    "bank_der_note": "qwen_der=0.325301 vs continuous_der=0.445783 (PASS)"
+  },
+  "artifacts": {
+    "probe_report": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/d0_probe_report.json",
+    "gate": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/d0_gate.json",
+    "wav_dir": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/qwen3tts_12hz_copysynth",
+    "continuous_anchor": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/continuous_codec_anchor.json"
+  },
+  "git_sha": "dce4f456b0757fb63da4cf014188ff4e474bdbe9",
+  "git_dirty": true
+}

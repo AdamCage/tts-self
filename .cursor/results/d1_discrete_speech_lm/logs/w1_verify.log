@@ -1,0 +1,25 @@
+WARNING: git worktree is dirty; continuing because MINISPEECH_ALLOW_DIRTY is set. run_manifest will have git_dirty=true.
+{
+  "trackn_leak_check": {
+    "ok": true,
+    "utt_overlaps": {
+      "train∩val": 0,
+      "train∩test": 0,
+      "val∩test": 0
+    },
+    "speaker_leaks_sample": {},
+    "n": {
+      "train": 51234,
+      "val": 2961,
+      "test": 3276,
+      "review": 2430
+    },
+    "hours": {
+      "train": 72.98358844907504,
+      "val": 4.8180176273148065,
+      "test": 4.702707094907406,
+      "review": 3.5762245138888864
+    }
+  }
+}
+wrote /mnt/c/projects/tts-self/out/d1_discrete_speech_lm/encode_verify.json

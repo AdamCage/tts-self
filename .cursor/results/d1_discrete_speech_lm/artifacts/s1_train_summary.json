@@ -1,0 +1,169 @@
+{
+  "run_dir": "/home/adam/projects/tts-self/runs/discrete_speech_lm_300m_s1",
+  "param_count": {
+    "total": 442391552,
+    "trainable": 442391552,
+    "text_blocks_and_emb": 373665792,
+    "speech_heads_adapters": 68725760
+  },
+  "git_sha": "dce4f456b0757fb63da4cf014188ff4e474bdbe9",
+  "git_dirty": true,
+  "n2": {
+    "gate": "N2",
+    "verdict": "FAIL",
+    "criteria": {
+      "fr_cer": 0.45136982951585847,
+      "copy_synth_cer_subset": 0.02284202914729239,
+      "ceiling_copy_plus_margin": 0.052842029147292385,
+      "cer_pass": false,
+      "bootstrap_sep_wrong_utt": true,
+      "bootstrap_sep_random": true,
+      "paired_vs_wrong": {
+        "delta_pp_model_minus_wrong": -87.59057971014492,
+        "ci95_low": -142.91243850019214,
+        "ci95_high": -55.267883016613304,
+        "separated": true
+      },
+      "no_runaway_repetition": false,
+      "cb0_healthy": false,
+      "cb0": {
+        "cb0_utilization": 0.36767578125,
+        "cb0_entropy": 4.825058886809278,
+        "cb0_unique": 753,
+        "cb0_total_frames": 5280,
+        "cb0_max_run": 140,
+        "healthy": false
+      },
+      "text_usage_shuffle_hurts": true,
+      "text_usage_mask_hurts": true,
+      "text_usage_prefix_cf_changes": true,
+      "shuffle_cer": 1.4569061415853706,
+      "mask_cer": 1.7400309306845037,
+      "wrong_utt_cer": 1.9187715375946621,
+      "random_codes_cer": 0.9114087033477302
+    },
+    "artifacts": {
+      "ckpt": "/home/adam/projects/tts-self/runs/discrete_speech_lm_300m_s1/last.pt",
+      "wav_dir": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_n2_wavs_last",
+      "decode_bundle": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/n2_eval_last/n2_decode_bundle.json",
+      "eval_out": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/n2_eval_last"
+    },
+    "reports": {
+      "model": {
+        "condition": "model",
+        "n": 32,
+        "mean_cer": 0.45136982951585847,
+        "cer_ci95_low": 0.16414130152347609,
+        "cer_ci95_high": 0.7940892374580419,
+        "cb0": {
+          "cb0_utilization": 0.36767578125,
+          "cb0_entropy": 4.825058886809278,
+          "cb0_unique": 753,
+          "cb0_total_frames": 5280,
+          "cb0_max_run": 140,
+          "healthy": false
+        },
+        "runaway_or_repetition": true,
+        "mean_dur_ratio": 2.7091886483983174
+      },
+      "copy_synth": {
+        "condition": "copy_synth",
+        "n": 32,
+        "mean_cer": 0.02284202914729239,
+        "cer_ci95_low": 0.008455498901035368,
+        "cer_ci95_high": 0.0403912857247215,
+        "cb0": {
+          "cb0_utilization": 0.3916015625,
+          "cb0_entropy": 6.272936477449285,
+          "cb0_unique": 802,
+          "cb0_total_frames": 2236,
+          "cb0_max_run": 7,
+          "healthy": true
+        },
+        "runaway_or_repetition": false,
+        "mean_dur_ratio": 1.0
+      },
+      "wrong_utt": {
+        "condition": "wrong_utt",
+        "n": 32,
+        "mean_cer": 1.9187715375946621,
+        "cer_ci95_low": 1.0289973777666293,
+        "cer_ci95_high": 4.002699938686787,
+        "cb0": {
+          "cb0_utilization": 0.36962890625,
+          "cb0_entropy": 4.798661634401352,
+          "cb0_unique": 757,
+          "cb0_total_frames": 5280,
+          "cb0_max_run": 133,
+          "healthy": false
+        },
+        "runaway_or_repetition": true,
+        "mean_dur_ratio": 2.7091886483983174
+      },
+      "random_codes": {
+        "condition": "random_codes",
+        "n": 32,
+        "mean_cer": 0.9114087033477302,
+        "cer_ci95_low": 0.8762961619166031,
+        "cer_ci95_high": 0.957596079902861,
+        "cb0": {
+          "cb0_utilization": 0.66748046875,
+          "cb0_entropy": 7.096267928681796,
+          "cb0_unique": 1367,
+          "cb0_total_frames": 2236,
+          "cb0_max_run": 2,
+          "healthy": true
+        },
+        "runaway_or_repetition": false,
+        "mean_dur_ratio": 1.0
+      },
+      "shuffle_text": {
+        "condition": "shuffle_text",
+        "n": 32,
+        "mean_cer": 1.4569061415853706,
+        "cer_ci95_low": 1.110342373441187,
+        "cer_ci95_high": 1.879991373843812,
+        "cb0": {
+          "cb0_utilization": 0.3720703125,
+          "cb0_entropy": 4.835120608017431,
+          "cb0_unique": 762,
+          "cb0_total_frames": 5280,
+          "cb0_max_run": 131,
+          "healthy": false
+        },
+        "runaway_or_repetition": true,
+        "mean_dur_ratio": 2.7091886483983174
+      },
+      "mask_text": {
+        "condition": "mask_text",
+        "n": 32,
+        "mean_cer": 1.7400309306845037,
+        "cer_ci95_low": 1.2922544741323412,
+        "cer_ci95_high": 2.2225584415411563,
+        "cb0": {
+          "cb0_utilization": 0.068359375,
+          "cb0_entropy": 3.085471612390502,
+          "cb0_unique": 140,
+          "cb0_total_frames": 5280,
+          "cb0_max_run": 129,
+          "healthy": false
+        },
+        "runaway_or_repetition": true,
+        "mean_dur_ratio": 2.7091886483983174
+      }
+    },
+    "ckpt_role": "last.pt",
+    "note": "Canonical N2 uses last.pt (step 3000 overfit). best.pt was stuck at step 500 because fr_checkpoint had no val_loader/CER (selection_key frozen). Trainer fixed post-hoc to probe train TF CE when val is empty.",
+    "best_pt_eval": {
+      "fr_cer": 0.38838028290269755,
+      "verdict": "FAIL",
+      "ckpt": "/home/adam/projects/tts-self/runs/discrete_speech_lm_300m_s1/best.pt"
+    }
+  },
+  "train_elapsed_sec": 275.23,
+  "train_batch": 2,
+  "train_grad_accum": 4,
+  "train_steps": 3000,
+  "gpu": "NVIDIA GeForce RTX 4080 SUPER 16GB",
+  "approx_opt_steps_per_sec": 10.89997456672601
+}

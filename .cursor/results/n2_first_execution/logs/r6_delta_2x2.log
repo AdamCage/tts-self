@@ -1,0 +1,19 @@
+=== R6 start 2026-08-01T14:12:28+03:00 ===
+HEAD=2c4c4bd
+WROTE out/bank_delta_2x2.json
+{
+  "observed_delta_before_v2_to_after_v3": -0.03285269872583507,
+  "label_contrib_at_frontend_before": -0.019563662180984487,
+  "label_contrib_at_frontend_after": -0.02551175255944027,
+  "frontend_contrib_at_labels_v2": -0.007340946166394802,
+  "frontend_contrib_at_labels_v3": -0.013289036544850585,
+  "label_avg": -0.02253770737021238,
+  "frontend_avg": -0.010314991355622694,
+  "interaction": -0.005948090378455784,
+  "path_check_label_before_plus_frontend_v3": -0.03285269872583507,
+  "path_check_label_after_plus_frontend_v2": -0.03285269872583507,
+  "unexplained_remainder_vs_path1": 0.0
+}
+ref_norm val100 changed 0 / 100
+ref_norm latin changed 0 / 117
+=== R6 done 2026-08-01T14:12:30+03:00 ===

@@ -1,0 +1,26 @@
+P1 PASS claimed log summary: 404 passed, 3 skipped, 2 warnings in 55.52s
+P2 PASS independent run summary: 404 passed, 3 skipped, 2 warnings in 52.67s
+P3 PASS pass/skip counts reproduce exactly (ignoring wall time)
+P3b PASS REPAIR_ROUND5 claim '404 passed, 3 skipped' is what the log says: 404 passed, 3 skipped, 2 warnings in 55.52s
+P4 PASS collected test ids = 407 (claim 407)
+P5 PASS no duplicate test ids (unique=407)
+P6 PASS three claimed NEW tests collected: {'test_selector_refuses_duplicate_checkpoint_hashes': True, 'test_selector_refuses_checkpoint_hash_mismatch': True, 'test_validate_formal_report_rejects_checkpoint_hash_mismatch': True}
+P7 PASS two claimed CHANGED tests collected: {'test_resolve_checkpoint_step_payload_filename_cli': True, 'test_main_stamps_checkpoint_step_and_selector_e2e': True}
+P8 INFO arithmetic: round-4 404 collected + 3 new = 407; 404 passed + 3 skipped = 407
+P9 PASS three skips are declared: ['SKIPPED [1] tests/test_discrete_lm_resume.py:378: CPU/gloo two-process test is opt-in (MINISPEECH_DDP_GLOO=1); CI stability', 'SKIPPED [1] tests/test_discrete_lm_trainer_steps.py:275: opt-in WORLD_SIZE=1 DDP init smoke; set MINISPEECH_DDP_SMOKE=1', 'SKIPPED [1] tests/test_discrete_speech_lm.py:257: CUDA required']
+P10 PASS focused log claim: 28 passed in 3.29s
+P11 INFO claimed pytest log mtime = 2026-08-04 16:42:19 UTC
+P12 PASS newest attested source = tests/test_d1c_infra_repair.py @ 2026-08-04 16:41:02 UTC; sources newer than the log: []
+P13 INFO post-probe source digests -> logs/reaudit5_post_probe_hashes.json
+    7361cd65886f2317  scripts/74_eval_discrete_lm.py
+    fe529dda61c0f450  scripts/76_select_discrete_checkpoint.py
+    49dffe0e8a9e7fbd  src/minispeech/eval/discrete_report_schema.py
+    7d85475e6ab3db19  src/minispeech/eval/discrete_n2.py
+    8b665b8c9faf8304  src/minispeech/train/discrete_lm_trainer.py
+    77e0d30f12ef2a2d  tests/test_d1c_infra_repair.py
+    4a55bba4eaf5ebbc  configs/eval_contracts/d1c_semantic_eos_v2_0_0.json
+    7c77590723a1d002  configs/eval_contracts/d1c_semantic_eos_v2_0_1.json
+    0b8954784e67fe75  configs/discrete_speech_lm_d1c_semantic_eos_w1.yaml
+    73ac1e27ecd5ddbe  configs/discrete_speech_lm_d1c_semantic_eos_w2.yaml
+
+SUMMARY fails=0 total=14

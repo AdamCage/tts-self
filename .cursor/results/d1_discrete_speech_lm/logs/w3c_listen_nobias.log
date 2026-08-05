@@ -1,0 +1,22 @@
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+/bin/sh: 1: sox: not found
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+wrote /mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_listen_demo/0000_ruslan_000418_RUSLAN.wav frames=29
+wrote /mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_listen_demo/0001_ruslan_006437_RUSLAN.wav frames=71
+wrote /mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_listen_demo/0002_ruslan_016544_RUSLAN.wav frames=102
+wrote /mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_listen_demo/0003_ruslan_017729_RUSLAN.wav frames=94
+wrote /mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_listen_demo/0004_ruslan_019874_RUSLAN.wav frames=98
+wrote /mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_listen_demo/0005_ruslan_019969_RUSLAN.wav frames=70
+wrote /mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_listen_demo/0006_common_voice_ru_17_hf_mirror__099f4be73f6f3585f1.wav frames=29
+wrote /mnt/c/projects/tts-self/out/d1_discrete_speech_lm/s1_listen_demo/0007_common_voice_ru_17_hf_mirror__1d1d705e4a340e27c1.wav frames=38

@@ -1,0 +1,9 @@
+{
+  "loss": 0.04707903857342899,
+  "ce_cb0": 0.024709782999707386,
+  "ce_residual": 0.022256583673879504,
+  "n_batches": 8,
+  "n_utts": 32,
+  "note": "Teacher-forced CE is diagnostic only; promotion uses free-running CER/DER.",
+  "n2_decode_bundle": "/mnt/c/projects/tts-self/out/d1_discrete_speech_lm/n2_eval_stop_3c/n2_decode_bundle.json"
+}

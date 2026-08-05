@@ -55,3 +55,10 @@ Thumbs.db
 /tmp_*.py
 /tmp_*.sh.py
 /out_ttfb_tmp/
+
+# Portable listen service local state
+/listen_service/.venv/
+/listen_service/out/
+/listen_service/.env
+/listen_service/artifacts/*
+!/listen_service/artifacts/.gitkeep
