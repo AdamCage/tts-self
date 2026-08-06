@@ -825,15 +825,40 @@ def assert_score_only_d1b_bundle(
             "--score-only refuse: reports.model.infer missing "
             "(canonical D1b requires full frozen WAVE3c infer block at decode)"
         )
-    missing_keys = [k for k in GENERATE_INFER_KEYS if k not in model_infer]
+    # Peek contract termination mode before key completeness check so D1c
+    # semantic-EOS bundles are not forced to carry legacy stop knobs.
+    peek = load_eval_contract(contract_path)
+    term = peek.get("termination") or {}
+    semantic = isinstance(term, Mapping) and term.get("mode") == "semantic_eos_v1"
+    required_infer_keys = (
+        tuple(SEMANTIC_EOS_INFER_DEFAULTS) if semantic else GENERATE_INFER_KEYS
+    )
+    missing_keys = [k for k in required_infer_keys if k not in model_infer]
     if missing_keys:
         raise SystemExit(
             "--score-only refuse: incomplete reports.model.infer; missing keys "
             + ", ".join(missing_keys)
         )
+    if semantic:
+        legacy_stop_keys = (
+            "stop_threshold",
+            "stop_consecutive",
+            "frames_per_text_token",
+            "stop_overrun_bias",
+            "stop_earliest_frac",
+            "eos_cb0",
+        )
+        bad = [k for k in legacy_stop_keys if k in model_infer]
+        if bad:
+            raise SystemExit(
+                "--score-only refuse: semantic_eos_v1 infer still exposes legacy "
+                f"stop keys: {', '.join(bad)}"
+            )
     live_infer = model_infer
     # Also require provenance to carry the same frozen max_frames attestation.
-    wave3c = wave3c_infer_defaults()
+    wave3c = (
+        dict(SEMANTIC_EOS_INFER_DEFAULTS) if semantic else wave3c_infer_defaults()
+    )
 
     try:
         contract = enforce_eval_contract(

@@ -1,0 +1,12 @@
+{
+  "contract_sha256": "fc07b643ba366a1dbe9fad294590fa5bd67288b7be98aecac8a6cd2297550865",
+  "recipe_sha256": "fc07b643ba366a1dbe9fad294590fa5bd67288b7be98aecac8a6cd2297550865",
+  "recipe_source_manifest_sha256": "fd78eb1f9a9af8afb033b6ad428d0e0d109e01f754415dfe43b5ab02ca8252ec",
+  "clean_sha_available": true,
+  "w1_yaml_digest": "91125b5abfed71c8160e374b8e21a593cd4495d15c888ccd4e7f7b82dec4d768",
+  "w2_yaml_digest": "4890e51af27150996a1a80a3cdba1af92d0e6de27230b536fb55cde65c79660e",
+  "w1_eval_contract_hash": "fc07b643ba366a1dbe9fad294590fa5bd67288b7be98aecac8a6cd2297550865",
+  "w2_eval_contract_hash": "fc07b643ba366a1dbe9fad294590fa5bd67288b7be98aecac8a6cd2297550865",
+  "manifest_mismatches": []
+}
+CLEAN_SHA_RESEAL_OK

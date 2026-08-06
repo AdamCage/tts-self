@@ -258,11 +258,11 @@
     "src/minispeech/eval/asr.py": "96fd8b28b81d03eccd0f1bb2464817d6f678633007662dbd64ff79c9da4882bc",
     "scripts/72_train_discrete_lm.py": "08ac625b8a42eb5ff66b68747e431266bb2a0b81046a06c850a1c6090cf2ca7e",
     "scripts/73_infer_discrete_lm.py": "ddf25c7623a42a306625d845aa28f44787f630f45d1583bd2d0acc4e76e689d1",
-    "scripts/74_eval_discrete_lm.py": "a9d5bb28b8cdada823255f7f9c90c1e033ad2d46ced337495124e1c6bd4faf31",
+    "scripts/74_eval_discrete_lm.py": "bd65c1f63e2328eb1ba4ea5c3ec3e3add5115b03aed517dff81079ce8ea17f7e",
     "scripts/76_select_discrete_checkpoint.py": "bd66acf6c71e0ba47cdc8f83768bc35bb908059b10c320832a10797d8eac8229",
     "scripts/77_freeze_d1c_oracles.py": "e3c3d4ef6b6a0c736f7a19ab1d107fa056659805ffeb080c52a644ce594c97cb"
   },
-  "recipe_source_manifest_sha256": "bbf0319aeb6338699d7dd76249589ce7cb84781483b4a7af8b9ebf538b70c513",
-  "recipe_sha256": "d6404de3853bfc88830210458553ad0331b7c30b1f6eb6a1880ff0dddc1e24ea",
-  "sha256": "d6404de3853bfc88830210458553ad0331b7c30b1f6eb6a1880ff0dddc1e24ea"
+  "recipe_source_manifest_sha256": "fd78eb1f9a9af8afb033b6ad428d0e0d109e01f754415dfe43b5ab02ca8252ec",
+  "recipe_sha256": "fc07b643ba366a1dbe9fad294590fa5bd67288b7be98aecac8a6cd2297550865",
+  "sha256": "fc07b643ba366a1dbe9fad294590fa5bd67288b7be98aecac8a6cd2297550865"
 }
