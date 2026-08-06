@@ -1,0 +1,11 @@
+I0 PASS attack setup weight_digests=1/5 file_sha=5/5
+I1 PASS selector refused: D1c formal selection refuses identical model weights across candidates (distinct_weight_digests=1, n=5); forged payload step/hashes on clones of one weight stat
+K7 PASS CLI rc=1 wrote=False err=D1c formal selection refuses identical model weights across candidates (distinct_weight_digests=1, n=5); forged payload step/hashes on clones of one weight stat
+L0 PASS legit distinct_weight_digests=5/5
+L1 PASS selector ACCEPTS legit set selected_step=250
+L2 PASS CLI rc=0 wrote=True out={
+  "wrote": "/tmp/d1c_r7_fhcbbcyk/legit_selection.json",
+  "selected": {
+    "report_path": "/tmp/d1c_r7_fhcbbcyk/legit
+J1 PASS selector refused skew: D1c formal selection refuses checkpoint.hashes.eval_contract != provenance.eval_contract_sha256 (step=250; 88888888888888888888888888888888888888888888888888888
+SUMMARY pass=7 fail=0 total=7

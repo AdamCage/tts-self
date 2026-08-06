@@ -40,12 +40,42 @@ def _fake_ckpt_hashes(**overrides: str) -> dict[str, str]:
     return base
 
 
-def _write_candidate_ckpt(tmp_path: Path, step: int, payload: bytes | None = None) -> tuple[Path, str]:
-    """Write a distinct ``candidate_step_XXXX.pt`` and return (path, sha256)."""
+def _write_candidate_ckpt(
+    tmp_path: Path,
+    step: int,
+    payload: bytes | None = None,
+    *,
+    model_state: dict | None = None,
+    hashes: dict[str, str] | None = None,
+    shared_weights: bool = False,
+) -> tuple[Path, str]:
+    """Write a distinct ``candidate_step_XXXX.pt`` and return (path, sha256).
+
+    Default path writes a trainer-shaped torch checkpoint with a non-empty
+    model state_dict. Step-unique weights are used unless ``shared_weights``
+    or an explicit ``model_state`` is provided (for identical-weight attacks).
+    """
     path = tmp_path / f"candidate_step_{step:04d}.pt"
-    blob = payload if payload is not None else f"ckpt-bytes-{step}".encode()
-    path.write_bytes(blob)
-    return path, hashlib.sha256(blob).hexdigest()
+    if payload is not None:
+        path.write_bytes(payload)
+        return path, hashlib.sha256(payload).hexdigest()
+    if model_state is None:
+        # Distinct training identity per step by default (closes I1/K7).
+        fill = 0.0 if shared_weights else float(step)
+        model_state = {
+            "weight": torch.tensor([fill, float(step) * 0.0 + fill], dtype=torch.float32)
+        }
+    blob = {
+        "model": model_state,
+        "step": int(step),
+        "optimizer_step": int(step),
+        "hashes": dict(hashes or _fake_ckpt_hashes()),
+        # Junk must not create a false training-identity distinction.
+        "junk": f"pad-{step}",
+    }
+    torch.save(blob, path)
+    raw = path.read_bytes()
+    return path, hashlib.sha256(raw).hexdigest()
 
 
 def _semantic_model() -> DiscreteSpeechLM:
@@ -805,6 +835,242 @@ def test_selector_refuses_checkpoint_basename_mismatch(tmp_path):
     mod.validate_formal_report = schema.validate_formal_report
     try:
         with pytest.raises(ValueError, match="basename"):
+            mod.select_d1c_formal_reports(paths)
+    finally:
+        schema.validate_formal_report = old
+        mod.validate_formal_report = old
+
+
+def test_selector_refuses_identical_model_weights_forged_stamps(tmp_path):
+    """I1/K7: identical weights + fabricated distinct steps/hashes → refuse."""
+    mod = _load_script("76_select_discrete_checkpoint.py")
+    shared = {"weight": torch.tensor([1.0, 2.0, 3.0], dtype=torch.float32)}
+
+    def _report(step: int) -> dict:
+        path, live_sha = _write_candidate_ckpt(
+            tmp_path, step, model_state=dict(shared), shared_weights=True
+        )
+        # Re-save with shared weights + junk so file sha differs but model digest collides.
+        torch.save(
+            {
+                "model": {k: v.clone() for k, v in shared.items()},
+                "step": int(step),
+                "optimizer_step": int(step),
+                "hashes": _fake_ckpt_hashes(),
+                "junk": "x" * (step % 11 + 3),
+            },
+            path,
+        )
+        live_sha = hashlib.sha256(path.read_bytes()).hexdigest()
+        return {
+            "schema": "minispeech.discrete_eval_report",
+            "schema_version": "2.0.0",
+            "formal_eligible": True,
+            "checkpoint": {
+                "path": str(path),
+                "sha256": live_sha,
+                "step": step,
+                "schema": "minispeech.discrete_lm_checkpoint",
+                "schema_version": "2.0.0",
+                "hashes": _fake_ckpt_hashes(),
+            },
+            "provenance": {
+                "eval_contract_sha256": "e" * 64,
+                "recipe_sha256": "f" * 64,
+                "asr_sha256": "1" * 64,
+            },
+            "infer": {"max_frames": 750},
+            "teacher_forced_metrics": {
+                "teacher_forced_ce_source": "eval_computed",
+                "total_ce": 1.0,
+                "tf_eos_final_top1_accuracy": 1.0,
+                "tf_eos_early_top1_false_positive_count": 0,
+            },
+            "row_binding": {
+                "ordered_utt_ids": ["u0"],
+                "ordered_utt_ids_sha256": "2" * 64,
+            },
+            "conditions": {
+                name: {
+                    "subset_key": "select8",
+                    "subset_path": "x",
+                    "subset_file_sha256": "3" * 64,
+                    "expected_count": 1,
+                    "evaluated_count": 1,
+                    "ordered_utt_ids_sha256": "2" * 64,
+                    "rows": [
+                        {
+                            "utt_id": "u0",
+                            "cer": 0.1,
+                            "catastrophic": False,
+                            "n_frames": 10,
+                            "gt_frames": 10,
+                            "generation": {
+                                "termination_reason": "learned_eos",
+                                "n_decoded_frames": 10,
+                                "early_eos_suppressed_count": 0,
+                                "max_cb0_run": 2,
+                            },
+                            "wav": {
+                                "path": "x.wav",
+                                "file_sha256": "a" * 64,
+                                "pcm_sha256": "b" * 64,
+                            },
+                            "normalized_reference_sha256": "c" * 64,
+                            "generated_codes_sha256": "d" * 64,
+                        }
+                    ],
+                    "rows_sha256": "4" * 64,
+                }
+                for name in (
+                    "model",
+                    "copy_synth",
+                    "wrong_utt",
+                    "random_codes",
+                    "shuffle_text",
+                    "mask_text",
+                )
+            },
+            "summaries": {
+                "model_macro_cer": 0.1,
+                "n_catastrophic": 0,
+                "max_abs_log_duration_error": 0.0,
+                "mean_abs_log_duration_error": 0.0,
+            },
+            "gates": {"eligible": True, "text_usage": {"pass": True}},
+            "report_sha256": "5" * 64,
+        }
+
+    paths = []
+    for step in (250, 375, 500, 625, 750):
+        p = tmp_path / f"iw_{step}.json"
+        p.write_text(json.dumps(_report(step)), encoding="utf-8")
+        paths.append(p)
+
+    # Prove file hashes are distinct while model digests collide.
+    file_shas = {
+        hashlib.sha256((tmp_path / f"candidate_step_{s:04d}.pt").read_bytes()).hexdigest()
+        for s in (250, 375, 500, 625, 750)
+    }
+    assert len(file_shas) == 5
+    weight_digests = {
+        mod._model_state_sha256(tmp_path / f"candidate_step_{s:04d}.pt")
+        for s in (250, 375, 500, 625, 750)
+    }
+    assert len(weight_digests) == 1
+
+    import minispeech.eval.discrete_report_schema as schema
+
+    old = schema.validate_formal_report
+    schema.validate_formal_report = lambda data, **kwargs: data  # type: ignore[assignment]
+    mod.validate_formal_report = schema.validate_formal_report
+    try:
+        with pytest.raises(ValueError, match="identical model weights"):
+            mod.select_d1c_formal_reports(paths)
+    finally:
+        schema.validate_formal_report = old
+        mod.validate_formal_report = old
+
+
+def test_selector_refuses_hashes_provenance_skew(tmp_path):
+    """J1: checkpoint.hashes.eval_contract must match provenance.eval_contract_sha256."""
+    mod = _load_script("76_select_discrete_checkpoint.py")
+
+    def _report(step: int) -> dict:
+        path, live_sha = _write_candidate_ckpt(tmp_path, step)
+        return {
+            "schema": "minispeech.discrete_eval_report",
+            "schema_version": "2.0.0",
+            "formal_eligible": True,
+            "checkpoint": {
+                "path": str(path),
+                "sha256": live_sha,
+                "step": step,
+                "schema": "minispeech.discrete_lm_checkpoint",
+                "schema_version": "2.0.0",
+                # Shared run fingerprint across candidates, but skewed vs provenance.
+                "hashes": _fake_ckpt_hashes(eval_contract="8" * 64),
+            },
+            "provenance": {
+                "eval_contract_sha256": "e" * 64,
+                "recipe_sha256": "f" * 64,
+                "asr_sha256": "1" * 64,
+            },
+            "infer": {"max_frames": 750},
+            "teacher_forced_metrics": {
+                "teacher_forced_ce_source": "eval_computed",
+                "total_ce": 1.0,
+                "tf_eos_final_top1_accuracy": 1.0,
+                "tf_eos_early_top1_false_positive_count": 0,
+            },
+            "row_binding": {
+                "ordered_utt_ids": ["u0"],
+                "ordered_utt_ids_sha256": "2" * 64,
+            },
+            "conditions": {
+                name: {
+                    "subset_key": "select8",
+                    "subset_path": "x",
+                    "subset_file_sha256": "3" * 64,
+                    "expected_count": 1,
+                    "evaluated_count": 1,
+                    "ordered_utt_ids_sha256": "2" * 64,
+                    "rows": [
+                        {
+                            "utt_id": "u0",
+                            "cer": 0.1,
+                            "catastrophic": False,
+                            "n_frames": 10,
+                            "gt_frames": 10,
+                            "generation": {
+                                "termination_reason": "learned_eos",
+                                "n_decoded_frames": 10,
+                                "early_eos_suppressed_count": 0,
+                                "max_cb0_run": 2,
+                            },
+                            "wav": {
+                                "path": "x.wav",
+                                "file_sha256": "a" * 64,
+                                "pcm_sha256": "b" * 64,
+                            },
+                            "normalized_reference_sha256": "c" * 64,
+                            "generated_codes_sha256": "d" * 64,
+                        }
+                    ],
+                    "rows_sha256": "4" * 64,
+                }
+                for name in (
+                    "model",
+                    "copy_synth",
+                    "wrong_utt",
+                    "random_codes",
+                    "shuffle_text",
+                    "mask_text",
+                )
+            },
+            "summaries": {
+                "model_macro_cer": 0.1,
+                "n_catastrophic": 0,
+                "max_abs_log_duration_error": 0.0,
+                "mean_abs_log_duration_error": 0.0,
+            },
+            "gates": {"eligible": True, "text_usage": {"pass": True}},
+            "report_sha256": "5" * 64,
+        }
+
+    paths = []
+    for step in (250, 375, 500, 625, 750):
+        p = tmp_path / f"j1_{step}.json"
+        p.write_text(json.dumps(_report(step)), encoding="utf-8")
+        paths.append(p)
+
+    import minispeech.eval.discrete_report_schema as schema
+
+    old = schema.validate_formal_report
+    schema.validate_formal_report = lambda data, **kwargs: data  # type: ignore[assignment]
+    mod.validate_formal_report = schema.validate_formal_report
+    try:
+        with pytest.raises(ValueError, match="checkpoint.hashes.eval_contract"):
             mod.select_d1c_formal_reports(paths)
     finally:
         schema.validate_formal_report = old

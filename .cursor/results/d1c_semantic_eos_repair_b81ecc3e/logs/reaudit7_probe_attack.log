@@ -1,0 +1,20 @@
+I0 PASS attack setup weight_digests=1/5 file_sha=5/5
+I1 PASS selector refused: D1c formal selection refuses identical model weights across candidates (distinct_weight_digests=1, n=5); forged payload step/hashes on clones of one weight state are not distinct t
+K7 PASS CLI rc=1 wrote=False err=D1c formal selection refuses identical model weights across candidates (distinct_weight_digests=1, n=5); forged payload step/hashes on clones of one weight state are not distinct t
+L0 PASS legit distinct_weight_digests=5/5
+L1 PASS selector ACCEPTS legit set selected_step=250
+L2 PASS CLI rc=0 wrote=True out={
+  "wrote": "/tmp/d1c_reaudit7_r_nv33js/legit_selection.json",
+  "selected": {
+    "report_path": "/tmp/d1c_reaudit7_r_nv33js/legit_reports
+J1 PASS selector refused skew: D1c formal selection refuses checkpoint.hashes.eval_contract != provenance.eval_contract_sha256 (step=250; 8888888888888888888888888888888888888888888888888888888888888888 != 181ac
+J1c PASS CLI J1 rc=1 wrote=False err=D1c formal selection refuses checkpoint.hashes.eval_contract != provenance.eval_contract_sha256 (step=250; 88888888888888888888888888888888888888888888888888888
+B1 PASS empty state_dict refused: D1c formal selection refuses checkpoint without non-empty model state_dict (training identity); path=/tmp/d1c_reaudit7_r_nv33js/empty/candidate_step_0250.pt
+B2 PASS missing model key refused: D1c formal selection refuses checkpoint without non-empty model state_dict (training identity); path=/tmp/d1c_reaudit7_r_nv33js/nomodel/candidate_step_0250.pt
+B3 PASS forged report digests ignored; live refuse: D1c formal selection refuses identical model weights across candidates (distinct_weight_digests=1, n=5); forged payload step/hashes on clones of one weight stat
+B3b PASS extraneous report digest fields ignored on legit set step=250
+B4 PASS partial collision refused digests=4/5: D1c formal selection refuses identical model weights across candidates (distinct_weight_digests=4, n=5); forged payload step/hashes on clone
+R1 PASS rename/no-step refused: checkpoint step unresolved: formal D1c requires payload['step'] stamped by the trainer for /tmp/d1c_reaudit7_r_nv33js/rename/candidate_step_
+R2 PASS CLI invent refused: --checkpoint-step=375 cannot invent a step for /tmp/d1c_reaudit7_r_nv33js/invent/best.pt: formal D1c requires payload['step']; CLI may only confirm a derived st
+R3 PASS distinct-sha / identity refuse: D1c formal selection refuses duplicate checkpoint.sha256 across candidates (distinct=4, n=5); plan §8.4 requires one checkpoint hash/step match per report
+SUMMARY pass=16 fail=0 info=0 total=16

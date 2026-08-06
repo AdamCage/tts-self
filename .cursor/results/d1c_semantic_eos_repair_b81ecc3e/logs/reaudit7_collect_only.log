@@ -1,0 +1,413 @@
+tests/test_cache_check.py::test_identical_audio_passes_gate
+tests/test_cache_check.py::test_global_bf16_like_noise_no_boundary_spike
+tests/test_cache_check.py::test_boundary_spike_fails_gate
+tests/test_cache_check.py::test_length_mismatch_fails_gate
+tests/test_channel.py::test_available_codecs_include_g711
+tests/test_channel.py::test_length_preserved_restore_sr
+tests/test_channel.py::test_telephony_sr_when_not_restored
+tests/test_channel.py::test_result_differs_from_input
+tests/test_channel.py::test_determinism_fixed_seed
+tests/test_channel.py::test_distortions_off_by_default_deterministic
+tests/test_channel.py::test_alaw_roundtrip_changes_signal
+tests/test_channel.py::test_codec_none_is_simplified_bandlimit
+tests/test_channel.py::test_opus_path
+tests/test_codec_tokens_pack.py::test_pack_shapes_and_eos
+tests/test_codec_tokens_pack.py::test_train_infer_pack_equality
+tests/test_codec_tokens_pack.py::test_collate_shapes_and_order_invariance
+tests/test_codec_tokens_pack.py::test_shard_roundtrip
+tests/test_codec_tokens_pack.py::test_build_ru_features_stress_and_span
+tests/test_codec_tokens_pack.py::test_verify_trackn_no_leak
+tests/test_codec_tokens_pack.py::test_pack_codec_sequence_empty_codes
+tests/test_core.py::test_n_frames
+tests/test_core.py::test_stress_canonical
+tests/test_core.py::test_collate_shift
+tests/test_core.py::test_model_forward_regression
+tests/test_core.py::test_model_forward_flow
+tests/test_core.py::test_stop_pos_weight
+tests/test_core.py::test_gaussian_prior
+tests/test_core.py::test_validate_projection
+tests/test_critical_spans.py::test_extract_digits_and_levenshtein
+tests/test_critical_spans.py::test_der_one_wrong_digit_of_ten
+tests/test_critical_spans.py::test_der_perfect_and_eer_match
+tests/test_critical_spans.py::test_eer_any_mismatch_is_fail
+tests/test_critical_spans.py::test_span_match_uses_shared_verbalized_norm
+tests/test_critical_spans.py::test_morphology_prefix_tolerance
+tests/test_critical_spans.py::test_sa_lexeme_distinction_and_skipped
+tests/test_critical_spans.py::test_compute_set_metrics_with_and_without_spans
+tests/test_d1b_oracles.py::test_dev32_alias_ordered_and_hashed
+tests/test_d1b_oracles.py::test_select8_split_hash
+tests/test_d1b_oracles.py::test_eval_contract_speaker_wired_and_enforced
+tests/test_d1b_oracles.py::test_expand_run_name_template
+tests/test_d1b_oracles.py::test_items_sha256_stable
+tests/test_d1b_oracles.py::test_score_only_refuses_missing_provenance_and_max_frames
+tests/test_d1b_oracles.py::test_score_only_refuses_mismatched_max_frames
+tests/test_d1b_oracles.py::test_score_only_accepts_frozen_max_frames_provenance
+tests/test_d1b_oracles.py::test_score_only_refuses_missing_wavs_fail_closed
+tests/test_d1b_oracles.py::test_reject_contradictory_subset_label_vs_hash
+tests/test_d1b_oracles.py::test_cli_speaker_map_checked_against_contract
+tests/test_d1b_oracles.py::test_canonical_infer_forbids_cli_max_frames_override
+tests/test_d1c_infra_repair.py::test_residual_heads_receive_gradients_in_semantic_eos_mode
+tests/test_d1c_infra_repair.py::test_immediate_eos_has_no_phantom_codec_frame
+tests/test_d1c_infra_repair.py::test_contract_2_0_0_self_check_and_no_legacy_stop_in_infer
+tests/test_d1c_infra_repair.py::test_formal_dev_oracles_load_with_file_sha_and_select8_composition
+tests/test_d1c_infra_repair.py::test_formal_oracle_refuses_missing_file_sha
+tests/test_d1c_infra_repair.py::test_formal_oracle_refuses_wrong_select8_composition
+tests/test_d1c_infra_repair.py::test_infer_script_unwraps_generation_output
+tests/test_d1c_infra_repair.py::test_eval_teacher_forced_requires_semantic_targets
+tests/test_d1c_infra_repair.py::test_eval_unwrap_forbids_tensor_confusion
+tests/test_d1c_infra_repair.py::test_emit_d1c_v2_report_is_exported_and_callable
+tests/test_d1c_infra_repair.py::test_selector_sha256_file_and_eligibility_from_rows
+tests/test_d1c_infra_repair.py::test_selector_refuses_duplicate_checkpoint_hashes
+tests/test_d1c_infra_repair.py::test_selector_refuses_checkpoint_hash_mismatch
+tests/test_d1c_infra_repair.py::test_validate_formal_report_rejects_checkpoint_hash_mismatch
+tests/test_d1c_infra_repair.py::test_selector_refuses_checkpoint_basename_mismatch
+tests/test_d1c_infra_repair.py::test_selector_refuses_identical_model_weights_forged_stamps
+tests/test_d1c_infra_repair.py::test_selector_refuses_hashes_provenance_skew
+tests/test_d1c_infra_repair.py::test_w1_w2_bound_to_live_contract_and_resolve_populates_hashes
+tests/test_d1c_infra_repair.py::test_stale_eval_contract_hash_fails_closed
+tests/test_d1c_infra_repair.py::test_recipe_source_manifest_includes_critical_modules_and_matches
+tests/test_d1c_infra_repair.py::test_v2_0_1_parent_points_at_live_contract
+tests/test_d1c_infra_repair.py::test_emit_d1c_v2_from_evaluator_shaped_rows
+tests/test_d1c_infra_repair.py::test_emit_refuses_fabricated_eos_tf_defaults
+tests/test_d1c_infra_repair.py::test_selector_refuses_suppressed_empty_and_extreme_duration
+tests/test_d1c_infra_repair.py::test_teacher_forced_ce_returns_eos_metrics
+tests/test_d1c_infra_repair.py::test_production_tf_aggregation_to_emitter_survives
+tests/test_d1c_infra_repair.py::test_validate_formal_report_rejects_checkpoint_step_zero
+tests/test_d1c_infra_repair.py::test_resolve_checkpoint_step_payload_filename_cli
+tests/test_d1c_infra_repair.py::test_require_checkpoint_payload_hashes_fail_closed
+tests/test_d1c_infra_repair.py::test_d1c_subset_aliases_resolve_to_d1c_oracle
+tests/test_d1c_infra_repair.py::test_main_stamps_checkpoint_step_and_selector_e2e
+tests/test_d1c_oracles.py::test_formal_oracle_refuses_missing_declared_hash
+tests/test_d1c_oracles.py::test_formal_oracle_refuses_unknown_alias
+tests/test_d1c_selector_integration.py::test_d1c_formal_refuses_manual_and_missing_candidates
+tests/test_d1c_semantic_eos.py::test_semantic_vocab_and_collate_own_eos_positions
+tests/test_d1c_semantic_eos.py::test_eos_slot_loss_has_no_residual_or_stop_head
+tests/test_d1c_semantic_eos.py::test_eos_slot_consumes_last_real_cb0
+tests/test_d1c_semantic_eos.py::test_generation_returns_metadata_and_excludes_eos
+tests/test_d1c_semantic_eos.py::test_legacy_mode_still_has_stop_head
+tests/test_dataset_multicorpus.py::test_load_utt_ids_from_eval_set
+tests/test_dataset_multicorpus.py::test_no_utt_or_speaker_leak_train_test
+tests/test_dataset_multicorpus.py::test_ruslan_batch_fraction_capped
+tests/test_dataset_multicorpus.py::test_peak_memory_not_linear_in_n
+tests/test_discrete_eval_report_schema.py::test_formal_rows_fail_closed[<lambda>0]
+tests/test_discrete_eval_report_schema.py::test_formal_rows_fail_closed[<lambda>1]
+tests/test_discrete_eval_report_schema.py::test_formal_rows_fail_closed[<lambda>2]
+tests/test_discrete_lm_resume.py::test_resume_matches_uninterrupted
+tests/test_discrete_lm_resume.py::test_legacy_microbatch_rejected_without_opt_in
+tests/test_discrete_lm_resume.py::test_legacy_microbatch_migrates_with_opt_in
+tests/test_discrete_lm_resume.py::test_resume_fail_closed_on_grad_accum
+tests/test_discrete_lm_resume.py::test_resume_fail_closed_on_speaker_map_hash
+tests/test_discrete_lm_resume.py::test_resume_fail_closed_on_subset_hash
+tests/test_discrete_lm_resume.py::test_resume_fail_closed_on_model_config_hash
+tests/test_discrete_lm_resume.py::test_resume_fail_closed_on_config_hash
+tests/test_discrete_lm_resume.py::test_resume_fail_closed_on_recipe_hash
+tests/test_discrete_lm_resume.py::test_resume_fail_closed_on_recipe_source_manifest_hash
+tests/test_discrete_lm_resume.py::test_resume_fail_closed_on_run_manifest_hash
+tests/test_discrete_lm_resume.py::test_d1c_resume_fails_when_required_hash_missing
+tests/test_discrete_lm_resume.py::test_checkpoint_stores_both_counters_and_hashes
+tests/test_discrete_lm_resume.py::test_ddp_gloo_two_process_smoke
+tests/test_discrete_lm_trainer_steps.py::test_eight_microbatches_yield_two_optimizer_updates
+tests/test_discrete_lm_trainer_steps.py::test_scheduler_advances_on_optimizer_step
+tests/test_discrete_lm_trainer_steps.py::test_checkpoints_only_on_optimizer_boundary
+tests/test_discrete_lm_trainer_steps.py::test_mid_accum_save_refused
+tests/test_discrete_lm_trainer_steps.py::test_atomic_torch_save_success_replaces_and_cleans_tmp
+tests/test_discrete_lm_trainer_steps.py::test_atomic_torch_save_failure_preserves_dest_and_cleans_tmp
+tests/test_discrete_lm_trainer_steps.py::test_freeze_ru_conditioning_when_disabled
+tests/test_discrete_lm_trainer_steps.py::test_resolve_optimizer_step_budget_primary_and_dev_extension
+tests/test_discrete_lm_trainer_steps.py::test_resolve_candidate_steps_base_and_dev_ext
+tests/test_discrete_lm_trainer_steps.py::test_candidate_checkpoint_saved_at_boundary
+tests/test_discrete_lm_trainer_steps.py::test_ddp_world_size_1_smoke
+tests/test_discrete_n2_protocol.py::test_catastrophic_cer_ge_050
+tests/test_discrete_n2_protocol.py::test_catastrophic_cer_and_low_jaccard
+tests/test_discrete_n2_protocol.py::test_word_token_jaccard_basic
+tests/test_discrete_n2_protocol.py::test_word_token_jaccard_strips_combining_stress
+tests/test_discrete_n2_protocol.py::test_selection_lexicographic_ordering
+tests/test_discrete_n2_protocol.py::test_selection_tiebreak_catastrophic_then_duration_then_tf
+tests/test_discrete_n2_protocol.py::test_selection_rejects_null_teacher_forced_ce
+tests/test_discrete_n2_protocol.py::test_selection_tf_ce_prefers_750_over_250_when_earlier_keys_tie
+tests/test_discrete_n2_protocol.py::test_selection_key_tuple_shape
+tests/test_discrete_n2_protocol.py::test_stability_acceptance
+tests/test_discrete_n2_protocol.py::test_phrase_loop_detector
+tests/test_discrete_n2_protocol.py::test_text_usage_acceptance
+tests/test_discrete_n2_protocol.py::test_dev_confirm_disjoint_and_split_integrity
+tests/test_discrete_n2_protocol.py::test_frozen_hash_stability
+tests/test_discrete_n2_protocol.py::test_fr_candidate_schedule
+tests/test_discrete_n2_protocol.py::test_confirm_selection_subset_label
+tests/test_discrete_n2_protocol.py::test_select_refuses_ckpt_metrics_tf_ce_for_canonical
+tests/test_discrete_n2_protocol.py::test_select_refuses_unproven_tf_ce_without_source
+tests/test_discrete_n2_protocol.py::test_select_accepts_eval_computed_tf_ce
+tests/test_discrete_n2_protocol.py::test_select_refuses_missing_contract_provenance
+tests/test_discrete_n2_protocol.py::test_select_refuses_stamping_missing_items_sha256
+tests/test_discrete_n2_protocol.py::test_select_refuses_mismatched_select8_hash
+tests/test_discrete_speech_lm.py::test_shapes_forward_and_heads
+tests/test_discrete_speech_lm.py::test_ar_shift_c_t_to_c_t1
+tests/test_discrete_speech_lm.py::test_causality_no_future_leak
+tests/test_discrete_speech_lm.py::test_padding_invariance
+tests/test_discrete_speech_lm.py::test_multi_codebook_head_loss_shapes
+tests/test_discrete_speech_lm.py::test_tiny_overfit_synthetic_codes
+tests/test_discrete_speech_lm.py::test_param_count_full_config_in_band
+tests/test_discrete_speech_lm.py::test_scratch_keys_never_text_init
+tests/test_discrete_speech_lm.py::test_russian_conditioning_off_by_default
+tests/test_discrete_speech_lm.py::test_generate_codes_shape
+tests/test_discrete_speech_lm.py::test_stop_target_last_frame
+tests/test_discrete_speech_lm.py::test_stop_loss_and_early_generate
+tests/test_discrete_speech_lm.py::test_bf16_forward_cuda
+tests/test_discrete_speech_lm.py::test_text_padding_rope_batch_solo_parity
+tests/test_discrete_speech_lm.py::test_position_ids_speech_starts_at_own_text_len
+tests/test_discrete_speech_lm.py::test_no_attention_to_text_padding_keys
+tests/test_discrete_stop_config.py::test_stop_target_on_last_valid_frame
+tests/test_discrete_stop_config.py::test_padded_frames_excluded_from_stop_loss
+tests/test_discrete_stop_config.py::test_forced_stop_deterministic
+tests/test_discrete_stop_config.py::test_resolve_infer_scripts_73_74_identical
+tests/test_discrete_stop_config.py::test_wave3c_round_trip_eval_contract
+tests/test_discrete_stop_config.py::test_eos_cb0_outside_vocab_rejected
+tests/test_discrete_stop_config.py::test_validate_d1b_yaml
+tests/test_discrete_stop_config.py::test_production_yaml_param_count_in_band
+tests/test_discrete_stop_config.py::test_text_init_scratch_includes_stop_and_modality
+tests/test_discrete_stop_config.py::test_text_init_vocab_mismatch_fails_closed
+tests/test_discrete_stop_config.py::test_text_init_silent_truncation_requires_unsafe_flag
+tests/test_discrete_stop_config.py::test_text_init_low_coverage_fails
+tests/test_discrete_stop_config.py::test_d1b_yaml_parses_and_has_honest_name
+tests/test_eval_mel_suite.py::test_load_demo5_phrases
+tests/test_eval_mel_suite.py::test_load_homograph_and_bank
+tests/test_eval_mel_suite.py::test_load_val100_utt_ids
+tests/test_eval_mel_suite.py::test_suite_yaml_lists_sets
+tests/test_eval_mel_suite.py::test_aggregate_cer_wer
+tests/test_eval_mel_suite.py::test_aggregate_empty
+tests/test_eval_mel_suite.py::test_optional_metrics_skip_missing
+tests/test_eval_mel_suite.py::test_hifigan_speechbrain_key_remap
+tests/test_eval_mel_suite.py::test_seed_production_script
+tests/test_eval_sets_version.py::test_required_sets_load_and_verify
+tests/test_eval_sets_version.py::test_bump_requires_confirmation_after_item_change
+tests/test_external_baseline.py::test_silero_text_translates_canonical_stress
+tests/test_external_baseline.py::test_synth_enables_silero_russian_frontend
+tests/test_external_baseline.py::test_synth_retries_unsupported_native_text_with_shared_frontend
+tests/test_external_baseline.py::test_input_mode_frontend_always_verbalizes
+tests/test_external_baseline.py::test_load_silero_accepts_packaged_model_without_eval
+tests/test_external_baseline.py::test_fill_utt_texts_uses_manifest_schema
+tests/test_frontend_track_a.py::test_normalize_text_preserves_yo_and_expands_abbr
+tests/test_frontend_track_a.py::test_expand_abbreviations_longest_first
+tests/test_frontend_track_a.py::test_asr_normalize_separate_from_tts
+tests/test_frontend_track_a.py::test_verbalize_money_date_ordinal_pct
+tests/test_frontend_track_a.py::test_verbalize_year_and_int
+tests/test_frontend_track_a.py::test_bank_like_money_date_time_tn
+tests/test_frontend_track_a.py::test_bank_letterisms_inn_kpp
+tests/test_frontend_track_a.py::test_phone_verbalization_in_groups[+7 900 123-45-67-\u043f\u043b\u044e\u0441 \u0441\u0435\u043c\u044c \u0434\u0435\u0432\u044f\u0442\u044c\u0441\u043e\u0442 \u0441\u0442\u043e \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u044c \u0442\u0440\u0438 \u0441\u043e\u0440\u043e\u043a \u043f\u044f\u0442\u044c \u0448\u0435\u0441\u0442\u044c\u0434\u0435\u0441\u044f\u0442 \u0441\u0435\u043c\u044c]
+tests/test_frontend_track_a.py::test_phone_verbalization_in_groups[+7 (495) 120-30-40-\u043f\u043b\u044e\u0441 \u0441\u0435\u043c\u044c \u0447\u0435\u0442\u044b\u0440\u0435\u0441\u0442\u0430 \u0434\u0435\u0432\u044f\u043d\u043e\u0441\u0442\u043e \u043f\u044f\u0442\u044c \u0441\u0442\u043e \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u044c \u0442\u0440\u0438\u0434\u0446\u0430\u0442\u044c \u0441\u043e\u0440\u043e\u043a]
+tests/test_frontend_track_a.py::test_phone_verbalization_in_groups[8 916 777 88 99-\u0432\u043e\u0441\u0435\u043c\u044c \u0434\u0435\u0432\u044f\u0442\u044c\u0441\u043e\u0442 \u0448\u0435\u0441\u0442\u043d\u0430\u0434\u0446\u0430\u0442\u044c \u0441\u0435\u043c\u044c\u0441\u043e\u0442 \u0441\u0435\u043c\u044c\u0434\u0435\u0441\u044f\u0442 \u0441\u0435\u043c\u044c \u0432\u043e\u0441\u0435\u043c\u044c\u0434\u0435\u0441\u044f\u0442 \u0432\u043e\u0441\u0435\u043c\u044c \u0434\u0435\u0432\u044f\u043d\u043e\u0441\u0442\u043e \u0434\u0435\u0432\u044f\u0442\u044c]
+tests/test_frontend_track_a.py::test_phone_verbalization_in_groups[+7-901-005-01-02-\u043f\u043b\u044e\u0441 \u0441\u0435\u043c\u044c \u0434\u0435\u0432\u044f\u0442\u044c\u0441\u043e\u0442 \u043e\u0434\u0438\u043d \u043d\u043e\u043b\u044c \u043d\u043e\u043b\u044c \u043f\u044f\u0442\u044c \u043d\u043e\u043b\u044c \u043e\u0434\u0438\u043d \u043d\u043e\u043b\u044c \u0434\u0432\u0430]
+tests/test_frontend_track_a.py::test_phone_verbalization_in_groups[8(800)555-35-35-\u0432\u043e\u0441\u0435\u043c\u044c \u0432\u043e\u0441\u0435\u043c\u044c\u0441\u043e\u0442 \u043f\u044f\u0442\u044c\u0441\u043e\u0442 \u043f\u044f\u0442\u044c\u0434\u0435\u0441\u044f\u0442 \u043f\u044f\u0442\u044c \u0442\u0440\u0438\u0434\u0446\u0430\u0442\u044c \u043f\u044f\u0442\u044c \u0442\u0440\u0438\u0434\u0446\u0430\u0442\u044c \u043f\u044f\u0442\u044c]
+tests/test_frontend_track_a.py::test_range_verbalization_uses_governing_prepositions[\u0421\u0440\u043e\u043a 10\u201315 \u0434\u043d\u0435\u0439-\u043e\u0442 \u0434\u0435\u0441\u044f\u0442\u0438 \u0434\u043e \u043f\u044f\u0442\u043d\u0430\u0434\u0446\u0430\u0442\u0438]
+tests/test_frontend_track_a.py::test_range_verbalization_uses_governing_prepositions[\u041e\u0436\u0438\u0434\u0430\u0439\u0442\u0435 5-7 \u0434\u043d\u0435\u0439-\u043e\u0442 \u043f\u044f\u0442\u0438 \u0434\u043e \u0441\u0435\u043c\u0438]
+tests/test_frontend_track_a.py::test_range_verbalization_uses_governing_prepositions[\u0420\u0430\u0431\u043e\u0442\u0430\u0435\u043c \u0441 9 \u0434\u043e 18-\u0441 \u0434\u0435\u0432\u044f\u0442\u0438 \u0434\u043e \u0432\u043e\u0441\u0435\u043c\u043d\u0430\u0434\u0446\u0430\u0442\u0438]
+tests/test_frontend_track_a.py::test_range_verbalization_uses_governing_prepositions[\u0412\u043e\u0437\u0440\u0430\u0441\u0442 \u043e\u0442 20 \u0434\u043e 25-\u043e\u0442 \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u0438 \u0434\u043e \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u0438 \u043f\u044f\u0442\u0438]
+tests/test_frontend_track_a.py::test_range_verbalization_uses_governing_prepositions[\u041b\u0438\u043c\u0438\u0442 100\u2014200-\u043e\u0442 \u0441\u0442\u0430 \u0434\u043e \u0434\u0432\u0443\u0445\u0441\u043e\u0442]
+tests/test_frontend_track_a.py::test_unit_verbalization_agrees_with_number[\u041c\u0430\u0441\u0441\u0430 2 \u043a\u0433.-\u0434\u0432\u0430 \u043a\u0438\u043b\u043e\u0433\u0440\u0430\u043c\u043c\u0430]
+tests/test_frontend_track_a.py::test_unit_verbalization_agrees_with_number[\u041c\u0430\u0441\u0441\u0430 5 \u043a\u0433.-\u043f\u044f\u0442\u044c \u043a\u0438\u043b\u043e\u0433\u0440\u0430\u043c\u043c\u043e\u0432]
+tests/test_frontend_track_a.py::test_unit_verbalization_agrees_with_number[\u0421\u043a\u043e\u0440\u043e\u0441\u0442\u044c 60 \u043a\u043c/\u0447.-\u0448\u0435\u0441\u0442\u044c\u0434\u0435\u0441\u044f\u0442 \u043a\u0438\u043b\u043e\u043c\u0435\u0442\u0440\u043e\u0432 \u0432 \u0447\u0430\u0441]
+tests/test_frontend_track_a.py::test_unit_verbalization_agrees_with_number[\u041f\u043b\u043e\u0449\u0430\u0434\u044c 2 \u043c\xb2.-\u0434\u0432\u0430 \u043a\u0432\u0430\u0434\u0440\u0430\u0442\u043d\u044b\u0445 \u043c\u0435\u0442\u0440\u0430]
+tests/test_frontend_track_a.py::test_unit_verbalization_agrees_with_number[\u041d\u0430\u0432\u0435\u0441\u043a\u0430 100 \u0433.-\u0441\u0442\u043e \u0433\u0440\u0430\u043c\u043c\u043e\u0432]
+tests/test_frontend_track_a.py::test_unit_verbalization_agrees_with_number[\u041e\u0431\u044a\u0451\u043c 1 \u043b.-\u043e\u0434\u0438\u043d \u043b\u0438\u0442\u0440]
+tests/test_frontend_track_a.py::test_identifiers_are_spelled_digit_by_digit[\u0418\u041d\u041d 7707083893-7707083893]
+tests/test_frontend_track_a.py::test_identifiers_are_spelled_digit_by_digit[\u041a\u041f\u041f 773601001-773601001]
+tests/test_frontend_track_a.py::test_identifiers_are_spelled_digit_by_digit[\u0411\u0418\u041a 044525225-044525225]
+tests/test_frontend_track_a.py::test_identifiers_are_spelled_digit_by_digit[\u0421\u041d\u0418\u041b\u0421 123-456-789 00-12345678900]
+tests/test_frontend_track_a.py::test_identifiers_are_spelled_digit_by_digit[\u041e\u0413\u0420\u041d 1027700132195-1027700132195]
+tests/test_frontend_track_a.py::test_identifiers_are_spelled_digit_by_digit[\u0421\u0447\u0451\u0442 40817810099910004312-40817810099910004312]
+tests/test_frontend_track_a.py::test_identifiers_are_spelled_digit_by_digit[\u041a\u0430\u0440\u0442\u0430 2202 2002 1234 5678-2202200212345678]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[integers-\u041b\u0438\u043c\u0438\u0442 42-\u041b\u0438\u043c\u0438\u0442 \u0441\u043e\u0440\u043e\u043a \u0434\u0432\u0430]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[integers-\u041f\u043e\u0441\u0442\u0443\u043f\u0438\u043b\u043e 12 \u043f\u043b\u0430\u0442\u0435\u0436\u0435\u0439.-\u041f\u043e\u0441\u0442\u0443\u043f\u0438\u043b\u043e \u0434\u0432\u0435\u043d\u0430\u0434\u0446\u0430\u0442\u044c \u043f\u043b\u0430\u0442\u0435\u0436\u0435\u0439.]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[integers-\u041e\u0434\u043e\u0431\u0440\u0435\u043d\u043e 35 \u0437\u0430\u044f\u0432\u043e\u043a.-\u041e\u0434\u043e\u0431\u0440\u0435\u043d\u043e \u0442\u0440\u0438\u0434\u0446\u0430\u0442\u044c \u043f\u044f\u0442\u044c \u0437\u0430\u044f\u0432\u043e\u043a.]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[decimals-\u0421\u0442\u0430\u0432\u043a\u0430 2,5-\u0421\u0442\u0430\u0432\u043a\u0430 \u0434\u0432\u0430 \u0446\u0435\u043b\u044b\u0445 \u043f\u044f\u0442\u044c \u0434\u0435\u0441\u044f\u0442\u044b\u0445]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[decimals-\u041a\u0443\u0440\u0441 0.25-\u041a\u0443\u0440\u0441 \u043d\u043e\u043b\u044c \u0446\u0435\u043b\u044b\u0445 \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u044c \u043f\u044f\u0442\u044c \u0441\u043e\u0442\u044b\u0445]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[decimals-\u041a\u043e\u044d\u0444\u0444\u0438\u0446\u0438\u0435\u043d\u0442 \u0440\u0438\u0441\u043a\u0430 0,25-\u041a\u043e\u044d\u0444\u0444\u0438\u0446\u0438\u0435\u043d\u0442 \u0440\u0438\u0441\u043a\u0430 \u043d\u043e\u043b\u044c \u0446\u0435\u043b\u044b\u0445 \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u044c \u043f\u044f\u0442\u044c \u0441\u043e\u0442\u044b\u0445]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[money-\u0421\u0443\u043c\u043c\u0430 21 \u0440\u0443\u0431.-\u0421\u0443\u043c\u043c\u0430 \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u044c \u043e\u0434\u0438\u043d \u0440\u0443\u0431\u043b\u044c]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[money-\u041f\u0435\u0440\u0435\u0432\u0435\u0434\u0438\u0442\u0435 1234 \u0440\u0443\u0431. 50 \u043a\u043e\u043f.-\u041f\u0435\u0440\u0435\u0432\u0435\u0434\u0438\u0442\u0435 \u043e\u0434\u043d\u0430 \u0442\u044b\u0441\u044f\u0447\u0430 \u0434\u0432\u0435\u0441\u0442\u0438 \u0442\u0440\u0438\u0434\u0446\u0430\u0442\u044c \u0447\u0435\u0442\u044b\u0440\u0435 \u0440\u0443\u0431\u043b\u044f \u043f\u044f\u0442\u044c\u0434\u0435\u0441\u044f\u0442 \u043a\u043e\u043f\u0435\u0435\u043a]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[money-\u041a\u043e\u043c\u0438\u0441\u0441\u0438\u044f 100 \u0440\u0443\u0431.-\u041a\u043e\u043c\u0438\u0441\u0441\u0438\u044f \u0441\u0442\u043e \u0440\u0443\u0431\u043b\u0435\u0439]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[percent-\u041a\u043e\u043c\u0438\u0441\u0441\u0438\u044f 15%-\u041a\u043e\u043c\u0438\u0441\u0441\u0438\u044f \u043f\u044f\u0442\u043d\u0430\u0434\u0446\u0430\u0442\u044c \u043f\u0440\u043e\u0446\u0435\u043d\u0442\u043e\u0432]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[percent-\u0421\u0442\u0430\u0432\u043a\u0430 0.5%-\u0421\u0442\u0430\u0432\u043a\u0430 \u043d\u043e\u043b\u044c \u0446\u0435\u043b\u044b\u0445 \u043f\u044f\u0442\u044c \u0434\u0435\u0441\u044f\u0442\u044b\u0445 \u043f\u0440\u043e\u0446\u0435\u043d\u0442\u043e\u0432]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[percent-\u041a\u043b\u044e\u0447\u0435\u0432\u0430\u044f \u0441\u0442\u0430\u0432\u043a\u0430 7%-\u041a\u043b\u044e\u0447\u0435\u0432\u0430\u044f \u0441\u0442\u0430\u0432\u043a\u0430 \u0441\u0435\u043c\u044c \u043f\u0440\u043e\u0446\u0435\u043d\u0442\u043e\u0432]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[dates-\u0414\u0430\u0442\u0430 01.02.2020-\u0414\u0430\u0442\u0430 \u043f\u0435\u0440\u0432\u043e\u0435 \u0444\u0435\u0432\u0440\u0430\u043b\u044f \u0434\u0432\u0435 \u0442\u044b\u0441\u044f\u0447\u0438 \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u043e\u0433\u043e \u0433\u043e\u0434\u0430]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[dates-\u0421\u0440\u043e\u043a \u0434\u043e 31.12.2026-\u0421\u0440\u043e\u043a \u0434\u043e \u0442\u0440\u0438\u0434\u0446\u0430\u0442\u044c \u043f\u0435\u0440\u0432\u043e\u0433\u043e \u0434\u0435\u043a\u0430\u0431\u0440\u044f \u0434\u0432\u0435 \u0442\u044b\u0441\u044f\u0447\u0438 \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u044c \u0448\u0435\u0441\u0442\u043e\u0433\u043e \u0433\u043e\u0434\u0430]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[dates-\u043e\u043f\u0435\u0440\u0430\u0446\u0438\u044f 23 \u0438\u044e\u043b\u044f 2026-\u043e\u043f\u0435\u0440\u0430\u0446\u0438\u044f \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u044c \u0442\u0440\u0435\u0442\u044c\u0435 \u0438\u044e\u043b\u044f \u0434\u0432\u0435 \u0442\u044b\u0441\u044f\u0447\u0438 \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u044c \u0448\u0435\u0441\u0442\u043e\u0433\u043e \u0433\u043e\u0434\u0430]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[time-\u041e\u0442\u043a\u0440\u044b\u0442\u0438\u0435 \u0432 09:05-\u041e\u0442\u043a\u0440\u044b\u0442\u0438\u0435 \u0432 \u0434\u0435\u0432\u044f\u0442\u044c \u043d\u043e\u043b\u044c \u043f\u044f\u0442\u044c]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[time-\u0434\u043e 16:30-\u0434\u043e \u0448\u0435\u0441\u0442\u043d\u0430\u0434\u0446\u0430\u0442\u0438 \u0442\u0440\u0438\u0434\u0446\u0430\u0442\u0438]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[time-\u041e\u043f\u043b\u0430\u0442\u0430 \u0432 14:00-\u041e\u043f\u043b\u0430\u0442\u0430 \u0432 \u0447\u0435\u0442\u044b\u0440\u043d\u0430\u0434\u0446\u0430\u0442\u044c \u043d\u043e\u043b\u044c \u043d\u043e\u043b\u044c]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[phones-\u0422\u0435\u043b\u0435\u0444\u043e\u043d +7 900 123-45-67-\u0422\u0435\u043b\u0435\u0444\u043e\u043d \u043f\u043b\u044e\u0441 \u0441\u0435\u043c\u044c \u0434\u0435\u0432\u044f\u0442\u044c\u0441\u043e\u0442 \u0441\u0442\u043e \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u044c \u0442\u0440\u0438 \u0441\u043e\u0440\u043e\u043a \u043f\u044f\u0442\u044c \u0448\u0435\u0441\u0442\u044c\u0434\u0435\u0441\u044f\u0442 \u0441\u0435\u043c\u044c]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[phones-+7 (495) 120-30-40-\u043f\u043b\u044e\u0441 \u0441\u0435\u043c\u044c \u0447\u0435\u0442\u044b\u0440\u0435\u0441\u0442\u0430 \u0434\u0435\u0432\u044f\u043d\u043e\u0441\u0442\u043e \u043f\u044f\u0442\u044c \u0441\u0442\u043e \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u044c \u0442\u0440\u0438\u0434\u0446\u0430\u0442\u044c \u0441\u043e\u0440\u043e\u043a]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[phones-8 916 777 88 99-\u0432\u043e\u0441\u0435\u043c\u044c \u0434\u0435\u0432\u044f\u0442\u044c\u0441\u043e\u0442 \u0448\u0435\u0441\u0442\u043d\u0430\u0434\u0446\u0430\u0442\u044c \u0441\u0435\u043c\u044c\u0441\u043e\u0442 \u0441\u0435\u043c\u044c\u0434\u0435\u0441\u044f\u0442 \u0441\u0435\u043c\u044c \u0432\u043e\u0441\u0435\u043c\u044c\u0434\u0435\u0441\u044f\u0442 \u0432\u043e\u0441\u0435\u043c\u044c \u0434\u0435\u0432\u044f\u043d\u043e\u0441\u0442\u043e \u0434\u0435\u0432\u044f\u0442\u044c]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[accounts-\u041d\u043e\u043c\u0435\u0440 \u0441\u0447\u0451\u0442\u0430 4082-\u041d\u043e\u043c\u0435\u0440 \u0441\u0447\u0451\u0442\u0430 \u0447\u0435\u0442\u044b\u0440\u0435 \u043d\u043e\u043b\u044c \u0432\u043e\u0441\u0435\u043c\u044c \u0434\u0432\u0430]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[accounts-\u041a\u0430\u0440\u0442\u0430 2202 2002 1234 5678-\u041a\u0430\u0440\u0442\u0430 \u0434\u0432\u0430 \u0434\u0432\u0430 \u043d\u043e\u043b\u044c \u0434\u0432\u0430 \u0434\u0432\u0430 \u043d\u043e\u043b\u044c \u043d\u043e\u043b\u044c \u0434\u0432\u0430 \u043e\u0434\u0438\u043d \u0434\u0432\u0430 \u0442\u0440\u0438 \u0447\u0435\u0442\u044b\u0440\u0435 \u043f\u044f\u0442\u044c \u0448\u0435\u0441\u0442\u044c \u0441\u0435\u043c\u044c \u0432\u043e\u0441\u0435\u043c\u044c]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[accounts-\u0421\u0447\u0451\u0442 40817810099910004312-\u0421\u0447\u0451\u0442 \u0447\u0435\u0442\u044b\u0440\u0435 \u043d\u043e\u043b\u044c \u0432\u043e\u0441\u0435\u043c\u044c \u043e\u0434\u0438\u043d \u0441\u0435\u043c\u044c \u0432\u043e\u0441\u0435\u043c\u044c \u043e\u0434\u0438\u043d \u043d\u043e\u043b\u044c \u043d\u043e\u043b\u044c \u0434\u0435\u0432\u044f\u0442\u044c \u0434\u0435\u0432\u044f\u0442\u044c \u0434\u0435\u0432\u044f\u0442\u044c \u043e\u0434\u0438\u043d \u043d\u043e\u043b\u044c \u043d\u043e\u043b\u044c \u043d\u043e\u043b\u044c \u0447\u0435\u0442\u044b\u0440\u0435 \u0442\u0440\u0438 \u043e\u0434\u0438\u043d \u0434\u0432\u0430]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[codes-\u0411\u0418\u041a 044525225-\u0431\u0438\u043a \u043d\u043e\u043b\u044c \u0447\u0435\u0442\u044b\u0440\u0435 \u0447\u0435\u0442\u044b\u0440\u0435 \u043f\u044f\u0442\u044c \u0434\u0432\u0430 \u043f\u044f\u0442\u044c \u0434\u0432\u0430 \u0434\u0432\u0430 \u043f\u044f\u0442\u044c]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[codes-\u0418\u041d\u041d 7707083893-\u0438 \u044d\u043d \u044d\u043d \u0441\u0435\u043c\u044c \u0441\u0435\u043c\u044c \u043d\u043e\u043b\u044c \u0441\u0435\u043c\u044c \u043d\u043e\u043b\u044c \u0432\u043e\u0441\u0435\u043c\u044c \u0442\u0440\u0438 \u0432\u043e\u0441\u0435\u043c\u044c \u0434\u0435\u0432\u044f\u0442\u044c \u0442\u0440\u0438]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[codes-\u041a\u041f\u041f 773601001-\u043a\u0430 \u043f\u044d \u043f\u044d \u0441\u0435\u043c\u044c \u0441\u0435\u043c\u044c \u0442\u0440\u0438 \u0448\u0435\u0441\u0442\u044c \u043d\u043e\u043b\u044c \u043e\u0434\u0438\u043d \u043d\u043e\u043b\u044c \u043d\u043e\u043b\u044c \u043e\u0434\u0438\u043d]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[ru_abbr-\u0421\u041d\u0418\u041b\u0421 \u0438 \u041e\u041a\u0412\u042d\u0414-\u0441\u043d\u0438\u043b\u0441 \u0438 \u043e \u043a\u0430 \u0432\u044d \u044d \u0434\u044d]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[ru_abbr-\u0418\u041d\u041d \u0438 \u041a\u041f\u041f \u043e\u0440\u0433\u0430\u043d\u0438\u0437\u0430\u0446\u0438\u0438-\u0438 \u044d\u043d \u044d\u043d \u0438 \u043a\u0430 \u043f\u044d \u043f\u044d \u043e\u0440\u0433\u0430\u043d\u0438\u0437\u0430\u0446\u0438\u0438]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[ru_abbr-\u041e\u0413\u0420\u041d \u0443\u043a\u0430\u0437\u0430\u043d \u0432 \u0437\u0430\u044f\u0432\u043b\u0435\u043d\u0438\u0438-\u043e \u0433\u044d \u044d\u0440 \u044d\u043d \u0443\u043a\u0430\u0437\u0430\u043d \u0432 \u0437\u0430\u044f\u0432\u043b\u0435\u043d\u0438\u0438]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[lat_abbr-\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u0435 TTS-\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u0435 \u0442\u044d-\u0442\u044d-\u044d\u0301\u0441]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[lat_abbr-\u043f\u0440\u0438\u0448\u043b\u043e SMS-\u043f\u0440\u0438\u0448\u043b\u043e \u044d\u0441-\u044d\u043c-\u044d\u0301\u0441]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[lat_abbr-\u0412\u0432\u0435\u0434\u0438\u0442\u0435 PIN-\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u043f\u0438\u043d]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[loanwords-\u041e\u043f\u043b\u0430\u0442\u0430 Google Pay-\u041e\u043f\u043b\u0430\u0442\u0430 \u0433\u0443\u0433\u043b \u043f\u044d\u0439]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[loanwords-Apple Pay \u0434\u043e\u0441\u0442\u0443\u043f\u0435\u043d-\u044d\u043f\u043b \u043f\u044d\u0439 \u0434\u043e\u0441\u0442\u0443\u043f\u0435\u043d]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[loanwords-\u0447\u0435\u0440\u0435\u0437 Wi-Fi-\u0447\u0435\u0440\u0435\u0437 \u0432\u0430\u0439\u0444\u0430\u0439]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[units-\u041c\u0430\u0441\u0441\u0430 5 \u043a\u0433.-\u041c\u0430\u0441\u0441\u0430 \u043f\u044f\u0442\u044c \u043a\u0438\u043b\u043e\u0433\u0440\u0430\u043c\u043c\u043e\u0432]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[units-\u041c\u0430\u0441\u0441\u0430 2 \u043a\u0433.-\u041c\u0430\u0441\u0441\u0430 \u0434\u0432\u0430 \u043a\u0438\u043b\u043e\u0433\u0440\u0430\u043c\u043c\u0430]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[units-\u0421\u043a\u043e\u0440\u043e\u0441\u0442\u044c 60 \u043a\u043c/\u0447.-\u0421\u043a\u043e\u0440\u043e\u0441\u0442\u044c \u0448\u0435\u0441\u0442\u044c\u0434\u0435\u0441\u044f\u0442 \u043a\u0438\u043b\u043e\u043c\u0435\u0442\u0440\u043e\u0432 \u0432 \u0447\u0430\u0441]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[ordinals-\u042d\u0442\u043e 3-\u0439 \u043f\u043b\u0430\u0442\u0451\u0436-\u042d\u0442\u043e \u0442\u0440\u0435\u0442\u0438\u0439 \u043f\u043b\u0430\u0442\u0451\u0436]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[ordinals-1-\u0439 \u0434\u0435\u043d\u044c-\u043f\u0435\u0440\u0432\u044b\u0439 \u0434\u0435\u043d\u044c]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[ordinals-\u041e\u0442\u043a\u0440\u043e\u0439\u0442\u0435 2-\u0439 \u0440\u0430\u0437\u0434\u0435\u043b.-\u041e\u0442\u043a\u0440\u043e\u0439\u0442\u0435 \u0432\u0442\u043e\u0440\u043e\u0439 \u0440\u0430\u0437\u0434\u0435\u043b.]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[ranges-\u0421\u0440\u043e\u043a 10\u201315 \u0434\u043d\u0435\u0439-\u0421\u0440\u043e\u043a \u043e\u0442 \u0434\u0435\u0441\u044f\u0442\u0438 \u0434\u043e \u043f\u044f\u0442\u043d\u0430\u0434\u0446\u0430\u0442\u0438 \u0434\u043d\u0435\u0439]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[ranges-\u041e\u0436\u0438\u0434\u0430\u0439\u0442\u0435 5-7 \u0434\u043d\u0435\u0439-\u041e\u0436\u0438\u0434\u0430\u0439\u0442\u0435 \u043e\u0442 \u043f\u044f\u0442\u0438 \u0434\u043e \u0441\u0435\u043c\u0438 \u0434\u043d\u0435\u0439]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix[ranges-\u041b\u0438\u043c\u0438\u0442 100\u2014200-\u041b\u0438\u043c\u0438\u0442 \u043e\u0442 \u0441\u0442\u0430 \u0434\u043e \u0434\u0432\u0443\u0445\u0441\u043e\u0442]
+tests/test_frontend_track_a.py::test_bank_entity_category_matrix_covers_eval_set
+tests/test_frontend_track_a.py::test_asr_cer_normalizes_whisper_digit_hyps
+tests/test_frontend_track_a.py::test_infer_tn_matches_train_char_labels_for_money
+tests/test_frontend_track_a.py::test_g2p_fallback_without_espeak
+tests/test_frontend_track_a.py::test_uniform_spans_and_forced_pack
+tests/test_frontend_track_a.py::test_token_word_ids_from_char_spans
+tests/test_ingest_corpus.py::test_jsonl_handler_builds_stable_materialized_manifest
+tests/test_ingest_corpus.py::test_embedded_audio_bytes_are_cached_and_duplicate_source_is_dropped
+tests/test_ingest_corpus.py::test_directory_cli_streams_three_speakers_and_memory_is_bounded
+tests/test_manifest_multi.py::test_legacy_ruslan_json_gets_defaults
+tests/test_manifest_multi.py::test_legacy_roundtrip_without_forcing_migration
+tests/test_manifest_multi.py::test_container_id_reads_legacy_nested_extra
+tests/test_manifest_multi.py::test_text_dedup_normalization
+tests/test_manifest_multi.py::test_detect_and_deduplicate_by_text
+tests/test_manifest_multi.py::test_literal_lower_dedup_preserves_legacy_ruslan_membership
+tests/test_manifest_multi.py::test_audio_fingerprint_and_dedup
+tests/test_manifest_multi.py::test_new_row_materializes_source_and_integrity_fields
+tests/test_manifest_multi.py::test_embedded_hashes_drive_cross_corpus_dedup_without_audio_files
+tests/test_manifest_multi.py::test_speaker_split_no_leak
+tests/test_manifest_multi.py::test_single_speaker_falls_back_to_contiguous
+tests/test_manifest_multi.py::test_assert_no_speaker_leak_raises_on_mixed
+tests/test_manifest_multi.py::test_streaming_iter_and_filter
+tests/test_manifest_multi.py::test_iter_deduped_manifests_streaming
+tests/test_manifest_multi.py::test_explicit_multi_corpus_fields_preserved
+tests/test_manifest_multi.py::test_invalid_channel_rejected
+tests/test_mel_baseline.py::test_hard_and_soft_upsample_shapes
+tests/test_mel_baseline.py::test_mel_baseline_forward_backward_cpu
+tests/test_mel_baseline.py::test_mel_baseline_transformer_decoder
+tests/test_mel_baseline.py::test_collate_mel_and_sample_weight
+tests/test_mel_baseline.py::test_lr_warmup_and_cosine
+tests/test_mel_baseline.py::test_token_duration_loss_hook_and_sample_weight
+tests/test_mel_baseline.py::test_cer_selection_prefers_lower_cer
+tests/test_mel_baseline.py::test_git_sha_and_run_manifest
+tests/test_mel_baseline.py::test_vocoder_save_mel_and_status
+tests/test_mel_baseline.py::test_griffin_lim_optional
+tests/test_mel_baseline.py::test_waveform_to_logmel_optional
+tests/test_mel_baseline.py::test_phone_vocab_roundtrip
+tests/test_mel_cfm.py::test_mel_cfm_train_step_backward_cpu
+tests/test_mel_cfm.py::test_mel_cfm_sample_shapes
+tests/test_mel_cfm.py::test_mel_cfm_loss_decreases_on_tiny_overfit
+tests/test_mel_cfm.py::test_mel_cfm_backbone_warmstart_from_regression_keys
+tests/test_mel_target_registry.py::test_mel80_preserves_historical_domain
+tests/test_mel_target_registry.py::test_mel80_hifigan_registered
+tests/test_mel_target_registry.py::test_mel_filter_kwargs_defaults
+tests/test_mel_target_registry.py::test_librosa_torchaudio_close_for_same_spec
+tests/test_merge_manifests.py::test_merge_marks_lower_priority_duplicates_and_has_no_active_audio_dup
+tests/test_merge_manifests.py::test_explicit_priority_overrides_manifest_order
+tests/test_merge_manifests.py::test_duplicate_utt_id_is_a_hard_error
+tests/test_n2_collate_latent_seq.py::test_config_batch_and_curriculum
+tests/test_n2_collate_latent_seq.py::test_collate_masks_and_shapes
+tests/test_n2_collate_latent_seq.py::test_loss_equal_under_batch_order
+tests/test_n2_collate_latent_seq.py::test_curriculum_filter
+tests/test_n2_collate_latent_seq.py::test_multicorpus_adapter
+tests/test_plan_scaffolding.py::test_normalize_for_asr_idempotent
+tests/test_plan_scaffolding.py::test_bootstrap_zero_delta_covers_zero
+tests/test_plan_scaffolding.py::test_dtw_shifted_copy_near_zero
+tests/test_plan_scaffolding.py::test_stop_window_target_count
+tests/test_plan_scaffolding.py::test_stop_window_soft_ramp
+tests/test_plan_scaffolding.py::test_collate_stop_window
+tests/test_plan_scaffolding.py::test_gitignore_not_ignoring_minispeech_data
+tests/test_plan_scaffolding.py::test_generate_kv_cache_matches_full
+tests/test_plan_scaffolding.py::test_fr_selection_key_prefers_duration_band
+tests/test_plan_scaffolding.py::test_generate_duration_scale_extends_cap
+tests/test_plan_scaffolding.py::test_measure_ttfb_uses_real_first_pcm
+tests/test_plan_scaffolding.py::test_iter_generate_matches_generate
+tests/test_preference.py::test_binomial_ci_self
+tests/test_preference.py::test_build_and_score_trap
+tests/test_qwen3_tts_geometry.py::test_qwen3tts_12hz_registered
+tests/test_qwen3_tts_geometry.py::test_qwen3tts_12hz_geometry
+tests/test_qwen3_tts_geometry.py::test_qwen3tts_frame_helpers
+tests/test_qwen3_tts_geometry.py::test_sample_true_rejected_without_weights
+tests/test_qwen3_tts_geometry.py::test_check_codes_shape
+tests/test_recovery_metrics.py::test_constant_mean_mae_near_sqrt_2_over_pi
+tests/test_recovery_metrics.py::test_copy_prev_shifts
+tests/test_recovery_metrics.py::test_trivial_baselines_pass_duration_gates_with_oracle_length
+tests/test_recovery_metrics.py::test_random_corpus_shape
+tests/test_recovery_metrics.py::test_r2_perfect_and_constant
+tests/test_recovery_metrics.py::test_variance_ratio_collapse
+tests/test_recovery_metrics.py::test_lag_corr_copy_prev
+tests/test_recovery_metrics.py::test_variance_collapse_and_smooth
+tests/test_recovery_metrics.py::test_add_white_noise_zero
+tests/test_recovery_metrics.py::test_chance_diagonality_positive
+tests/test_recovery_metrics.py::test_verbalize_numbers
+tests/test_speaker_registry.py::test_mapping_independent_of_input_order
+tests/test_speaker_registry.py::test_registry_sha_stable_and_no_collisions
+tests/test_speaker_registry.py::test_train_eval_infer_same_known_id
+tests/test_speaker_registry.py::test_unknown_fail_closed_train_eval_ok_infer
+tests/test_speaker_registry.py::test_out_of_range_int_raises
+tests/test_speaker_registry.py::test_simulated_ddp_ranks_same_ids
+tests/test_speaker_registry.py::test_collate_rejects_string_speaker
+tests/test_speaker_registry.py::test_assert_integer_speaker_id
+tests/test_speaker_registry.py::test_model_speaker_oob_raises_no_clamp
+tests/test_speaker_registry.py::test_roundtrip_json_rejects_tampered_sha
+tests/test_stress_acoustic.py::test_score_vowels_picks_longest_loudest
+tests/test_stress_acoustic.py::test_score_vowels_empty
+tests/test_stress_classifier.py::test_holdout_prefers_speakers_then_containers
+tests/test_stress_classifier.py::test_legacy_manifest_reports_proxy_holdout
+tests/test_stress_classifier.py::test_logistic_ranker_learns_vowel_ranking
+tests/test_stress_classifier.py::test_wilson_interval_contains_observed_accuracy
+tests/test_stress_ctc_labels.py::test_stressed_labels_match_text_ctc_length
+tests/test_stress_ctc_labels.py::test_keep_stress_false_plain_chars
+tests/test_stress_ctc_labels.py::test_transcript_for_ctc_plain_unchanged
+tests/test_stress_overlay.py::test_overlay_matches_stressed_labels
+tests/test_stress_overlay.py::test_overlay_preserves_sil_slots
+tests/test_stress_overlay.py::test_overlay_mismatch_returns_input
+tests/test_track_a_projection.py::test_vibevoice_aliases_unchanged
+tests/test_track_a_projection.py::test_mel80_geometry
+tests/test_track_a_projection.py::test_soft_hard_projection_toy_7_5hz
+tests/test_track_a_projection.py::test_mel_frame_rate_projection
+tests/test_track_a_projection.py::test_segments_from_forced_phones_and_predictor
+tests/test_track_a_projection.py::test_uniform_packing_synthetic_fixture
+tests/test_track_a_projection.py::test_phone_level_uniform_packing_equal_slices
+tests/test_track_a_projection.py::test_ctc_char_labels_strip_stress_and_punct
+tests/test_track_a_projection.py::test_try_ctc_align_emissions_mocked
+tests/test_track_a_projection.py::test_ctc_forced_entry_pack_char_granularity
+tests/test_track_a_projection.py::test_ctc_gap_fill_cover_ratio_full_timeline
+tests/test_track_a_projection.py::test_expand_neighbor_cover_ratio_full_timeline
+tests/test_track_a_projection.py::test_free_infer_sil_pack_full_timeline
+tests/test_trackn_eval_sets.py::test_freeze_trackn_sets_and_register_hashes
+tests/test_trackn_eval_sets.py::test_trackn_train_has_no_exclude_or_duplicate_qc_tags
+tests/test_translit.py::test_loanwords_dictionary
+tests/test_translit.py::test_acronyms_letter_by_letter
+tests/test_translit.py::test_mixed_sentence_frontend_all_cyrillic
+tests/test_translit.py::test_single_letters
+tests/test_translit.py::test_fallback_never_leaves_latin
+tests/test_utmos_backend.py::test_utmos_score_missing_file_returns_none
+tests/test_utmos_backend.py::test_utmos_score_none_when_hub_unavailable
+tests/test_utmos_backend.py::test_utmos_score_range_when_backend_present
+tests/test_verbalize_r3.py::test_r3_dates_exact[\u0414\u0430\u0442\u0430 01.02.2020-\u0414\u0430\u0442\u0430 \u043f\u0435\u0440\u0432\u043e\u0435 \u0444\u0435\u0432\u0440\u0430\u043b\u044f \u0434\u0432\u0435 \u0442\u044b\u0441\u044f\u0447\u0438 \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u043e\u0433\u043e \u0433\u043e\u0434\u0430]
+tests/test_verbalize_r3.py::test_r3_dates_exact[\u041f\u043b\u0430\u0442\u0451\u0436 12.05.2024-\u041f\u043b\u0430\u0442\u0451\u0436 \u0434\u0432\u0435\u043d\u0430\u0434\u0446\u0430\u0442\u043e\u0435 \u043c\u0430\u044f \u0434\u0432\u0435 \u0442\u044b\u0441\u044f\u0447\u0438 \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u044c \u0447\u0435\u0442\u0432\u0451\u0440\u0442\u043e\u0433\u043e \u0433\u043e\u0434\u0430]
+tests/test_verbalize_r3.py::test_r3_dates_exact[\u0421\u0440\u043e\u043a \u0434\u043e 31.12.2026-\u0421\u0440\u043e\u043a \u0434\u043e \u0442\u0440\u0438\u0434\u0446\u0430\u0442\u044c \u043f\u0435\u0440\u0432\u043e\u0433\u043e \u0434\u0435\u043a\u0430\u0431\u0440\u044f \u0434\u0432\u0435 \u0442\u044b\u0441\u044f\u0447\u0438 \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u044c \u0448\u0435\u0441\u0442\u043e\u0433\u043e \u0433\u043e\u0434\u0430]
+tests/test_verbalize_r3.py::test_r3_dates_exact[\u0441 01.01.2021-\u0441 \u043f\u0435\u0440\u0432\u043e\u0433\u043e \u044f\u043d\u0432\u0430\u0440\u044f \u0434\u0432\u0435 \u0442\u044b\u0441\u044f\u0447\u0438 \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u044c \u043f\u0435\u0440\u0432\u043e\u0433\u043e \u0433\u043e\u0434\u0430]
+tests/test_verbalize_r3.py::test_r3_dates_exact[\u043e\u0442 15.03.2019-\u043e\u0442 \u043f\u044f\u0442\u043d\u0430\u0434\u0446\u0430\u0442\u043e\u0433\u043e \u043c\u0430\u0440\u0442\u0430 \u0434\u0432\u0435 \u0442\u044b\u0441\u044f\u0447\u0438 \u0434\u0435\u0432\u044f\u0442\u043d\u0430\u0434\u0446\u0430\u0442\u043e\u0433\u043e \u0433\u043e\u0434\u0430]
+tests/test_verbalize_r3.py::test_r3_dates_exact[\u043f\u043e 08.08.2022-\u043f\u043e \u0432\u043e\u0441\u044c\u043c\u043e\u0433\u043e \u0430\u0432\u0433\u0443\u0441\u0442\u0430 \u0434\u0432\u0435 \u0442\u044b\u0441\u044f\u0447\u0438 \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u044c \u0432\u0442\u043e\u0440\u043e\u0433\u043e \u0433\u043e\u0434\u0430]
+tests/test_verbalize_r3.py::test_r3_dates_exact[\u043e\u043f\u0435\u0440\u0430\u0446\u0438\u044f 23 \u0438\u044e\u043b\u044f 2026-\u043e\u043f\u0435\u0440\u0430\u0446\u0438\u044f \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u044c \u0442\u0440\u0435\u0442\u044c\u0435 \u0438\u044e\u043b\u044f \u0434\u0432\u0435 \u0442\u044b\u0441\u044f\u0447\u0438 \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u044c \u0448\u0435\u0441\u0442\u043e\u0433\u043e \u0433\u043e\u0434\u0430]
+tests/test_verbalize_r3.py::test_r3_time_exact[\u041e\u0442\u043a\u0440\u044b\u0442\u0438\u0435 \u0432 09:05-\u041e\u0442\u043a\u0440\u044b\u0442\u0438\u0435 \u0432 \u0434\u0435\u0432\u044f\u0442\u044c \u043d\u043e\u043b\u044c \u043f\u044f\u0442\u044c]
+tests/test_verbalize_r3.py::test_r3_time_exact[\u041e\u043f\u043b\u0430\u0442\u0430 \u0432 14:00-\u041e\u043f\u043b\u0430\u0442\u0430 \u0432 \u0447\u0435\u0442\u044b\u0440\u043d\u0430\u0434\u0446\u0430\u0442\u044c \u043d\u043e\u043b\u044c \u043d\u043e\u043b\u044c]
+tests/test_verbalize_r3.py::test_r3_time_exact[\u043f\u043e\u0441\u043b\u0435 07:01-\u043f\u043e\u0441\u043b\u0435 \u0441\u0435\u043c\u044c \u043d\u043e\u043b\u044c \u043e\u0434\u0438\u043d]
+tests/test_verbalize_r3.py::test_r3_time_exact[\u043a 10:10-\u043a \u0434\u0435\u0441\u044f\u0442\u044c \u0434\u0435\u0441\u044f\u0442\u044c]
+tests/test_verbalize_r3.py::test_r3_time_exact[\u0434\u043e 16:30-\u0434\u043e \u0448\u0435\u0441\u0442\u043d\u0430\u0434\u0446\u0430\u0442\u0438 \u0442\u0440\u0438\u0434\u0446\u0430\u0442\u0438]
+tests/test_verbalize_r3.py::test_r3_time_exact[\u041f\u0440\u0438\u0451\u043c \u0441 09:05 \u0434\u043e 18:30-\u041f\u0440\u0438\u0451\u043c \u0441 \u0434\u0435\u0432\u044f\u0442\u0438 \u043d\u043e\u043b\u044c \u043f\u044f\u0442\u0438 \u0434\u043e \u0432\u043e\u0441\u0435\u043c\u043d\u0430\u0434\u0446\u0430\u0442\u0438 \u0442\u0440\u0438\u0434\u0446\u0430\u0442\u0438]
+tests/test_verbalize_r3.py::test_r3_time_exact[\u043e\u0442 08:00 \u0434\u043e 12:00-\u043e\u0442 \u0432\u043e\u0441\u044c\u043c\u0438 \u043d\u043e\u043b\u044c \u043d\u043e\u043b\u044c \u0434\u043e \u0434\u0432\u0435\u043d\u0430\u0434\u0446\u0430\u0442\u0438 \u043d\u043e\u043b\u044c \u043d\u043e\u043b\u044c]
+tests/test_verbalize_r3.py::test_r3_decimals_exact[\u041a\u043e\u044d\u0444\u0444\u0438\u0446\u0438\u0435\u043d\u0442 \u0440\u0438\u0441\u043a\u0430 0,25-\u041a\u043e\u044d\u0444\u0444\u0438\u0446\u0438\u0435\u043d\u0442 \u0440\u0438\u0441\u043a\u0430 \u043d\u043e\u043b\u044c \u0446\u0435\u043b\u044b\u0445 \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u044c \u043f\u044f\u0442\u044c \u0441\u043e\u0442\u044b\u0445]
+tests/test_verbalize_r3.py::test_r3_decimals_exact[\u0421\u0442\u0430\u0432\u043a\u0430 2,5-\u0421\u0442\u0430\u0432\u043a\u0430 \u0434\u0432\u0430 \u0446\u0435\u043b\u044b\u0445 \u043f\u044f\u0442\u044c \u0434\u0435\u0441\u044f\u0442\u044b\u0445]
+tests/test_verbalize_r3.py::test_r3_decimals_exact[\u0418\u043d\u0434\u0435\u043a\u0441 1,5-\u0418\u043d\u0434\u0435\u043a\u0441 \u043e\u0434\u043d\u0430 \u0446\u0435\u043b\u0430\u044f \u043f\u044f\u0442\u044c \u0434\u0435\u0441\u044f\u0442\u044b\u0445]
+tests/test_verbalize_r3.py::test_r3_decimals_exact[\u0428\u0430\u0433 0,5-\u0428\u0430\u0433 \u043d\u043e\u043b\u044c \u0446\u0435\u043b\u044b\u0445 \u043f\u044f\u0442\u044c \u0434\u0435\u0441\u044f\u0442\u044b\u0445]
+tests/test_verbalize_r3.py::test_r3_decimals_exact[\u0414\u043e\u043f\u0443\u0441\u043a 3,14-\u0414\u043e\u043f\u0443\u0441\u043a \u0442\u0440\u0438 \u0446\u0435\u043b\u044b\u0445 \u0447\u0435\u0442\u044b\u0440\u043d\u0430\u0434\u0446\u0430\u0442\u044c \u0441\u043e\u0442\u044b\u0445]
+tests/test_verbalize_r3.py::test_r3_decimals_exact[\u041a\u0443\u0440\u0441 10,05-\u041a\u0443\u0440\u0441 \u0434\u0435\u0441\u044f\u0442\u044c \u0446\u0435\u043b\u044b\u0445 \u043f\u044f\u0442\u044c \u0441\u043e\u0442\u044b\u0445]
+tests/test_verbalize_r3.py::test_r3_decimals_exact[\u0432\u0435\u0440\u0441\u0438\u044f 2.5-\u0432\u0435\u0440\u0441\u0438\u044f \u0434\u0432\u0430 \u0442\u043e\u0447\u043a\u0430 \u043f\u044f\u0442\u044c]
+
+411 tests collected in 2.80s

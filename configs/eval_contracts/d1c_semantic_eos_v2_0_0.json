@@ -258,10 +258,10 @@
     "scripts/72_train_discrete_lm.py": "8d931876e166fd27e16596f37029981fa0e6d268a968d7f5aa6ff188eba1d7ab",
     "scripts/73_infer_discrete_lm.py": "1d1cecd246866bd360fb92141477f39f9cd4af89be1d9ecb1ba77aab304529e4",
     "scripts/74_eval_discrete_lm.py": "8a94899ce9637691054b36d2a48d63efde58786f13e231ec9894a567496c4674",
-    "scripts/76_select_discrete_checkpoint.py": "b2513ec49b141bab39135128e8ea2b936d613f9b93b92ede2e463a656436958a",
+    "scripts/76_select_discrete_checkpoint.py": "254d30474e1bbe275de2f8bd7cdcf325d346c016e2a742a9fad73b72fc6b78e7",
     "scripts/77_freeze_d1c_oracles.py": "065c607b9d59d4e4d4eae4db49ead3fcae0cca6d6aafcab6443f0216bc91e7ed"
   },
-  "recipe_source_manifest_sha256": "85b896a907769af467f9e76d11b2347849b1c7fb776fcd7a6104d1885877ebbd",
-  "recipe_sha256": "c9fd265ac715b3d600dab1fcdf3d0b941d8db6b6fb3d9c9495728c0c55e124cf",
-  "sha256": "c9fd265ac715b3d600dab1fcdf3d0b941d8db6b6fb3d9c9495728c0c55e124cf"
+  "recipe_source_manifest_sha256": "ebb91df5f1574d11e30017eae870642aae6373777d123741e25add62726551fc",
+  "recipe_sha256": "181acd0274b66253facb9277a9473336d0c52cf87d5fe23dd39199d31518baad",
+  "sha256": "181acd0274b66253facb9277a9473336d0c52cf87d5fe23dd39199d31518baad"
 }

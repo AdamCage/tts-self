@@ -29,7 +29,7 @@ train:
   subset_split: full32
   subset_hash: 501330481c07d928d0fe6b86395355aea1410a680a4020c73b602df5cc3d9b40
   eval_contract_path: configs/eval_contracts/d1c_semantic_eos_v2_0_0.json
-  eval_contract_hash: c9fd265ac715b3d600dab1fcdf3d0b941d8db6b6fb3d9c9495728c0c55e124cf
+  eval_contract_hash: 181acd0274b66253facb9277a9473336d0c52cf87d5fe23dd39199d31518baad
   speaker_map_hash: 64e7cdc5c3447a43d7484b7538f9fd5df88551650d7b95ddb23110f9c36dca6e
   batch:
     mode: fixed
@@ -52,9 +52,9 @@ train:
   run_dir: runs/${run_name}
   resume: false
   ddp: {enabled: false, find_unused_parameters: false}
-  recipe_hash: c9fd265ac715b3d600dab1fcdf3d0b941d8db6b6fb3d9c9495728c0c55e124cf
-  recipe_source_manifest_hash: 85b896a907769af467f9e76d11b2347849b1c7fb776fcd7a6104d1885877ebbd
-  run_manifest_hash: 58f29f8257455a1d97a496e02214f8172776f01380589e966366f6f0d222da70
+  recipe_hash: 181acd0274b66253facb9277a9473336d0c52cf87d5fe23dd39199d31518baad
+  recipe_source_manifest_hash: ebb91df5f1574d11e30017eae870642aae6373777d123741e25add62726551fc
+  run_manifest_hash: f6721c63b20e35c9b3410a02635506c9442a7bb56f949c86ec5dd5f968174c75
 infer: {max_frames: 750, temperature: 0.0, top_k: 0, min_frames: 4, max_cb0_repeat: 12,
   repetition_penalty: 2.0, sampler: greedy}
 data: {target: qwen3tts_12hz, codec_tokens_dir: '~/datasets/tts/ruslan/codec_tokens,~/datasets/tts/common_voice_ru17/codec_tokens',

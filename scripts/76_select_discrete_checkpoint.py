@@ -52,6 +52,85 @@ def _sha256_file(path: Path) -> str:
     return h.hexdigest()
 
 
+def _model_state_sha256(ckpt_path: Path) -> str:
+    """Digest trainer ``model`` state_dict bytes (training identity, not file padding).
+
+    Fail-closed: missing/unloadable/empty model state is refused. File-level
+    ``checkpoint.sha256`` alone is insufficient — junk padding can make five
+    re-saves of one weight state look distinct.
+    """
+    try:
+        import torch
+    except ImportError as exc:  # pragma: no cover
+        raise ValueError("torch required to digest checkpoint model state") from exc
+    try:
+        payload = torch.load(ckpt_path, map_location="cpu", weights_only=False)
+    except Exception as exc:  # noqa: BLE001
+        raise ValueError(
+            "D1c formal selection refuses unreadable checkpoint model state at "
+            f"{ckpt_path}: {type(exc).__name__}: {exc}"
+        ) from exc
+    if not isinstance(payload, dict):
+        raise ValueError(
+            "D1c formal selection refuses checkpoint without dict payload "
+            f"(need trainer model state_dict) at {ckpt_path}"
+        )
+    sd = payload.get("model")
+    if not isinstance(sd, dict) or not sd:
+        raise ValueError(
+            "D1c formal selection refuses checkpoint without non-empty model "
+            f"state_dict (training identity); path={ckpt_path}"
+        )
+    if any(str(k).startswith("module.") for k in sd):
+        sd = {str(k).removeprefix("module."): v for k, v in sd.items()}
+    h = hashlib.sha256()
+    for key in sorted(sd.keys()):
+        tensor = sd[key]
+        if not torch.is_tensor(tensor):
+            raise ValueError(
+                "D1c formal selection refuses non-tensor model state entry "
+                f"{key!r} at {ckpt_path}"
+            )
+        arr = tensor.detach().cpu().contiguous().numpy()
+        h.update(str(key).encode("utf-8"))
+        h.update(str(arr.dtype).encode("utf-8"))
+        h.update(str(tuple(arr.shape)).encode("utf-8"))
+        h.update(arr.tobytes())
+    return h.hexdigest()
+
+
+def _require_checkpoint_hashes_match_provenance(reports: list[dict[str, Any]]) -> None:
+    """Fail-closed: ``checkpoint.hashes.*`` must match ``provenance.*_sha256``."""
+    pairs = (
+        ("eval_contract", "eval_contract_sha256"),
+        ("recipe", "recipe_sha256"),
+    )
+    for report in reports:
+        ckpt = report["checkpoint"]
+        step = int(ckpt["step"])
+        hashes = ckpt.get("hashes")
+        prov = report.get("provenance")
+        if not isinstance(hashes, dict) or not isinstance(prov, dict):
+            raise ValueError(
+                "D1c formal selection refuses missing checkpoint.hashes or "
+                f"provenance for step={step}"
+            )
+        for hash_key, prov_key in pairs:
+            claimed = str(hashes.get(hash_key) or "").strip()
+            attested = str(prov.get(prov_key) or "").strip()
+            if not attested or attested == ("0" * 64):
+                raise ValueError(
+                    f"D1c formal selection refuses missing provenance.{prov_key} "
+                    f"(step={step})"
+                )
+            if claimed != attested:
+                raise ValueError(
+                    "D1c formal selection refuses checkpoint.hashes."
+                    f"{hash_key} != provenance.{prov_key} "
+                    f"(step={step}; {claimed} != {attested})"
+                )
+
+
 def _require_distinct_checkpoint_identities(reports: list[dict[str, Any]]) -> None:
     """Plan §8.4: one distinct checkpoint hash/step match per formal report.
 
@@ -62,7 +141,10 @@ def _require_distinct_checkpoint_identities(reports: list[dict[str, Any]]) -> No
       claimed ``checkpoint.sha256``;
     * all five candidates must share one sealed run identity via
       ``checkpoint.hashes`` (eval_contract / recipe / recipe_source_manifest /
-      run_manifest).
+      run_manifest);
+    * ``checkpoint.hashes`` must agree with ``provenance.*_sha256``;
+    * five model ``state_dict`` digests must be pairwise distinct (forged
+      payload step/hashes on clones of one weight state are refused).
     """
     sha_list = [str(r["checkpoint"]["sha256"]) for r in reports]
     if len(set(sha_list)) != len(sha_list):
@@ -79,6 +161,7 @@ def _require_distinct_checkpoint_identities(reports: list[dict[str, Any]]) -> No
     )
     run_fingerprints: list[str] = []
     resolved_paths: list[str] = []
+    weight_digests: list[str] = []
     for report in reports:
         ckpt = report["checkpoint"]
         step = int(ckpt["step"])
@@ -118,6 +201,7 @@ def _require_distinct_checkpoint_identities(reports: list[dict[str, Any]]) -> No
                 f"path={ckpt_path}"
             )
         resolved_paths.append(str(ckpt_path.resolve()))
+        weight_digests.append(_model_state_sha256(ckpt_path))
     if len(set(run_fingerprints)) != 1:
         raise ValueError(
             "D1c formal selection refuses mixed checkpoint.hashes across "
@@ -128,6 +212,15 @@ def _require_distinct_checkpoint_identities(reports: list[dict[str, Any]]) -> No
         raise ValueError(
             "D1c formal selection refuses duplicate checkpoint.path across "
             "candidates; plan §8.4 requires one checkpoint per report"
+        )
+    _require_checkpoint_hashes_match_provenance(reports)
+    if len(set(weight_digests)) != len(weight_digests):
+        raise ValueError(
+            "D1c formal selection refuses identical model weights across "
+            "candidates "
+            f"(distinct_weight_digests={len(set(weight_digests))}, "
+            f"n={len(weight_digests)}); forged payload step/hashes on clones "
+            "of one weight state are not distinct training identities"
         )
 
 
