@@ -5,19 +5,15 @@ set -euo pipefail
 PLAN_SLUG=d1c_semantic_eos_repair_b81ecc3e
 RESULTS=~/projects/tts-self/.cursor/results/${PLAN_SLUG}
 LOGDIR=${RESULTS}/logs
+# Console tee lives outside the git worktree so clean-tree checks stay valid.
+EXT_LOGDIR="$HOME/datasets/tts/d1c_wave3_logs"
 WIN_OUT=/mnt/c/projects/tts-self/out/${PLAN_SLUG}/smoke_1utt
-WIN_RESULTS=/mnt/c/projects/tts-self-d1c/.cursor/results/${PLAN_SLUG}
 WIN_AUTHOR=/mnt/c/projects/tts-self/out/${PLAN_SLUG}/smoke_1utt
 CODEC_DIRS="$HOME/datasets/tts/ruslan/codec_tokens,$HOME/datasets/tts/common_voice_ru17/codec_tokens"
 RUN_NAME=d1c_eos_smoke_1utt
 OUT_LISTEN="out/${PLAN_SLUG}/smoke_1utt/listen_demo"
 SMOKE_STEPS="${SMOKE_STEPS:-80}"
 
-mkdir -p "$LOGDIR" "$OUT_LISTEN" "$WIN_OUT/listen_demo" "$WIN_AUTHOR/listen_demo" 2>/dev/null || true
-
-exec > >(tee -a "$LOGDIR/wave3_gpu_console.log") 2>&1
-
-echo "=== Wave 3 GPU start $(date -Is) ==="
 unset GIT_DIR GIT_WORK_TREE MINISPEECH_ALLOW_DIRTY
 cd ~/projects/tts-self
 
@@ -31,6 +27,14 @@ if [ -n "$(git status --porcelain)" ]; then
 fi
 TIP=$(git rev-parse HEAD)
 SHORT=$(git rev-parse --short HEAD)
+
+mkdir -p "$EXT_LOGDIR" "$OUT_LISTEN" "$WIN_OUT/listen_demo" "$WIN_AUTHOR/listen_demo" 2>/dev/null || true
+# All live logs under EXT_LOGDIR (outside git); mirrored into RESULTS/logs after PASS.
+LOGDIR="$EXT_LOGDIR"
+CONSOLE_LOG="$EXT_LOGDIR/wave3_gpu_console.log"
+exec > >(tee -a "$CONSOLE_LOG") 2>&1
+
+echo "=== Wave 3 GPU start $(date -Is) ==="
 echo "TIP=$TIP SHORT=$SHORT"
 
 python3 - <<'PY'
@@ -164,5 +168,18 @@ Path(".cursor/results/d1c_semantic_eos_repair_b81ecc3e/logs/wave3_1utt_eos_probe
     json.dumps(out, indent=2) + "\n", encoding="utf-8"
 )
 PY
+
+# Mirror logs into tracked results dir (after clean checks / training).
+RESULTS_LOG=~/projects/tts-self/.cursor/results/${PLAN_SLUG}/logs
+mkdir -p "$RESULTS_LOG"
+cp -f "$EXT_LOGDIR"/wave3_*.log "$RESULTS_LOG/" 2>/dev/null || true
+cp -f "$EXT_LOGDIR"/wave3_*.json "$RESULTS_LOG/" 2>/dev/null || true
+cp -f "$EXT_LOGDIR"/wave3_*.txt "$RESULTS_LOG/" 2>/dev/null || true
+# Also mirror to Windows d1c worktree results
+WIN_RES=/mnt/c/projects/tts-self-d1c/.cursor/results/${PLAN_SLUG}/logs
+mkdir -p "$WIN_RES"
+cp -f "$EXT_LOGDIR"/wave3_*.log "$WIN_RES/" 2>/dev/null || true
+cp -f "$EXT_LOGDIR"/wave3_*.json "$WIN_RES/" 2>/dev/null || true
+cp -f "$EXT_LOGDIR"/wave3_*.txt "$WIN_RES/" 2>/dev/null || true
 
 echo "=== Wave 3 GPU done $(date -Is) tip=$SHORT ==="
