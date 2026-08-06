@@ -248,7 +248,7 @@
     "src/minispeech/models/multi_codebook_head.py": "49b33a218aefa703374a85184ce93657a595a28d9ccf349b53b58f318d521d64",
     "src/minispeech/data/collate_codec_seq.py": "557efe090d3e141cd8dec107a6f100b8e6b0b5cc5a94a5b9c4a62dbace7c14e7",
     "src/minispeech/data/discrete_oracles.py": "99f0492a630c5c72970ebdb9ad741c2ababc6bccda4289e4cc3999b72598b1a0",
-    "src/minispeech/data/d1b_oracles.py": "58c18be9f1990484e903b365ec769990addce675aa94cc922c5a0fd29a3c8843",
+    "src/minispeech/data/d1b_oracles.py": "9b7937217294cb053d811656df2382e045314e9ea1324a00fd960fe7cecea7cc",
     "src/minispeech/data/codec_seq_protocol.py": "b821fc8051f4958053ab32a520f1efc8d8e677408b566213c4ba7e2caf77e4d5",
     "src/minispeech/constants.py": "425bd44592abeccdd512fa39200975851d5fc7ed17cc3f958e999b9a3b808217",
     "src/minispeech/train/discrete_lm_trainer.py": "502f3d0dfd428f819bcd180aff0cfdda7d06aa262efaac563e30f828d55ac290",
@@ -262,7 +262,7 @@
     "scripts/76_select_discrete_checkpoint.py": "bd66acf6c71e0ba47cdc8f83768bc35bb908059b10c320832a10797d8eac8229",
     "scripts/77_freeze_d1c_oracles.py": "e3c3d4ef6b6a0c736f7a19ab1d107fa056659805ffeb080c52a644ce594c97cb"
   },
-  "recipe_source_manifest_sha256": "d8d3578f1512d467f77899509aab78326aeb4550cbd0ee730b9ce0dfe662886e",
-  "recipe_sha256": "71746d382c0688c43dd8ca081bb87a899bb81778bbc02923b87e58416bf24263",
-  "sha256": "71746d382c0688c43dd8ca081bb87a899bb81778bbc02923b87e58416bf24263"
+  "recipe_source_manifest_sha256": "bbf0319aeb6338699d7dd76249589ce7cb84781483b4a7af8b9ebf538b70c513",
+  "recipe_sha256": "d6404de3853bfc88830210458553ad0331b7c30b1f6eb6a1880ff0dddc1e24ea",
+  "sha256": "d6404de3853bfc88830210458553ad0331b7c30b1f6eb6a1880ff0dddc1e24ea"
 }

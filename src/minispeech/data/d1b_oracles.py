@@ -468,11 +468,33 @@ def enforce_eval_contract(
         known_aliases = ("dev32", "confirm32", "select8", "gate24", "full32")
         # Fail-closed: label and hash must not point at disjoint known subsets.
         if alias in known_aliases and hash_aliases and alias not in hash_aliases:
-            errors.append(
-                f"subset label/hash contradiction: label={subset_label!r} "
-                f"(alias={alias}) but items_sha256 maps to "
-                f"{sorted(hash_aliases)}"
+            # Parent path (e.g. d1c_dev32.json → alias=dev32) with a child
+            # split hash (select8/gate24/full32) is not a contradiction when
+            # the parent entry registers that digest under split_hashes.
+            parent = subsets.get(alias)
+            split_hashes = (
+                parent.get("split_hashes") if isinstance(parent, Mapping) else None
             )
+            split_hit = isinstance(split_hashes, Mapping) and any(
+                str(v) == str(subset_items_sha256) for v in split_hashes.values()
+            )
+            if split_hit:
+                if len(hash_aliases) == 1:
+                    alias = next(iter(hash_aliases))
+                elif "select8" in hash_aliases:
+                    alias = "select8"
+                elif "gate24" in hash_aliases:
+                    alias = "gate24"
+                elif "full32" in hash_aliases:
+                    alias = "full32"
+                else:
+                    alias = sorted(hash_aliases)[0]
+            else:
+                errors.append(
+                    f"subset label/hash contradiction: label={subset_label!r} "
+                    f"(alias={alias}) but items_sha256 maps to "
+                    f"{sorted(hash_aliases)}"
+                )
         elif hash_aliases and alias not in known_aliases:
             # Unresolved path-like label: bind via hash when unambiguous, else
             # prefer full32/dev32 parent when both share the digest.
