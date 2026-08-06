@@ -1,0 +1,22 @@
+{
+  "plan_slug": "d1c_semantic_eos_repair_b81ecc3e",
+  "updated": "2026-08-06",
+  "entries": [
+    {
+      "role": "wave3_smoke_1utt_listen",
+      "run": "d1c_eos_smoke_1utt",
+      "ckpt": "runs/d1c_eos_smoke_1utt/last.pt",
+      "git_sha": "74d4caa535fb34e12a804f07a09308151c1f7a19",
+      "utt_id": "ruslan_000842_RUSLAN",
+      "termination_reason": "learned_eos",
+      "n_frames": 22,
+      "wav_linux": "out/d1c_semantic_eos_repair_b81ecc3e/smoke_1utt/listen_demo/0000_ruslan_000842_RUSLAN.wav",
+      "wav_windows": [
+        "C:\\projects\\tts-self\\out\\d1c_semantic_eos_repair_b81ecc3e\\smoke_1utt\\listen_demo\\0000_ruslan_000842_RUSLAN.wav",
+        "C:\\projects\\tts-self-d1c\\out\\d1c_semantic_eos_repair_b81ecc3e\\smoke_1utt\\listen_demo\\0000_ruslan_000842_RUSLAN.wav"
+      ],
+      "infer_index": "out/d1c_semantic_eos_repair_b81ecc3e/smoke_1utt/listen_demo/infer_index.json",
+      "metrics": "logs/wave3_1utt_metrics.json"
+    }
+  ]
+}

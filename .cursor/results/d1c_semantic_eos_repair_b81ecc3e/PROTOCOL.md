@@ -18,23 +18,26 @@ python scripts/77_freeze_d1c_oracles.py \
 ## Tests (pre-GPU)
 
 ```bash
-cd /mnt/c/projects/tts-self-d1c   # or Linux clone after push
-export GIT_DIR=/mnt/c/projects/tts-self/.git/worktrees/tts-self-d1c
-export GIT_WORK_TREE=/mnt/c/projects/tts-self-d1c
-source ~/projects/tts-self/.venv/bin/activate
+cd ~/projects/tts-self
+source .venv/bin/activate
 export PYTHONPATH=$PWD/src
 python -m pytest -q
 ```
 
-## Resume after authorization
+## Resume status
 
-1. Commit + push `d1c/semantic-eos` from clean worktree. (**done:** `ff9d8c7`, `27164af`)
-2. Custodian fills `configs/train_subsets/d1c_confirm_seed_commitment.json` commitment field.
-   **STILL BLOCKING:** `"commitment": null` — Wave 3 GPU / DEV hard-stopped (plan §18).
-3. WSL:
+1. Commit + push `d1c/semantic-eos` — **done** (through `74d4caa` + results pack).
+2. Custodian commitment — **done** (`c15ed40`):  
+   `commitment=4c46d418caf9bcabc088864da5bf0b3de0475a9d9225f50383314a2c5e3bb3f2`  
+   plaintext seed chat-only; `plaintext_seed_present=false`.
+3. Wave 3 GPU — **PASS** @ `74d4caa` (torchrun + 1-utt + WAVs). See `WAVE3_REPORT.md`.
+4. Next: Wave 4 DEV W1 seed101 (after optional `clean_sha_available` reseal).
+
+## WSL sync template
 
 ```bash
 cd ~/projects/tts-self
+unset GIT_DIR GIT_WORK_TREE
 git fetch origin
 git checkout d1c/semantic-eos
 git pull --ff-only origin d1c/semantic-eos
@@ -44,11 +47,7 @@ export HF_HOME=$HOME/hf_cache
 uv pip install -e . --no-deps
 ```
 
-4. After commitment lands: finish Wave 3 GPU (`torchrun` smoke + 1-utt) then Wave 4 DEV W1 seed101 per plan §14–16.
-   Wave 3 CPU gates already PASS @ `27164af` — see `WAVE3_REPORT.md`.
-
-
-## Canonical train template (after resume)
+## Canonical train template (Wave 4+)
 
 ```bash
 python scripts/72_train_discrete_lm.py \
@@ -62,4 +61,4 @@ python scripts/72_train_discrete_lm.py \
   --codec-tokens-dir "$HOME/datasets/tts/ruslan/codec_tokens,$HOME/datasets/tts/common_voice_ru17/codec_tokens"
 ```
 
-Exact `--formal` flags must be confirmed against the landed CLI before the first formal run.
+Do **not** pass `--allow-dirty` on formal DEV once `repro.clean_sha_available=true` is sealed.

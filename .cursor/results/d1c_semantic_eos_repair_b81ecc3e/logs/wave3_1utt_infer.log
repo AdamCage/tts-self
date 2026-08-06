@@ -1,0 +1,16 @@
+wrote /home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/smoke_1utt/listen_demo/0000_ruslan_000842_RUSLAN_codes.pt shape=(1, 22, 16)
+/bin/sh: 1: sox: not found
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+wrote /home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/smoke_1utt/listen_demo/0000_ruslan_000842_RUSLAN.wav frames=22

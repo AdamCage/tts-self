@@ -5,116 +5,85 @@
 **Date:** 2026-08-06  
 **Worktree:** `C:\projects\tts-self-d1c` (`d1c/semantic-eos`)  
 **WSL runtime:** `~/projects/tts-self`  
-**SHA used (CPU gates):** `27164affb20df9092d04fd397bf9e26334ad5f27` (`27164af`)  
-**Branch tip after reports:** `ea8e2fc` (WAVE3_REPORT / RESULTS / logs only)
+**GPU tip SHA:** `74d4caa535fb34e12a804f07a09308151c1f7a19` (`74d4caa`)  
+**Commitment commit:** `c15ed40`  
+**Smoke subset / runner commits:** `c71b453`, `a602593`, `74d4caa`
 
-## Overall verdict: **HARD-STOP (GPU blocked by null confirmation commitment)**
-
-Wave 3 **CPU slice PASS**. Wave 3 **GPU slice NOT RUN** (fail-closed).
+## Overall verdict: **PASS (Wave 3 complete)**
 
 | Gate | Verdict | Evidence |
 |------|---------|----------|
-| Clean committed SHA for formal run | **PASS** | WSL `git status` clean @ `27164af` |
-| Round-7 infra commit + push | **PASS** | `ff9d8c7` then LF reseal `27164af` |
-| LF contract reseal (CRLF poison fix) | **PASS** | `artifacts/repair_wave3_lf_reseal_hashes.json` |
-| Focused unit gates (plan §15) | **PASS** | `logs/wave3_focused_pytest.log` |
-| Full pytest | **PASS** | `408 passed, 3 skipped` — `logs/wave3_full_pytest.log` |
-| `torchrun` world-size-1 smoke | **NOT RUN** | blocked by §18 commitment gate |
-| 1-utt EOS overfit + WAVs | **NOT RUN** | blocked by §18 commitment gate |
-| Checkpoint-listen / `listen_index` | **N/A** | no new checkpoint |
-| Wave 4 / DEV / 1h | **NOT STARTED** | hard-stop before DEV |
+| Clean committed SHA for formal run | **PASS** | WSL clean @ `74d4caa` before train |
+| Confirm-seed commitment non-null | **PASS** | `4c46d418caf9bcabc088864da5bf0b3de0475a9d9225f50383314a2c5e3bb3f2` |
+| Focused + full pytest (prior CPU) | **PASS** | `408 passed, 3 skipped` — prior @ `27164af` |
+| `torchrun` world-size-1 smoke | **PASS** | `TORCHRUN_SMOKE_OK backend=nccl` — `logs/wave3_torchrun_smoke.log` |
+| 1-utt EOS overfit | **PASS** | `runs/d1c_eos_smoke_1utt/` 80 steps; loss `22.9 → 0.000565` |
+| FR learned EOS + no EOS in codes | **PASS** | `termination_reason=learned_eos`, `codes_max=2034 < 2048` |
+| Checkpoint-listen WAVs | **PASS** | `out/.../smoke_1utt/listen_demo/*.wav` (+ Windows mirrors) |
+| Wave 4 / DEV / 1h | **NOT STARTED** | hard-stop before Wave 4 by plan default |
 
-## Why GPU hard-stopped
-
-Plan **§18 Immediate stop matrix** — *Остановиться до GPU, если: … external confirmation commitment отсутствует*.
-
-Supporting gates (same conclusion):
-
-- `PROTOCOL.md` resume step 2: custodian fills commitment **before** Wave 3 smoke / 1-utt.
-- `RESULTS.md` prior NO-GO note: Wave 3 needs seed commitment.
-- Stub `configs/train_subsets/d1c_confirm_seed_commitment.json` has `"commitment": null`.
-
-**Nuance (documented, not used to bypass):** §9.4 and the stub note say stop before **DEV** model output; Wave 3 text itself does not name commitment. Fail-closed prefers §18 + PROTOCOL → no inventing a seed, no GPU smoke/1-utt until custodian supplies a non-null commitment.
-
-## Commits made this wave
-
-| SHA | Message |
-|-----|---------|
-| `ff9d8c7` | `WIP(d1c): close round-7 identical-weights selector gap.` |
-| `27164af` | `WIP(d1c): reseal contract digests on WSL LF bytes.` |
-
-## LF reseal (blocking finding during Wave 3 CPU)
-
-Round-7 seals (`181acd02…` / `ebb91df5…`) were computed on **Windows CRLF** working copies. Clean WSL LF checkout failed `verify_recipe_source_manifest` (17 mismatches). Resealed on WSL LF:
-
-| Field | Value |
-|-------|-------|
-| `contract_sha256` / `recipe_sha256` | `fbd0f38cae71922bd71eb4a5a6dfb10d8257bce29da625f1c08e016cbfe5a4b9` |
-| `recipe_source_manifest_sha256` | `7676b8efa9f5db4b1449d8b096041fe4f3eacab766885031756971ab01e24b54` |
-| Artifact | `artifacts/repair_wave3_lf_reseal_hashes.json` |
-| Log | `logs/wave3_lf_reseal.log` |
-
-## CPU test evidence
-
-Focused sequence (CUDA masked `CUDA_VISIBLE_DEVICES=`):
-
-```text
-tests/test_d1c_semantic_eos.py                 5 passed
-tests/test_discrete_eval_report_schema.py      3 passed
-tests/test_d1c_oracles.py                      2 passed
-tests/test_d1c_selector_integration.py         1 passed
-tests/test_discrete_stop_config.py            13 passed
-tests/test_discrete_speech_lm.py              15 passed, 1 skipped
-tests/test_discrete_lm_trainer_steps.py
-  + test_discrete_lm_resume.py                23 passed, 2 skipped
-tests/test_d1c_infra_repair.py                31 passed
-```
-
-Full suite:
-
-```text
-408 passed, 3 skipped, 2 warnings in 13.46s
-```
-
-Logs: `logs/wave3_focused_pytest.log`, `logs/wave3_full_pytest.log`.
-
-Env check: CUDA available (RTX 4080 SUPER), used only for preflight; CPU gates ran with GPU masked.
-
-## WAVs / listen paths
-
-**None.** No smoke/1-utt checkpoint was produced.  
-Expected path when unblocked: `out/d1c_semantic_eos_repair_b81ecc3e/smoke_1utt/listen_demo/`.
-
-## Confirm-seed status
+## Confirm-seed commitment
 
 | Field | Value |
 |-------|-------|
 | Path | `configs/train_subsets/d1c_confirm_seed_commitment.json` |
-| `commitment` | `null` |
+| `commitment` | `4c46d418caf9bcabc088864da5bf0b3de0475a9d9225f50383314a2c5e3bb3f2` |
+| `generator_version_or_hash` | `custodian-agent-wave3-51779b7` |
 | `plaintext_seed_present` | `false` |
-| Blocked Wave 3 GPU? | **YES** (§18 / PROTOCOL) |
-| Blocked Wave 4 DEV? | **YES** (§9.4) |
+| Commit | `c15ed40` — `chore(d1c): mint confirm-seed commitment for Wave 3` |
 
-### Custodian must supply (do **not** invent)
+Plaintext decimal seed is **chat-only** (not in git / RESULTS / this report).
 
-1. Generate secret unsigned 64-bit seed **outside** the repository; keep plaintext private.  
-2. Compute:
-   `SHA256(UTF8("d1c-confirm-v1\n" + decimal_seed + "\n"))`  
-3. Fill into `configs/train_subsets/d1c_confirm_seed_commitment.json`:
-   - `commitment` (hex digest string)
-   - `generator_version_or_hash` (how the seed was generated)
-   - leave `plaintext_seed_present: false`  
-4. Commit/push the commitment-only update (no plaintext seed).  
-5. Re-run Wave 3 GPU: `torchrun` smoke → 1-utt overfit → WAVs under `out/d1c_semantic_eos_repair_b81ecc3e/smoke_1utt/listen_demo/`.
+## GPU smoke metrics (from artifacts)
+
+Train (`logs/wave3_gpu_console.log` / `runs/d1c_eos_smoke_1utt/`):
+
+- `n_train=1` utt `ruslan_000842_RUSLAN` via `configs/train_subsets/d1c_smoke_1utt.json`
+- `optimizer_steps=80`, `batch=1`, `grad_accum=4`
+- Final: `loss=0.0005649451049976051`, `ce_cb0=0.00041432815487496555`, `ce_residual=0.00011461576650617644`
+
+Free-running generation (`logs/wave3_1utt_metrics.json` / codes sidecar):
+
+| Field | Value |
+|-------|-------|
+| `termination_mode` | `semantic_eos_v1` |
+| `termination_reason` | `learned_eos` |
+| `termination_step` / `n_decoded_frames` | 22 |
+| `eos_selected` | true |
+| `eos_probability_at_stop` | 0.9999634027481079 |
+| `eos_margin_to_best_real_cb0` | 14.951213836669922 |
+| `codes_max` | 2034 (decoder-safe; no EOS id 2048) |
+| `generated_codes_sha256` | `95ac9b36c44b6702648cabb1f5496f6d35f2d850ad37a8d429e88f550db67ea1` |
+
+Note: tqdm train log lines do not print `ce_semantic_eos` scalars; EOS success is evidenced by FR `learned_eos` + TF loss collapse, not by the regex probe (`n_eos_loss_points=0` in `wave3_1utt_eos_probe.json`).
+
+## WAVs / listen paths
+
+Linux primary:
+
+- `~/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/smoke_1utt/listen_demo/0000_ruslan_000842_RUSLAN.wav`
+
+Windows mirrors (Cursor playback):
+
+- `C:\projects\tts-self\out\d1c_semantic_eos_repair_b81ecc3e\smoke_1utt\listen_demo\0000_ruslan_000842_RUSLAN.wav`
+- `C:\projects\tts-self-d1c\out\d1c_semantic_eos_repair_b81ecc3e\smoke_1utt\listen_demo\0000_ruslan_000842_RUSLAN.wav`
+
+Index: `.cursor/results/d1c_semantic_eos_repair_b81ecc3e/listen_index.json`
+
+## Known non-blockers / caveats for Wave 4
+
+1. Smoke used `--allow-dirty` because `eval_contract.repro.clean_sha_available` is absent (known gap). Tree was actually clean; flag only relaxes `require_clean_sha`. **Wave 4 formal DEV should set `clean_sha_available: true` and reseal** before refusing `--allow-dirty`.
+2. SoX missing in qwen venv (warning only); decode still wrote wav.
+3. No N2 claim. Smoke is infrastructure-only.
 
 ## Next action
 
-1. Custodian provides non-null commitment (steps above).  
-2. Resume Wave 3 GPU slice only on clean SHA after that commit.  
-3. Do **not** start Wave 4 / DEV / 1h until Wave 3 GPU exit criteria pass.
+Wave 3 exit criteria met → proceed to **Wave 4 DEV W1 seed101** on clean tip (after optional `clean_sha_available` reseal). Do **not** start 1h/5h/full.
 
-## Explicit non-claims
+## Commits this resume
 
-- Waves 0–2 are **not** re-declared PASS.  
-- Wave 3 is **not** PASS (GPU incomplete).  
-- No N2 claim. No recipe lock. No CONFIRM32.
+| SHA | Message |
+|-----|---------|
+| `c15ed40` | mint confirm-seed commitment |
+| `c71b453` | smoke_1utt subset + GPU runner |
+| `a602593` / `74d4caa` | keep GPU logs outside worktree + probe path |
