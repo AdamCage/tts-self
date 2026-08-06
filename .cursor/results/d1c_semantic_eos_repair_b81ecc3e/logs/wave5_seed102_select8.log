@@ -1,0 +1,930 @@
+/bin/sh: 1: sox: not found
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+[n2] free-running model on 8 utts max_frames=750 skip_asr=True d1b=True
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+[n2] copy_synth
+[n2] wrong_utt
+[n2] random_codes
+[n2] shuffle_text (text-usage)
+[n2] mask_text (text-usage)
+wrote decode bundle /home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0250/n2_decode_bundle.json (run --score-only next)
+{
+  "n_batches": 2,
+  "loss": 0.01678209938108921,
+  "ce_cb0": 0.004104464780539274,
+  "ce_residual": 0.012612131424248219,
+  "ce_semantic_eos": 6.550320358655881e-05,
+  "total_ce": 0.01678209938108921,
+  "tf_eos_final_top1_accuracy": 1.0,
+  "tf_eos_early_top1_false_positive_count": 0,
+  "teacher_forced_ce_source": "eval_computed",
+  "n_utts": 8,
+  "note": "Teacher-forced CE is diagnostic only; promotion uses free-running CER/DER.",
+  "n2_decode_bundle": "/home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0250/n2_decode_bundle.json"
+}
+wrote /home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0250/eval_summary.json
+[score] model macro_cer=0.0237 micro_cer=0.03398058252427184 n=8
+[score] copy_synth macro_cer=0.0237 micro_cer=0.03398058252427184 n=8
+[score] wrong_utt macro_cer=1.2842 micro_cer=1.0825242718446602 n=8
+[score] random_codes macro_cer=0.8747 micro_cer=0.8689320388349514 n=8
+[score] shuffle_text macro_cer=1.1013 micro_cer=0.9757281553398058 n=8
+[score] mask_text macro_cer=0.8348 micro_cer=0.8398058252427184 n=8
+{
+  "n2_verdict": "PASS",
+  "fr_cer": 0.023726273726273728,
+  "macro_cer": 0.023726273726273728,
+  "macro_cer_median": 0.0,
+  "macro_cer_ci95_low": 0.0,
+  "macro_cer_ci95_high": 0.04847652347652345,
+  "micro_cer": 0.03398058252427184,
+  "copy_synth_cer_subset": 0.023726273726273728,
+  "ceiling_copy_plus_margin": 0.05372627372627373,
+  "cer_pass": true,
+  "bootstrap_sep_wrong_utt": true,
+  "bootstrap_sep_random": true,
+  "paired_vs_wrong": {
+    "delta_pp_model_minus_wrong": -104.85436893203884,
+    "ci95_low": -151.04680580483975,
+    "ci95_high": -81.37365060696435,
+    "separated": true
+  },
+  "paired_vs_shuffle": {
+    "pairing": "utt_id_exact_ordered",
+    "delta_pp_model_minus_shuffle": -94.1747572815534,
+    "ci95_low": -126.99702380952382,
+    "ci95_high": -78.23602319507768,
+    "separated": true
+  },
+  "no_runaway_repetition": true,
+  "cb0_healthy": true,
+  "cb0": {
+    "cb0_utilization": 0.1513671875,
+    "cb0_entropy": 5.545421754300721,
+    "cb0_unique": 310,
+    "cb0_total_frames": 515,
+    "cb0_max_run": 5,
+    "healthy": true
+  },
+  "text_usage_shuffle_hurts": true,
+  "text_usage_mask_hurts": true,
+  "text_usage_prefix_cf_changes": true,
+  "text_usage_d1b": {
+    "shuffle_cer": 1.1013251654699023,
+    "mask_cer": 0.8347944749260539,
+    "model_cer": 0.023726273726273728,
+    "margin": 0.05,
+    "shuffle_ok": true,
+    "mask_ok": true,
+    "content_change_n": 8,
+    "content_change_need": 2,
+    "prefix_cf_ok": true,
+    "paired_ci95_high": -78.23602319507768,
+    "paired_ci_lt_zero": true,
+    "pairing": "utt_id",
+    "pass": true
+  },
+  "stability_d1b": {
+    "runaway_or_repetition": false,
+    "no_runaway": true,
+    "phrase_loop_repetition": false,
+    "no_phrase_loop": true,
+    "hard_cap_count": 0,
+    "hard_cap_ok": true,
+    "cb0_max_run": 5,
+    "cb0_max_run_limit": 12,
+    "cb0_max_run_ok": true,
+    "mean_dur_ratio": 0.9969816367842683,
+    "mean_dur_ratio_ok": true,
+    "mean_dur_ratio_range": [
+      0.9,
+      1.1
+    ],
+    "duration_buckets": {
+      "lt_0_5": 0,
+      "0_5_to_0_9": 0,
+      "0_9_to_1_1": 8,
+      "1_1_to_2_0": 0,
+      "gt_2_0": 0
+    },
+    "utt_ratio_outliers": [],
+    "utt_ratio_limits": [
+      0.5,
+      2.0
+    ],
+    "no_extreme_utt_ratios": true,
+    "duration_ratio_distribution": {
+      "n": 8,
+      "mean": 0.9969816367842683,
+      "median": 1.0,
+      "min": 0.9868421052631579,
+      "max": 1.0,
+      "p10": 0.9883603238866397,
+      "p90": 1.0,
+      "buckets": {
+        "lt_0_5": 0,
+        "0_5_to_0_9": 0,
+        "0_9_to_1_1": 8,
+        "1_1_to_2_0": 0,
+        "gt_2_0": 0
+      },
+      "outliers_lt_0_5": [],
+      "outliers_gt_2_0": [],
+      "outlier_indices": []
+    },
+    "pass": true
+  },
+  "n_catastrophic": 0,
+  "zero_catastrophic": true,
+  "duration_ratio_distribution": {
+    "n": 8,
+    "mean": 0.9969816367842683,
+    "median": 1.0,
+    "min": 0.9868421052631579,
+    "max": 1.0,
+    "p10": 0.9883603238866397,
+    "p90": 1.0,
+    "buckets": {
+      "lt_0_5": 0,
+      "0_5_to_0_9": 0,
+      "0_9_to_1_1": 8,
+      "1_1_to_2_0": 0,
+      "gt_2_0": 0
+    },
+    "outliers_lt_0_5": [],
+    "outliers_gt_2_0": [],
+    "outlier_indices": []
+  },
+  "stop_reason_distribution": {
+    "learned_eos": 8
+  },
+  "shuffle_cer": 1.1013251654699023,
+  "mask_cer": 0.8347944749260539,
+  "wrong_utt_cer": 1.2842354608801978,
+  "random_codes_cer": 0.8747179518561098,
+  "termination_d1c": {
+    "learned_eos_count": 8,
+    "safety_max_frames_count": 0,
+    "safety_cb0_repeat_count": 0,
+    "expected_rows": 8,
+    "tf_eos_final_top1_accuracy": 1.0,
+    "tf_eos_early_top1_false_positive_count": 0,
+    "pass": true
+  }
+}
+wrote /home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0250/n2_gate.json
+wrote /home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0250/discrete_eval_report_v2.json
+/bin/sh: 1: sox: not found
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+[n2] free-running model on 8 utts max_frames=750 skip_asr=True d1b=True
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+[n2] copy_synth
+[n2] wrong_utt
+[n2] random_codes
+[n2] shuffle_text (text-usage)
+[n2] mask_text (text-usage)
+wrote decode bundle /home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0375/n2_decode_bundle.json (run --score-only next)
+{
+  "n_batches": 2,
+  "loss": 0.009383535478264093,
+  "ce_cb0": 0.002412275178357959,
+  "ce_residual": 0.006931609474122524,
+  "ce_semantic_eos": 3.9651149563724175e-05,
+  "total_ce": 0.009383535478264093,
+  "tf_eos_final_top1_accuracy": 1.0,
+  "tf_eos_early_top1_false_positive_count": 0,
+  "teacher_forced_ce_source": "eval_computed",
+  "n_utts": 8,
+  "note": "Teacher-forced CE is diagnostic only; promotion uses free-running CER/DER.",
+  "n2_decode_bundle": "/home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0375/n2_decode_bundle.json"
+}
+wrote /home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0375/eval_summary.json
+[score] model macro_cer=0.0237 micro_cer=0.03398058252427184 n=8
+[score] copy_synth macro_cer=0.0237 micro_cer=0.03398058252427184 n=8
+[score] wrong_utt macro_cer=1.2842 micro_cer=1.0825242718446602 n=8
+[score] random_codes macro_cer=0.8747 micro_cer=0.8689320388349514 n=8
+[score] shuffle_text macro_cer=1.1148 micro_cer=0.9951456310679612 n=8
+[score] mask_text macro_cer=1.1401 micro_cer=1.029126213592233 n=8
+{
+  "n2_verdict": "PASS",
+  "fr_cer": 0.023726273726273728,
+  "macro_cer": 0.023726273726273728,
+  "macro_cer_median": 0.0,
+  "macro_cer_ci95_low": 0.0,
+  "macro_cer_ci95_high": 0.04847652347652345,
+  "micro_cer": 0.03398058252427184,
+  "copy_synth_cer_subset": 0.023726273726273728,
+  "ceiling_copy_plus_margin": 0.05372627372627373,
+  "cer_pass": true,
+  "bootstrap_sep_wrong_utt": true,
+  "bootstrap_sep_random": true,
+  "paired_vs_wrong": {
+    "delta_pp_model_minus_wrong": -104.85436893203884,
+    "ci95_low": -151.04680580483975,
+    "ci95_high": -81.37365060696435,
+    "separated": true
+  },
+  "paired_vs_shuffle": {
+    "pairing": "utt_id_exact_ordered",
+    "delta_pp_model_minus_shuffle": -96.11650485436894,
+    "ci95_low": -128.0999657651489,
+    "ci95_high": -80.5739514348786,
+    "separated": true
+  },
+  "no_runaway_repetition": true,
+  "cb0_healthy": true,
+  "cb0": {
+    "cb0_utilization": 0.1513671875,
+    "cb0_entropy": 5.545421754300721,
+    "cb0_unique": 310,
+    "cb0_total_frames": 515,
+    "cb0_max_run": 5,
+    "healthy": true
+  },
+  "text_usage_shuffle_hurts": true,
+  "text_usage_mask_hurts": true,
+  "text_usage_prefix_cf_changes": true,
+  "text_usage_d1b": {
+    "shuffle_cer": 1.1147561789009157,
+    "mask_cer": 1.1400926489742278,
+    "model_cer": 0.023726273726273728,
+    "margin": 0.05,
+    "shuffle_ok": true,
+    "mask_ok": true,
+    "content_change_n": 8,
+    "content_change_need": 2,
+    "prefix_cf_ok": true,
+    "paired_ci95_high": -80.5739514348786,
+    "paired_ci_lt_zero": true,
+    "pairing": "utt_id",
+    "pass": true
+  },
+  "stability_d1b": {
+    "runaway_or_repetition": false,
+    "no_runaway": true,
+    "phrase_loop_repetition": false,
+    "no_phrase_loop": true,
+    "hard_cap_count": 0,
+    "hard_cap_ok": true,
+    "cb0_max_run": 5,
+    "cb0_max_run_limit": 12,
+    "cb0_max_run_ok": true,
+    "mean_dur_ratio": 0.9969816367842683,
+    "mean_dur_ratio_ok": true,
+    "mean_dur_ratio_range": [
+      0.9,
+      1.1
+    ],
+    "duration_buckets": {
+      "lt_0_5": 0,
+      "0_5_to_0_9": 0,
+      "0_9_to_1_1": 8,
+      "1_1_to_2_0": 0,
+      "gt_2_0": 0
+    },
+    "utt_ratio_outliers": [],
+    "utt_ratio_limits": [
+      0.5,
+      2.0
+    ],
+    "no_extreme_utt_ratios": true,
+    "duration_ratio_distribution": {
+      "n": 8,
+      "mean": 0.9969816367842683,
+      "median": 1.0,
+      "min": 0.9868421052631579,
+      "max": 1.0,
+      "p10": 0.9883603238866397,
+      "p90": 1.0,
+      "buckets": {
+        "lt_0_5": 0,
+        "0_5_to_0_9": 0,
+        "0_9_to_1_1": 8,
+        "1_1_to_2_0": 0,
+        "gt_2_0": 0
+      },
+      "outliers_lt_0_5": [],
+      "outliers_gt_2_0": [],
+      "outlier_indices": []
+    },
+    "pass": true
+  },
+  "n_catastrophic": 0,
+  "zero_catastrophic": true,
+  "duration_ratio_distribution": {
+    "n": 8,
+    "mean": 0.9969816367842683,
+    "median": 1.0,
+    "min": 0.9868421052631579,
+    "max": 1.0,
+    "p10": 0.9883603238866397,
+    "p90": 1.0,
+    "buckets": {
+      "lt_0_5": 0,
+      "0_5_to_0_9": 0,
+      "0_9_to_1_1": 8,
+      "1_1_to_2_0": 0,
+      "gt_2_0": 0
+    },
+    "outliers_lt_0_5": [],
+    "outliers_gt_2_0": [],
+    "outlier_indices": []
+  },
+  "stop_reason_distribution": {
+    "learned_eos": 8
+  },
+  "shuffle_cer": 1.1147561789009157,
+  "mask_cer": 1.1400926489742278,
+  "wrong_utt_cer": 1.2842354608801978,
+  "random_codes_cer": 0.8747179518561098,
+  "termination_d1c": {
+    "learned_eos_count": 8,
+    "safety_max_frames_count": 0,
+    "safety_cb0_repeat_count": 0,
+    "expected_rows": 8,
+    "tf_eos_final_top1_accuracy": 1.0,
+    "tf_eos_early_top1_false_positive_count": 0,
+    "pass": true
+  }
+}
+wrote /home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0375/n2_gate.json
+wrote /home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0375/discrete_eval_report_v2.json
+/bin/sh: 1: sox: not found
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+[n2] free-running model on 8 utts max_frames=750 skip_asr=True d1b=True
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+[n2] copy_synth
+[n2] wrong_utt
+[n2] random_codes
+[n2] shuffle_text (text-usage)
+[n2] mask_text (text-usage)
+wrote decode bundle /home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0500/n2_decode_bundle.json (run --score-only next)
+{
+  "n_batches": 2,
+  "loss": 0.007040548138320446,
+  "ce_cb0": 0.001847029896453023,
+  "ce_residual": 0.005162554094567895,
+  "ce_semantic_eos": 3.096410364378244e-05,
+  "total_ce": 0.007040548138320446,
+  "tf_eos_final_top1_accuracy": 1.0,
+  "tf_eos_early_top1_false_positive_count": 0,
+  "teacher_forced_ce_source": "eval_computed",
+  "n_utts": 8,
+  "note": "Teacher-forced CE is diagnostic only; promotion uses free-running CER/DER.",
+  "n2_decode_bundle": "/home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0500/n2_decode_bundle.json"
+}
+wrote /home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0500/eval_summary.json
+[score] model macro_cer=0.0237 micro_cer=0.03398058252427184 n=8
+[score] copy_synth macro_cer=0.0237 micro_cer=0.03398058252427184 n=8
+[score] wrong_utt macro_cer=1.2842 micro_cer=1.0825242718446602 n=8
+[score] random_codes macro_cer=0.8747 micro_cer=0.8689320388349514 n=8
+[score] shuffle_text macro_cer=1.1148 micro_cer=0.9951456310679612 n=8
+[score] mask_text macro_cer=0.9710 micro_cer=0.9635922330097088 n=8
+{
+  "n2_verdict": "PASS",
+  "fr_cer": 0.023726273726273728,
+  "macro_cer": 0.023726273726273728,
+  "macro_cer_median": 0.0,
+  "macro_cer_ci95_low": 0.0,
+  "macro_cer_ci95_high": 0.04847652347652345,
+  "micro_cer": 0.03398058252427184,
+  "copy_synth_cer_subset": 0.023726273726273728,
+  "ceiling_copy_plus_margin": 0.05372627372627373,
+  "cer_pass": true,
+  "bootstrap_sep_wrong_utt": true,
+  "bootstrap_sep_random": true,
+  "paired_vs_wrong": {
+    "delta_pp_model_minus_wrong": -104.85436893203884,
+    "ci95_low": -151.04680580483975,
+    "ci95_high": -81.37365060696435,
+    "separated": true
+  },
+  "paired_vs_shuffle": {
+    "pairing": "utt_id_exact_ordered",
+    "delta_pp_model_minus_shuffle": -96.11650485436894,
+    "ci95_low": -128.0999657651489,
+    "ci95_high": -80.5739514348786,
+    "separated": true
+  },
+  "no_runaway_repetition": true,
+  "cb0_healthy": true,
+  "cb0": {
+    "cb0_utilization": 0.1513671875,
+    "cb0_entropy": 5.545421754300721,
+    "cb0_unique": 310,
+    "cb0_total_frames": 515,
+    "cb0_max_run": 5,
+    "healthy": true
+  },
+  "text_usage_shuffle_hurts": true,
+  "text_usage_mask_hurts": true,
+  "text_usage_prefix_cf_changes": true,
+  "text_usage_d1b": {
+    "shuffle_cer": 1.1147561789009157,
+    "mask_cer": 0.9710498496682707,
+    "model_cer": 0.023726273726273728,
+    "margin": 0.05,
+    "shuffle_ok": true,
+    "mask_ok": true,
+    "content_change_n": 8,
+    "content_change_need": 2,
+    "prefix_cf_ok": true,
+    "paired_ci95_high": -80.5739514348786,
+    "paired_ci_lt_zero": true,
+    "pairing": "utt_id",
+    "pass": true
+  },
+  "stability_d1b": {
+    "runaway_or_repetition": false,
+    "no_runaway": true,
+    "phrase_loop_repetition": false,
+    "no_phrase_loop": true,
+    "hard_cap_count": 0,
+    "hard_cap_ok": true,
+    "cb0_max_run": 5,
+    "cb0_max_run_limit": 12,
+    "cb0_max_run_ok": true,
+    "mean_dur_ratio": 0.9969816367842683,
+    "mean_dur_ratio_ok": true,
+    "mean_dur_ratio_range": [
+      0.9,
+      1.1
+    ],
+    "duration_buckets": {
+      "lt_0_5": 0,
+      "0_5_to_0_9": 0,
+      "0_9_to_1_1": 8,
+      "1_1_to_2_0": 0,
+      "gt_2_0": 0
+    },
+    "utt_ratio_outliers": [],
+    "utt_ratio_limits": [
+      0.5,
+      2.0
+    ],
+    "no_extreme_utt_ratios": true,
+    "duration_ratio_distribution": {
+      "n": 8,
+      "mean": 0.9969816367842683,
+      "median": 1.0,
+      "min": 0.9868421052631579,
+      "max": 1.0,
+      "p10": 0.9883603238866397,
+      "p90": 1.0,
+      "buckets": {
+        "lt_0_5": 0,
+        "0_5_to_0_9": 0,
+        "0_9_to_1_1": 8,
+        "1_1_to_2_0": 0,
+        "gt_2_0": 0
+      },
+      "outliers_lt_0_5": [],
+      "outliers_gt_2_0": [],
+      "outlier_indices": []
+    },
+    "pass": true
+  },
+  "n_catastrophic": 0,
+  "zero_catastrophic": true,
+  "duration_ratio_distribution": {
+    "n": 8,
+    "mean": 0.9969816367842683,
+    "median": 1.0,
+    "min": 0.9868421052631579,
+    "max": 1.0,
+    "p10": 0.9883603238866397,
+    "p90": 1.0,
+    "buckets": {
+      "lt_0_5": 0,
+      "0_5_to_0_9": 0,
+      "0_9_to_1_1": 8,
+      "1_1_to_2_0": 0,
+      "gt_2_0": 0
+    },
+    "outliers_lt_0_5": [],
+    "outliers_gt_2_0": [],
+    "outlier_indices": []
+  },
+  "stop_reason_distribution": {
+    "learned_eos": 8
+  },
+  "shuffle_cer": 1.1147561789009157,
+  "mask_cer": 0.9710498496682707,
+  "wrong_utt_cer": 1.2842354608801978,
+  "random_codes_cer": 0.8747179518561098,
+  "termination_d1c": {
+    "learned_eos_count": 8,
+    "safety_max_frames_count": 0,
+    "safety_cb0_repeat_count": 0,
+    "expected_rows": 8,
+    "tf_eos_final_top1_accuracy": 1.0,
+    "tf_eos_early_top1_false_positive_count": 0,
+    "pass": true
+  }
+}
+wrote /home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0500/n2_gate.json
+wrote /home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0500/discrete_eval_report_v2.json
+/bin/sh: 1: sox: not found
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+[n2] free-running model on 8 utts max_frames=750 skip_asr=True d1b=True
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+[n2] copy_synth
+[n2] wrong_utt
+[n2] random_codes
+[n2] shuffle_text (text-usage)
+[n2] mask_text (text-usage)
+wrote decode bundle /home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0625/n2_decode_bundle.json (run --score-only next)
+{
+  "n_batches": 2,
+  "loss": 0.006190058309584856,
+  "ce_cb0": 0.0016361555317416787,
+  "ce_residual": 0.004526172298938036,
+  "ce_semantic_eos": 2.773065170913469e-05,
+  "total_ce": 0.006190058309584856,
+  "tf_eos_final_top1_accuracy": 1.0,
+  "tf_eos_early_top1_false_positive_count": 0,
+  "teacher_forced_ce_source": "eval_computed",
+  "n_utts": 8,
+  "note": "Teacher-forced CE is diagnostic only; promotion uses free-running CER/DER.",
+  "n2_decode_bundle": "/home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0625/n2_decode_bundle.json"
+}
+wrote /home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0625/eval_summary.json
+[score] model macro_cer=0.0237 micro_cer=0.03398058252427184 n=8
+[score] copy_synth macro_cer=0.0237 micro_cer=0.03398058252427184 n=8
+[score] wrong_utt macro_cer=1.2842 micro_cer=1.0825242718446602 n=8
+[score] random_codes macro_cer=0.8747 micro_cer=0.8689320388349514 n=8
+[score] shuffle_text macro_cer=1.1148 micro_cer=0.9951456310679612 n=8
+[score] mask_text macro_cer=0.9049 micro_cer=0.9101941747572816 n=8
+{
+  "n2_verdict": "PASS",
+  "fr_cer": 0.023726273726273728,
+  "macro_cer": 0.023726273726273728,
+  "macro_cer_median": 0.0,
+  "macro_cer_ci95_low": 0.0,
+  "macro_cer_ci95_high": 0.04847652347652345,
+  "micro_cer": 0.03398058252427184,
+  "copy_synth_cer_subset": 0.023726273726273728,
+  "ceiling_copy_plus_margin": 0.05372627372627373,
+  "cer_pass": true,
+  "bootstrap_sep_wrong_utt": true,
+  "bootstrap_sep_random": true,
+  "paired_vs_wrong": {
+    "delta_pp_model_minus_wrong": -104.85436893203884,
+    "ci95_low": -151.04680580483975,
+    "ci95_high": -81.37365060696435,
+    "separated": true
+  },
+  "paired_vs_shuffle": {
+    "pairing": "utt_id_exact_ordered",
+    "delta_pp_model_minus_shuffle": -96.11650485436894,
+    "ci95_low": -128.0999657651489,
+    "ci95_high": -80.5739514348786,
+    "separated": true
+  },
+  "no_runaway_repetition": true,
+  "cb0_healthy": true,
+  "cb0": {
+    "cb0_utilization": 0.1513671875,
+    "cb0_entropy": 5.545421754300721,
+    "cb0_unique": 310,
+    "cb0_total_frames": 515,
+    "cb0_max_run": 5,
+    "healthy": true
+  },
+  "text_usage_shuffle_hurts": true,
+  "text_usage_mask_hurts": true,
+  "text_usage_prefix_cf_changes": true,
+  "text_usage_d1b": {
+    "shuffle_cer": 1.1147561789009157,
+    "mask_cer": 0.9048566678500889,
+    "model_cer": 0.023726273726273728,
+    "margin": 0.05,
+    "shuffle_ok": true,
+    "mask_ok": true,
+    "content_change_n": 8,
+    "content_change_need": 2,
+    "prefix_cf_ok": true,
+    "paired_ci95_high": -80.5739514348786,
+    "paired_ci_lt_zero": true,
+    "pairing": "utt_id",
+    "pass": true
+  },
+  "stability_d1b": {
+    "runaway_or_repetition": false,
+    "no_runaway": true,
+    "phrase_loop_repetition": false,
+    "no_phrase_loop": true,
+    "hard_cap_count": 0,
+    "hard_cap_ok": true,
+    "cb0_max_run": 5,
+    "cb0_max_run_limit": 12,
+    "cb0_max_run_ok": true,
+    "mean_dur_ratio": 0.9969816367842683,
+    "mean_dur_ratio_ok": true,
+    "mean_dur_ratio_range": [
+      0.9,
+      1.1
+    ],
+    "duration_buckets": {
+      "lt_0_5": 0,
+      "0_5_to_0_9": 0,
+      "0_9_to_1_1": 8,
+      "1_1_to_2_0": 0,
+      "gt_2_0": 0
+    },
+    "utt_ratio_outliers": [],
+    "utt_ratio_limits": [
+      0.5,
+      2.0
+    ],
+    "no_extreme_utt_ratios": true,
+    "duration_ratio_distribution": {
+      "n": 8,
+      "mean": 0.9969816367842683,
+      "median": 1.0,
+      "min": 0.9868421052631579,
+      "max": 1.0,
+      "p10": 0.9883603238866397,
+      "p90": 1.0,
+      "buckets": {
+        "lt_0_5": 0,
+        "0_5_to_0_9": 0,
+        "0_9_to_1_1": 8,
+        "1_1_to_2_0": 0,
+        "gt_2_0": 0
+      },
+      "outliers_lt_0_5": [],
+      "outliers_gt_2_0": [],
+      "outlier_indices": []
+    },
+    "pass": true
+  },
+  "n_catastrophic": 0,
+  "zero_catastrophic": true,
+  "duration_ratio_distribution": {
+    "n": 8,
+    "mean": 0.9969816367842683,
+    "median": 1.0,
+    "min": 0.9868421052631579,
+    "max": 1.0,
+    "p10": 0.9883603238866397,
+    "p90": 1.0,
+    "buckets": {
+      "lt_0_5": 0,
+      "0_5_to_0_9": 0,
+      "0_9_to_1_1": 8,
+      "1_1_to_2_0": 0,
+      "gt_2_0": 0
+    },
+    "outliers_lt_0_5": [],
+    "outliers_gt_2_0": [],
+    "outlier_indices": []
+  },
+  "stop_reason_distribution": {
+    "learned_eos": 8
+  },
+  "shuffle_cer": 1.1147561789009157,
+  "mask_cer": 0.9048566678500889,
+  "wrong_utt_cer": 1.2842354608801978,
+  "random_codes_cer": 0.8747179518561098,
+  "termination_d1c": {
+    "learned_eos_count": 8,
+    "safety_max_frames_count": 0,
+    "safety_cb0_repeat_count": 0,
+    "expected_rows": 8,
+    "tf_eos_final_top1_accuracy": 1.0,
+    "tf_eos_early_top1_false_positive_count": 0,
+    "pass": true
+  }
+}
+wrote /home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0625/n2_gate.json
+wrote /home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0625/discrete_eval_report_v2.json
+/bin/sh: 1: sox: not found
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+[n2] free-running model on 8 utts max_frames=750 skip_asr=True d1b=True
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+[n2] copy_synth
+[n2] wrong_utt
+[n2] random_codes
+[n2] shuffle_text (text-usage)
+[n2] mask_text (text-usage)
+wrote decode bundle /home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0750/n2_decode_bundle.json (run --score-only next)
+{
+  "n_batches": 2,
+  "loss": 0.005896233953535557,
+  "ce_cb0": 0.0015645139501430094,
+  "ce_residual": 0.004305002745240927,
+  "ce_semantic_eos": 2.671740367077291e-05,
+  "total_ce": 0.005896233953535557,
+  "tf_eos_final_top1_accuracy": 1.0,
+  "tf_eos_early_top1_false_positive_count": 0,
+  "teacher_forced_ce_source": "eval_computed",
+  "n_utts": 8,
+  "note": "Teacher-forced CE is diagnostic only; promotion uses free-running CER/DER.",
+  "n2_decode_bundle": "/home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0750/n2_decode_bundle.json"
+}
+wrote /home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0750/eval_summary.json
+[score] model macro_cer=0.0237 micro_cer=0.03398058252427184 n=8
+[score] copy_synth macro_cer=0.0237 micro_cer=0.03398058252427184 n=8
+[score] wrong_utt macro_cer=1.2842 micro_cer=1.0825242718446602 n=8
+[score] random_codes macro_cer=0.8747 micro_cer=0.8689320388349514 n=8
+[score] shuffle_text macro_cer=1.1148 micro_cer=0.9951456310679612 n=8
+[score] mask_text macro_cer=0.9492 micro_cer=0.9466019417475728 n=8
+{
+  "n2_verdict": "PASS",
+  "fr_cer": 0.023726273726273728,
+  "macro_cer": 0.023726273726273728,
+  "macro_cer_median": 0.0,
+  "macro_cer_ci95_low": 0.0,
+  "macro_cer_ci95_high": 0.04847652347652345,
+  "micro_cer": 0.03398058252427184,
+  "copy_synth_cer_subset": 0.023726273726273728,
+  "ceiling_copy_plus_margin": 0.05372627372627373,
+  "cer_pass": true,
+  "bootstrap_sep_wrong_utt": true,
+  "bootstrap_sep_random": true,
+  "paired_vs_wrong": {
+    "delta_pp_model_minus_wrong": -104.85436893203884,
+    "ci95_low": -151.04680580483975,
+    "ci95_high": -81.37365060696435,
+    "separated": true
+  },
+  "paired_vs_shuffle": {
+    "pairing": "utt_id_exact_ordered",
+    "delta_pp_model_minus_shuffle": -96.11650485436894,
+    "ci95_low": -128.0999657651489,
+    "ci95_high": -80.5739514348786,
+    "separated": true
+  },
+  "no_runaway_repetition": true,
+  "cb0_healthy": true,
+  "cb0": {
+    "cb0_utilization": 0.1513671875,
+    "cb0_entropy": 5.545421754300721,
+    "cb0_unique": 310,
+    "cb0_total_frames": 515,
+    "cb0_max_run": 5,
+    "healthy": true
+  },
+  "text_usage_shuffle_hurts": true,
+  "text_usage_mask_hurts": true,
+  "text_usage_prefix_cf_changes": true,
+  "text_usage_d1b": {
+    "shuffle_cer": 1.1147561789009157,
+    "mask_cer": 0.9491748496682707,
+    "model_cer": 0.023726273726273728,
+    "margin": 0.05,
+    "shuffle_ok": true,
+    "mask_ok": true,
+    "content_change_n": 8,
+    "content_change_need": 2,
+    "prefix_cf_ok": true,
+    "paired_ci95_high": -80.5739514348786,
+    "paired_ci_lt_zero": true,
+    "pairing": "utt_id",
+    "pass": true
+  },
+  "stability_d1b": {
+    "runaway_or_repetition": false,
+    "no_runaway": true,
+    "phrase_loop_repetition": false,
+    "no_phrase_loop": true,
+    "hard_cap_count": 0,
+    "hard_cap_ok": true,
+    "cb0_max_run": 5,
+    "cb0_max_run_limit": 12,
+    "cb0_max_run_ok": true,
+    "mean_dur_ratio": 0.9969816367842683,
+    "mean_dur_ratio_ok": true,
+    "mean_dur_ratio_range": [
+      0.9,
+      1.1
+    ],
+    "duration_buckets": {
+      "lt_0_5": 0,
+      "0_5_to_0_9": 0,
+      "0_9_to_1_1": 8,
+      "1_1_to_2_0": 0,
+      "gt_2_0": 0
+    },
+    "utt_ratio_outliers": [],
+    "utt_ratio_limits": [
+      0.5,
+      2.0
+    ],
+    "no_extreme_utt_ratios": true,
+    "duration_ratio_distribution": {
+      "n": 8,
+      "mean": 0.9969816367842683,
+      "median": 1.0,
+      "min": 0.9868421052631579,
+      "max": 1.0,
+      "p10": 0.9883603238866397,
+      "p90": 1.0,
+      "buckets": {
+        "lt_0_5": 0,
+        "0_5_to_0_9": 0,
+        "0_9_to_1_1": 8,
+        "1_1_to_2_0": 0,
+        "gt_2_0": 0
+      },
+      "outliers_lt_0_5": [],
+      "outliers_gt_2_0": [],
+      "outlier_indices": []
+    },
+    "pass": true
+  },
+  "n_catastrophic": 0,
+  "zero_catastrophic": true,
+  "duration_ratio_distribution": {
+    "n": 8,
+    "mean": 0.9969816367842683,
+    "median": 1.0,
+    "min": 0.9868421052631579,
+    "max": 1.0,
+    "p10": 0.9883603238866397,
+    "p90": 1.0,
+    "buckets": {
+      "lt_0_5": 0,
+      "0_5_to_0_9": 0,
+      "0_9_to_1_1": 8,
+      "1_1_to_2_0": 0,
+      "gt_2_0": 0
+    },
+    "outliers_lt_0_5": [],
+    "outliers_gt_2_0": [],
+    "outlier_indices": []
+  },
+  "stop_reason_distribution": {
+    "learned_eos": 8
+  },
+  "shuffle_cer": 1.1147561789009157,
+  "mask_cer": 0.9491748496682707,
+  "wrong_utt_cer": 1.2842354608801978,
+  "random_codes_cer": 0.8747179518561098,
+  "termination_d1c": {
+    "learned_eos_count": 8,
+    "safety_max_frames_count": 0,
+    "safety_cb0_repeat_count": 0,
+    "expected_rows": 8,
+    "tf_eos_final_top1_accuracy": 1.0,
+    "tf_eos_early_top1_false_positive_count": 0,
+    "pass": true
+  }
+}
+wrote /home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0750/n2_gate.json
+wrote /home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0750/discrete_eval_report_v2.json

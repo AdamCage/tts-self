@@ -1,0 +1,15 @@
+{
+  "wrote": "/home/adam/projects/tts-self/runs/d1c_eos_dev_locked_seed102/checkpoint_selection.json",
+  "selected": {
+    "report_path": "/home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0750/discrete_eval_report_v2.json",
+    "ckpt": "/home/adam/projects/tts-self/runs/d1c_eos_dev_locked_seed102/candidate_step_0750.pt",
+    "checkpoint_sha256": "9f18a899418e7abc77fa69fcd3624be279bd75e981d6a42c391a8664a1ab57aa",
+    "step": 750,
+    "gate_eligible": true,
+    "macro_cer": 0.023726273726273728,
+    "n_catastrophic": 0,
+    "max_abs_log_duration_error": 0.01324522675002068,
+    "mean_abs_log_duration_error": 0.003036882867075702,
+    "teacher_forced_ce": 0.005896233953535557
+  }
+}
