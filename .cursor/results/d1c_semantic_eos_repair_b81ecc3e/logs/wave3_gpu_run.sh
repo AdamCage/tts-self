@@ -31,6 +31,7 @@ SHORT=$(git rev-parse --short HEAD)
 mkdir -p "$EXT_LOGDIR" "$OUT_LISTEN" "$WIN_OUT/listen_demo" "$WIN_AUTHOR/listen_demo" 2>/dev/null || true
 # All live logs under EXT_LOGDIR (outside git); mirrored into RESULTS/logs after PASS.
 LOGDIR="$EXT_LOGDIR"
+export WAVE3_LOGDIR="$LOGDIR"
 CONSOLE_LOG="$EXT_LOGDIR/wave3_gpu_console.log"
 exec > >(tee -a "$CONSOLE_LOG") 2>&1
 
@@ -132,10 +133,11 @@ mkdir -p "/mnt/c/projects/tts-self-d1c/out/${PLAN_SLUG}/smoke_1utt/listen_demo"
 cp -f "$OUT_LISTEN"/*.wav "/mnt/c/projects/tts-self-d1c/out/${PLAN_SLUG}/smoke_1utt/listen_demo/" || true
 
 # Probe EOS metrics from train log + generation metadata if present
-python3 - <<'PY' | tee "$LOGDIR/wave3_1utt_eos_probe.json"
-import json, re
+python3 - <<PY | tee "$LOGDIR/wave3_1utt_eos_probe.json"
+import json, re, os
 from pathlib import Path
-log = Path(".cursor/results/d1c_semantic_eos_repair_b81ecc3e/logs/wave3_1utt_train.log").read_text(encoding="utf-8", errors="replace")
+logdir = Path(os.environ.get("WAVE3_LOGDIR", "$LOGDIR"))
+log = (logdir / "wave3_1utt_train.log").read_text(encoding="utf-8", errors="replace")
 eos_vals = [float(x) for x in re.findall(r"ce_semantic_eos[=:]([0-9.eE+-]+)", log)]
 tf_top1 = [float(x) for x in re.findall(r"tf_eos_final_top1_accuracy[=:]([0-9.eE+-]+)", log)]
 out = {
@@ -147,7 +149,6 @@ out = {
   "tf_eos_final_top1_last": tf_top1[-1] if tf_top1 else None,
   "wav_count": len(list(Path("out/d1c_semantic_eos_repair_b81ecc3e/smoke_1utt/listen_demo").glob("*.wav"))),
 }
-# Prefer generation metadata sidecar if written
 meta_paths = list(Path("out/d1c_semantic_eos_repair_b81ecc3e/smoke_1utt/listen_demo").glob("*.json"))
 out["meta_files"] = [str(p) for p in meta_paths[:10]]
 for p in meta_paths:
@@ -161,12 +162,13 @@ for p in meta_paths:
             if rows and isinstance(rows[0], dict):
                 out["termination_reason"] = rows[0].get("termination_reason")
                 break
+        if isinstance(m, list) and m and isinstance(m[0], dict):
+            out["termination_reason"] = m[0].get("termination_reason")
+            break
     except Exception:
         pass
 print(json.dumps(out, indent=2))
-Path(".cursor/results/d1c_semantic_eos_repair_b81ecc3e/logs/wave3_1utt_eos_probe.json").write_text(
-    json.dumps(out, indent=2) + "\n", encoding="utf-8"
-)
+(logdir / "wave3_1utt_eos_probe.json").write_text(json.dumps(out, indent=2) + "\n", encoding="utf-8")
 PY
 
 # Mirror logs into tracked results dir (after clean checks / training).
