@@ -2,9 +2,9 @@
   "schema": "minispeech.d1c_confirm_seed_commitment",
   "schema_version": "1.0.0",
   "algorithm": "SHA256(UTF8('d1c-confirm-v1\\n' + decimal_seed + '\\n'))",
-  "commitment": null,
+  "commitment": "4c46d418caf9bcabc088864da5bf0b3de0475a9d9225f50383314a2c5e3bb3f2",
   "custodian_role": "external_user",
-  "generator_version_or_hash": null,
+  "generator_version_or_hash": "custodian-agent-wave3-51779b7",
   "intended_role": "independent_confirmation_seed",
   "plaintext_seed_present": false,
   "note": "Custodian must supply commitment before first DEV model output."
