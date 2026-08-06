@@ -1,8 +1,8 @@
 # WAVE1_REPORT — D1c eval / provenance / oracle infrastructure
 
 **Plan slug:** `d1c_semantic_eos_repair_b81ecc3e`  
-**Date:** 2026-08-03 (updated 2026-08-06 INFRA repair round 7)  
-**Verdict:** **INVALID_RUN → infra repaired (round 7)** (not PASS until human/adversarial re-audit)
+**Date:** 2026-08-03 (updated 2026-08-06 INFRA repair round 7 + Wave3 LF reseal)  
+**Verdict:** **INVALID_RUN → infra repaired (round 7; LF reseal)** (not PASS until human/adversarial re-audit)
 
 Prior PASS claim withdrawn: contract self-check, oracle `file_sha256`, and select8 composition (2+6) were broken. See `REPAIR_AUDIT.md` blockers 2–3.
 
@@ -38,9 +38,10 @@ Prior PASS claim withdrawn: contract self-check, oracle `file_sha256`, and selec
 | Field | Value |
 |-------|-------|
 | path | `configs/eval_contracts/d1c_semantic_eos_v2_0_0.json` |
-| sha256 | `181acd0274b66253facb9277a9473336d0c52cf87d5fe23dd39199d31518baad` |
-| recipe_sha256 | `181acd0274b66253facb9277a9473336d0c52cf87d5fe23dd39199d31518baad` |
-| recipe_source_manifest_sha256 | `ebb91df5f1574d11e30017eae870642aae6373777d123741e25add62726551fc` |
+| sha256 | `fbd0f38cae71922bd71eb4a5a6dfb10d8257bce29da625f1c08e016cbfe5a4b9` |
+| recipe_sha256 | `fbd0f38cae71922bd71eb4a5a6dfb10d8257bce29da625f1c08e016cbfe5a4b9` |
+| recipe_source_manifest_sha256 | `7676b8efa9f5db4b1449d8b096041fe4f3eacab766885031756971ab01e24b54` |
+| seal note | Round-7 `181acd02…`/`ebb91df5…` were Windows-CRLF poisoned; Wave 3 resealed on WSL LF (`artifacts/repair_wave3_lf_reseal_hashes.json`) |
 | ASR raw sha | `f5d2b1b8ae80e76f4c585cc5dd3411732617ebc539fb8a97b975f025efbcfdb9` (unchanged vs D1b) |
 
 ## Remaining (not Wave-1 blockers)

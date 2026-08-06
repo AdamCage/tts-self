@@ -5,6 +5,6 @@
   "status": "not_materialized",
   "note": "Created after confirmation seed reveal + CONFIRM32 freeze; must preserve recipe_sha256 from 2.0.0.",
   "parent_contract": "configs/eval_contracts/d1c_semantic_eos_v2_0_0.json",
-  "parent_sha256": "181acd0274b66253facb9277a9473336d0c52cf87d5fe23dd39199d31518baad",
-  "parent_recipe_sha256": "181acd0274b66253facb9277a9473336d0c52cf87d5fe23dd39199d31518baad"
+  "parent_sha256": "fbd0f38cae71922bd71eb4a5a6dfb10d8257bce29da625f1c08e016cbfe5a4b9",
+  "parent_recipe_sha256": "fbd0f38cae71922bd71eb4a5a6dfb10d8257bce29da625f1c08e016cbfe5a4b9"
 }
