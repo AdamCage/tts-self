@@ -5,7 +5,8 @@
 **Date:** 2026-08-06  
 **Worktree:** `C:\projects\tts-self-d1c` (`d1c/semantic-eos`)  
 **WSL runtime:** `~/projects/tts-self`  
-**SHA used:** `27164affb20df9092d04fd397bf9e26334ad5f27` (`27164af`)
+**SHA used (CPU gates):** `27164affb20df9092d04fd397bf9e26334ad5f27` (`27164af`)  
+**Branch tip after reports:** `ea8e2fc` (WAVE3_REPORT / RESULTS / logs only)
 
 ## Overall verdict: **HARD-STOP (GPU blocked by null confirmation commitment)**
 
