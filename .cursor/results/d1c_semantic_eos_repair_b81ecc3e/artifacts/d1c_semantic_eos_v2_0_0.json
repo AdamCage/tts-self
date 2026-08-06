@@ -238,7 +238,8 @@
   "repro": {
     "dev_subset_selection_seed": 20260805,
     "bootstrap_seed": 42,
-    "random_baseline_base_seed": 42001
+    "random_baseline_base_seed": 42001,
+    "clean_sha_available": true
   },
   "recipe_source_manifest": {
     "configs/discrete_speech_lm_d1c_semantic_eos_w1.yaml": "91125b5abfed71c8160e374b8e21a593cd4495d15c888ccd4e7f7b82dec4d768",
@@ -262,6 +263,6 @@
     "scripts/77_freeze_d1c_oracles.py": "e3c3d4ef6b6a0c736f7a19ab1d107fa056659805ffeb080c52a644ce594c97cb"
   },
   "recipe_source_manifest_sha256": "7676b8efa9f5db4b1449d8b096041fe4f3eacab766885031756971ab01e24b54",
-  "recipe_sha256": "fbd0f38cae71922bd71eb4a5a6dfb10d8257bce29da625f1c08e016cbfe5a4b9",
-  "sha256": "fbd0f38cae71922bd71eb4a5a6dfb10d8257bce29da625f1c08e016cbfe5a4b9"
+  "recipe_sha256": "5761b3ebc6145e807dd39f505637204e4382913eeadee97cf71d1ad346c3b4ab",
+  "sha256": "5761b3ebc6145e807dd39f505637204e4382913eeadee97cf71d1ad346c3b4ab"
 }
