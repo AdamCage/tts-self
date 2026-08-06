@@ -1,0 +1,18 @@
+{
+  "id": "d1c_smoke_1utt",
+  "version": "1.0.0",
+  "kind": "utt_ids",
+  "role": "infrastructure_smoke",
+  "plan_slug": "d1c_semantic_eos_repair_b81ecc3e",
+  "n": 1,
+  "note": "Wave 3 bounded 1-utt EOS overfit only; not an N2 authority.",
+  "utt_ids": [
+    "ruslan_000842_RUSLAN"
+  ],
+  "items_sha256": "c75a079fda066bd034ab06dcc148c418227ff21f2b77f0ef39955fff4b89d287",
+  "splits": {
+    "full32": [
+      "ruslan_000842_RUSLAN"
+    ]
+  }
+}
