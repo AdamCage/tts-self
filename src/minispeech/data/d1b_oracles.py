@@ -457,40 +457,48 @@ def enforce_eval_contract(
     subsets = contract.get("subsets") or {}
     if subset_label and subset_items_sha256 and isinstance(subsets, Mapping):
         alias = resolve_subset_alias(subset_label)
-        by_hash = {
-            str(v.get("items_sha256")): name
-            for name, v in subsets.items()
-            if isinstance(v, Mapping) and v.get("items_sha256")
-        }
-        hash_alias = by_hash.get(str(subset_items_sha256))
-        # Fail-closed: label and hash must not point at different known subsets.
-        if (
-            alias in ("dev32", "confirm32", "select8", "gate24")
-            and hash_alias is not None
-            and hash_alias != alias
-        ):
+        # Multiple contract keys may share items_sha256 (e.g. D1c ``dev32`` and
+        # ``full32`` both bind the same ordered 32). Collapse must not invent a
+        # false label/hash contradiction between those synonyms.
+        by_hash_names: dict[str, set[str]] = {}
+        for name, v in subsets.items():
+            if isinstance(v, Mapping) and v.get("items_sha256"):
+                by_hash_names.setdefault(str(v.get("items_sha256")), set()).add(str(name))
+        hash_aliases = by_hash_names.get(str(subset_items_sha256), set())
+        known_aliases = ("dev32", "confirm32", "select8", "gate24", "full32")
+        # Fail-closed: label and hash must not point at disjoint known subsets.
+        if alias in known_aliases and hash_aliases and alias not in hash_aliases:
             errors.append(
                 f"subset label/hash contradiction: label={subset_label!r} "
-                f"(alias={alias}) but items_sha256 maps to {hash_alias}"
+                f"(alias={alias}) but items_sha256 maps to "
+                f"{sorted(hash_aliases)}"
             )
-        elif hash_alias is not None and alias not in (
-            "dev32",
-            "confirm32",
-            "select8",
-            "gate24",
-        ):
-            # Unresolved path-like label: bind via hash only when label is not a
-            # known contradictory alias.
-            alias = hash_alias
+        elif hash_aliases and alias not in known_aliases:
+            # Unresolved path-like label: bind via hash when unambiguous, else
+            # prefer full32/dev32 parent when both share the digest.
+            if len(hash_aliases) == 1:
+                alias = next(iter(hash_aliases))
+            elif "full32" in hash_aliases:
+                alias = "full32"
+            elif "dev32" in hash_aliases:
+                alias = "dev32"
+            else:
+                alias = sorted(hash_aliases)[0]
         entry = subsets.get(alias) or subsets.get(str(subset_label))
         if isinstance(entry, Mapping):
             exp = entry.get("items_sha256")
             if exp and str(exp) != subset_items_sha256:
-                errors.append(
-                    f"subset {alias} items_sha256 mismatch: "
-                    f"got={subset_items_sha256} contract={exp}"
+                # Allow split digests registered under the parent entry.
+                split_hashes = entry.get("split_hashes") or {}
+                split_ok = isinstance(split_hashes, Mapping) and any(
+                    str(v) == subset_items_sha256 for v in split_hashes.values()
                 )
-        elif alias in ("select8", "gate24", "confirm32", "dev32"):
+                if not split_ok:
+                    errors.append(
+                        f"subset {alias} items_sha256 mismatch: "
+                        f"got={subset_items_sha256} contract={exp}"
+                    )
+        elif alias in ("select8", "gate24", "confirm32", "dev32", "full32"):
             errors.append(f"eval_contract.subsets missing entry for {alias}")
 
     if require_clean_sha:
