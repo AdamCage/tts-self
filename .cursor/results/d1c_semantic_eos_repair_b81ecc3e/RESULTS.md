@@ -3,27 +3,31 @@
 **Plan:** `.cursor/plans/d1c_semantic_eos_repair_b81ecc3e.plan.md`  
 **Slug:** `d1c_semantic_eos_repair_b81ecc3e`  
 **Authoring worktree:** `C:\projects\tts-self-d1c` on branch `d1c/semantic-eos`  
-**Baseline tip:** `0661d10eb616362e74dc1750e03cf25c33a7943e`
+**Baseline tip:** `0661d10eb616362e74dc1750e03cf25c33a7943e`  
+**Formal SHA (Wave 3 CPU):** `27164affb20df9092d04fd397bf9e26334ad5f27`
 
-## Overall status: **INVALID_RUN / INFRA-STOP → INFRA repair complete (awaiting human re-audit)**
+## Overall status: **Wave 3 HARD-STOP (CPU PASS; GPU blocked by null commitment)**
 
-Prior Wave 0–2 “PASS” claims are **withdrawn / invalid** for promotion purposes.  
-This directory now contains an INFRA repair pack. **Do not treat Waves 0–2 as PASS until human re-audit.**  
-**Wave 3 still NO-GO. Wave 4 / DEV / 1h still NO-GO.** No GPU runs in this repair.
+Prior Wave 0–2 “PASS” claims remain **withdrawn / invalid** for promotion.  
+INFRA round-7 closed and pushed; LF reseal landed.  
+**Wave 3 CPU gates PASS. Wave 3 GPU / torchrun / 1-utt NOT RUN.**  
+**Wave 4 / DEV / CONFIRM / 1h still NO-GO.**
 
-See **[REPAIR_AUDIT.md](REPAIR_AUDIT.md)** for per-blocker before/after evidence.
+See **[WAVE3_REPORT.md](WAVE3_REPORT.md)** for Wave 3 evidence.  
+See **[REAUDIT_ROUND7.md](REAUDIT_ROUND7.md)** / **[REPAIR_ROUND7.md](REPAIR_ROUND7.md)** for infra audit.
 
-## Per-stage verdicts (post-repair)
+## Per-stage verdicts
 
 | Stage | Verdict | Notes |
 |-------|---------|-------|
 | Wave 0 isolation + preflight | **INVALID → repair pending re-audit** | Isolation still valid; prior PASS claim not authoritative |
-| Wave 1 eval/provenance/oracles | **INVALID → infra repaired** | Contract + oracle hashes regenerated; formal load OK |
+| Wave 1 eval/provenance/oracles | **INVALID → infra repaired** | Contract LF-resealed @ `27164af` |
 | Wave 2 semantic EOS model | **INVALID → infra repaired** | Residual grads, empty EOS codes, CLI wiring fixed |
-| Wave 3 CPU/GPU smoke | **NO-GO** | Needs human re-audit + commit SHA + seed commitment |
-| Waves 4–9 DEV/CONFIRM | **NO-GO / NOT STARTED** | |
+| Wave 3 CPU gates | **PASS** | Focused + full pytest `408 passed, 3 skipped` |
+| Wave 3 GPU smoke / 1-utt | **HARD-STOP** | `commitment: null` — plan §18 / PROTOCOL |
+| Waves 4–9 DEV/CONFIRM | **NO-GO / NOT STARTED** | Blocked until Wave 3 GPU completes |
 
-## Key frozen hashes (post-repair)
+## Key frozen hashes (post Wave-3 LF reseal)
 
 | Artifact | SHA |
 |----------|-----|
@@ -31,33 +35,49 @@ See **[REPAIR_AUDIT.md](REPAIR_AUDIT.md)** for per-blocker before/after evidence
 | DEV32 content file_sha256 | `f9f82b708b23ab61af1ee3ffc493b1c064998a14eb2edcab4d7020483bb3c574` |
 | select8 | `882691c9fa7e799b3e49e8dbde6ef8cfa7226aecdf18bf77110ebee424b62e05` (2 RUSLAN + 6 CV) |
 | gate24 | `5485d37be12342d187cef264fa5626e58edee3c821737dada26418142223b1ad` |
-| Contract 2.0.0 content | `c636562ee0f158f722dc02d2161ea3dac6424c58f5404e7f346cc10f9cc76f71` |
-| recipe_source_manifest | `15869c58ecd1f01dc33a3c8b5f8432c8c303c47d34243cbb0bc2fbc3e76ec261` |
+| Contract 2.0.0 / recipe | `fbd0f38cae71922bd71eb4a5a6dfb10d8257bce29da625f1c08e016cbfe5a4b9` |
+| recipe_source_manifest | `7676b8efa9f5db4b1449d8b096041fe4f3eacab766885031756971ab01e24b54` |
 
-Artifacts: `artifacts/repair_oracle_contract_hashes.json`, `artifacts/d1c_semantic_eos_v2_0_0.json`, `artifacts/d1c_dev32.json`
+Supersedes round-7 CRLF seals `181acd02…` / `ebb91df5…`.  
+Artifacts: `artifacts/repair_wave3_lf_reseal_hashes.json`, `artifacts/d1c_semantic_eos_v2_0_0.json`
 
-## Tests
+## Tests (Wave 3)
 
 ```text
-387 passed, 2 skipped   (fresh full suite after INFRA repair)
+408 passed, 3 skipped, 2 warnings in 13.46s
 ```
 
-Log: `logs/repair_full_pytest.log`  
-(WSL Ubuntu + `GIT_DIR`/`GIT_WORK_TREE` worktree override; prior “373 passed” is stale and must not be cited.)
+- `logs/wave3_focused_pytest.log`
+- `logs/wave3_full_pytest.log`
+- WSL clean tree @ `27164af`, `CUDA_VISIBLE_DEVICES=` masked for CPU gates
 
 ## Inference / WAVs
 
-None (no GPU). `listen_index.json` not created.
+None (GPU hard-stopped). No `listen_index.json` entries for smoke_1utt.
 
-## Blockers remaining for parent
+Expected when unblocked: `out/d1c_semantic_eos_repair_b81ecc3e/smoke_1utt/listen_demo/`
 
-1. Human re-audit of `REPAIR_AUDIT.md` + fresh pytest attestation.  
-2. Authorize commit + push of `d1c/semantic-eos` from `C:\projects\tts-self-d1c` only if/when ready (not done here).  
-3. Custodian confirmation-seed commitment (no plaintext seed; not invented).  
-4. Only then Wave 3 smoke under WSL Linux FS.
+## Confirm-seed status
+
+`configs/train_subsets/d1c_confirm_seed_commitment.json`: **`commitment: null`** (blocks GPU / DEV).  
+Plaintext seed was **not** invented.
+
+## Blockers for parent
+
+1. Custodian fills non-null `commitment` (+ `generator_version_or_hash`) per plan §9.4 algorithm; commit/push.  
+2. Resume Wave 3 GPU: torchrun smoke → 1-utt overfit → WAVs / listen_index.  
+3. Only then Wave 4 DEV W1 seed101.
+
+## Commits
+
+| SHA | Note |
+|-----|------|
+| `ff9d8c7` | Round-7 identical-weights selector fix + evidence |
+| `27164af` | LF reseal after CRLF poison |
 
 ## Confirmations
 
-- **No commit / no push**  
-- **No GPU**  
-- **No seed invented**
+- Round-7 + LF reseal **committed and pushed** to `origin/d1c/semantic-eos`  
+- **No GPU** train/infer/smoke in this Wave 3 attempt  
+- **No seed invented**  
+- **No Wave 4 / 1h**

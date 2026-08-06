@@ -28,8 +28,9 @@ python -m pytest -q
 
 ## Resume after authorization
 
-1. Commit + push `d1c/semantic-eos` from clean worktree.
+1. Commit + push `d1c/semantic-eos` from clean worktree. (**done:** `ff9d8c7`, `27164af`)
 2. Custodian fills `configs/train_subsets/d1c_confirm_seed_commitment.json` commitment field.
+   **STILL BLOCKING:** `"commitment": null` — Wave 3 GPU / DEV hard-stopped (plan §18).
 3. WSL:
 
 ```bash
@@ -43,7 +44,9 @@ export HF_HOME=$HOME/hf_cache
 uv pip install -e . --no-deps
 ```
 
-4. Wave 3 smoke / 1-utt then Wave 4 DEV W1 seed101 per plan §14–16.
+4. After commitment lands: finish Wave 3 GPU (`torchrun` smoke + 1-utt) then Wave 4 DEV W1 seed101 per plan §14–16.
+   Wave 3 CPU gates already PASS @ `27164af` — see `WAVE3_REPORT.md`.
+
 
 ## Canonical train template (after resume)
 
