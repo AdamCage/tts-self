@@ -1,0 +1,91 @@
+{
+  "schema": "minispeech.discrete_checkpoint_selection",
+  "schema_version": "2.0.0",
+  "mode": "d1c_formal",
+  "candidate_steps": [
+    250,
+    375,
+    500,
+    625,
+    750
+  ],
+  "selected": {
+    "report_path": "/home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0750/discrete_eval_report_v2.json",
+    "ckpt": "/home/adam/projects/tts-self/runs/d1c_eos_dev_locked_seed102/candidate_step_0750.pt",
+    "checkpoint_sha256": "9f18a899418e7abc77fa69fcd3624be279bd75e981d6a42c391a8664a1ab57aa",
+    "step": 750,
+    "gate_eligible": true,
+    "macro_cer": 0.023726273726273728,
+    "n_catastrophic": 0,
+    "max_abs_log_duration_error": 0.01324522675002068,
+    "mean_abs_log_duration_error": 0.003036882867075702,
+    "teacher_forced_ce": 0.005896233953535557
+  },
+  "candidates": [
+    {
+      "report_path": "/home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0250/discrete_eval_report_v2.json",
+      "ckpt": "/home/adam/projects/tts-self/runs/d1c_eos_dev_locked_seed102/candidate_step_0250.pt",
+      "checkpoint_sha256": "ddc02e081ac22632ecb22e7a06958a983298552cdae547f32fc8daa001b66e70",
+      "step": 250,
+      "gate_eligible": true,
+      "macro_cer": 0.023726273726273728,
+      "n_catastrophic": 0,
+      "max_abs_log_duration_error": 0.01324522675002068,
+      "mean_abs_log_duration_error": 0.003036882867075702,
+      "teacher_forced_ce": 0.01678209938108921
+    },
+    {
+      "report_path": "/home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0375/discrete_eval_report_v2.json",
+      "ckpt": "/home/adam/projects/tts-self/runs/d1c_eos_dev_locked_seed102/candidate_step_0375.pt",
+      "checkpoint_sha256": "974cda3827e674c836144c48e2006933f57cb34e623e26b892bcc68380d3895a",
+      "step": 375,
+      "gate_eligible": true,
+      "macro_cer": 0.023726273726273728,
+      "n_catastrophic": 0,
+      "max_abs_log_duration_error": 0.01324522675002068,
+      "mean_abs_log_duration_error": 0.003036882867075702,
+      "teacher_forced_ce": 0.009383535478264093
+    },
+    {
+      "report_path": "/home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0500/discrete_eval_report_v2.json",
+      "ckpt": "/home/adam/projects/tts-self/runs/d1c_eos_dev_locked_seed102/candidate_step_0500.pt",
+      "checkpoint_sha256": "bbbc39f01964e4344be09695c78c267c1a5a09ea90887fc144cf4826314454a3",
+      "step": 500,
+      "gate_eligible": true,
+      "macro_cer": 0.023726273726273728,
+      "n_catastrophic": 0,
+      "max_abs_log_duration_error": 0.01324522675002068,
+      "mean_abs_log_duration_error": 0.003036882867075702,
+      "teacher_forced_ce": 0.007040548138320446
+    },
+    {
+      "report_path": "/home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0625/discrete_eval_report_v2.json",
+      "ckpt": "/home/adam/projects/tts-self/runs/d1c_eos_dev_locked_seed102/candidate_step_0625.pt",
+      "checkpoint_sha256": "7848c7e990351a85ebc55e8a7fe4b93305abd407bf60a85e86778dd9f88371e5",
+      "step": 625,
+      "gate_eligible": true,
+      "macro_cer": 0.023726273726273728,
+      "n_catastrophic": 0,
+      "max_abs_log_duration_error": 0.01324522675002068,
+      "mean_abs_log_duration_error": 0.003036882867075702,
+      "teacher_forced_ce": 0.006190058309584856
+    },
+    {
+      "report_path": "/home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/select8/cand_0750/discrete_eval_report_v2.json",
+      "ckpt": "/home/adam/projects/tts-self/runs/d1c_eos_dev_locked_seed102/candidate_step_0750.pt",
+      "checkpoint_sha256": "9f18a899418e7abc77fa69fcd3624be279bd75e981d6a42c391a8664a1ab57aa",
+      "step": 750,
+      "gate_eligible": true,
+      "macro_cer": 0.023726273726273728,
+      "n_catastrophic": 0,
+      "max_abs_log_duration_error": 0.01324522675002068,
+      "mean_abs_log_duration_error": 0.003036882867075702,
+      "teacher_forced_ce": 0.005896233953535557
+    }
+  ],
+  "promotion": {
+    "path": "runs/d1c_eos_dev_locked_seed102/best.pt",
+    "sha256": "9f18a899418e7abc77fa69fcd3624be279bd75e981d6a42c391a8664a1ab57aa",
+    "verified": true
+  }
+}

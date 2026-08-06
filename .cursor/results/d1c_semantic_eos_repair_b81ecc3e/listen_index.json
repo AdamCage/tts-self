@@ -14,9 +14,40 @@
       "wav_windows": [
         "C:\\projects\\tts-self\\out\\d1c_semantic_eos_repair_b81ecc3e\\smoke_1utt\\listen_demo\\0000_ruslan_000842_RUSLAN.wav",
         "C:\\projects\\tts-self-d1c\\out\\d1c_semantic_eos_repair_b81ecc3e\\smoke_1utt\\listen_demo\\0000_ruslan_000842_RUSLAN.wav"
-      ],
-      "infer_index": "out/d1c_semantic_eos_repair_b81ecc3e/smoke_1utt/listen_demo/infer_index.json",
-      "metrics": "logs/wave3_1utt_metrics.json"
+      ]
+    },
+    {
+      "role": "wave4_w1_seed101_best_listen",
+      "run": "d1c_eos_dev_w1_seed101",
+      "ckpt": "runs/d1c_eos_dev_w1_seed101/best.pt",
+      "git_sha": "c7e3ee0019d975269655be4a46d6ed00cdebe1e9",
+      "dir_windows": "C:\\projects\\tts-self\\out\\d1c_semantic_eos_repair_b81ecc3e\\dev\\w1_seed101\\best_listen_demo\\",
+      "dir_linux": "out/d1c_semantic_eos_repair_b81ecc3e/dev/w1_seed101/best_listen_demo/"
+    },
+    {
+      "role": "wave4_w1_seed101_last_listen",
+      "run": "d1c_eos_dev_w1_seed101",
+      "ckpt": "runs/d1c_eos_dev_w1_seed101/last.pt",
+      "git_sha": "c7e3ee0019d975269655be4a46d6ed00cdebe1e9",
+      "dir_windows": "C:\\projects\\tts-self\\out\\d1c_semantic_eos_repair_b81ecc3e\\dev\\w1_seed101\\last_listen_demo\\",
+      "dir_linux": "out/d1c_semantic_eos_repair_b81ecc3e/dev/w1_seed101/last_listen_demo/"
+    },
+    {
+      "role": "wave5_seed102_best_listen",
+      "run": "d1c_eos_dev_locked_seed102",
+      "ckpt": "runs/d1c_eos_dev_locked_seed102/best.pt",
+      "ckpt_sha256": "9f18a899418e7abc77fa69fcd3624be279bd75e981d6a42c391a8664a1ab57aa",
+      "git_sha": "5bf319b9389750ee252f2a5c62be70708e621fc0",
+      "dir_windows": "C:\\projects\\tts-self\\out\\d1c_semantic_eos_repair_b81ecc3e\\dev\\seed102\\best_listen_demo\\",
+      "dir_linux": "out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/best_listen_demo/"
+    },
+    {
+      "role": "wave5_seed102_last_listen",
+      "run": "d1c_eos_dev_locked_seed102",
+      "ckpt": "runs/d1c_eos_dev_locked_seed102/last.pt",
+      "git_sha": "5bf319b9389750ee252f2a5c62be70708e621fc0",
+      "dir_windows": "C:\\projects\\tts-self\\out\\d1c_semantic_eos_repair_b81ecc3e\\dev\\seed102\\last_listen_demo\\",
+      "dir_linux": "out/d1c_semantic_eos_repair_b81ecc3e/dev/seed102/last_listen_demo/"
     }
   ]
 }

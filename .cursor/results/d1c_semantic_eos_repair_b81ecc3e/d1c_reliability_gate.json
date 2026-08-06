@@ -1,46 +1,60 @@
 {
   "plan_slug": "d1c_semantic_eos_repair_b81ecc3e",
-  "terminal_result": "INVALID_RUN_OR_INFRA_STOP",
-  "formal_verdict": "INFRA_REPAIR_ROUND6_COMPLETE_AWAITING_HUMAN_REAUDIT",
-  "scientific_model_result": null,
-  "reason": "REAUDIT_ROUND5 MEDIUM rename/re-save gap closed: formal path requires payload['step'] (filename confirm-only) + payload['hashes'] run identity; selector refuses mixed/missing checkpoint.hashes and basename mismatch. WAVE1_REPORT synced to live digests. Waves 0-2 not PASS; Wave 3 still NO-GO.",
+  "terminal_result": "HARD_STOP",
+  "formal_verdict": "D1C_HARD_STOP_SEED102_NON_REPLICATION",
+  "scientific_model_result": "FAIL",
+  "reason": "Wave 5 DEV seed102 formal gate24/full32 FAIL (macro CER above copy_synth+0.03; n_catastrophic=2). Wave 4 W1 seed101 historically PASS. Plan forbids W2 retune, confirm seeds, and 1h/5h/full after seed102 FAIL.",
   "waves": {
-    "0": "INVALID_PENDING_REAUDIT",
-    "1": "INVALID_REPAIRED_PENDING_REAUDIT",
-    "2": "INVALID_REPAIRED_PENDING_REAUDIT",
-    "3": "NO_GO",
-    "4_plus": "NO_GO"
+    "0": "PASS_AFTER_INFRA_REPAIR",
+    "1": "PASS_AFTER_INFRA_REPAIR",
+    "2": "PASS_AFTER_INFRA_REPAIR",
+    "3": "PASS",
+    "4": "PASS",
+    "5": "FAIL_HARD_STOP",
+    "6": "SKIPPED",
+    "7": "SKIPPED",
+    "8": "SKIPPED",
+    "9": "CLOSED_HARD_STOP"
   },
   "do_not_proceed_to": [
-    "wave3_smoke",
+    "wave6_recipe_lock",
+    "confirm_seed_201",
+    "confirm_seed_202",
     "1h",
     "5h",
     "full"
   ],
   "baseline_sha": "0661d10eb616362e74dc1750e03cf25c33a7943e",
+  "wave4_formal_sha": "c7e3ee0019d975269655be4a46d6ed00cdebe1e9",
+  "wave5_formal_sha": "5bf319b9389750ee252f2a5c62be70708e621fc0",
   "branch": "d1c/semantic-eos",
   "worktree": "C:/projects/tts-self-d1c",
   "dev32_items_sha256": "501330481c07d928d0fe6b86395355aea1410a680a4020c73b602df5cc3d9b40",
-  "dev32_file_sha256": "f9f82b708b23ab61af1ee3ffc493b1c064998a14eb2edcab4d7020483bb3c574",
-  "select8_items_sha256": "882691c9fa7e799b3e49e8dbde6ef8cfa7226aecdf18bf77110ebee424b62e05",
-  "contract_2_0_0_sha256": "c9fd265ac715b3d600dab1fcdf3d0b941d8db6b6fb3d9c9495728c0c55e124cf",
-  "recipe_source_manifest_sha256": "85b896a907769af467f9e76d11b2347849b1c7fb776fcd7a6104d1885877ebbd",
-  "pytest_full": "406 passed, 3 skipped",
-  "pytest_collected": 409,
-  "pytest_log": "logs/repair_round6_full_pytest.log",
-  "repair_audit": "REPAIR_ROUND6.md",
-  "prior_reaudit": "REAUDIT_ROUND5.md",
-  "required_to_resume": [
-    "human_reaudit_of_infra_repair_round6",
-    "user_authorize_commit_push_d1c_branch",
-    "external_confirm_seed_commitment"
-  ],
-  "live_probe": "logs/repair_round6_probe_rename.log",
-  "live_probe_summary": "pass=10 fail=0 (rename refuse + legit accept)",
-  "confirmations": {
-    "no_commit": true,
-    "no_push": true,
-    "no_gpu": true,
-    "no_seed_invented": true
-  }
+  "contract_2_0_0_sha256": "fc07b643ba366a1dbe9fad294590fa5bd67288b7be98aecac8a6cd2297550865",
+  "recipe_source_manifest_sha256": "fd78eb1f9a9af8afb033b6ad428d0e0d109e01f754415dfe43b5ab02ca8252ec",
+  "confirm_seed_commitment": "4c46d418caf9bcabc088864da5bf0b3de0475a9d9225f50383314a2c5e3bb3f2",
+  "wave4_artifacts": {
+    "selection": "artifacts/selection_w1_seed101.json",
+    "gate24": "artifacts/gate_w1_seed101_gate24.json",
+    "full32": "artifacts/gate_w1_seed101_full32.json",
+    "summary": "artifacts/wave4_w1_seed101_summary.json",
+    "report": "WAVE4_REPORT.md"
+  },
+  "wave5_artifacts": {
+    "selection": "artifacts/selection_seed102.json",
+    "gate24": "artifacts/gate_seed102_gate24.json",
+    "full32": "artifacts/gate_seed102_full32.json",
+    "summary": "artifacts/wave5_seed102_summary.json",
+    "report": "WAVE5_REPORT.md",
+    "best_sha256": "9f18a899418e7abc77fa69fcd3624be279bd75e981d6a42c391a8664a1ab57aa"
+  },
+  "key_metrics": {
+    "wave4_full32_macro_cer": 0.042763703540502046,
+    "wave5_full32_macro_cer": 0.09410298925478776,
+    "wave5_full32_n_catastrophic": 2,
+    "wave5_gate24_macro_cer": 0.1175618944309591,
+    "wave5_gate24_n_catastrophic": 2
+  },
+  "1h_5h_full_started": false,
+  "plaintext_confirm_seed_in_git": false
 }

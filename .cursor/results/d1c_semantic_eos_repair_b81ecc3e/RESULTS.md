@@ -3,70 +3,74 @@
 **Plan:** `.cursor/plans/d1c_semantic_eos_repair_b81ecc3e.plan.md`  
 **Slug:** `d1c_semantic_eos_repair_b81ecc3e`  
 **Authoring worktree:** `C:\projects\tts-self-d1c` on branch `d1c/semantic-eos`  
-**Baseline tip:** `0661d10eb616362e74dc1750e03cf25c33a7943e`  
-**Wave 3 GPU tip:** `74d4caa535fb34e12a804f07a09308151c1f7a19`
+**Wave 4 formal tip:** `c7e3ee0019d975269655be4a46d6ed00cdebe1e9`  
+**Wave 5 formal tip:** `5bf319b9389750ee252f2a5c62be70708e621fc0`  
+**Contract 2.0.0 content SHA:** `fc07b643ba366a1dbe9fad294590fa5bd67288b7be98aecac8a6cd2297550865`
 
-## Overall status: **Wave 3 PASS — hard-stop before Wave 4**
+## Overall status: **HARD-STOP**
 
-Prior Wave 0–2 “PASS” claims remain **withdrawn / invalid** for promotion.  
-INFRA round-7 + LF reseal remain landed.  
-**Wave 3 CPU + GPU (torchrun + 1-utt + WAVs) PASS.**  
-**Wave 4 / DEV / CONFIRM / 1h still NOT STARTED** (plan default hard-stop after Wave 3).
+D1c stage closed as **scientific HARD-STOP** after Wave 5 DEV seed102 failed formal gate24/full32 (CER ceiling + catastrophic).  
+Wave 4 W1 seed101 remains a historical PASS. Waves 6–8 (recipe lock / CONFIRM) were **not** run. **1h/5h/full were not started.**
 
-See **[WAVE3_REPORT.md](WAVE3_REPORT.md)** for full Wave 3 evidence.
+Gate file: [`d1c_reliability_gate.json`](d1c_reliability_gate.json).
 
-## Per-stage verdicts
+## Per-wave table
 
-| Stage | Verdict | Notes |
-|-------|---------|-------|
-| Wave 0 isolation + preflight | **INVALID → repair pending re-audit** | Isolation still valid; prior PASS claim not authoritative |
-| Wave 1 eval/provenance/oracles | **INVALID → infra repaired** | Contract LF-resealed @ `27164af` |
-| Wave 2 semantic EOS model | **INVALID → infra repaired** | Residual grads, empty EOS codes, CLI wiring fixed |
-| Wave 3 CPU gates | **PASS** | Focused + full pytest `408 passed, 3 skipped` |
-| Wave 3 GPU smoke / 1-utt | **PASS** | tip `74d4caa`; `learned_eos`; wav mirrored |
-| Waves 4–9 DEV/CONFIRM | **NOT STARTED** | Next: Wave 4 DEV W1 seed101 |
+| Wave | Verdict | Evidence |
+|------|---------|----------|
+| 0–2 | PASS after INFRA repair (ROUND7) | `REAUDIT_ROUND7.md`, prior WAVE reports |
+| 3 | PASS (CPU + GPU smoke/1-utt; user listen OK) | `WAVE3_REPORT.md` |
+| 4 | **PASS** W1 seed101 gate24+full32 | `WAVE4_REPORT.md`, `artifacts/gate_w1_seed101_*.json` |
+| 5 | **FAIL → HARD-STOP** seed102 | `WAVE5_REPORT.md`, `artifacts/gate_seed102_*.json` |
+| 6–8 | **SKIPPED** | require both DEV seeds PASS |
+| 9 | **CLOSED** as HARD-STOP | this pack |
 
-## Wave 3 GPU snapshot
+## Key metrics (from artifacts)
 
-| Item | Value |
-|------|-------|
-| Commitment | `4c46d418caf9bcabc088864da5bf0b3de0475a9d9225f50383314a2c5e3bb3f2` |
-| Train loss | `22.9 → 0.000565` (80 steps, 1 utt) |
-| FR termination | `learned_eos` @ step 22 |
-| `codes_max` | 2034 (&lt; 2048; no EOS to decoder) |
-| Wav | `out/d1c_semantic_eos_repair_b81ecc3e/smoke_1utt/listen_demo/0000_ruslan_000842_RUSLAN.wav` |
+| Run | Split | macro CER | ceiling (copy+0.03) | catastrophic | learned_eos | verdict |
+|-----|-------|-----------|---------------------|--------------|-------------|---------|
+| seed101 | gate24 | 0.04911 | — | 0 | 24/24 | PASS |
+| seed101 | full32 | 0.04276 | — | 0 | 32/32 | PASS |
+| seed102 | select8 | 0.02373 | — | 0 | (eligible 5/5) | selection OK |
+| seed102 | gate24 | **0.11756** | 0.07911 | **2** | 24/24 | **FAIL** |
+| seed102 | full32 | **0.09410** | 0.07276 | **2** | 32/32 | **FAIL** |
 
-Play (Windows):  
-`C:\projects\tts-self\out\d1c_semantic_eos_repair_b81ecc3e\smoke_1utt\listen_demo\0000_ruslan_000842_RUSLAN.wav`
+EOS / text-usage / stability passed on seed102; content CER did not replicate.
 
-## Key frozen hashes (post Wave-3 LF reseal)
+## Listen paths (Windows)
 
-| Artifact | SHA |
-|----------|-----|
-| D1c DEV32 items/full32 | `501330481c07d928d0fe6b86395355aea1410a680a4020c73b602df5cc3d9b40` |
-| Contract 2.0.0 / recipe | `fbd0f38cae71922bd71eb4a5a6dfb10d8257bce29da625f1c08e016cbfe5a4b9` |
-| recipe_source_manifest | `7676b8efa9f5db4b1449d8b096041fe4f3eacab766885031756971ab01e24b54` |
+Wave 3 smoke:
+
+- `C:\projects\tts-self\out\d1c_semantic_eos_repair_b81ecc3e\smoke_1utt\listen_demo\0000_ruslan_000842_RUSLAN.wav`
+
+Wave 4 seed101:
+
+- `C:\projects\tts-self\out\d1c_semantic_eos_repair_b81ecc3e\dev\w1_seed101\best_listen_demo\`
+- `C:\projects\tts-self\out\d1c_semantic_eos_repair_b81ecc3e\dev\w1_seed101\last_listen_demo\`
+
+Wave 5 seed102:
+
+- `C:\projects\tts-self\out\d1c_semantic_eos_repair_b81ecc3e\dev\seed102\best_listen_demo\`
+- `C:\projects\tts-self\out\d1c_semantic_eos_repair_b81ecc3e\dev\seed102\last_listen_demo\`
+
+See [`listen_index.json`](listen_index.json).
 
 ## Confirm-seed status
 
-`configs/train_subsets/d1c_confirm_seed_commitment.json`: **commitment set** (`c15ed40`).  
-`plaintext_seed_present: false`. Plaintext seed is **not** in git.
+Commitment only (no plaintext in git):  
+`4c46d418caf9bcabc088864da5bf0b3de0475a9d9225f50383314a2c5e3bb3f2`  
+Reveal / CONFIRM32 **not** materialized (HARD-STOP before Wave 6).
 
-## Blockers / next for parent
+## Explicit non-claims / follow-ups outside this stage
 
-1. Wave 3 complete → authorize Wave 4 DEV W1 seed101.  
-2. Before formal DEV: set `eval_contract.repro.clean_sha_available=true` and reseal (smoke used `--allow-dirty` only to bypass missing flag).  
-3. Do **not** start 1h/5h/full.
+- No D1c N2 PASS. No recipe lock. No CONFIRM32. No 1h/5h/full.
+- Next work (if any) requires a **new plan**; this stage may not retune W1/W2 or invent extra seeds.
+- Historical note: seed101 alone is insufficient under the two-seed DEV rule.
 
-## Commits (Wave 3 resume)
+## Commits (recent formal path)
 
 | SHA | Note |
 |-----|------|
-| `c15ed40` | Confirm-seed commitment mint |
-| `c71b453` | smoke_1utt subset + GPU runner |
-| `a602593` / `74d4caa` | External log dir + probe fixes |
-| (this pack) | WAVE3_REPORT / RESULTS / listen_index / logs |
-
-## Explicit non-claims
-
-- No N2 PASS. No recipe lock. No CONFIRM32. No 1h.
+| `c7e3ee0` | score-only semantic infer keys (Wave 4 formal eval tip) |
+| `5bf319b` | Wave 4 PASS report + Wave 5 runner |
+| (closure) | WAVE5 / RESULTS / reliability gate / listen_index |

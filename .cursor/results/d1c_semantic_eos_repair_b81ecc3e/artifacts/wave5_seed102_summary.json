@@ -1,0 +1,69 @@
+{
+  "selection": {
+    "step": 750,
+    "n_eligible": 5,
+    "promotion_verified": true,
+    "sha256": "9f18a899418e7abc77fa69fcd3624be279bd75e981d6a42c391a8664a1ab57aa",
+    "macro_cer": 0.023726273726273728,
+    "ckpt": "runs/d1c_eos_dev_locked_seed102/candidate_step_0750.pt"
+  },
+  "gates": [
+    {
+      "split": "gate24",
+      "verdict": "FAIL",
+      "macro_cer": 0.1175618944309591,
+      "copy_synth_macro_cer": 0.04910951347857815,
+      "ceiling_copy_plus_margin": 0.07910951347857814,
+      "n_catastrophic": 2,
+      "cer_pass": false,
+      "termination_d1c": {
+        "learned_eos_count": 24,
+        "safety_max_frames_count": 0,
+        "safety_cb0_repeat_count": 0,
+        "expected_rows": 24,
+        "tf_eos_final_top1_accuracy": 1.0,
+        "tf_eos_early_top1_false_positive_count": 0,
+        "pass": true
+      },
+      "text_usage_pass": true,
+      "stability_pass": true,
+      "provenance": {
+        "git_sha": "5bf319b9389750ee252f2a5c62be70708e621fc0",
+        "git_dirty": false,
+        "git_dirty_score": false,
+        "score_only": true,
+        "eval_contract_sha256": "fc07b643ba366a1dbe9fad294590fa5bd67288b7be98aecac8a6cd2297550865"
+      }
+    },
+    {
+      "split": "full32",
+      "verdict": "FAIL",
+      "macro_cer": 0.09410298925478776,
+      "copy_synth_macro_cer": 0.042763703540502046,
+      "ceiling_copy_plus_margin": 0.07276370354050204,
+      "n_catastrophic": 2,
+      "cer_pass": false,
+      "termination_d1c": {
+        "learned_eos_count": 32,
+        "safety_max_frames_count": 0,
+        "safety_cb0_repeat_count": 0,
+        "expected_rows": 32,
+        "tf_eos_final_top1_accuracy": 1.0,
+        "tf_eos_early_top1_false_positive_count": 0,
+        "pass": true
+      },
+      "text_usage_pass": true,
+      "stability_pass": true,
+      "provenance": {
+        "git_sha": "5bf319b9389750ee252f2a5c62be70708e621fc0",
+        "git_dirty": false,
+        "git_dirty_score": false,
+        "score_only": true,
+        "eval_contract_sha256": "fc07b643ba366a1dbe9fad294590fa5bd67288b7be98aecac8a6cd2297550865"
+      }
+    }
+  ],
+  "wave5_seed102_verdict": "FAIL",
+  "stage_terminal": "HARD_STOP",
+  "reason": "seed102 failed cer_pass and zero_catastrophic on gate24 and full32; plan forbids retune/confirm/1h"
+}
