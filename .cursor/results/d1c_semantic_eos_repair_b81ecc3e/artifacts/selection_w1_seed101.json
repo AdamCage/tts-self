@@ -1,0 +1,91 @@
+{
+  "schema": "minispeech.discrete_checkpoint_selection",
+  "schema_version": "2.0.0",
+  "mode": "d1c_formal",
+  "candidate_steps": [
+    250,
+    375,
+    500,
+    625,
+    750
+  ],
+  "selected": {
+    "report_path": "/home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/w1_seed101/select8/cand_0750/discrete_eval_report_v2.json",
+    "ckpt": "/home/adam/projects/tts-self/runs/d1c_eos_dev_w1_seed101/candidate_step_0750.pt",
+    "checkpoint_sha256": "f51adca973dc6c9034e4a6acd5d6668af0970410084286dcc62e175cab09068e",
+    "step": 750,
+    "gate_eligible": true,
+    "macro_cer": 0.023726273726273728,
+    "n_catastrophic": 0,
+    "max_abs_log_duration_error": 0.01324522675002068,
+    "mean_abs_log_duration_error": 0.003036882867075702,
+    "teacher_forced_ce": 0.005903988610953093
+  },
+  "candidates": [
+    {
+      "report_path": "/home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/w1_seed101/select8/cand_0250/discrete_eval_report_v2.json",
+      "ckpt": "/home/adam/projects/tts-self/runs/d1c_eos_dev_w1_seed101/candidate_step_0250.pt",
+      "checkpoint_sha256": "10b8ef157ade086b2e39fa3de77aef8f629ab4e586773af5d652bd47f6c1b11c",
+      "step": 250,
+      "gate_eligible": true,
+      "macro_cer": 0.023726273726273728,
+      "n_catastrophic": 0,
+      "max_abs_log_duration_error": 0.01324522675002068,
+      "mean_abs_log_duration_error": 0.003036882867075702,
+      "teacher_forced_ce": 0.01683192327618599
+    },
+    {
+      "report_path": "/home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/w1_seed101/select8/cand_0375/discrete_eval_report_v2.json",
+      "ckpt": "/home/adam/projects/tts-self/runs/d1c_eos_dev_w1_seed101/candidate_step_0375.pt",
+      "checkpoint_sha256": "e4c052b131284bade40361213ba1a8b839be894ac6a5ba763b06318c6f935088",
+      "step": 375,
+      "gate_eligible": true,
+      "macro_cer": 0.023726273726273728,
+      "n_catastrophic": 0,
+      "max_abs_log_duration_error": 0.01324522675002068,
+      "mean_abs_log_duration_error": 0.003036882867075702,
+      "teacher_forced_ce": 0.009453458711504936
+    },
+    {
+      "report_path": "/home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/w1_seed101/select8/cand_0500/discrete_eval_report_v2.json",
+      "ckpt": "/home/adam/projects/tts-self/runs/d1c_eos_dev_w1_seed101/candidate_step_0500.pt",
+      "checkpoint_sha256": "e147c7bf91089075198446f58df283356252365bc4e41cd5cd208d07851f26d0",
+      "step": 500,
+      "gate_eligible": true,
+      "macro_cer": 0.023726273726273728,
+      "n_catastrophic": 0,
+      "max_abs_log_duration_error": 0.01324522675002068,
+      "mean_abs_log_duration_error": 0.003036882867075702,
+      "teacher_forced_ce": 0.007069493643939495
+    },
+    {
+      "report_path": "/home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/w1_seed101/select8/cand_0625/discrete_eval_report_v2.json",
+      "ckpt": "/home/adam/projects/tts-self/runs/d1c_eos_dev_w1_seed101/candidate_step_0625.pt",
+      "checkpoint_sha256": "9f710237ac8a13535b7c26de4d0ae89e62497320633082c9f9a83b9331e9617f",
+      "step": 625,
+      "gate_eligible": true,
+      "macro_cer": 0.023726273726273728,
+      "n_catastrophic": 0,
+      "max_abs_log_duration_error": 0.01324522675002068,
+      "mean_abs_log_duration_error": 0.003036882867075702,
+      "teacher_forced_ce": 0.0061992385890334845
+    },
+    {
+      "report_path": "/home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/dev/w1_seed101/select8/cand_0750/discrete_eval_report_v2.json",
+      "ckpt": "/home/adam/projects/tts-self/runs/d1c_eos_dev_w1_seed101/candidate_step_0750.pt",
+      "checkpoint_sha256": "f51adca973dc6c9034e4a6acd5d6668af0970410084286dcc62e175cab09068e",
+      "step": 750,
+      "gate_eligible": true,
+      "macro_cer": 0.023726273726273728,
+      "n_catastrophic": 0,
+      "max_abs_log_duration_error": 0.01324522675002068,
+      "mean_abs_log_duration_error": 0.003036882867075702,
+      "teacher_forced_ce": 0.005903988610953093
+    }
+  ],
+  "promotion": {
+    "path": "runs/d1c_eos_dev_w1_seed101/best.pt",
+    "sha256": "f51adca973dc6c9034e4a6acd5d6668af0970410084286dcc62e175cab09068e",
+    "verified": true
+  }
+}

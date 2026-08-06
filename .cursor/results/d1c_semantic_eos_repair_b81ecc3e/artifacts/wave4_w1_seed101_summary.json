@@ -1,0 +1,108 @@
+{
+  "tip": "c7e3ee0019d975269655be4a46d6ed00cdebe1e9",
+  "contract_sha256": "fc07b643ba366a1dbe9fad294590fa5bd67288b7be98aecac8a6cd2297550865",
+  "selection": {
+    "step": 750,
+    "ckpt": "/home/adam/projects/tts-self/runs/d1c_eos_dev_w1_seed101/candidate_step_0750.pt",
+    "sha256": "f51adca973dc6c9034e4a6acd5d6668af0970410084286dcc62e175cab09068e",
+    "macro_cer": 0.023726273726273728,
+    "n_eligible": 5,
+    "promotion_verified": true
+  },
+  "gates": [
+    {
+      "split": "gate24",
+      "verdict": "PASS",
+      "macro_cer": 0.04910951347857815,
+      "copy_synth_macro_cer": 0.04910951347857815,
+      "n_catastrophic": 0,
+      "termination_d1c": {
+        "learned_eos_count": 24,
+        "safety_max_frames_count": 0,
+        "safety_cb0_repeat_count": 0,
+        "expected_rows": 24,
+        "tf_eos_final_top1_accuracy": 1.0,
+        "tf_eos_early_top1_false_positive_count": 0,
+        "pass": true
+      },
+      "text_usage_pass": true,
+      "text_usage": {
+        "shuffle_cer": 1.175671594764541,
+        "mask_cer": 0.8631308325823398,
+        "model_cer": 0.04910951347857815,
+        "paired_ci95_high": -80.28028493559908,
+        "content_change_n": 24
+      },
+      "stability_pass": true,
+      "stability": {
+        "hard_cap_count": 0,
+        "mean_dur_ratio": 0.997976308505243,
+        "cb0_max_run": 6,
+        "runaway_or_repetition": false,
+        "phrase_loop_repetition": false
+      },
+      "stop_reason_distribution": {
+        "learned_eos": 24
+      },
+      "tf": {
+        "loss": 0.006064068681250016,
+        "ce_cb0": 0.001607170735951513,
+        "ce_residual": 0.0044314919505268335,
+        "ce_semantic_eos": 2.5406152114252716e-05,
+        "total_ce": 0.006064068681250016,
+        "tf_eos_final_top1_accuracy": 1.0,
+        "tf_eos_early_top1_false_positive_count": 0,
+        "teacher_forced_ce_source": "eval_computed"
+      }
+    },
+    {
+      "split": "full32",
+      "verdict": "PASS",
+      "macro_cer": 0.042763703540502046,
+      "copy_synth_macro_cer": 0.042763703540502046,
+      "n_catastrophic": 0,
+      "termination_d1c": {
+        "learned_eos_count": 32,
+        "safety_max_frames_count": 0,
+        "safety_cb0_repeat_count": 0,
+        "expected_rows": 32,
+        "tf_eos_final_top1_accuracy": 1.0,
+        "tf_eos_early_top1_false_positive_count": 0,
+        "pass": true
+      },
+      "text_usage_pass": true,
+      "text_usage": {
+        "shuffle_cer": 1.1104138344319585,
+        "mask_cer": 0.8687480085833496,
+        "model_cer": 0.042763703540502046,
+        "paired_ci95_high": -84.69899985818041,
+        "content_change_n": 32
+      },
+      "stability_pass": true,
+      "stability": {
+        "hard_cap_count": 0,
+        "mean_dur_ratio": 0.9977276405749993,
+        "cb0_max_run": 6,
+        "runaway_or_repetition": false,
+        "phrase_loop_repetition": false
+      },
+      "stop_reason_distribution": {
+        "learned_eos": 32
+      },
+      "tf": {
+        "loss": 0.006024479283951223,
+        "ce_cb0": 0.0015989737585186958,
+        "ce_residual": 0.004399704688694328,
+        "ce_semantic_eos": 2.580101659077627e-05,
+        "total_ce": 0.006024479283951223,
+        "tf_eos_final_top1_accuracy": 1.0,
+        "tf_eos_early_top1_false_positive_count": 0,
+        "teacher_forced_ce_source": "eval_computed"
+      }
+    }
+  ],
+  "wave4_w1_verdict": "PASS",
+  "clean_tree_formal": true,
+  "git_dirty": false,
+  "git_dirty_score": false
+}
