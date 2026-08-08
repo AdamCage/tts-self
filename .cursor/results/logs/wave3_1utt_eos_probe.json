@@ -1,0 +1,13 @@
+{
+  "n_eos_loss_points": 0,
+  "eos_loss_first": null,
+  "eos_loss_last": null,
+  "eos_loss_decreased": null,
+  "tf_eos_final_top1_first": null,
+  "tf_eos_final_top1_last": null,
+  "wav_count": 1,
+  "meta_files": [
+    "out/d1c_semantic_eos_repair_b81ecc3e/smoke_1utt/listen_demo/infer_index.json"
+  ],
+  "termination_reason": "learned_eos"
+}

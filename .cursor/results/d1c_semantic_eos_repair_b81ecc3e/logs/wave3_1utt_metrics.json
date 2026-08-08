@@ -1,0 +1,33 @@
+{
+  "tip": "74d4caa535fb34e12a804f07a09308151c1f7a19",
+  "run_name": "d1c_eos_smoke_1utt",
+  "ckpt": "/home/adam/projects/tts-self/runs/d1c_eos_smoke_1utt/last.pt",
+  "codes_shape": [
+    1,
+    22,
+    16
+  ],
+  "codes_max": 2034,
+  "generation": {
+    "termination_mode": "semantic_eos_v1",
+    "termination_reason": "learned_eos",
+    "termination_step": 22,
+    "n_decoded_frames": 22,
+    "eos_selected": true,
+    "eos_logit_at_stop": 17.357555389404297,
+    "eos_probability_at_stop": 0.9999634027481079,
+    "eos_margin_to_best_real_cb0": 14.951213836669922,
+    "max_eos_probability_before_stop": 0.9999634027481079,
+    "early_eos_suppressed_count": 0,
+    "max_cb0_run": 2,
+    "safety_max_frames": 750,
+    "safety_max_cb0_repeat": 12,
+    "decode_seed": null,
+    "generated_codes_sha256": "95ac9b36c44b6702648cabb1f5496f6d35f2d850ad37a8d429e88f550db67ea1"
+  },
+  "termination_reason": "learned_eos",
+  "n_frames": 22,
+  "wav": "/home/adam/projects/tts-self/out/d1c_semantic_eos_repair_b81ecc3e/smoke_1utt/listen_demo/0000_ruslan_000842_RUSLAN.wav",
+  "train_last": null,
+  "train_last_line": "stage=S1 done last={'loss': 0.0005649451049976051, 'ce_cb0': 0.00041432815487496555, 'ce_residual': 0.00011461576650617644, 'lr': 1.0520419940014038e-05, 'optimizer_step': 80.0, 'microbatch_step': 320.0}"
+}
